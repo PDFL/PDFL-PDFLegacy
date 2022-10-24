@@ -1,0 +1,26 @@
+{
+  "name": "pdfl-pdflegacy",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "copy-assets": "mkdir -p ./public/lib/pdfjs && cp ./node_modules/pdfjs-dist/build/pdf.worker.min.js ./public/lib/pdfjs/ && cp ./node_modules/pdfjs-dist/build/pdf.min.js ./public/lib/pdfjs/",
+    "build": "npm run copy-assets",
+    "start": "npm run build && node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/matteovisotto/PDFL-PdfLegacy.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/matteovisotto/PDFL-PdfLegacy/issues"
+  },
+  "homepage": "https://github.com/matteovisotto/PDFL-PdfLegacy#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "pdfjs-dist": "^2.16.105"
+  }
+}
