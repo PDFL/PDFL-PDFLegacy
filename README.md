@@ -3,7 +3,11 @@
 ### Setup and start
 ```shell
 npm install
-npm run build
+npm start
+```
+The start command execute build and then start the server<br/>
+To start only the server run
+```shell
 node server.js
 ```
-The start command copy required scripts in the public folder
+
