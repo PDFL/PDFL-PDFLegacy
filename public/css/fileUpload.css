@@ -11,7 +11,7 @@
     text-align: center;
 }
 h2{
-    color: #005bac;
+    color: #489c8a;
 }
 
 .upload-div {
@@ -27,7 +27,7 @@ h2{
 }
 
 label[drop-active=true]{
-    border: 3px solid #005bac;
+    border: 3px solid #489c8a;
     box-shadow: inset 0 0 0 6px #eee;
 }
 
@@ -45,10 +45,10 @@ label {
 }
 
 label:hover {
-     border-color: #005bac;
+     border-color: #489c8a;
  }
 label:hover {
-    border: 3px solid #005bac;
+    border: 3px solid #489c8a;
     box-shadow: inset 0 0 0 6px #eee;
 }
 
@@ -75,8 +75,8 @@ input[type="file"] {
     color: #fff;
     transition: all 0.2s ease-in-out;
     box-sizing: border-box;
-    background: #005bac;
-    border-color: #005bac;
+    background: #489c8a;
+    border-color: #489c8a;
     cursor: pointer;
 }
 
