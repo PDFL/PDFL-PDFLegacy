@@ -15,34 +15,10 @@
     <header>
         <ul class="navigation" id="header">
             <li class="navigation__item">
-                <!-- Navigate to the Previous and Next pages -->
-                <a href="#" class="previous round" id="prev_page">
-                    <i class="fas fa-arrow-left"></i>
-                </a>
-
-                <!-- Navigate to a specific page -->
-                <input type="number" value="1" id="current_page" />
-
-                <a href="#" class="next round" id="next_page">
-                    <i class="fas fa-arrow-right"></i>
-                </a>
-
-                <!-- Page Info -->
-                Page
-                <span id="page_num"></span>
-                of
-                <span id="page_count"></span>
+                <page-number maxPageNumber="0"></page-number>
             </li>
-
-            <!-- Zoom In and Out -->
             <li class="navigation__item">
-                <button class="zoom" id="zoom_in">
-                    <i class="fas fa-search-plus"></i>
-                </button>
-
-                <button class="zoom" id="zoom_out">
-                    <i class="fas fa-search-minus"></i>
-                </button>
+                <zoom-buttons></zoom-buttons>
             </li>
         </ul>
     </header>
@@ -50,6 +26,8 @@
     <!-- Canvas to place the PDF -->
     <canvas id="canvas" class="canvas__container"></canvas>
 
+    <script src="components/ZoomComponent.js"></script>
+    <script src="components/PageNumberComponent.js"></script>
     <script src="webpack/main.bundle.js"></script>
 </body>
 
