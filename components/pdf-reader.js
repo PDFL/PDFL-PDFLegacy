@@ -1,3 +1,4 @@
+import {EventHandler, PDFLEvents} from './app-events';
 const pdfjsLib = require("pdfjs-dist");
 
 class PdfReader {
@@ -9,7 +10,13 @@ class PdfReader {
         this.initialState = {pdfDoc: null, currentPage: 1, pageCount: 0, zoom: 1};
         this.viewComponents = viewComponents;
         this.#registerEvents();
-        this.onError = (e) => {};
+    }
+
+    /**
+     * Clear reader state and prepare for new file
+     */
+    initReader = () => {
+        this.initialState = {pdfDoc: null, currentPage: 1, pageCount: 0, zoom: 1};
     }
 
     /**
@@ -24,7 +31,7 @@ class PdfReader {
             self.viewComponents.pageCount.textContent = self.initialState.pdfDoc.numPages;
             self.#renderPage();
         }).catch((err) => {
-            self.onError(err.message);
+            EventHandler.fireEvent(PDFLEvents.onPdfReaderError, err.message)
         });
     }
 
@@ -67,6 +74,7 @@ class PdfReader {
         this.viewComponents.currentPage.addEventListener('keypress', this.#currentPageKeypress);
         this.viewComponents.zoomIn.addEventListener('click', this.#zoomIn);
         this.viewComponents.zoomOut.addEventListener('click', this.#zoomOut);
+        this.viewComponents.openNew.addEventListener('click', this.#onNewFile);
     }
 
     /**
@@ -134,7 +142,12 @@ class PdfReader {
         this.#renderPage();
     }
 
+    #onNewFile = (event) => {
+        this.initReader();
+        EventHandler.fireEvent(PDFLEvents.onNewFile);
+    }
+
 }
 
-exports.PdfReader = PdfReader;
+export {PdfReader};
 

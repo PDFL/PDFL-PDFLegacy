@@ -36,15 +36,20 @@
         <header>
             <ul class="navigation" id="header">
                 <li class="navigation__item">
+                    <button class="btn" id="open_new">
+                        Open
+                    </button>
+                </li>
+                <li class="navigation__item">
                     <!-- Navigate to the Previous and Next pages -->
-                    <a href="#" class="previous round" id="prev_page">
+                    <a href="#" class="btn" id="prev_page">
                         <i class="fas fa-arrow-left"></i>
                     </a>
 
                     <!-- Navigate to a specific page -->
                     <input type="number" value="1" id="current_page" />
 
-                    <a href="#" class="next round" id="next_page">
+                    <a href="#" class="btn" id="next_page">
                         <i class="fas fa-arrow-right"></i>
                     </a>
 
@@ -57,11 +62,11 @@
 
                 <!-- Zoom In and Out -->
                 <li class="navigation__item">
-                    <button class="zoom" id="zoom_in">
+                    <button class="btn" id="zoom_in">
                         <i class="fas fa-search-plus"></i>
                     </button>
 
-                    <button class="zoom" id="zoom_out">
+                    <button class="btn" id="zoom_out">
                         <i class="fas fa-search-minus"></i>
                     </button>
                 </li>
