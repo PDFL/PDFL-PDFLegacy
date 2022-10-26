@@ -86,6 +86,6 @@ class FileUpload {
     }
 }
 
-exports.FileUpload = FileUpload;
+export {FileUpload};
 
 

@@ -1,7 +1,7 @@
-
 import {FileUpload} from "./components/file-upload";
 import {AppLoader} from  './components/app-loader';
 import {PdfReader} from "./components/pdf-reader";
+import {EventHandler, PDFLEvents} from './components/app-events';
 
 
 const viewContainers = {
@@ -17,7 +17,8 @@ const readerViewComponents = {
     nextPage: document.querySelector('#next_page'),
     zoomIn: document.querySelector('#zoom_in'),
     zoomOut: document.querySelector('#zoom_out'),
-    pdfContainer: document.querySelector('#pdf_container')
+    pdfContainer: document.querySelector('#pdf_container'),
+    openNew: document.querySelector('#open_new')
 }
 
 const uploadViewComponents = {
@@ -25,15 +26,15 @@ const uploadViewComponents = {
     fileOpen: document.getElementById("fileOpen")
 }
 
+
+
 const fileUpload = new FileUpload(uploadViewComponents,(pdfData) => {
     appLoader.showReader();
     const reader = new PdfReader(readerViewComponents);
-    reader.onError = handleError;
     reader.loadPdf(pdfData);
 });
 
-const appLoader = new AppLoader(viewContainers,(state) => {
-    console.log("State: " + state)
+EventHandler.registerForEvent(PDFLEvents.onAppStateChange,(state) => {
     if (state === 'empty'){
         fileUpload.registerEvents();
     } else if( state === 'reader') {
@@ -41,6 +42,14 @@ const appLoader = new AppLoader(viewContainers,(state) => {
     }
 });
 
-function handleError(e) {
-    console.log(e);
-}
+EventHandler.registerForEvent(PDFLEvents.onNewFile, () => {
+    appLoader.initView();
+});
+
+EventHandler.registerForEvent(PDFLEvents.onPdfReaderError, (error) => {
+    console.log(error);
+});
+
+
+//Last thing to call -> it's the entry point
+const appLoader = new AppLoader(viewContainers);

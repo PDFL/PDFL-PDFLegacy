@@ -1,14 +1,14 @@
+import {EventHandler, PDFLEvents} from './app-events.js';
+
 class AppLoader {
 
     /**
      * @constructor
      * @param viewContainers (object) components of the view
-     * @param onStateChange (function) callback for state change
      */
-    constructor(viewContainers, onStateChange) {
+    constructor(viewContainers) {
         this.viewContainers = viewContainers;
         this.currentState = 'empty';
-        this.onStateChange = onStateChange;
         this.initView();
     }
 
@@ -19,7 +19,7 @@ class AppLoader {
         this.currentState = 'empty';
         this.viewContainers.readerView.hidden = true;
         this.viewContainers.uploadPage.hidden = false;
-        this.onStateChange(this.currentState);
+        EventHandler.fireEvent(PDFLEvents.onAppStateChange, this.currentState);
     }
 
     /**
@@ -29,12 +29,12 @@ class AppLoader {
         this.currentState = 'reader';
         this.viewContainers.readerView.hidden = false;
         this.viewContainers.uploadPage.hidden = true;
-        this.onStateChange(this.currentState);
+        EventHandler.fireEvent(PDFLEvents.onAppStateChange, this.currentState);
 
     }
 
 }
 
 
-exports.AppLoader = AppLoader;
+export {AppLoader};
 
