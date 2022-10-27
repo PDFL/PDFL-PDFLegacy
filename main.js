@@ -17,7 +17,7 @@ EventBus.subscribe(PDFLEvents.onFileUploaded, (pdfData) => {
     if (reader === undefined) {
         reader = new PdfReader(AppComponents.readerViewComponents);
     } else {
-        reader.initReader();
+        reader.clearReader();
     }
     reader.loadPdf(pdfData);
 });
