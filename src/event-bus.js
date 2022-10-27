@@ -1,41 +1,53 @@
-class EventHandler {
-    static eventsCallback = [];
+/**
+ * Enum of possible event type (to avoid typos)
+ * @type {key: string}
+ */
+const PDFLEvents = {
+    onNewFile: 'onNewFile',
+    onAppStateChange: 'onAppStateChange',
+    onPdfReaderError: 'onPdfReaderError',
+    onRenderRequest: 'onRenderRequest'
+}
+
+/**
+ * This class represents the event bus across the application, it manages subscribers and publishers for each type of event.
+ */
+class EventBus {
+    static eventObject = [];
 
     /**
      * This function rise an event and all the registered callbacks are called.
      * @param event the event which has to fire
-     * @param data optional data to return to the callback
+     * @param args arguments for the callback function
      */
-    static fireEvent(event, data) {
-        this.eventsCallback.forEach((e) => {
-            if(e.type === event){
-                e.cb(data);
-            }
+    static fireEvent(event, ...args) {
+        console.log(event + "requested");
+        if(!this.eventObject[event]){
+            return;
+        }
+
+        this.eventObject[event].forEach((callback) => {
+            callback(...args);
         });
     }
 
     /**
      * Register a new callback for a specific event
-     * @param type event
+     * @param event
      * @param cb callback function
      */
-    static registerForEvent(type, cb) {
-        this.eventsCallback.push({type: type, cb: cb});
+    static subscribe(event, cb) {
+        if(!this.eventObject[event]){
+            this.eventObject[event] = [];
+        }
+        this.eventObject[event].push(cb);
     }
 }
 
 
-/**
- * Enum of possible event type (to avoid typos)
- * @type {{onNewFile: string, onAppStateChange: string, onPdfReaderError: string}}
- */
-const PDFLEvents = {
-    onNewFile: 'onNewFile',
-    onAppStateChange: 'onAppStateChange',
-    onPdfReaderError: 'onPdfReaderError'
-}
 
-export {PDFLEvents, EventHandler};
+
+export {PDFLEvents, EventBus};
 
 
 

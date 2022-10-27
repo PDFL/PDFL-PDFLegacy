@@ -1,7 +1,7 @@
-import {FileUpload} from "./components/file-upload";
-import {AppLoader} from  './components/app-loader';
-import {PdfReader} from "./components/pdf-reader";
-import {EventHandler, PDFLEvents} from './components/app-events';
+import {FileUpload} from "./src/file-upload";
+import {AppLoader} from './src/app-loader';
+import {PdfReader} from "./src/pdf-reader";
+import {EventBus, PDFLEvents} from './src/event-bus';
 
 
 const viewContainers = {
@@ -34,7 +34,7 @@ const fileUpload = new FileUpload(uploadViewComponents,(pdfData) => {
     reader.loadPdf(pdfData);
 });
 
-EventHandler.registerForEvent(PDFLEvents.onAppStateChange,(state) => {
+EventBus.subscribe(PDFLEvents.onAppStateChange,(state) => {
     if (state === 'empty'){
         fileUpload.registerEvents();
     } else if( state === 'reader') {
@@ -42,11 +42,11 @@ EventHandler.registerForEvent(PDFLEvents.onAppStateChange,(state) => {
     }
 });
 
-EventHandler.registerForEvent(PDFLEvents.onNewFile, () => {
+EventBus.subscribe(PDFLEvents.onNewFile, () => {
     appLoader.initView();
 });
 
-EventHandler.registerForEvent(PDFLEvents.onPdfReaderError, (error) => {
+EventBus.subscribe(PDFLEvents.onPdfReaderError, (error) => {
     console.log(error);
 });
 

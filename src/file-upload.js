@@ -1,7 +1,7 @@
 class FileUpload {
     /**
      * @constructor
-     * @param viewComponents (object) components of the uploader view
+     * @param viewComponents (object) src of the uploader view
      * @param onFileReady  callback with file data once loaded
      */
     constructor(viewComponents, onFileReady) {

@@ -1,4 +1,5 @@
-import {EventHandler, PDFLEvents} from './app-events';
+import {EventBus, PDFLEvents} from './event-bus';
+import {PageNavigation} from './components/page-navigation';
 const pdfjsLib = require("pdfjs-dist");
 
 class PdfReader {
@@ -7,8 +8,9 @@ class PdfReader {
      * @param viewComponents (object) elements of the view
      */
     constructor(viewComponents) {
-        this.initialState = {pdfDoc: null, currentPage: 1, pageCount: 0, zoom: 1};
+        this.initialState = ReaderState;//{pdfDoc: null, currentPage: 1, pageCount: 0, zoom: 1};
         this.viewComponents = viewComponents;
+        let pageNavigation = new PageNavigation(document.getElementById('pageNavContainer'));
         this.#registerEvents();
     }
 
@@ -16,7 +18,7 @@ class PdfReader {
      * Clear reader state and prepare for new file
      */
     initReader = () => {
-        this.initialState = {pdfDoc: null, currentPage: 1, pageCount: 0, zoom: 1};
+        this.initialState = ReaderState;
     }
 
     /**
@@ -31,7 +33,7 @@ class PdfReader {
             self.viewComponents.pageCount.textContent = self.initialState.pdfDoc.numPages;
             self.#renderPage();
         }).catch((err) => {
-            EventHandler.fireEvent(PDFLEvents.onPdfReaderError, err.message)
+            EventBus.fireEvent(PDFLEvents.onPdfReaderError, err.message)
         });
     }
 
@@ -69,12 +71,18 @@ class PdfReader {
      * Add event listener to view elements of the toolbar
      */
     #registerEvents = () => {
-        this.viewComponents.previousPage.addEventListener('click', this.#showPrevPage);
-        this.viewComponents.nextPage.addEventListener('click', this.#showNextPage);
-        this.viewComponents.currentPage.addEventListener('keypress', this.#currentPageKeypress);
+        //this.viewComponents.previousPage.addEventListener('click', this.#showPrevPage);
+        //this.viewComponents.nextPage.addEventListener('click', this.#showNextPage);
+        //this.viewComponents.currentPage.addEventListener('keypress', this.#currentPageKeypress);
         this.viewComponents.zoomIn.addEventListener('click', this.#zoomIn);
         this.viewComponents.zoomOut.addEventListener('click', this.#zoomOut);
         this.viewComponents.openNew.addEventListener('click', this.#onNewFile);
+        const self = this;
+        EventBus.subscribe(PDFLEvents.onRenderRequest, () => {
+            console.log(PDFLEvents.onRenderRequest);
+            self.#renderPage();
+        });
+
     }
 
     /**
@@ -144,10 +152,17 @@ class PdfReader {
 
     #onNewFile = (event) => {
         this.initReader();
-        EventHandler.fireEvent(PDFLEvents.onNewFile);
+        EventBus.fireEvent(PDFLEvents.onNewFile);
     }
 
 }
 
-export {PdfReader};
+const ReaderState = {
+    pdfDoc: null,
+    currentPage: 1,
+    pageCount: 0,
+    zoom: 1
+}
+
+export {PdfReader, ReaderState};
 

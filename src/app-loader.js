@@ -1,10 +1,10 @@
-import {EventHandler, PDFLEvents} from './app-events.js';
+import {EventBus, PDFLEvents} from './event-bus.js';
 
 class AppLoader {
 
     /**
      * @constructor
-     * @param viewContainers (object) components of the view
+     * @param viewContainers (object) src of the view
      */
     constructor(viewContainers) {
         this.viewContainers = viewContainers;
@@ -19,7 +19,7 @@ class AppLoader {
         this.currentState = 'empty';
         this.viewContainers.readerView.hidden = true;
         this.viewContainers.uploadPage.hidden = false;
-        EventHandler.fireEvent(PDFLEvents.onAppStateChange, this.currentState);
+        EventBus.fireEvent(PDFLEvents.onAppStateChange, this.currentState);
     }
 
     /**
@@ -29,7 +29,7 @@ class AppLoader {
         this.currentState = 'reader';
         this.viewContainers.readerView.hidden = false;
         this.viewContainers.uploadPage.hidden = true;
-        EventHandler.fireEvent(PDFLEvents.onAppStateChange, this.currentState);
+        EventBus.fireEvent(PDFLEvents.onAppStateChange, this.currentState);
 
     }
 
