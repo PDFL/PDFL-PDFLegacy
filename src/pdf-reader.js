@@ -1,24 +1,30 @@
 import {EventBus, PDFLEvents} from './event-bus';
-import {PageNavigation} from './components/page-navigation';
+import {PageNavigatorComponent} from './components/page-navigator-component';
+import {ZoomComponent} from './components/zoom-component';
 const pdfjsLib = require("pdfjs-dist");
 
+/**
+ * Main controller for the PDF Reader
+ */
 class PdfReader {
     /**
      * @constructor
      * @param viewComponents (object) elements of the view
      */
     constructor(viewComponents) {
-        this.initialState = ReaderState;//{pdfDoc: null, currentPage: 1, pageCount: 0, zoom: 1};
+        this.initialState = {pdfDoc: null, currentPage: 1, pageCount: 0, zoom: 1};
         this.viewComponents = viewComponents;
-        let pageNavigation = new PageNavigation(document.getElementById('pageNavContainer'));
-        this.#registerEvents();
+        this.components = {};
+        this.#initReader();
     }
 
     /**
      * Clear reader state and prepare for new file
      */
-    initReader = () => {
-        this.initialState = ReaderState;
+    clearReader = () => {
+        this.initialState.pdfDoc = null;
+        this.initialState.currentPage = 1;
+        this.initialState.pageCount = 0;
     }
 
     /**
@@ -29,11 +35,11 @@ class PdfReader {
         const self = this;
         pdfjsLib.GlobalWorkerOptions.workerSrc = "webpack/pdf.worker.bundle.js";
         pdfjsLib.getDocument(pdf).promise.then((data) => {
-            self.initialState.pdfDoc = data;
-            self.viewComponents.pageCount.textContent = self.initialState.pdfDoc.numPages;
+            self.initialState.document = data;
+            self.viewComponents.navigation.pageCount.textContent = self.initialState.document.numPages;
             self.#renderPage();
         }).catch((err) => {
-            EventBus.fireEvent(PDFLEvents.onPdfReaderError, err.message)
+            EventBus.publish(PDFLEvents.onPdfReaderError, err.message);
         });
     }
 
@@ -42,8 +48,8 @@ class PdfReader {
      */
     #renderPage = () => {
         const self = this;
-        this.initialState.pdfDoc
-            .getPage(this.initialState.currentPage)
+        this.initialState.document
+            .getPage(self.initialState.currentPage)
             .then((page) => {
                 var canvas = document.createElement( "canvas" );
                 canvas.setAttribute('class', 'canvas__container');
@@ -63,106 +69,32 @@ class PdfReader {
                 page.render(renderCtx);
                 self.viewComponents.pdfContainer.innerHTML = ""; //Scroll is possible but not supported by other navigation functions, clear container before adding the new page
                 self.viewComponents.pdfContainer.appendChild(canvas);
-                self.viewComponents.pageNum.textContent = self.initialState.currentPage;
+                self.viewComponents.navigation.pageNum.textContent = self.initialState.currentPage;
             });
     }
 
     /**
      * Add event listener to view elements of the toolbar
      */
-    #registerEvents = () => {
-        //this.viewComponents.previousPage.addEventListener('click', this.#showPrevPage);
-        //this.viewComponents.nextPage.addEventListener('click', this.#showNextPage);
-        //this.viewComponents.currentPage.addEventListener('keypress', this.#currentPageKeypress);
-        this.viewComponents.zoomIn.addEventListener('click', this.#zoomIn);
-        this.viewComponents.zoomOut.addEventListener('click', this.#zoomOut);
+    #initReader = () => {
+
         this.viewComponents.openNew.addEventListener('click', this.#onNewFile);
+        this.components['pageNavigator'] = new PageNavigatorComponent(this.viewComponents.navigation, this.initialState);
+        this.components['zoom'] = new ZoomComponent(this.viewComponents.zoom, this.initialState);
         const self = this;
         EventBus.subscribe(PDFLEvents.onRenderRequest, () => {
-            console.log(PDFLEvents.onRenderRequest);
             self.#renderPage();
         });
 
     }
 
-    /**
-     * Callback for the previous page event. Render the previous page of the current one if available
-     */
-    #showPrevPage = () => {
-        if (this.initialState.pdfDoc === null || this.initialState.currentPage <= 1)
-            return;
-        this.initialState.currentPage--;
-        this.viewComponents.currentPage.value = this.initialState.currentPage;
-        this.#renderPage();
-    };
-
-    /**
-     * Callback for the next page event. Render the next page of the current one if available
-     */
-    #showNextPage = () => {
-        if (this.initialState.pdfDoc === null || this.initialState.currentPage >= this.initialState.pdfDoc._pdfInfo.numPages)
-            return;
-
-        this.initialState.currentPage++;
-        this.viewComponents.currentPage.value = this.initialState.currentPage;
-        this.#renderPage();
-    };
-
-    /**
-     * Callback for page number input listener. Render the given page if available
-     * @param event
-     */
-    #currentPageKeypress = (event) => {
-        if (this.initialState.pdfDoc === null) return;
-        // Get the key code.
-        const keycode = event.keyCode ? event.keyCode : event.which;
-
-        if (keycode === 13) {
-            // Get the new page number and render it.
-            let desiredPage = this.viewComponents.currentPage.valueAsNumber;
-            this.initialState.currentPage = Math.min(
-                Math.max(desiredPage, 1),
-                this.initialState.pdfDoc._pdfInfo.numPages,
-            );
-
-            this.viewComponents.currentPage.value = this.initialState.currentPage;
-            this.#renderPage();
-        }
-    }
-
-    /**
-     * Callback for zoom in event
-     * @param event
-     */
-    #zoomIn = (event) => {
-        if (this.initialState.pdfDoc === null) return;
-        this.initialState.zoom *= 4 / 3;
-        this.#renderPage();
-    }
-
-    /**
-     * Callback for the zoom out action
-     * @param event
-     */
-    #zoomOut = (event) => {
-        if (this.initialState.pdfDoc === null) return;
-        this.initialState.zoom *= 2 / 3;
-        this.#renderPage();
-    }
-
     #onNewFile = (event) => {
-        this.initReader();
-        EventBus.fireEvent(PDFLEvents.onNewFile);
+        this.clearReader();
+        EventBus.publish(PDFLEvents.onNewFile);
     }
 
 }
 
-const ReaderState = {
-    pdfDoc: null,
-    currentPage: 1,
-    pageCount: 0,
-    zoom: 1
-}
 
-export {PdfReader, ReaderState};
+export {PdfReader};
 

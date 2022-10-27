@@ -1,5 +1,9 @@
 import {EventBus, PDFLEvents} from './event-bus.js';
 
+/**
+ * This class manages the main ui state of the application.
+ * In particular if a file exists and the reader has to be shown or if the upload screen has to be displayed.
+ */
 class AppLoader {
 
     /**
@@ -19,7 +23,7 @@ class AppLoader {
         this.currentState = 'empty';
         this.viewContainers.readerView.hidden = true;
         this.viewContainers.uploadPage.hidden = false;
-        EventBus.fireEvent(PDFLEvents.onAppStateChange, this.currentState);
+        EventBus.publish(PDFLEvents.onAppStateChange, this.currentState);
     }
 
     /**
@@ -29,7 +33,7 @@ class AppLoader {
         this.currentState = 'reader';
         this.viewContainers.readerView.hidden = false;
         this.viewContainers.uploadPage.hidden = true;
-        EventBus.fireEvent(PDFLEvents.onAppStateChange, this.currentState);
+        EventBus.publish(PDFLEvents.onAppStateChange, this.currentState);
 
     }
 

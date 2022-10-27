@@ -1,39 +1,30 @@
+import {AppComponents} from "./src/components/app-components-definition";
 import {FileUpload} from "./src/file-upload";
 import {AppLoader} from './src/app-loader';
 import {PdfReader} from "./src/pdf-reader";
 import {EventBus, PDFLEvents} from './src/event-bus';
 
 
-const viewContainers = {
-    uploadPage: document.getElementById('welcome-page'),
-    readerView: document.getElementById("pdf-viewer")
-}
+const fileUpload = new FileUpload(AppComponents.uploadViewComponents);
 
-const readerViewComponents = {
-    pageNum: document.querySelector('#page_num'),
-    pageCount: document.querySelector('#page_count'),
-    currentPage: document.querySelector('#current_page'),
-    previousPage: document.querySelector('#prev_page'),
-    nextPage: document.querySelector('#next_page'),
-    zoomIn: document.querySelector('#zoom_in'),
-    zoomOut: document.querySelector('#zoom_out'),
-    pdfContainer: document.querySelector('#pdf_container'),
-    openNew: document.querySelector('#open_new')
-}
+var reader = undefined;
 
-const uploadViewComponents = {
-    dropArea: document.getElementById("file-drag"),
-    fileOpen: document.getElementById("fileOpen")
-}
-
-
-
-const fileUpload = new FileUpload(uploadViewComponents,(pdfData) => {
+/**
+ * Subscribe for a new file uploaded
+ */
+EventBus.subscribe(PDFLEvents.onFileUploaded, (pdfData) => {
     appLoader.showReader();
-    const reader = new PdfReader(readerViewComponents);
+    if (reader === undefined) {
+        reader = new PdfReader(AppComponents.readerViewComponents);
+    } else {
+        reader.initReader();
+    }
     reader.loadPdf(pdfData);
 });
 
+/**
+ * Subscriber for global app state change
+ */
 EventBus.subscribe(PDFLEvents.onAppStateChange,(state) => {
     if (state === 'empty'){
         fileUpload.registerEvents();
@@ -42,14 +33,20 @@ EventBus.subscribe(PDFLEvents.onAppStateChange,(state) => {
     }
 });
 
+/**
+ * Subscriber for a new file request
+ */
 EventBus.subscribe(PDFLEvents.onNewFile, () => {
     appLoader.initView();
 });
 
+/**
+ * Subscriber for error
+ */
 EventBus.subscribe(PDFLEvents.onPdfReaderError, (error) => {
     console.log(error);
 });
 
 
 //Last thing to call -> it's the entry point
-const appLoader = new AppLoader(viewContainers);
+const appLoader = new AppLoader(AppComponents.viewContainers);

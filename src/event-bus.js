@@ -1,9 +1,10 @@
 /**
  * Enum of possible event type (to avoid typos)
- * @type {key: string}
+ * @type {{onZoomChanged: string, onPageChanged: string, onNewFile: string, onAppStateChange: string, onPdfReaderError: string, onRenderRequest: string, onFileUploaded: string}}
  */
 const PDFLEvents = {
     onNewFile: 'onNewFile',
+    onFileUploaded: 'onFileUploaded',
     onAppStateChange: 'onAppStateChange',
     onPdfReaderError: 'onPdfReaderError',
     onRenderRequest: 'onRenderRequest'
@@ -20,8 +21,8 @@ class EventBus {
      * @param event the event which has to fire
      * @param args arguments for the callback function
      */
-    static fireEvent(event, ...args) {
-        console.log(event + "requested");
+    static publish(event, ...args) {
+
         if(!this.eventObject[event]){
             return;
         }
@@ -34,18 +35,15 @@ class EventBus {
     /**
      * Register a new callback for a specific event
      * @param event
-     * @param cb callback function
+     * @param callback callback function
      */
-    static subscribe(event, cb) {
+    static subscribe(event, callback) {
         if(!this.eventObject[event]){
             this.eventObject[event] = [];
         }
-        this.eventObject[event].push(cb);
+        this.eventObject[event].push(callback);
     }
 }
-
-
-
 
 export {PDFLEvents, EventBus};
 

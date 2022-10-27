@@ -1,12 +1,15 @@
+import {EventBus, PDFLEvents} from "./event-bus";
+
+/**
+ * This class is used to manage the upload of a pdf file from the local file system
+ */
 class FileUpload {
     /**
      * @constructor
      * @param viewComponents (object) src of the uploader view
-     * @param onFileReady  callback with file data once loaded
      */
-    constructor(viewComponents, onFileReady) {
+    constructor(viewComponents) {
         this.viewComponents = viewComponents;
-        this.onFileReady = onFileReady;
     }
 
     /**
@@ -80,7 +83,7 @@ class FileUpload {
         const fileReader = new FileReader();
         fileReader.onload = function() {
             const typedarray = new Uint8Array(this.result);
-            self.onFileReady(typedarray);
+            EventBus.publish(PDFLEvents.onFileUploaded, typedarray);
         };
         fileReader.readAsArrayBuffer(file);
     }
