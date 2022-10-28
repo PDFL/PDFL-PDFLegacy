@@ -5,7 +5,7 @@
         "build": "webpack",
         "start": "npm run build && node server.js",
         "formatting": "prettier --write .",
-        "test": "jest"
+        "test": "jest --passWithNoTests"
     },
     "devDependencies": {
         "pdfjs-dist": "^2.16.105",
