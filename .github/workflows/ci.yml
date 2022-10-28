@@ -22,13 +22,13 @@ jobs:
         run: npm i -g npm@latest
 
       - name: "📦 install dependencies"
-        uses: bahmutov/npm-install@v1
+        run: npm install
       
       - name: "🧠 doing some brain things"
-        run: npm run test
+        run: npm test
         
       - name: "😶‍🌫️ cleaning the code"
-        run: npm run formatting
+        run: npm formatting
         
       
 
