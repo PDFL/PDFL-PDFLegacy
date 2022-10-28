@@ -25,10 +25,10 @@ jobs:
         run: npm install
       
       - name: "🧠 doing some brain things"
-        run: npm test --passWithNoTests
+        run: npm test
         
       - name: "😶‍🌫️ cleaning the code"
-        run: npm formatting
+        run: npm run formatting
         
       
 
