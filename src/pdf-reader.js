@@ -46,17 +46,21 @@ class PdfReader {
     /**
      * Private function, render the page contained in initialState.currentPage
      */
-    #renderPage = () => {
+    #renderPage ()  {
+        var pageRendering = true;
+        var pageNumPending = null;
         const self = this;
         this.initialState.document
             .getPage(self.initialState.currentPage)
-            .then((page) => {
-                var canvas = document.createElement( "canvas" );
+            .then(function(page) {
+                //Set the HTML properties
+                const canvas = document.createElement( "canvas" );
                 canvas.setAttribute('class', 'canvas__container');
+                const textLayer = document.createElement("div");
+                textLayer.setAttribute('class', 'textLayer')
                 const ctx = canvas.getContext('2d');
-                const viewport = page.getViewport({
-                    scale: self.initialState.zoom,
-                });
+
+                const viewport = page.getViewport({scale: self.initialState.zoom,});
                 canvas.height = viewport.height;
                 canvas.width = viewport.width;
 
@@ -66,10 +70,50 @@ class PdfReader {
                     viewport: viewport,
                 };
 
+                var renderTask = page.render(renderCtx);
+
+                renderTask.promise.then(function() {
+                    pageRendering = false;
+                    if(pageNumPending !== null) {
+                        renderPage();
+                        pageNumPending = null;
+
+                        //Cannot use the same canvas during multiple render, maybe it should be moved from here
+                        if (ctx) {
+                            ctx.clearRect(0, 0, canvas.width, canvas.height);
+                            ctx.beginPath();
+                        }
+                    }
+                }).then(function() {
+                    
+                    page.getTextContent().then(function(textContent){
+
+                        textLayer.style.left = canvas.offsetLeft + 'px';
+                        textLayer.style.top = canvas.offsetTop + 'px';
+                        textLayer.style.height = canvas.offsetHeight + 'px';
+                        textLayer.style.width = canvas.offsetWidth + 'px';
+
+                        pdfjsLib.renderTextLayer({
+                            textContent: textContent,
+                            container: textLayer,
+                            viewport: viewport,
+                            textDivs: []
+                        });
+                    
+                    });
+                })
+
                 page.render(renderCtx);
+                
+                if (ctx) {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.beginPath();
+                }
+                
                 self.viewComponents.pdfContainer.innerHTML = ""; //Scroll is possible but not supported by other navigation functions, clear container before adding the new page
                 self.viewComponents.pdfContainer.appendChild(canvas);
                 self.viewComponents.navigation.pageNum.textContent = self.initialState.currentPage;
+                self.viewComponents.pdfContainer.appendChild(textLayer);
             });
     }
 
