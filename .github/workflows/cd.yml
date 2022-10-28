@@ -7,7 +7,7 @@ on:
     types: 
       - completed
   push:
-    branches: [cd,main]
+    branches: [PL-11-Setup-CI-pipeline]
 
 jobs:
   build-and-deploy:
