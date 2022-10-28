@@ -24,9 +24,11 @@ jobs:
       - name: "📦 install dependencies"
         uses: bahmutov/npm-install@v1
       
+      - name: "🧠 doing some brain things"
+        run: npm run test
+        
       - name: "😶‍🌫️ cleaning the code"
         run: npm run formatting
         
-      - name: "🧠 doing some brain things"
-        run: npm run test
+      
 
