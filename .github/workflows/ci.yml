@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [PL-11-Setup-CI-pipeline]
+    branches: [main]
 
 jobs:
   test:
@@ -21,12 +21,9 @@ jobs:
 
       - name: "📦 install dependencies"
         run: npm install
-      
+
       - name: "🧠 doing some brain things"
         run: npm test
-        
-      - name: "😶‍🌫️ cleaning the code"
-        run: npm run formatting
-        
-      
 
+      - name: "😶‍🌫️ linter prettier"
+        run: npm run formatting
