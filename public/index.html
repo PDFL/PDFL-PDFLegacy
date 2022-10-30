@@ -9,31 +9,24 @@
         integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="css/pdfl.css" />
-    <link rel="stylesheet" href="css/fileUpload.css" />
+    <link rel="stylesheet" href="css/fileUpload.css"/>
 </head>
-
 <body>
-    <!-- VIEW 1-->
     <div id="welcome-page" class="full-page upload-div">
         <div class="uploader-container">
             <h2 class="text-center">PDFL - PDF Legacy</h2>
             <p class="lead">Your smart pdf reader</p>
-            <!-- Upload  -->
             <form id="file-upload-form" class="uploader">
                 <input type="file" name="fileUpload" accept="application/pdf" id="fileOpen"/>
-
                 <label for="fileOpen" id="file-drag">
-
                     <i class="fa fa-download" aria-hidden="true"></i>
                     <div>Select a file or drag here</div>
                     <div class="hidden">Please select a pdf file</div>
                     <span id="file-upload-btn" class="btn btn-primary">Select a file</span>
-
                 </label>
             </form>
         </div>
     </div>
-    <!-- VIEW 2 -->
     <div id="pdf-viewer" hidden>
         <header>
             <ul class="navigation" id="header">
@@ -46,16 +39,12 @@
                     <a href="#" class="btn" id="prev_page">
                         <i class="fas fa-arrow-left"></i>
                     </a>
-
                     <input type="number" value="1" id="current_page" />
-
                     <a href="#" class="btn" id="next_page">
                         <i class="fas fa-arrow-right"></i>
                     </a>
-
                     Page <span id="page_num"></span> of <span id="page_count"></span>
                 </li>
-
                 <li class="navigation__item">
                     <button class="btn" id="zoom_in">
                         <i class="fas fa-search-plus"></i>
@@ -67,14 +56,9 @@
                 </li>
             </ul>
         </header>
-
         <div id="pdf_container">
-
         </div>
-
     </div>
-
-
     <script src="webpack/main.bundle.js"></script>
 </body>
 
