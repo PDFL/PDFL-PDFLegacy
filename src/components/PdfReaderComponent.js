@@ -27,13 +27,13 @@ class PdfReaderComponent {
      #registerEvents = () => {
         this.components.openNew.addEventListener('click', this.#onNewFile);
 
-        EventHandlerService.registerForEvent(PDFLEvents.onRenderPage, () => {
+        EventHandlerService.subscribe(PDFLEvents.onRenderPage, () => {
             this.#renderPage();
         });
     }
 
     #onNewFile = () => {
-        EventHandlerService.fireEvent(PDFLEvents.onShowDefaultView);
+        EventHandlerService.publish(PDFLEvents.onShowDefaultView);
     }
 
     /**

@@ -78,7 +78,7 @@ class FileUpload {
         const fileReader = new FileReader();
         fileReader.onload = function () {
             const typedarray = new Uint8Array(this.result);
-            EventHandlerService.fireEvent(PDFLEvents.onShowReaderView);
+            EventHandlerService.publish(PDFLEvents.onShowReaderView);
             const reader = new PdfReaderComponent();
             reader.loadPdf(typedarray);
         };

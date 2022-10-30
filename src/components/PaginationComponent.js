@@ -63,7 +63,7 @@ class PaginationComponent {
 
     #currentPageChanged = () => {
         this.components.currentPage.value = this.currentPage;
-        EventHandlerService.fireEvent(PDFLEvents.onRenderPage);
+        EventHandlerService.publish(PDFLEvents.onRenderPage);
     }
 
     setPageCount = (pageNumber) => {

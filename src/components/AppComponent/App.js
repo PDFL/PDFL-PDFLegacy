@@ -17,10 +17,10 @@ class App {
     }
 
     #registerEvents = () => {
-        EventHandlerService.registerForEvent(PDFLEvents.onShowDefaultView, () => {
+        EventHandlerService.subscribe(PDFLEvents.onShowDefaultView, () => {
             this.#showDefaultView();
         });
-        EventHandlerService.registerForEvent(PDFLEvents.onShowReaderView, () => {
+        EventHandlerService.subscribe(PDFLEvents.onShowReaderView, () => {
             this.#showReaderView();
         });
     }

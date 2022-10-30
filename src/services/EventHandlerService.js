@@ -1,27 +1,36 @@
+/**
+ * This class represents the event bus across the application, it manages subscribers and publishers for each type of event.
+ */
 class EventHandlerService {
 
-    static eventsCallback = [];
+    static eventObject = [];
 
     /**
      * This function rise an event and all the registered callbacks are called.
      * @param event the event which has to fire
-     * @param data optional data to return to the callback
+     * @param args arguments for the callback function
      */
-    static fireEvent = (event, data) => {
-        this.eventsCallback.forEach((e) => {
-            if (e.type === event) {
-                e.cb(data);
-            }
+    static publish(event, ...args) {
+
+        if(!this.eventObject[event]){
+            return;
+        }
+
+        this.eventObject[event].forEach((callback) => {
+            callback(...args);
         });
     }
 
     /**
      * Register a new callback for a specific event
-     * @param type event
-     * @param cb callback function
+     * @param event
+     * @param callback callback function
      */
-    static registerForEvent = (type, cb) => {
-        this.eventsCallback.push({ type: type, cb: cb });
+    static subscribe(event, callback) {
+        if(!this.eventObject[event]){
+            this.eventObject[event] = [];
+        }
+        this.eventObject[event].push(callback);
     }
 
 }

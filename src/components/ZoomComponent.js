@@ -22,7 +22,7 @@ class ZoomComponent {
      */
     #zoomIn = () => {
         this.zoom *= 4 / 3;
-        EventHandlerService.fireEvent(PDFLEvents.onRenderPage);
+        EventHandlerService.publish(PDFLEvents.onRenderPage);
     }
 
     /**
@@ -30,7 +30,7 @@ class ZoomComponent {
      */
     #zoomOut = () => {
         this.zoom *= 2 / 3;
-        EventHandlerService.fireEvent(PDFLEvents.onRenderPage);
+        EventHandlerService.publish(PDFLEvents.onRenderPage);
     }
 
     getZoom = () => {
