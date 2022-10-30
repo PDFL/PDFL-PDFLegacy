@@ -1,32 +1,29 @@
+import { EventHandlerService, PDFLEvents } from "../services/EventHandlerService";
+import { PdfReaderComponent } from "./PdfReaderComponent";
+
 class FileUpload {
+
+    components = {
+        dropArea: document.getElementById("file-drag"),
+        fileOpen: document.getElementById("fileOpen")
+    }
+
     /**
      * @constructor
-     * @param viewComponents (object) components of the uploader view
      * @param onFileReady  callback with file data once loaded
      */
-    constructor(viewComponents, onFileReady) {
-        this.viewComponents = viewComponents;
-        this.onFileReady = onFileReady;
+    constructor() {
+        this.#registerEvents();
     }
 
     /**
      * Add event listeners to upload view
      */
-    registerEvents = () => {
-       this.viewComponents.fileOpen.addEventListener('change', this.#onFileChange);
-       this.viewComponents.dropArea.addEventListener('dragover', this.#onDragOver);
-       this.viewComponents.dropArea.addEventListener('dragleave', this.#onDragLeave);
-       this.viewComponents.dropArea.addEventListener('drop', this.#onDrop);
-    }
-
-    /**
-     * Remove event listeners to upload view
-     */
-    removeEvents = () => {
-        this.viewComponents.fileOpen.removeEventListener('change', this.#onFileChange, true);
-        this.viewComponents.dropArea.removeEventListener('dragover', this.#onDragOver, true);
-        this.viewComponents.dropArea.removeEventListener('dragleave', this.#onDragLeave, true);
-        this.viewComponents.dropArea.removeEventListener('drop', this.#onDrop, true);
+     #registerEvents = () => {
+        this.components.fileOpen.addEventListener('input', this.#onFileChange);
+        this.components.dropArea.addEventListener('dragover', this.#onDragOver);
+        this.components.dropArea.addEventListener('dragleave', this.#onDragLeave);
+        this.components.dropArea.addEventListener('drop', this.#onDrop);
     }
 
     /**
@@ -34,8 +31,10 @@ class FileUpload {
      * @param e
      */
     #onFileChange = (e) => {
-        const file = e.target.files[0];
-        this.#readFile(file);
+        if (this.components.fileOpen.value == "") return;
+
+        this.#readFile(e.target.files[0]);
+        this.components.fileOpen.value = null;
     }
 
     /**
@@ -76,16 +75,16 @@ class FileUpload {
      * @param file
      */
     #readFile = (file) => {
-        const self = this;
         const fileReader = new FileReader();
-        fileReader.onload = function() {
+        fileReader.onload = function () {
             const typedarray = new Uint8Array(this.result);
-            self.onFileReady(typedarray);
+            EventHandlerService.publish(PDFLEvents.onShowReaderView);
+            const reader = new PdfReaderComponent();
+            reader.loadPdf(typedarray);
         };
         fileReader.readAsArrayBuffer(file);
     }
+
 }
 
-export {FileUpload};
-
-
+export { FileUpload };
