@@ -283,11 +283,11 @@ class PdfReaderComponent {
 
         this.#registerEvents();
     }
-    
+
     /**
      * Add event listener to view elements of the toolbar
      */
-     #registerEvents = () => {
+    #registerEvents = () => {
         this.components.openNew.addEventListener('click', this.#onNewFile);
 
         _services_EventHandlerService__WEBPACK_IMPORTED_MODULE_0__.EventHandlerService.subscribe(_services_EventHandlerService__WEBPACK_IMPORTED_MODULE_0__.PDFLEvents.onRenderPage, () => {
@@ -322,29 +322,63 @@ class PdfReaderComponent {
         const self = this;
         this.pdfDoc
             .getPage(self.paginationComponent.getCurrentPage())
-                .then((page) => {
-                    var canvas = document.createElement("canvas");
-                    canvas.setAttribute('class', 'canvas__container');
-                    const ctx = canvas.getContext('2d');
-                    const viewport = page.getViewport({
-                        scale: self.zoomComponent.getZoom(),
-                    });
-                    canvas.height = viewport.height;
-                    canvas.width = viewport.width;
+            .then((page) => {
+                //Set the HTML properties
+                const canvas = document.createElement("canvas");
 
-                    // Render the PDF page into the canvas context.
-                    const renderCtx = {
-                        canvasContext: ctx,
-                        viewport: viewport,
-                    };
+                canvas.setAttribute('class', 'canvas__container');
+                const textLayer = document.createElement("div");
+                textLayer.setAttribute('class', 'textLayer')
 
-                    page.render(renderCtx);
-                    //Scroll is possible but not supported by other navigation functions, clear container before adding the new page
-                    self.components.pdfContainer.innerHTML = "";
-                    self.components.pdfContainer.appendChild(canvas);
-
-                    self.paginationComponent.setCurrentPage();
+                const ctx = canvas.getContext('2d');
+                const viewport = page.getViewport({
+                    scale: self.zoomComponent.getZoom(),
                 });
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+
+                // Render the PDF page into the canvas context.
+                const renderCtx = {
+                    canvasContext: ctx,
+                    viewport: viewport,
+                };
+
+                var renderTask = page.render(renderCtx);
+
+                renderTask.promise.then(function () {
+
+                    page.getTextContent().then(function (textContent) {
+
+                        textLayer.style.left = canvas.offsetLeft + 'px';
+                        textLayer.style.top = canvas.offsetTop + 'px';
+                        textLayer.style.height = canvas.offsetHeight + 'px';
+                        textLayer.style.width = canvas.offsetWidth + 'px';
+
+                        pdfjsLib.renderTextLayer({
+                            textContent: textContent,
+                            container: textLayer,
+                            viewport: viewport,
+                            textDivs: []
+                        });
+
+                    });
+                })
+
+
+                page.render(renderCtx);
+
+                if (ctx) {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.beginPath();
+                }
+
+                //Scroll is possible but not supported by other navigation functions, clear container before adding the new page
+                self.components.pdfContainer.innerHTML = "";
+                self.components.pdfContainer.appendChild(canvas);
+                self.components.pdfContainer.appendChild(textLayer);
+
+                self.paginationComponent.setCurrentPage();
+            });
     }
 
 }
