@@ -10,7 +10,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "App": () => (/* binding */ App)
 /* harmony export */ });
 /* harmony import */ var _views_DefaultView_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
-/* harmony import */ var _views_ReaderView_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(15);
+/* harmony import */ var _views_ReaderView_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(16);
 /* harmony import */ var _services_EventHandlerService__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(4);
 
 
@@ -69,21 +69,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "DefaultView": () => (/* binding */ DefaultView)
 /* harmony export */ });
 /* harmony import */ var _FileUploadComponent__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
+/* harmony import */ var _AppView_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(15);
 
 
-class DefaultView {
+
+class DefaultView extends _AppView_js__WEBPACK_IMPORTED_MODULE_1__.AppView{
 
     static fileUpload = new _FileUploadComponent__WEBPACK_IMPORTED_MODULE_0__.FileUpload();
 
-    components = {
-        defaultView: document.getElementById('welcome-page'),
-        readerView: document.getElementById("pdf-viewer")
-    }
-
-    init = () => {
-        this.components.defaultView.hidden = false;
-        this.components.readerView.hidden = true;
-    }
+    component = document.getElementById('welcome-page');
 
 }
 
@@ -454,7 +448,8 @@ class PaginationComponent {
                 Math.max(desiredPage, 1),
                 this.pageCount
             );
-            this.setCurrentPage();
+            
+            this.components.pageNum.textContent = this.currentPage;
             this.#currentPageChanged();
         }
     }
@@ -20352,17 +20347,42 @@ const pdfjsBuild = '172ccdbe5';
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "AppView": () => (/* binding */ AppView)
+/* harmony export */ });
+class AppView {
+
+    components = [...document.getElementsByClassName('app-view')];
+
+    cleanView = () => {
+        this.components.forEach(component => {
+            component.hidden = true;
+        });
+    }
+    
+    init() {
+        this.cleanView();
+        this.component.hidden = false;
+    }
+
+}
+
+
+/***/ }),
+/* 16 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "ReaderView": () => (/* binding */ ReaderView)
 /* harmony export */ });
-/* harmony import */ var _DefaultView_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+/* harmony import */ var _AppView_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(15);
 
 
-class ReaderView extends _DefaultView_js__WEBPACK_IMPORTED_MODULE_0__.DefaultView {
+class ReaderView extends _AppView_js__WEBPACK_IMPORTED_MODULE_0__.AppView {
 
-    init = () => {
-        this.components.defaultView.hidden = true;
-        this.components.readerView.hidden = false;
-    }
+    component = document.getElementById('pdf-viewer');
+
 }
 
 
