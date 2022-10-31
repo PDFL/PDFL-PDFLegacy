@@ -10,23 +10,24 @@ on:
     branches: [PL-11-Setup-CI-pipeline, main]
 
 jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Setup Node 🔧
-        uses: actions/setup-node@v2.1.5
-        with:
-          node-version: "16"
+  if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    build-and-deploy:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Setup Node 🔧
+          uses: actions/setup-node@v2.1.5
+          with:
+            node-version: "16"
 
-      - name: Checkout 🛎️
-        uses: actions/checkout@v2.3.1
+        - name: Checkout 🛎️
+          uses: actions/checkout@v2.3.1
 
-      - name: Install and Build 🔧
-        run: |
-          npm install
-          npm run build
-      - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@4.1.4
-        with:
-          branch: build # The branch the action should deploy to.
-          folder: public # The folder the action should deploy.
+        - name: Install and Build 🔧
+          run: |
+            npm install
+            npm run build
+        - name: Deploy 🚀
+          uses: JamesIves/github-pages-deploy-action@4.1.4
+          with:
+            branch: build # The branch the action should deploy to.
+            folder: public # The folder the action should deploy.
