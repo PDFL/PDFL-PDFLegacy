@@ -1,0 +1,26 @@
+name: CI
+
+on: 
+  workflow_call:
+jobs:
+  test:
+    name: Test application
+    runs-on: ubuntu-latest
+    steps:
+      - name: "☁️ checkout repository"
+        uses: actions/checkout@v3.0.2
+
+      - name: "🔧 setup node"
+        uses: actions/setup-node@v3.5.1
+
+      - name: "🔧 install npm@latest"
+        run: npm i -g npm@latest
+
+      - name: "📦 install dependencies"
+        run: npm install
+
+      - name: "🧠 doing some brain things"
+        run: npm test
+
+      - name: "😶‍🌫️ linter prettier"
+        run: npm run lint
