@@ -16,6 +16,10 @@ a {
     cursor: pointer;
 }
 
+html{
+    height: 100vh;
+}
+
 body{
     width: 100%;
     height: 100vh;
@@ -27,11 +31,10 @@ header{
     height: 70px;
 }
 
-a:hover,
 .zoom:hover,
 .print-button:hover {
     background-color: #ddd;
-    color: #0075f2;
+    color: #489c8a;
     opacity: 0.8;
     cursor: pointer;
 }
@@ -60,7 +63,7 @@ a:hover,
 }
 
 .next {
-    background-color: #4a8fed;
+    background-color: #489c8a;
     color: white;
 }
 
@@ -76,9 +79,10 @@ a:hover,
 }
 
 .zoom {
-    color: #005bac;
+    color: #489c8a;
     outline: #fff;
-    border: 1px solid #005bac;
+    border: 1px solid #489c8a;
+    background-color: #ffffff;
     border-radius: 50%;
     padding: 12px 12px;
     text-align: center;
@@ -104,14 +108,42 @@ input[type="number"]::-webkit-outer-spin-button {
 
 .print-button {
     border: none;
-    color: #005bac;
+    color: #489c8a;
     outline: #fff;
-    border: 1px solid #005bac;
+    border: 1px solid #489c8a;
     border-radius: 50%;
     padding: 12px 12px;
     text-align: center;
     transition: all 0.3s ease;
     font-size: 1rem;
+}
+
+.btn {
+    display: inline-block;
+    margin: .5rem .5rem 1rem .5rem;
+    clear: both;
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 14px;
+    text-decoration: none;
+    text-transform: initial;
+    border: none;
+    border-radius: .2rem;
+    outline: none;
+    padding: 0 1rem;
+    height: 36px;
+    line-height: 36px;
+    color: #fff;
+    transition: all 0.2s ease-in-out;
+    box-sizing: border-box;
+    background: #489c8a;
+    border-color: #489c8a;
+    cursor: pointer;
+}
+
+.btn:hover{
+    background-color: #ddd;
+    color: #489c8a;
 }
 
 /* Hide Print button */
@@ -120,3 +152,100 @@ input[type="number"]::-webkit-outer-spin-button {
         display: none;
     }
 }
+
+/* CSS for the Text Render */
+
+.textLayer {
+    position: absolute;
+    text-align: initial;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+    opacity: 0.2;
+    line-height: 1;
+    -webkit-text-size-adjust: none;
+       -moz-text-size-adjust: none;
+            text-size-adjust: none;
+    forced-color-adjust: none;
+  }
+  
+  .textLayer span,
+  .textLayer br {
+    color: transparent;
+    position: absolute;
+    white-space: pre;
+    cursor: text;
+    transform-origin: 0% 0%;
+  }
+  
+  /* Only necessary in Google Chrome, see issue 14205, and most unfortunately
+   * the problem doesn't show up in "text" reference tests. */
+  .textLayer span.markedContent {
+    top: 0;
+    height: 0;
+  }
+  
+  .textLayer .highlight {
+    margin: -1px;
+    padding: 1px;
+    background-color: rgba(180, 0, 170, 1);
+    border-radius: 4px;
+  }
+  
+  .textLayer .highlight.appended {
+    position: initial;
+  }
+  
+  .textLayer .highlight.begin {
+    border-radius: 4px 0 0 4px;
+  }
+  
+  .textLayer .highlight.end {
+    border-radius: 0 4px 4px 0;
+  }
+  
+  .textLayer .highlight.middle {
+    border-radius: 0;
+  }
+  
+  .textLayer .highlight.selected {
+    background-color: rgba(0, 100, 0, 1);
+  }
+  
+  .textLayer ::-moz-selection {
+    background: rgba(0, 0, 255, 1);
+  }
+  
+  .textLayer ::selection {
+    background: rgba(0, 0, 255, 1);
+  }
+  
+  /* Avoids https://github.com/mozilla/pdf.js/issues/13840 in Chrome */
+  .textLayer br::-moz-selection {
+    background: transparent;
+  }
+  .textLayer br::selection {
+    background: transparent;
+  }
+  
+  .textLayer .endOfContent {
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 100%;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    cursor: default;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+            user-select: none;
+  }
+  
+  .textLayer .endOfContent.active {
+    top: 0;
+  }
+  
+  
