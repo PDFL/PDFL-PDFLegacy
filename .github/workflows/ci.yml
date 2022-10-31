@@ -8,7 +8,6 @@ jobs:
   test:
     name: Test application
     runs-on: ubuntu-latest
-    timeout-minutes: 10
     steps:
       - name: "☁️ checkout repository"
         uses: actions/checkout@v3.0.2
