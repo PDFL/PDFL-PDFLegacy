@@ -10,15 +10,60 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="css/pdfl.css" />
     <link rel="stylesheet" href="css/fileUpload.css"/>
+    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
 </head>
-<body>
-    <div id="welcome-page" class="app-view full-page upload-div">
-        <div class="uploader-container">
-            <h2 class="text-center">PDFL - PDF Legacy</h2>
-            <p class="lead">Your smart pdf reader</p>
+<body style="position: relative;height: 100vh;margin: 0;">
+    <!--WELCOME PAGE-->
+    <div id="welcome-page" class="app-view">
+        <div class="uploader-container" style="color:black">
+            <div class="layout">
+                <div class="text">
+                    <h1 class="font-header">PDF <br>  <div style="margin-top:-20px">Legacy </div></h1>
+                    <h1 style="font-weight:900;font-size:15px">YOUR PDF,</h1>
+                    <span class="media-text">
+                        <h1 style="font-weight:900;font-size:15px"> BUT </h1>
+                        <h1 style="font-size:60px" class="font-header better"> BETTER </h1>
+                    </span>
+                    <div style="display:inline-grid"> 
+                        <button class="btn-welcome pointer" id="button-file">
+                            <div>Read your pdf
+                            <span aria-hidden="true" data-icon="+"/>
+                            </div>
+                        </button>
+                        <button class="btn-welcome pointer" style="margin-top:10px">
+                            <div style="float:left">Extract data
+                            <span aria-hidden="true" data-icon="+"/>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+                <img src="../assets/pic.png" style="max-width:500px; height:500px"/>
+            </div>
+            <footer>
+            <div style="font-size:10px">
+                <div>Site made with by our team <span>&#9829; </span> example : 
+                    <a href="https://twitter.com/veksenn">@teammember1</a> &amp; 
+                    <a href="https://twitter.com/ZTHall">@teammember2</a>...
+                </div>
+                <p>Maintained by the 
+                <a href="https://github.com/orgs/lodash/people">core team</a>
+                    with help from 
+                <a href="https://github.com/lodash/lodash/graphs/contributors">our contributors</a>.
+                </p>
+            </div>
+            </footer>
+        </div>
+        <div class="logo">
+            <img src="../assets/logo.png" style="height:25px; width:30px"/>
+        </div>
+    </div>
+
+    <!--INPUT PAGE-->
+    <div id="input-page" style="background: var(--color);height:100vh" hidden class="app-view">
+        <div class="uploader-container-input">
             <form id="file-upload-form" class="uploader">
                 <input type="file" name="fileUpload" accept="application/pdf" id="fileOpen"/>
-                <label for="fileOpen" id="file-drag">
+                <label for="fileOpen" id="file-drag" class="border-input">
                     <i class="fa fa-download" aria-hidden="true"></i>
                     <div>Select a file or drag here</div>
                     <div class="hidden">Please select a pdf file</div>
@@ -26,8 +71,12 @@
                 </label>
             </form>
         </div>
+        <div class="logo">
+            <img src="../assets/green_logo.png" style="height:45px; width:50px"/>
+        </div>
     </div>
-    <div id="pdf-viewer" class="app-view" hidden>
+    <!--PDF READER-->
+    <div id="pdf-viewer" hidden class="app-view">
         <header>
             <ul class="navigation" id="header">
                 <li class="navigation__item">

@@ -5,7 +5,7 @@ class FileUpload {
 
     components = {
         dropArea: document.getElementById("file-drag"),
-        fileOpen: document.getElementById("fileOpen")
+        fileOpen: document.getElementById("fileOpen"),
     }
 
     /**
@@ -84,6 +84,7 @@ class FileUpload {
         };
         fileReader.readAsArrayBuffer(file);
     }
+
 
 }
 
