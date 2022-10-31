@@ -26,4 +26,4 @@ jobs:
         run: npm test
 
       - name: "😶‍🌫️ linter prettier"
-        run: npm run formatting
+        run: npm run lint
