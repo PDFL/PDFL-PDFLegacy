@@ -1,7 +1,7 @@
 name: CI
 
-on: |
-  [workflow_call]
+on: 
+  [workflow_call]:
   push:
       branches: [PL-11-Setup-CI-pipeline, main]
 jobs:
