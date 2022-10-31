@@ -1,18 +1,14 @@
 name: CD
 
 on:
-  workflow_run:
-    workflows: ["CI"]
-    branches: [PL-11-Setup-CI-pipeline, main]
-    types:
-      - completed
   push:
     branches: [PL-11-Setup-CI-pipeline, main]
 
 jobs:
-    build-and-deploy:
-      timeout-minutes: 5
-      if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    ci:
+      uses: ./.github/workflows/ci.yml
+    build-and-deploy: 
+      needs: [ci]
       runs-on: ubuntu-latest
       steps:
         - name: Setup Node 🔧
