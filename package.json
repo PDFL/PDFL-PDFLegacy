@@ -4,7 +4,7 @@
     "scripts": {
         "build": "webpack",
         "start": "npm run build && node server.js",
-        "formatting": "prettier-eslint \"PDFL-PDFLegacy/**/*.js\"",
+        "lint": "prettier-eslint \"PDFL-PDFLegacy/**/*.js\"",
         "test": "jest --passWithNoTests"
     },
     "devDependencies": {
