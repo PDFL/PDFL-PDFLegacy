@@ -3,11 +3,11 @@ name: CD
 on:
   workflow_run:
     workflows: ["CI"]
-    branches: [main]
+    branches: [PL-11-Setup-CI-pipeline, main]
     types:
       - completed
   push:
-    branches: [main]
+    branches: [PL-11-Setup-CI-pipeline, main]
 
 jobs:
   build-and-deploy:

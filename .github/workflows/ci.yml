@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [main]
+    branches: [PL-11-Setup-CI-pipeline, main]
 
 jobs:
   test:
