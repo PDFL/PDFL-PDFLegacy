@@ -1,11 +1,9 @@
-import { DefaultView } from './DefaultView.js';
+import { AppView } from './AppView.js';
 
-class ReaderView extends DefaultView {
+class ReaderView extends AppView {
 
-    init = () => {
-        this.components.defaultView.hidden = true;
-        this.components.readerView.hidden = false;
-    }
+    component = document.getElementById('pdf-viewer');
+
 }
 
 export { ReaderView }

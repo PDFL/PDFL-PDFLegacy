@@ -57,7 +57,8 @@ class PaginationComponent {
                 Math.max(desiredPage, 1),
                 this.pageCount
             );
-            this.setCurrentPage();
+            
+            this.components.pageNum.textContent = this.currentPage;
             this.#currentPageChanged();
         }
     }

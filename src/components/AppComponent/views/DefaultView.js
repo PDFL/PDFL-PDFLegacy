@@ -1,18 +1,11 @@
 import {FileUpload} from '../../FileUploadComponent';
+import { AppView } from './AppView.js';
 
-class DefaultView {
+class DefaultView extends AppView{
 
     static fileUpload = new FileUpload();
 
-    components = {
-        defaultView: document.getElementById('welcome-page'),
-        readerView: document.getElementById("pdf-viewer")
-    }
-
-    init = () => {
-        this.components.defaultView.hidden = false;
-        this.components.readerView.hidden = true;
-    }
+    component = document.getElementById('welcome-page');
 
 }
 export { DefaultView };
