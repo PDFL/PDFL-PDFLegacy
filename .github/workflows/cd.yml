@@ -10,8 +10,9 @@ on:
     branches: [PL-11-Setup-CI-pipeline, main]
 
 jobs:
-  if: ${{ github.event.workflow_run.conclusion == 'success' }}
     build-and-deploy:
+      timeout-minutes: 3
+      if: ${{ github.event.workflow_run.conclusion == 'success' }}
       runs-on: ubuntu-latest
       steps:
         - name: Setup Node 🔧
