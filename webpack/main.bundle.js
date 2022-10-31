@@ -2,6 +2,537 @@
 /******/ 	var __webpack_modules__ = ([
 /* 0 */,
 /* 1 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "App": () => (/* binding */ App)
+/* harmony export */ });
+/* harmony import */ var _views_DefaultView_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+/* harmony import */ var _views_ReaderView_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(16);
+/* harmony import */ var _services_EventHandlerService__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(4);
+
+
+
+
+class App {
+
+    static start = () => {
+        return new App();
+    }
+
+    constructor() {
+        if (App._instance)
+            return App._instance;
+        App._instance = this;
+
+        this.#registerEvents();
+    }
+
+    #registerEvents = () => {
+        _services_EventHandlerService__WEBPACK_IMPORTED_MODULE_2__.EventHandlerService.subscribe(_services_EventHandlerService__WEBPACK_IMPORTED_MODULE_2__.PDFLEvents.onShowDefaultView, () => {
+            this.#showDefaultView();
+        });
+        _services_EventHandlerService__WEBPACK_IMPORTED_MODULE_2__.EventHandlerService.subscribe(_services_EventHandlerService__WEBPACK_IMPORTED_MODULE_2__.PDFLEvents.onShowReaderView, () => {
+            this.#showReaderView();
+        });
+    }
+
+    /**
+     * Initialize the view, show the file uploader and hide the reader
+     */
+     #showDefaultView = () => {
+        this.view = new _views_DefaultView_js__WEBPACK_IMPORTED_MODULE_0__.DefaultView();
+        this.view.init();
+    }
+
+    /**
+     * Switch from the uploader view to the reader one
+     */
+     #showReaderView = () => {
+        this.view = new _views_ReaderView_js__WEBPACK_IMPORTED_MODULE_1__.ReaderView();
+        this.view.init();
+    }
+
+}
+
+
+
+/***/ }),
+/* 2 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "DefaultView": () => (/* binding */ DefaultView)
+/* harmony export */ });
+/* harmony import */ var _FileUploadComponent__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
+/* harmony import */ var _AppView_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(15);
+
+
+
+class DefaultView extends _AppView_js__WEBPACK_IMPORTED_MODULE_1__.AppView{
+
+    static fileUpload = new _FileUploadComponent__WEBPACK_IMPORTED_MODULE_0__.FileUpload();
+
+    component = document.getElementById('welcome-page');
+
+}
+
+
+/***/ }),
+/* 3 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "FileUpload": () => (/* binding */ FileUpload)
+/* harmony export */ });
+/* harmony import */ var _services_EventHandlerService__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4);
+/* harmony import */ var _PdfReaderComponent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(5);
+
+
+
+class FileUpload {
+
+    components = {
+        dropArea: document.getElementById("file-drag"),
+        fileOpen: document.getElementById("fileOpen")
+    }
+
+    /**
+     * @constructor
+     * @param onFileReady  callback with file data once loaded
+     */
+    constructor() {
+        this.#registerEvents();
+    }
+
+    /**
+     * Add event listeners to upload view
+     */
+     #registerEvents = () => {
+        this.components.fileOpen.addEventListener('input', this.#onFileChange);
+        this.components.dropArea.addEventListener('dragover', this.#onDragOver);
+        this.components.dropArea.addEventListener('dragleave', this.#onDragLeave);
+        this.components.dropArea.addEventListener('drop', this.#onDrop);
+    }
+
+    /**
+     * Callback for file input
+     * @param e
+     */
+    #onFileChange = (e) => {
+        if (this.components.fileOpen.value == "") return;
+
+        this.#readFile(e.target.files[0]);
+        this.components.fileOpen.value = null;
+    }
+
+    /**
+     * Callback for drag over event
+     * @param e
+     */
+    #onDragOver = (e) => {
+        e.target.setAttribute('drop-active', true);
+        e.stopPropagation();
+        e.preventDefault();
+        e.dataTransfer.dropEffect = 'copy';
+    }
+
+    /**
+     * Callback for drag leave event
+     * @param e
+     */
+    #onDragLeave = (e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        e.target.removeAttribute('drop-active');
+    }
+
+    /**
+     * Callback for drop event
+     * @param e
+     */
+    #onDrop = (e) => {
+        e.target.removeAttribute('drop-active');
+        e.stopPropagation();
+        e.preventDefault();
+        const file = e.dataTransfer.files[0];
+        this.#readFile(file);
+    }
+
+    /**
+     * Function to read and return the data of the selected/dropped file
+     * @param file
+     */
+    #readFile = (file) => {
+        const fileReader = new FileReader();
+        fileReader.onload = function () {
+            const typedarray = new Uint8Array(this.result);
+            _services_EventHandlerService__WEBPACK_IMPORTED_MODULE_0__.EventHandlerService.publish(_services_EventHandlerService__WEBPACK_IMPORTED_MODULE_0__.PDFLEvents.onShowReaderView);
+            const reader = new _PdfReaderComponent__WEBPACK_IMPORTED_MODULE_1__.PdfReaderComponent();
+            reader.loadPdf(typedarray);
+        };
+        fileReader.readAsArrayBuffer(file);
+    }
+
+}
+
+
+
+/***/ }),
+/* 4 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "EventHandlerService": () => (/* binding */ EventHandlerService),
+/* harmony export */   "PDFLEvents": () => (/* binding */ PDFLEvents)
+/* harmony export */ });
+/**
+ * This class represents the event bus across the application, it manages subscribers and publishers for each type of event.
+ */
+class EventHandlerService {
+
+    static eventObject = [];
+
+    /**
+     * This function rise an event and all the registered callbacks are called.
+     * @param event the event which has to fire
+     * @param args arguments for the callback function
+     */
+    static publish(event, ...args) {
+
+        if(!this.eventObject[event]){
+            return;
+        }
+
+        this.eventObject[event].forEach((callback) => {
+            callback(...args);
+        });
+    }
+
+    /**
+     * Register a new callback for a specific event
+     * @param event
+     * @param callback callback function
+     */
+    static subscribe(event, callback) {
+        if(!this.eventObject[event]){
+            this.eventObject[event] = [];
+        }
+        this.eventObject[event].push(callback);
+    }
+
+}
+
+/**
+ * Enum of possible event type (to avoid typos)
+ * @type {{onShowDefaultView: string, onShowReaderView: string, onRenderPage: string}}
+ */
+const PDFLEvents = {
+    onShowDefaultView: 'onShowDefaultView',
+    onShowReaderView: 'onShowReaderView',
+    onRenderPage: 'onRenderPage'
+}
+
+
+
+/***/ }),
+/* 5 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "PdfReaderComponent": () => (/* binding */ PdfReaderComponent)
+/* harmony export */ });
+/* harmony import */ var _services_EventHandlerService__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4);
+/* harmony import */ var _PaginationComponent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(6);
+/* harmony import */ var _ZoomComponent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(7);
+
+
+
+
+const pdfjsLib = __webpack_require__(8);
+
+class PdfReaderComponent {
+
+    components = {
+        pdfContainer: document.querySelector('#pdf_container'),
+        openNew: document.querySelector('#open_new')
+    }
+
+    /**
+     * @constructor
+     */
+    constructor() {
+        this.paginationComponent = new _PaginationComponent__WEBPACK_IMPORTED_MODULE_1__.PaginationComponent();
+        this.zoomComponent = new _ZoomComponent__WEBPACK_IMPORTED_MODULE_2__.ZoomComponent();
+
+        this.#registerEvents();
+    }
+
+    /**
+     * Add event listener to view elements of the toolbar
+     */
+    #registerEvents = () => {
+        this.components.openNew.addEventListener('click', this.#onNewFile);
+
+        _services_EventHandlerService__WEBPACK_IMPORTED_MODULE_0__.EventHandlerService.subscribe(_services_EventHandlerService__WEBPACK_IMPORTED_MODULE_0__.PDFLEvents.onRenderPage, () => {
+            this.#renderPage();
+        });
+    }
+
+    #onNewFile = () => {
+        _services_EventHandlerService__WEBPACK_IMPORTED_MODULE_0__.EventHandlerService.publish(_services_EventHandlerService__WEBPACK_IMPORTED_MODULE_0__.PDFLEvents.onShowDefaultView);
+    }
+
+    /**
+     * Load and render the first page of the given pdf
+     * @param pdf data, filename or url of a PDF document
+     */
+    loadPdf = (pdf) => {
+        const self = this;
+        pdfjsLib.GlobalWorkerOptions.workerSrc = "webpack/pdf.worker.bundle.js";
+        pdfjsLib.getDocument(pdf).promise.then((data) => {
+            self.pdfDoc = data;
+            self.paginationComponent.setPageCount(data.numPages);
+            self.#renderPage();
+        }).catch((err) => {
+            console.log(err.message); // TODO: handle error in some way
+        });
+    }
+
+    /**
+     * Private function, render the page 
+     */
+    #renderPage = () => {
+        const self = this;
+        this.pdfDoc
+            .getPage(self.paginationComponent.getCurrentPage())
+            .then((page) => {
+                //Set the HTML properties
+                const canvas = document.createElement("canvas");
+
+                canvas.setAttribute('class', 'canvas__container');
+                const textLayer = document.createElement("div");
+                textLayer.setAttribute('class', 'textLayer')
+
+                const ctx = canvas.getContext('2d');
+                const viewport = page.getViewport({
+                    scale: self.zoomComponent.getZoom(),
+                });
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+
+                // Render the PDF page into the canvas context.
+                const renderCtx = {
+                    canvasContext: ctx,
+                    viewport: viewport,
+                };
+
+                var renderTask = page.render(renderCtx);
+
+                renderTask.promise.then(function () {
+
+                    page.getTextContent().then(function (textContent) {
+
+                        textLayer.style.left = canvas.offsetLeft + 'px';
+                        textLayer.style.top = canvas.offsetTop + 'px';
+                        textLayer.style.height = canvas.offsetHeight + 'px';
+                        textLayer.style.width = canvas.offsetWidth + 'px';
+
+                        pdfjsLib.renderTextLayer({
+                            textContent: textContent,
+                            container: textLayer,
+                            viewport: viewport,
+                            textDivs: []
+                        });
+
+                    });
+                })
+
+
+                page.render(renderCtx);
+
+                if (ctx) {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.beginPath();
+                }
+
+                //Scroll is possible but not supported by other navigation functions, clear container before adding the new page
+                self.components.pdfContainer.innerHTML = "";
+                self.components.pdfContainer.appendChild(canvas);
+                self.components.pdfContainer.appendChild(textLayer);
+
+                self.paginationComponent.setCurrentPage();
+            });
+    }
+
+}
+
+
+
+/***/ }),
+/* 6 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "PaginationComponent": () => (/* binding */ PaginationComponent)
+/* harmony export */ });
+/* harmony import */ var _services_EventHandlerService__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4);
+
+
+class PaginationComponent {
+
+    components = {
+        pageNum: document.querySelector('#page_num'),
+        pageCount: document.querySelector('#page_count'),
+        currentPage: document.querySelector('#current_page'),
+        previousPage: document.querySelector('#prev_page'),
+        nextPage: document.querySelector('#next_page'),
+    }
+
+    constructor() {
+        this.setPageCount(0);
+        this.setCurrentPage(1);
+
+        this.#registerEvents();
+    }
+
+    #registerEvents = () => {
+        this.components.previousPage.addEventListener('click', this.#showPrevPage);
+        this.components.nextPage.addEventListener('click', this.#showNextPage);
+        this.components.currentPage.addEventListener('keypress', this.#currentPageKeypress);
+    }
+
+    /**
+    * Callback for the previous page event. Render the previous page of the current one if available
+    */
+    #showPrevPage = () => {
+        if (this.currentPage <= 1) return;
+        this.currentPage--;
+
+        this.#currentPageChanged();
+    };
+
+    /**
+     * Callback for the next page event. Render the next page of the current one if available
+     */
+    #showNextPage = () => {
+        if (this.currentPage >= this.pageCount) return;
+        this.currentPage++;
+
+        this.#currentPageChanged();
+    };
+
+    /**
+     * Callback for page number input listener. Render the given page if available
+     * @param event
+     */
+    #currentPageKeypress = (event) => {
+        const keycode = event.keyCode ? event.keyCode : event.which;
+
+        if (keycode === 13) {
+            // Get the new page number and render it.
+            let desiredPage = this.components.currentPage.valueAsNumber;
+            this.currentPage = Math.min(
+                Math.max(desiredPage, 1),
+                this.pageCount
+            );
+            
+            this.components.pageNum.textContent = this.currentPage;
+            this.#currentPageChanged();
+        }
+    }
+
+    #currentPageChanged = () => {
+        this.components.currentPage.value = this.currentPage;
+        _services_EventHandlerService__WEBPACK_IMPORTED_MODULE_0__.EventHandlerService.publish(_services_EventHandlerService__WEBPACK_IMPORTED_MODULE_0__.PDFLEvents.onRenderPage);
+    }
+
+    setPageCount = (pageNumber) => {
+        this.pageCount = pageNumber;
+        this.components.pageCount.textContent = pageNumber;
+    }
+
+    setCurrentPage = (pageNumber = this.currentPage) => {
+        this.currentPage = pageNumber;
+        this.components.pageNum.textContent = pageNumber;
+        this.components.currentPage.value = pageNumber;
+    }
+
+    getCurrentPage = () => {
+        return this.currentPage;
+    }
+
+}
+
+
+
+/***/ }),
+/* 7 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "ZoomComponent": () => (/* binding */ ZoomComponent)
+/* harmony export */ });
+/* harmony import */ var _services_EventHandlerService__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4);
+
+
+class ZoomComponent {
+
+    components = {
+        zoomIn: document.querySelector('#zoom_in'),
+        zoomOut: document.querySelector('#zoom_out'),
+    }
+
+    constructor() {
+        this.zoom = 1;
+        this.#registerEvents();
+    }
+
+    #registerEvents = () => {
+        this.components.zoomIn.addEventListener('click', this.#zoomIn);
+        this.components.zoomOut.addEventListener('click', this.#zoomOut);
+    }
+
+    /**
+     * Callback for zoom in event
+     */
+    #zoomIn = () => {
+        this.zoom *= 4 / 3;
+        _services_EventHandlerService__WEBPACK_IMPORTED_MODULE_0__.EventHandlerService.publish(_services_EventHandlerService__WEBPACK_IMPORTED_MODULE_0__.PDFLEvents.onRenderPage);
+    }
+
+    /**
+     * Callback for the zoom out action
+     */
+    #zoomOut = () => {
+        this.zoom *= 2 / 3;
+        _services_EventHandlerService__WEBPACK_IMPORTED_MODULE_0__.EventHandlerService.publish(_services_EventHandlerService__WEBPACK_IMPORTED_MODULE_0__.PDFLEvents.onRenderPage);
+    }
+
+    getZoom = () => {
+        return this.zoom;
+    }
+
+}
+
+
+
+/***/ }),
+/* 8 */
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 /**
@@ -10742,7 +11273,7 @@ var _base_factory = __w_pdfjs_require__(9);
 
 const fetchData = function (url) {
   return new Promise((resolve, reject) => {
-    const fs = __webpack_require__(2);
+    const fs = __webpack_require__(9);
 
     fs.readFile(url, (error, data) => {
       if (error || !data) {
@@ -10757,7 +11288,7 @@ const fetchData = function (url) {
 
 class NodeCanvasFactory extends _base_factory.BaseCanvasFactory {
   _createCanvas(width, height) {
-    const Canvas = __webpack_require__(3);
+    const Canvas = __webpack_require__(10);
 
     return Canvas.createCanvas(width, height);
   }
@@ -16483,7 +17014,7 @@ exports.SVGGraphics = SVGGraphics;
           input = Buffer.from(literals);
         }
 
-        const output = (__webpack_require__(4).deflateSync)(input, {
+        const output = (__webpack_require__(11).deflateSync)(input, {
           level: 9
         });
 
@@ -17918,13 +18449,13 @@ var _network_utils = __w_pdfjs_require__(33);
 
 ;
 
-const fs = __webpack_require__(2);
+const fs = __webpack_require__(9);
 
-const http = __webpack_require__(5);
+const http = __webpack_require__(12);
 
-const https = __webpack_require__(6);
+const https = __webpack_require__(13);
 
-const url = __webpack_require__(7);
+const url = __webpack_require__(14);
 
 const fileUriRegex = /^file:\/\/\/[a-zA-Z]:\//;
 
@@ -19774,40 +20305,87 @@ const pdfjsBuild = '172ccdbe5';
 //# sourceMappingURL=pdf.js.map
 
 /***/ }),
-/* 2 */
+/* 9 */
 /***/ (() => {
 
 /* (ignored) */
 
 /***/ }),
-/* 3 */
+/* 10 */
 /***/ (() => {
 
 /* (ignored) */
 
 /***/ }),
-/* 4 */
+/* 11 */
 /***/ (() => {
 
 /* (ignored) */
 
 /***/ }),
-/* 5 */
+/* 12 */
 /***/ (() => {
 
 /* (ignored) */
 
 /***/ }),
-/* 6 */
+/* 13 */
 /***/ (() => {
 
 /* (ignored) */
 
 /***/ }),
-/* 7 */
+/* 14 */
 /***/ (() => {
 
 /* (ignored) */
+
+/***/ }),
+/* 15 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "AppView": () => (/* binding */ AppView)
+/* harmony export */ });
+class AppView {
+
+    components = [...document.getElementsByClassName('app-view')];
+
+    cleanView = () => {
+        this.components.forEach(component => {
+            component.hidden = true;
+        });
+    }
+    
+    init() {
+        this.cleanView();
+        this.component.hidden = false;
+    }
+
+}
+
+
+/***/ }),
+/* 16 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "ReaderView": () => (/* binding */ ReaderView)
+/* harmony export */ });
+/* harmony import */ var _AppView_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(15);
+
+
+class ReaderView extends _AppView_js__WEBPACK_IMPORTED_MODULE_0__.AppView {
+
+    component = document.getElementById('pdf-viewer');
+
+}
+
+
 
 /***/ })
 /******/ 	]);
@@ -19837,122 +20415,44 @@ const pdfjsBuild = '172ccdbe5';
 /******/ 	}
 /******/ 	
 /************************************************************************/
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/************************************************************************/
 var __webpack_exports__ = {};
-// This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
+// This entry need to be wrapped in an IIFE because it need to be in strict mode.
 (() => {
-const pdf = 'testpdf.pdf';
-const pdfjsLib = __webpack_require__(1);
-
-const pageNum = document.querySelector('#page_num');
-const pageCount = document.querySelector('#page_count');
-const currentPage = document.querySelector('#current_page');
-const previousPage = document.querySelector('#prev_page');
-const nextPage = document.querySelector('#next_page');
-const zoomIn = document.querySelector('#zoom_in');
-const zoomOut = document.querySelector('#zoom_out');
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _src_components_AppComponent_App__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
 
 
-const initialState = {
-    pdfDoc: null,
-    currentPage: 1,
-    pageCount: 0,
-    zoom: 1,
-};
-
-// Setting worker path to worker bundle.
-pdfjsLib.GlobalWorkerOptions.workerSrc =
-    "webpack/pdf.worker.bundle.js";
-
-pdfjsLib.getDocument(pdf).promise.then((data) => {
-    initialState.pdfDoc = data;
-    pageCount.textContent = initialState.pdfDoc.numPages;
-    renderPage();
-}).catch((err) => {
-    alert(err.message);
-});
-
-
-const renderPage = () => {
-    // Load the first page.
-    initialState.pdfDoc
-        .getPage(initialState.currentPage)
-        .then((page) => {
-            const canvas = document.querySelector('#canvas');
-            const ctx = canvas.getContext('2d');
-            const viewport = page.getViewport({
-                scale: initialState.zoom,
-            });
-            canvas.height = viewport.height;
-            canvas.width = viewport.width;
-
-            // Render the PDF page into the canvas context.
-            const renderCtx = {
-                canvasContext: ctx,
-                viewport: viewport,
-            };
-
-            page.render(renderCtx);
-
-            pageNum.textContent = initialState.currentPage;
-        });
-};
-
-const showPrevPage = () => {
-    if (initialState.pdfDoc === null || initialState.currentPage <= 1)
-        return;
-    initialState.currentPage--;
-    // Render the current page.
-    currentPage.value = initialState.currentPage;
-    renderPage();
-};
-
-const showNextPage = () => {
-    if (
-        initialState.pdfDoc === null ||
-        initialState.currentPage >= initialState.pdfDoc._pdfInfo.numPages
-    )
-        return;
-
-    initialState.currentPage++;
-    currentPage.value = initialState.currentPage;
-    renderPage();
-};
-
-// Button events.
-previousPage.addEventListener('click', showPrevPage);
-nextPage.addEventListener('click', showNextPage);
-
-// Keypress event.
-currentPage.addEventListener('keypress', (event) => {
-    if (initialState.pdfDoc === null) return;
-    // Get the key code.
-    const keycode = event.keyCode ? event.keyCode : event.which;
-
-    if (keycode === 13) {
-        // Get the new page number and render it.
-        let desiredPage = currentPage.valueAsNumber;
-        initialState.currentPage = Math.min(
-            Math.max(desiredPage, 1),
-            initialState.pdfDoc._pdfInfo.numPages,
-        );
-
-        currentPage.value = initialState.currentPage;
-        renderPage();
-    }
-});
-
-// Zoom events.
-zoomIn.addEventListener('click', () => {
-    if (initialState.pdfDoc === null) return;
-    initialState.zoom *= 4 / 3;
-    renderPage();
-});
-
-zoomOut.addEventListener('click', () => {
-    if (initialState.pdfDoc === null) return;
-    initialState.zoom *= 2 / 3;
-    renderPage();
-});
+_src_components_AppComponent_App__WEBPACK_IMPORTED_MODULE_0__.App.start();
 })();
 
 /******/ })()

@@ -9,47 +9,56 @@
         integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="css/pdfl.css" />
+    <link rel="stylesheet" href="css/fileUpload.css"/>
 </head>
-
 <body>
-    <header>
-        <ul class="navigation" id="header">
-            <li class="navigation__item">
-                <!-- Navigate to the Previous and Next pages -->
-                <a href="#" class="previous round" id="prev_page">
-                    <i class="fas fa-arrow-left"></i>
-                </a>
+    <div id="welcome-page" class="app-view full-page upload-div">
+        <div class="uploader-container">
+            <h2 class="text-center">PDFL - PDF Legacy</h2>
+            <p class="lead">Your smart pdf reader</p>
+            <form id="file-upload-form" class="uploader">
+                <input type="file" name="fileUpload" accept="application/pdf" id="fileOpen"/>
+                <label for="fileOpen" id="file-drag">
+                    <i class="fa fa-download" aria-hidden="true"></i>
+                    <div>Select a file or drag here</div>
+                    <div class="hidden">Please select a pdf file</div>
+                    <span id="file-upload-btn" class="btn btn-primary">Select a file</span>
+                </label>
+            </form>
+        </div>
+    </div>
+    <div id="pdf-viewer" class="app-view" hidden>
+        <header>
+            <ul class="navigation" id="header">
+                <li class="navigation__item">
+                    <button class="btn" id="open_new">
+                        Open
+                    </button>
+                </li>
+                <li class="navigation__item">
+                    <a href="#" class="btn" id="prev_page">
+                        <i class="fas fa-arrow-left"></i>
+                    </a>
+                    <input type="number" value="1" id="current_page" />
+                    <a href="#" class="btn" id="next_page">
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                    Page <span id="page_num"></span> of <span id="page_count"></span>
+                </li>
+                <li class="navigation__item">
+                    <button class="btn" id="zoom_in">
+                        <i class="fas fa-search-plus"></i>
+                    </button>
 
-                <!-- Navigate to a specific page -->
-                <input type="number" value="1" id="current_page" />
-
-                <a href="#" class="next round" id="next_page">
-                    <i class="fas fa-arrow-right"></i>
-                </a>
-
-                <!-- Page Info -->
-                Page
-                <span id="page_num"></span>
-                of
-                <span id="page_count"></span>
-            </li>
-
-            <!-- Zoom In and Out -->
-            <li class="navigation__item">
-                <button class="zoom" id="zoom_in">
-                    <i class="fas fa-search-plus"></i>
-                </button>
-
-                <button class="zoom" id="zoom_out">
-                    <i class="fas fa-search-minus"></i>
-                </button>
-            </li>
-        </ul>
-    </header>
-
-    <!-- Canvas to place the PDF -->
-    <canvas id="canvas" class="canvas__container"></canvas>
-
+                    <button class="btn" id="zoom_out">
+                        <i class="fas fa-search-minus"></i>
+                    </button>
+                </li>
+            </ul>
+        </header>
+        <div id="pdf_container">
+        </div>
+    </div>
     <script src="webpack/main.bundle.js"></script>
 </body>
 
