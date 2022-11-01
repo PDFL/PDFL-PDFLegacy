@@ -2,15 +2,15 @@ name: CD
 
 on:
   workflow_run:
-    workflows: ["CI"]
+    workflows: [CI]
     branches: [main, ci_fix]
-    types:
-      - completed
+    types: [completed]
 
 jobs:
     build-and-deploy:
-      if: ${{ github.event.workflow_run.conclusion == 'success' }}
+      name: Build and Deploy
       runs-on: ubuntu-latest
+      if: ${{ github.event.workflow_run.conclusion == 'success' }}
       steps:
         - name: "🔧 setup node"
           uses: actions/setup-node@v3.5.1
