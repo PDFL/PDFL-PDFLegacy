@@ -13,4 +13,9 @@ module.exports = {
         publicPath: "/public",
         filename: "[name].bundle.js",
     },
+    devServer: {
+        static: path.join(__dirname, "public"),
+        port: 8080,
+        open: true
+    }
 };
