@@ -9,9 +9,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "App": () => (/* binding */ App)
 /* harmony export */ });
-/* harmony import */ var _views_DefaultView_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+/* harmony import */ var _views_InputView_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
 /* harmony import */ var _views_ReaderView_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(16);
-/* harmony import */ var _services_EventHandlerService__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(4);
+/* harmony import */ var _views_WelcomeView_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(17);
+/* harmony import */ var _services_EventHandlerService__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(4);
+
 
 
 
@@ -28,22 +30,32 @@ class App {
         App._instance = this;
 
         this.#registerEvents();
+        this.#showWelcomeView();
     }
 
     #registerEvents = () => {
-        _services_EventHandlerService__WEBPACK_IMPORTED_MODULE_2__.EventHandlerService.subscribe(_services_EventHandlerService__WEBPACK_IMPORTED_MODULE_2__.PDFLEvents.onShowDefaultView, () => {
-            this.#showDefaultView();
+        _services_EventHandlerService__WEBPACK_IMPORTED_MODULE_3__.EventHandlerService.subscribe(_services_EventHandlerService__WEBPACK_IMPORTED_MODULE_3__.PDFLEvents.onShowInputView, () => {
+            this.#showInputView();
         });
-        _services_EventHandlerService__WEBPACK_IMPORTED_MODULE_2__.EventHandlerService.subscribe(_services_EventHandlerService__WEBPACK_IMPORTED_MODULE_2__.PDFLEvents.onShowReaderView, () => {
+        _services_EventHandlerService__WEBPACK_IMPORTED_MODULE_3__.EventHandlerService.subscribe(_services_EventHandlerService__WEBPACK_IMPORTED_MODULE_3__.PDFLEvents.onShowReaderView, () => {
             this.#showReaderView();
         });
     }
 
     /**
-     * Initialize the view, show the file uploader and hide the reader
+     * Initialize the view, show the welcome page
      */
-     #showDefaultView = () => {
-        this.view = new _views_DefaultView_js__WEBPACK_IMPORTED_MODULE_0__.DefaultView();
+    #showWelcomeView = () => {
+        this.view = new _views_WelcomeView_js__WEBPACK_IMPORTED_MODULE_2__.WelcomeView();
+        this.view.init();
+    }
+
+
+    /**
+     * Switch from welcome page to input view, show the file uploader and hide the reader
+     */
+     #showInputView = () => {
+        this.view = new _views_InputView_js__WEBPACK_IMPORTED_MODULE_0__.InputView();
         this.view.init();
     }
 
@@ -66,18 +78,18 @@ class App {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "DefaultView": () => (/* binding */ DefaultView)
+/* harmony export */   "InputView": () => (/* binding */ InputView)
 /* harmony export */ });
 /* harmony import */ var _FileUploadComponent__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
 /* harmony import */ var _AppView_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(15);
 
 
 
-class DefaultView extends _AppView_js__WEBPACK_IMPORTED_MODULE_1__.AppView{
+class InputView extends _AppView_js__WEBPACK_IMPORTED_MODULE_1__.AppView{
 
     static fileUpload = new _FileUploadComponent__WEBPACK_IMPORTED_MODULE_0__.FileUpload();
 
-    component = document.getElementById('welcome-page');
+    component = document.getElementById('input-page');
 
 }
 
@@ -100,7 +112,7 @@ class FileUpload {
 
     components = {
         dropArea: document.getElementById("file-drag"),
-        fileOpen: document.getElementById("fileOpen")
+        fileOpen: document.getElementById("fileOpen"),
     }
 
     /**
@@ -180,6 +192,7 @@ class FileUpload {
         fileReader.readAsArrayBuffer(file);
     }
 
+
 }
 
 
@@ -233,10 +246,11 @@ class EventHandlerService {
 
 /**
  * Enum of possible event type (to avoid typos)
- * @type {{onShowDefaultView: string, onShowReaderView: string, onRenderPage: string}}
+ * @type {{onShowInputView: string, onShowReaderView: string, onRenderPage: string}}
  */
 const PDFLEvents = {
-    onShowDefaultView: 'onShowDefaultView',
+    onShowWelcomeView: 'onShowWelcomeView',
+    onShowInputView: 'onShowInputView',
     onShowReaderView: 'onShowReaderView',
     onRenderPage: 'onRenderPage'
 }
@@ -290,7 +304,7 @@ class PdfReaderComponent {
     }
 
     #onNewFile = () => {
-        _services_EventHandlerService__WEBPACK_IMPORTED_MODULE_0__.EventHandlerService.publish(_services_EventHandlerService__WEBPACK_IMPORTED_MODULE_0__.PDFLEvents.onShowDefaultView);
+        _services_EventHandlerService__WEBPACK_IMPORTED_MODULE_0__.EventHandlerService.publish(_services_EventHandlerService__WEBPACK_IMPORTED_MODULE_0__.PDFLEvents.onShowInputView);
     }
 
     /**
@@ -20382,6 +20396,56 @@ __webpack_require__.r(__webpack_exports__);
 class ReaderView extends _AppView_js__WEBPACK_IMPORTED_MODULE_0__.AppView {
 
     component = document.getElementById('pdf-viewer');
+
+}
+
+
+
+/***/ }),
+/* 17 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "WelcomeView": () => (/* binding */ WelcomeView)
+/* harmony export */ });
+/* harmony import */ var _AppView_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(15);
+/* harmony import */ var _services_EventHandlerService_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(4);
+
+
+
+
+class WelcomeView extends _AppView_js__WEBPACK_IMPORTED_MODULE_0__.AppView {
+
+    component = document.getElementById('welcome-page');
+    button = document.getElementById('button-file');
+
+    Components = {
+        buttonFile: document.getElementById("button-file"),
+    }
+
+    init() {
+        this.cleanView();
+        this.component.hidden = false;
+        this.#registerEvents();
+    }
+
+    /**
+     * Add event listeners for welcome view
+     */
+     #registerEvents = () => {
+        this.Components.buttonFile.addEventListener('click', this.#changeView);
+    }
+
+    /**
+    /*Function for button listener to change view
+    */
+    #changeView = () => {
+        _services_EventHandlerService_js__WEBPACK_IMPORTED_MODULE_1__.EventHandlerService.publish(_services_EventHandlerService_js__WEBPACK_IMPORTED_MODULE_1__.PDFLEvents.onShowInputView);
+    }
+
+
 
 }
 
