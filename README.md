@@ -1,13 +1,18 @@
 # PDFL - PDF Legacy
 
-### Setup and start
+### Setup and start locally
 ```shell
 npm install
-npm start
-```
-The start command execute build and then start the server<br/>
-To start only the server run
-```shell
-node server.js
+npm run serve
 ```
 
+### Run tests
+```shell
+npm install
+npm test
+```
+
+### Build to the public directory
+```shell
+npm run build
+```
