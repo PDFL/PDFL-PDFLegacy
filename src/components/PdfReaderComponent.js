@@ -15,10 +15,19 @@ class PdfReaderComponent {
      * @constructor
      */
     constructor() {
+        if (PdfReaderComponent._instance) {
+            PdfReaderComponent._instance.init();
+            return PdfReaderComponent._instance;
+        }
+        PdfReaderComponent._instance = this;
+
+        this.init();
+        this.#registerEvents();
+    }
+
+    init = () => {
         this.paginationComponent = new PaginationComponent();
         this.zoomComponent = new ZoomComponent();
-
-        this.#registerEvents();
     }
 
     /**

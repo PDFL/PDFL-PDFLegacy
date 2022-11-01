@@ -8,8 +8,18 @@ class ZoomComponent {
     }
 
     constructor() {
-        this.zoom = 1;
+        if (ZoomComponent._instance) {
+            ZoomComponent._instance.init();
+            return ZoomComponent._instance;
+        }
+        ZoomComponent._instance = this;
+
+        this.init();
         this.#registerEvents();
+    }
+
+    init = () => {
+       this.zoom = 1;
     }
 
     #registerEvents = () => {

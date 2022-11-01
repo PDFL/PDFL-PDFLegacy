@@ -13,6 +13,12 @@ class FileUpload {
      * @param onFileReady  callback with file data once loaded
      */
     constructor() {
+        if (FileUpload._instance) {
+            FileUpload._instance.init();
+            return FileUpload._instance;
+        }
+        FileUpload._instance = this;
+
         this.#registerEvents();
     }
 
