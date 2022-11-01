@@ -120,6 +120,12 @@ class FileUpload {
      * @param onFileReady  callback with file data once loaded
      */
     constructor() {
+        if (FileUpload._instance) {
+            FileUpload._instance.init();
+            return FileUpload._instance;
+        }
+        FileUpload._instance = this;
+
         this.#registerEvents();
     }
 
@@ -286,10 +292,19 @@ class PdfReaderComponent {
      * @constructor
      */
     constructor() {
+        if (PdfReaderComponent._instance) {
+            PdfReaderComponent._instance.init();
+            return PdfReaderComponent._instance;
+        }
+        PdfReaderComponent._instance = this;
+
+        this.init();
+        this.#registerEvents();
+    }
+
+    init = () => {
         this.paginationComponent = new _PaginationComponent__WEBPACK_IMPORTED_MODULE_1__.PaginationComponent();
         this.zoomComponent = new _ZoomComponent__WEBPACK_IMPORTED_MODULE_2__.ZoomComponent();
-
-        this.#registerEvents();
     }
 
     /**
@@ -416,10 +431,19 @@ class PaginationComponent {
     }
 
     constructor() {
+        if (PaginationComponent._instance){
+            PaginationComponent._instance.init();
+            return PaginationComponent._instance;
+        }
+        PaginationComponent._instance = this;
+
+        this.init();
+        this.#registerEvents();
+    }
+
+    init = () => {
         this.setPageCount(0);
         this.setCurrentPage(1);
-
-        this.#registerEvents();
     }
 
     #registerEvents = () => {
@@ -512,8 +536,18 @@ class ZoomComponent {
     }
 
     constructor() {
-        this.zoom = 1;
+        if (ZoomComponent._instance) {
+            ZoomComponent._instance.init();
+            return ZoomComponent._instance;
+        }
+        ZoomComponent._instance = this;
+
+        this.init();
         this.#registerEvents();
+    }
+
+    init = () => {
+       this.zoom = 1;
     }
 
     #registerEvents = () => {
