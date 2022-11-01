@@ -33,7 +33,7 @@ class PdfReaderComponent {
     }
 
     #onNewFile = () => {
-        EventHandlerService.publish(PDFLEvents.onShowDefaultView);
+        EventHandlerService.publish(PDFLEvents.onShowInputView);
     }
 
     /**

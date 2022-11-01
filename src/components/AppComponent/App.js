@@ -1,5 +1,6 @@
-import { DefaultView } from "./views/DefaultView.js";
+import { InputView } from "./views/InputView.js";
 import { ReaderView } from "./views/ReaderView.js";
+import { WelcomeView } from "./views/WelcomeView.js";
 import { EventHandlerService, PDFLEvents } from '../../services/EventHandlerService';
 
 class App {
@@ -14,11 +15,12 @@ class App {
         App._instance = this;
 
         this.#registerEvents();
+        this.#showWelcomeView();
     }
 
     #registerEvents = () => {
-        EventHandlerService.subscribe(PDFLEvents.onShowDefaultView, () => {
-            this.#showDefaultView();
+        EventHandlerService.subscribe(PDFLEvents.onShowInputView, () => {
+            this.#showInputView();
         });
         EventHandlerService.subscribe(PDFLEvents.onShowReaderView, () => {
             this.#showReaderView();
@@ -26,10 +28,19 @@ class App {
     }
 
     /**
-     * Initialize the view, show the file uploader and hide the reader
+     * Initialize the view, show the welcome page
      */
-     #showDefaultView = () => {
-        this.view = new DefaultView();
+    #showWelcomeView = () => {
+        this.view = new WelcomeView();
+        this.view.init();
+    }
+
+
+    /**
+     * Switch from welcome page to input view, show the file uploader and hide the reader
+     */
+     #showInputView = () => {
+        this.view = new InputView();
         this.view.init();
     }
 
