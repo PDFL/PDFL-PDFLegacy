@@ -1,7 +1,8 @@
 name: CI
 
 on: 
-  workflow_call:
+  push:
+
 jobs:
   test:
     name: Test application
@@ -12,10 +13,9 @@ jobs:
 
       - name: "🔧 setup node"
         uses: actions/setup-node@v3.5.1
-
-      - name: "🔧 install npm@latest"
-        run: npm i -g npm@latest
-
+        with:
+            node-version: "16"
+            
       - name: "📦 install dependencies"
         run: npm install
 

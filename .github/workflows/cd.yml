@@ -1,18 +1,19 @@
 name: CD
 
 on:
-  push:
-    branches: [PL-11-Setup-CI-pipeline, main]
+  workflow_run:
+    workflows: ["CI"]
+    branches: [main, ci_fix]
+    types:
+      - completed
 
 jobs:
-    ci:
-      uses: ./.github/workflows/ci.yml
-    build-and-deploy: 
-      needs: [ci]
+    build-and-deploy:
+      if: ${{ github.event.workflow_run.conclusion == 'success' }}
       runs-on: ubuntu-latest
       steps:
-        - name: Setup Node 🔧
-          uses: actions/setup-node@v2.1.5
+        - name: "🔧 setup node"
+          uses: actions/setup-node@v3.5.1
           with:
             node-version: "16"
 
