@@ -13,12 +13,7 @@ class FileUpload {
      * @param onFileReady  callback with file data once loaded
      */
     constructor() {
-        if (FileUpload._instance) {
-            FileUpload._instance.init();
-            return FileUpload._instance;
-        }
-        FileUpload._instance = this;
-
+        this.reader = new PdfReaderComponent();
         this.#registerEvents();
     }
 
@@ -81,12 +76,13 @@ class FileUpload {
      * @param file
      */
     #readFile = (file) => {
+        const pdfReader = this.reader;
+        pdfReader.reset();
+        
         const fileReader = new FileReader();
         fileReader.onload = function () {
-            const typedarray = new Uint8Array(this.result);
+            pdfReader.loadPdf(new Uint8Array(this.result));
             EventHandlerService.publish(PDFLEvents.onShowReaderView);
-            const reader = new PdfReaderComponent();
-            reader.loadPdf(typedarray);
         };
         fileReader.readAsArrayBuffer(file);
     }
