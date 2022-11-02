@@ -8,9 +8,7 @@ class PdfReaderComponent {
 
     components = {
         pdfContainer: document.querySelector('#pdf_container'),
-        openNew: document.querySelector('#open_new'),
-        canvas: null,
-        viewport: null,
+        openNew: document.querySelector('#open_new')
     }
 
     /**
@@ -40,7 +38,6 @@ class PdfReaderComponent {
 
         EventHandlerService.subscribe(PDFLEvents.onRenderPage, () => {
             this.#renderPage();
-            this.#renderText();
         });
     }
 
@@ -59,81 +56,75 @@ class PdfReaderComponent {
             self.pdfDoc = data;
             self.paginationComponent.setPageCount(data.numPages);
             self.#renderPage();
-            self.#renderText();
         }).catch((err) => {
             console.log(err.message); // TODO: handle error in some way
         });
     }
 
     /**
-     * Private function to render the page 
+     * Private function, render the page 
      */
     #renderPage = () => {
-        const component = this.components;
+        const self = this;
         this.pdfDoc
-            .getPage(this.paginationComponent.getCurrentPage())
+            .getPage(self.paginationComponent.getCurrentPage())
             .then((page) => {
-
                 //Set the HTML properties
-                component.canvas = document.createElement("canvas");
-                component.canvas.setAttribute('class', 'canvas__container');
+                const canvas = document.createElement("canvas");
 
-                const ctx = component.canvas.getContext('2d');
-                component.viewport = page.getViewport({
-                    scale: this.zoomComponent.getZoom(),
+                canvas.setAttribute('class', 'canvas__container');
+                const textLayer = document.createElement("div");
+                textLayer.setAttribute('class', 'textLayer')
+
+                const ctx = canvas.getContext('2d');
+                const viewport = page.getViewport({
+                    scale: self.zoomComponent.getZoom(),
                 });
-                component.canvas.height = component.viewport.height;
-                component.canvas.width = component.viewport.width;
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
 
-                // Render the PDF page into the canvas context
+                // Render the PDF page into the canvas context.
                 const renderCtx = {
                     canvasContext: ctx,
-                    viewport: component.viewport,
+                    viewport: viewport,
                 };
+
+                var renderTask = page.render(renderCtx);
+
+                renderTask.promise.then(function () {
+
+                    page.getTextContent().then(function (textContent) {
+
+                        textLayer.style.left = canvas.offsetLeft + 'px';
+                        textLayer.style.top = canvas.offsetTop + 'px';
+                        textLayer.style.height = canvas.offsetHeight + 'px';
+                        textLayer.style.width = canvas.offsetWidth + 'px';
+
+                        pdfjsLib.renderTextLayer({
+                            textContent: textContent,
+                            container: textLayer,
+                            viewport: viewport,
+                            textDivs: []
+                        });
+
+                    });
+                })
+
 
                 page.render(renderCtx);
 
+                if (ctx) {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.beginPath();
+                }
+
                 //Scroll is possible but not supported by other navigation functions, clear container before adding the new page
-                component.pdfContainer.innerHTML = "";
-                component.pdfContainer.appendChild(component.canvas);
-                this.paginationComponent.setCurrentPage();
+                self.components.pdfContainer.innerHTML = "";
+                self.components.pdfContainer.appendChild(canvas);
+                self.components.pdfContainer.appendChild(textLayer);
+
+                self.paginationComponent.setCurrentPage();
             });
-    }
-
-    /**
-     * Private function to render the text 
-     */
-    #renderText = () => {
-        const component = this.components;
-        this.pdfDoc
-            .getPage(this.paginationComponent.getCurrentPage())
-            .then((page) => {
-
-                //Set the HTML properties
-                const textLayer = document.createElement("div");
-                textLayer.setAttribute('class', 'textLayer');
-
-                page.getTextContent().then(function (textContent) {
-
-                    textLayer.style.left = component.canvas.offsetLeft + 'px';
-                    textLayer.style.top = component.canvas.offsetTop + 'px';
-                    textLayer.style.height = component.canvas.offsetHeight + 'px';
-                    textLayer.style.width = component.canvas.offsetWidth + 'px';
-
-                    //Render the text inside the textLayer container
-                    pdfjsLib.renderTextLayer({
-                        textContent: textContent,
-                        container: textLayer,
-                        viewport: component.viewport,
-                        textDivs: []
-                    });
-
-                });
-
-                //Display the container
-                component.pdfContainer.appendChild(textLayer);
-            });
-
     }
 
 }
