@@ -120,12 +120,7 @@ class FileUpload {
      * @param onFileReady  callback with file data once loaded
      */
     constructor() {
-        if (FileUpload._instance) {
-            FileUpload._instance.init();
-            return FileUpload._instance;
-        }
-        FileUpload._instance = this;
-
+        this.reader = new _PdfReaderComponent__WEBPACK_IMPORTED_MODULE_1__.PdfReaderComponent();
         this.#registerEvents();
     }
 
@@ -188,12 +183,13 @@ class FileUpload {
      * @param file
      */
     #readFile = (file) => {
+        const pdfReader = this.reader;
+        pdfReader.reset();
+        
         const fileReader = new FileReader();
         fileReader.onload = function () {
-            const typedarray = new Uint8Array(this.result);
+            pdfReader.loadPdf(new Uint8Array(this.result));
             _services_EventHandlerService__WEBPACK_IMPORTED_MODULE_0__.EventHandlerService.publish(_services_EventHandlerService__WEBPACK_IMPORTED_MODULE_0__.PDFLEvents.onShowReaderView);
-            const reader = new _PdfReaderComponent__WEBPACK_IMPORTED_MODULE_1__.PdfReaderComponent();
-            reader.loadPdf(typedarray);
         };
         fileReader.readAsArrayBuffer(file);
     }
@@ -292,19 +288,10 @@ class PdfReaderComponent {
      * @constructor
      */
     constructor() {
-        if (PdfReaderComponent._instance) {
-            PdfReaderComponent._instance.init();
-            return PdfReaderComponent._instance;
-        }
-        PdfReaderComponent._instance = this;
-
-        this.init();
-        this.#registerEvents();
-    }
-
-    init = () => {
         this.paginationComponent = new _PaginationComponent__WEBPACK_IMPORTED_MODULE_1__.PaginationComponent();
         this.zoomComponent = new _ZoomComponent__WEBPACK_IMPORTED_MODULE_2__.ZoomComponent();
+
+        this.#registerEvents();
     }
 
     /**
@@ -404,6 +391,11 @@ class PdfReaderComponent {
             });
     }
 
+    reset = () => {
+        this.paginationComponent.setCurrentPage(1);
+        this.zoomComponent.setZoom(1);
+    }
+
 }
 
 
@@ -431,19 +423,10 @@ class PaginationComponent {
     }
 
     constructor() {
-        if (PaginationComponent._instance){
-            PaginationComponent._instance.init();
-            return PaginationComponent._instance;
-        }
-        PaginationComponent._instance = this;
-
-        this.init();
-        this.#registerEvents();
-    }
-
-    init = () => {
         this.setPageCount(0);
         this.setCurrentPage(1);
+        
+        this.#registerEvents();
     }
 
     #registerEvents = () => {
@@ -536,18 +519,16 @@ class ZoomComponent {
     }
 
     constructor() {
-        if (ZoomComponent._instance) {
-            ZoomComponent._instance.init();
-            return ZoomComponent._instance;
-        }
-        ZoomComponent._instance = this;
-
-        this.init();
+        this.setZoom(1);
         this.#registerEvents();
     }
+    
+    setZoom = (zoom) => {
+        this.zoom = zoom;
+    }
 
-    init = () => {
-       this.zoom = 1;
+    getZoom = () => {
+        return this.zoom;
     }
 
     #registerEvents = () => {
@@ -569,10 +550,6 @@ class ZoomComponent {
     #zoomOut = () => {
         this.zoom *= 2 / 3;
         _services_EventHandlerService__WEBPACK_IMPORTED_MODULE_0__.EventHandlerService.publish(_services_EventHandlerService__WEBPACK_IMPORTED_MODULE_0__.PDFLEvents.onRenderPage);
-    }
-
-    getZoom = () => {
-        return this.zoom;
     }
 
 }
