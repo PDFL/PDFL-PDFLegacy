@@ -71,7 +71,6 @@ class PdfReaderComponent {
             .then((page) => {
                 //Set the HTML properties
                 const canvas = document.createElement("canvas");
-
                 canvas.setAttribute('class', 'canvas__container');
                 const textLayer = document.createElement("div");
                 textLayer.setAttribute('class', 'textLayer')
@@ -89,9 +88,8 @@ class PdfReaderComponent {
                     viewport: viewport,
                 };
 
-                var renderTask = page.render(renderCtx);
-
-                renderTask.promise.then(function () {
+                var pageRendering = page.render(renderCtx);
+                pageRendering.promise.then(function () {
 
                     page.getTextContent().then(function (textContent) {
 
@@ -108,15 +106,9 @@ class PdfReaderComponent {
                         });
 
                     });
+
+                    page.render(renderCtx);
                 })
-
-
-                page.render(renderCtx);
-
-                if (ctx) {
-                    ctx.clearRect(0, 0, canvas.width, canvas.height);
-                    ctx.beginPath();
-                }
 
                 //Scroll is possible but not supported by other navigation functions, clear container before adding the new page
                 self.components.pdfContainer.innerHTML = "";
