@@ -8,18 +8,16 @@ class ZoomComponent {
     }
 
     constructor() {
-        if (ZoomComponent._instance) {
-            ZoomComponent._instance.init();
-            return ZoomComponent._instance;
-        }
-        ZoomComponent._instance = this;
-
-        this.init();
+        this.setZoom(1);
         this.#registerEvents();
     }
+    
+    setZoom = (zoom) => {
+        this.zoom = zoom;
+    }
 
-    init = () => {
-       this.zoom = 1;
+    getZoom = () => {
+        return this.zoom;
     }
 
     #registerEvents = () => {
@@ -41,10 +39,6 @@ class ZoomComponent {
     #zoomOut = () => {
         this.zoom *= 2 / 3;
         EventHandlerService.publish(PDFLEvents.onRenderPage);
-    }
-
-    getZoom = () => {
-        return this.zoom;
     }
 
 }

@@ -15,19 +15,10 @@ class PdfReaderComponent {
      * @constructor
      */
     constructor() {
-        if (PdfReaderComponent._instance) {
-            PdfReaderComponent._instance.init();
-            return PdfReaderComponent._instance;
-        }
-        PdfReaderComponent._instance = this;
-
-        this.init();
-        this.#registerEvents();
-    }
-
-    init = () => {
         this.paginationComponent = new PaginationComponent();
         this.zoomComponent = new ZoomComponent();
+
+        this.#registerEvents();
     }
 
     /**
@@ -125,6 +116,11 @@ class PdfReaderComponent {
 
                 self.paginationComponent.setCurrentPage();
             });
+    }
+
+    reset = () => {
+        this.paginationComponent.setCurrentPage(1);
+        this.zoomComponent.setZoom(1);
     }
 
 }

@@ -11,19 +11,10 @@ class PaginationComponent {
     }
 
     constructor() {
-        if (PaginationComponent._instance){
-            PaginationComponent._instance.init();
-            return PaginationComponent._instance;
-        }
-        PaginationComponent._instance = this;
-
-        this.init();
-        this.#registerEvents();
-    }
-
-    init = () => {
         this.setPageCount(0);
         this.setCurrentPage(1);
+        
+        this.#registerEvents();
     }
 
     #registerEvents = () => {
