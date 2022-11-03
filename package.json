@@ -8,7 +8,8 @@
     "devDependencies": {
         "pdfjs-dist": "^2.16.105",
         "webpack": "^5.11.1",
-        "webpack-cli": "^4.3.1"
+        "webpack-cli": "^4.3.1",
+        "@mui/icons-material": "^5.10.9"
     },
     "dependencies": {
         "express": "^4.18.2"

@@ -4,7 +4,7 @@ import {
 } from "../services/EventHandlerService";
 import { PaginationComponent } from "./PaginationComponent";
 import { ZoomComponent } from "./ZoomComponent";
-import { SideBarComponent } from "./SideBarComponent";
+import { LeftToolBar } from "./GraphMakerComponent";
 
 const pdfjsLib = require("pdfjs-dist");
 

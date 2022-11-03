@@ -52,6 +52,7 @@ header{
     top: 0;
     left: 0;
     width: 100%;
+    z-index: 2;
 }
 
 .navigation__item {
@@ -155,6 +156,7 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 /*CSS Floating Menu Button */
+/*
 @-webkit-keyframes come-in {
   0% {
     -webkit-transform: translatey(100px);
@@ -272,6 +274,37 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 .floating-container .float-element:nth-child(3) {
   background: #489c8a;
+}*/
+
+/* CSS for SideToolBar */
+.sidenav {
+  width: 60px;
+  position: fixed;
+  z-index: 1;
+  top: 100px;
+  left: 20px;
+  overflow-x: hidden;
+  padding: 8px 0px;
+}
+
+.sidenav a {
+  text-align: center;
+  padding: 8px 0px 8px 0px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #489c8a;
+  display: block;
+}
+
+.sidenav a:hover {
+  color: #ffcd00;
+}
+
+.sidetoolbar {
+  background-color: #ffffff;
+  border: solid #ffffff;
+  border-radius: 15px;
+  margin-bottom: 20px;
 }
 
 

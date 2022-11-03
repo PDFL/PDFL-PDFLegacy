@@ -3,7 +3,7 @@ import {
   PDFLEvents,
 } from "../services/EventHandlerService";
 
-class SideBarComponent {
+class GraphMakerComponent {
   components = {};
 
   constructor() {}
@@ -15,4 +15,4 @@ class SideBarComponent {
    */
 }
 
-export { SideBarComponent };
+export { GraphMakerComponent };

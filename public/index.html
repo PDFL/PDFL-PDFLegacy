@@ -11,7 +11,8 @@
     <link rel="stylesheet" href="css/pdfl.css" />
     <link rel="stylesheet" href="css/fileUpload.css" />
     <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+
 </head>
 
 <body style="position: relative;height: 100vh;margin: 0;">
@@ -79,8 +80,39 @@
             <img src="../assets/green_logo.png" style="height:45px; width:50px" />
         </div>
     </div>
+
+
     <!--PDF READER-->
     <div id="pdf-viewer" hidden class="app-view">
+        <!--SideToolBar-->
+        <div class="sidenav">
+            <div class="sidetoolbar">
+                <a href="#"><i class="material-icons" id="open_new">file_upload
+                    </i></a>
+            </div>
+            <div class="sidetoolbar">
+                <a href="#"><i class="material-icons" id="prev_page">chevron_left
+                    </i></a>
+                <p style="text-align: center; color: #489c8a; font-weight: 600; font-size: small;">
+                    <span id="page_num"></span>/
+                    <span id="page_count"></span>
+                </p>
+                <a href="#"><i class="material-icons" id="next_page">chevron_right</i></a>
+                <hr style="width: 70%; border: 1px solid #489c8a;">
+                <a href=" #"><i class="material-icons" id="zoom_in">zoom_in
+                    </i></a>
+                <a href="#"><i class="material-icons" id="zoom_out">zoom_out
+                    </i></a>
+            </div>
+            <div class="sidetoolbar">
+                <a href="#"><i class="material-icons" id="graph_maker">schema
+                    </i></a>
+            </div>
+            <div class="sidetoolbar">
+                <a href="#"><i class="material-icons">file_download
+                    </i></a>
+            </div>
+        </div>
         <header>
             <ul class="navigation" id="header">
                 <li class="navigation__item">
@@ -111,7 +143,9 @@
         </header>
         <div id="pdf_container">
         </div>
-        <div class="floating-container">
+
+        <!--floating button hidden for now-->
+        <!--<div class="floating-container">
             <div class="floating-button">
                 <i class="material-icons">menu
                 </i>
@@ -129,7 +163,8 @@
                     <i class="material-icons">publish</i>
                 </span>
             </div>
-        </div>
+        </div> -->
+
     </div>
     <script src="webpack/main.bundle.js"></script>
 </body>
