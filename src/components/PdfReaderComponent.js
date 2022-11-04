@@ -63,6 +63,7 @@ class PdfReaderComponent {
    */
   #renderPage = () => {
     const self = this;
+    const loader = document.querySelector(".loader");
     this.pdfDoc
       .getPage(self.paginationComponent.getCurrentPage())
       .then((page) => {
@@ -117,6 +118,7 @@ class PdfReaderComponent {
         self.components.pdfContainer.appendChild(textLayer);
 
         self.paginationComponent.setCurrentPage();
+        loader.className += " hidden"; // class "loader hidden"
       });
   };
 }
