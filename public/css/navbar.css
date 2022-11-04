@@ -5,7 +5,6 @@
     align-items: center;
     height: 60px;
     background-color: white;
-    color: var(--color);
 }
 .nav-links a {
     color: var(--iconColor);
@@ -19,6 +18,7 @@
     display: flex;
     font-size: 18px;
     overflow: hidden;
+    cursor: pointer;
 }
 .menu li:hover {
     transform: scale(1.25, 1.25);
@@ -26,6 +26,8 @@
 }
 .menu li {
     padding: 5px 14px;
+    align-content: center;
+    display:grid
 }
 a {
     text-decoration: none;
@@ -38,6 +40,15 @@ li {
     margin-left: 15px;
     padding-right: 13px;
     border-right: 3px solid black;
+}
+
+#open_new{
+    border:none;
+    color:white;
+    font-size:15px;
+    padding:10px 30px 10px 30px;
+    background: linear-gradient(to right, #2f4858,#27596b,#166a7a,#007c84,#008e89,#119f89);
+    border-radius: 15px;
 }
 
 
@@ -58,7 +69,7 @@ input[type=checkbox]{
     .menu { 
         display:none;
         position: absolute;
-        background-color:teal;
+        background-color: white;
         right: 0;
         left: 0;
         text-align: center;
