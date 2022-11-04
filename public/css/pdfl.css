@@ -177,9 +177,10 @@ input[type="number"]::-webkit-outer-spin-button {
   .textLayer br {
     color: transparent;
     position: absolute;
-    white-space: pre;
+    white-space: normal;
     cursor: text;
     transform-origin: 0% 0%;
+    height: 200px;
   }
   
   /* Only necessary in Google Chrome, see issue 14205, and most unfortunately

@@ -107,3 +107,4 @@ public/webpack
 
 .idea/
 .idea
+.DS_Store
