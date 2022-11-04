@@ -1,3 +1,3 @@
-import { App } from './src/components/AppComponent/App';
+import { App } from "./src/components/AppComponent/App";
 
 App.start();
