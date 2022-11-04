@@ -278,120 +278,125 @@ __webpack_require__.r(__webpack_exports__);
 const pdfjsLib = __webpack_require__(8);
 
 class PdfReaderComponent {
-  components = {
-    pdfContainer: document.querySelector("#pdf_container"),
-    openNew: document.querySelector("#open_new"),
-  };
 
-  /**
-   * @constructor
-   */
-  constructor() {
-    this.paginationComponent = new _PaginationComponent__WEBPACK_IMPORTED_MODULE_1__.PaginationComponent();
-    this.zoomComponent = new _ZoomComponent__WEBPACK_IMPORTED_MODULE_2__.ZoomComponent();
+    components = {
+        pdfContainer: document.querySelector('#pdf_container'),
+        openNew: document.querySelector('#open_new')
+    }
 
-    this.#registerEvents();
-  }
+    /**
+     * @constructor
+     */
+    constructor() {
+        this.paginationComponent = new _PaginationComponent__WEBPACK_IMPORTED_MODULE_1__.PaginationComponent();
+        this.zoomComponent = new _ZoomComponent__WEBPACK_IMPORTED_MODULE_2__.ZoomComponent();
 
-  /**
-   * Add event listener to view elements of the toolbar
-   */
-  #registerEvents = () => {
-    this.components.openNew.addEventListener("click", this.#onNewFile);
+        this.#registerEvents();
+    }
 
-    _services_EventHandlerService__WEBPACK_IMPORTED_MODULE_0__.EventHandlerService.subscribe(_services_EventHandlerService__WEBPACK_IMPORTED_MODULE_0__.PDFLEvents.onRenderPage, () => {
-      this.#renderPage();
-    });
-  };
+    /**
+     * Add event listener to view elements of the toolbar
+     */
+    #registerEvents = () => {
+        this.components.openNew.addEventListener('click', this.#onNewFile);
 
-  #onNewFile = () => {
-    _services_EventHandlerService__WEBPACK_IMPORTED_MODULE_0__.EventHandlerService.publish(_services_EventHandlerService__WEBPACK_IMPORTED_MODULE_0__.PDFLEvents.onShowInputView);
-  };
-
-  /**
-   * Load and render the first page of the given pdf
-   * @param pdf data, filename or url of a PDF document
-   */
-  loadPdf = (pdf) => {
-    const self = this;
-    pdfjsLib.GlobalWorkerOptions.workerSrc = "webpack/pdf.worker.bundle.js";
-    pdfjsLib
-      .getDocument(pdf)
-      .promise.then((data) => {
-        self.pdfDoc = data;
-        self.paginationComponent.setPageCount(data.numPages);
-        self.#renderPage();
-      })
-      .catch((err) => {
-        console.log(err.message); // TODO: handle error in some way
-      });
-  };
-
-  /**
-   * Private function, render the page
-   */
-  #renderPage = () => {
-    const self = this;
-    const loader = document.querySelector(".loader");
-    this.pdfDoc
-      .getPage(self.paginationComponent.getCurrentPage())
-      .then((page) => {
-        //Set the HTML properties
-        const canvas = document.createElement("canvas");
-
-        canvas.setAttribute("class", "canvas__container");
-        const textLayer = document.createElement("div");
-        textLayer.setAttribute("class", "textLayer");
-
-        const ctx = canvas.getContext("2d");
-        const viewport = page.getViewport({
-          scale: self.zoomComponent.getZoom(),
+        _services_EventHandlerService__WEBPACK_IMPORTED_MODULE_0__.EventHandlerService.subscribe(_services_EventHandlerService__WEBPACK_IMPORTED_MODULE_0__.PDFLEvents.onRenderPage, () => {
+            this.#renderPage();
         });
-        canvas.height = viewport.height;
-        canvas.width = viewport.width;
+    }
 
-        // Render the PDF page into the canvas context.
-        const renderCtx = {
-          canvasContext: ctx,
-          viewport: viewport,
-        };
+    #onNewFile = () => {
+        _services_EventHandlerService__WEBPACK_IMPORTED_MODULE_0__.EventHandlerService.publish(_services_EventHandlerService__WEBPACK_IMPORTED_MODULE_0__.PDFLEvents.onShowInputView);
+    }
 
-        var renderTask = page.render(renderCtx);
+    /**
+     * Load and render the first page of the given pdf
+     * @param pdf data, filename or url of a PDF document
+     */
+    loadPdf = (pdf) => {
+        const self = this;
+        pdfjsLib.GlobalWorkerOptions.workerSrc = "webpack/pdf.worker.bundle.js";
+        pdfjsLib.getDocument(pdf).promise.then((data) => {
+            self.pdfDoc = data;
+            self.paginationComponent.setPageCount(data.numPages);
+            self.#renderPage();
+        }).catch((err) => {
+            console.log(err.message); // TODO: handle error in some way
+        });
+    }
 
-        renderTask.promise.then(function () {
-          page.getTextContent().then(function (textContent) {
-            textLayer.style.left = canvas.offsetLeft + "px";
-            textLayer.style.top = canvas.offsetTop + "px";
-            textLayer.style.height = canvas.offsetHeight + "px";
-            textLayer.style.width = canvas.offsetWidth + "px";
+    /**
+     * Private function, render the page 
+     */
+    #renderPage = () => {
+        const self = this;
+        this.pdfDoc
+            .getPage(self.paginationComponent.getCurrentPage())
+            .then((page) => {
+                //Set the HTML properties
+                const canvas = document.createElement("canvas");
 
-            pdfjsLib.renderTextLayer({
-              textContent: textContent,
-              container: textLayer,
-              viewport: viewport,
-              textDivs: [],
+                canvas.setAttribute('class', 'canvas__container');
+                const textLayer = document.createElement("div");
+                textLayer.setAttribute('class', 'textLayer')
+
+                const ctx = canvas.getContext('2d');
+                const viewport = page.getViewport({
+                    scale: self.zoomComponent.getZoom(),
+                });
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+
+                // Render the PDF page into the canvas context.
+                const renderCtx = {
+                    canvasContext: ctx,
+                    viewport: viewport,
+                };
+
+                var renderTask = page.render(renderCtx);
+
+                renderTask.promise.then(function () {
+
+                    page.getTextContent().then(function (textContent) {
+
+                        textLayer.style.left = canvas.offsetLeft + 'px';
+                        textLayer.style.top = canvas.offsetTop + 'px';
+                        textLayer.style.height = canvas.offsetHeight + 'px';
+                        textLayer.style.width = canvas.offsetWidth + 'px';
+
+                        pdfjsLib.renderTextLayer({
+                            textContent: textContent,
+                            container: textLayer,
+                            viewport: viewport,
+                            textDivs: []
+                        });
+
+                    });
+                })
+
+
+                page.render(renderCtx);
+
+                if (ctx) {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.beginPath();
+                }
+
+                //Scroll is possible but not supported by other navigation functions, clear container before adding the new page
+                self.components.pdfContainer.innerHTML = "";
+                self.components.pdfContainer.appendChild(canvas);
+                self.components.pdfContainer.appendChild(textLayer);
+
+                self.paginationComponent.setCurrentPage();
             });
-          });
-        });
+    }
 
-        page.render(renderCtx);
+    reset = () => {
+        this.paginationComponent.setCurrentPage(1);
+        this.zoomComponent.setZoom(1);
+    }
 
-        if (ctx) {
-          ctx.clearRect(0, 0, canvas.width, canvas.height);
-          ctx.beginPath();
-        }
-
-        //Scroll is possible but not supported by other navigation functions, clear container before adding the new page
-        self.components.pdfContainer.innerHTML = "";
-        self.components.pdfContainer.appendChild(canvas);
-        self.components.pdfContainer.appendChild(textLayer);
-
-        self.paginationComponent.setCurrentPage();
-        loader.className += " hidden"; // class "loader hidden"
-      });
-  };
 }
-
 
 
 
@@ -20400,9 +20405,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 class ReaderView extends _AppView_js__WEBPACK_IMPORTED_MODULE_0__.AppView {
-  component = document.getElementById("pdf-viewer");
-}
 
+    component = document.getElementById('pdf-viewer');
+
+}
 
 
 
