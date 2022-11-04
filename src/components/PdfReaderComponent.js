@@ -117,8 +117,8 @@ class PdfReaderComponent {
         self.components.pdfContainer.appendChild(textLayer);
 
         self.paginationComponent.setCurrentPage();
-        loader.className += " hidden"; // class "loader hidden"
       });
+    loader.className += " hidden"; // class "loader hidden"
   };
 }
 
