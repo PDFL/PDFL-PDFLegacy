@@ -3,15 +3,19 @@
     "version": "0.1.0",
     "scripts": {
         "build": "webpack",
-        "start": "npm run build && node server.js"
+        "lint": "prettier-eslint \"PDFL-PDFLegacy/**/*.js\"",
+        "test": "jest --passWithNoTests",
+        "serve": "webpack serve"
     },
     "devDependencies": {
+        "jest": "^29.2.2",
         "pdfjs-dist": "^2.16.105",
+        "prettier": "^2.7.1",
+        "prettier-eslint": "^15.0.1",
+        "prettier-eslint-cli": "^7.1.0",
         "webpack": "^5.11.1",
         "webpack-cli": "^4.3.1",
+        "webpack-dev-server": "^4.11.1",
         "@mui/icons-material": "^5.10.9"
-    },
-    "dependencies": {
-        "express": "^4.18.2"
     }
 }
