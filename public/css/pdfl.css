@@ -316,8 +316,8 @@ input[type="number"]::-webkit-outer-spin-button {
 /* Transition to a bigger shadow on hover */
 .sidetoolbar:hover {
   border-radius: 15px;
-  -webkit-transform: scale(1.25, 1.25);
-  transform: scale(1.25, 1.25);
+  -webkit-transform: scale(1.15, 1.15);
+  transform: scale(1.15, 1.15);
 }
 
 /* Fade in the pseudo-element with the bigger shadow */
