@@ -44,6 +44,7 @@ class PdfReaderComponent {
    */
   loadPdf = (pdf) => {
     const self = this;
+    const loader = document.querySelector(".loader");
     pdfjsLib.GlobalWorkerOptions.workerSrc = "webpack/pdf.worker.bundle.js";
     pdfjsLib
       .getDocument(pdf)
@@ -55,6 +56,7 @@ class PdfReaderComponent {
       .catch((err) => {
         console.log(err.message); // TODO: handle error in some way
       });
+    loader.className += " hidden";
   };
 
   /**
@@ -62,24 +64,20 @@ class PdfReaderComponent {
    */
   #renderPage = () => {
     const self = this;
-    const loader = document.querySelector(".loader");
     this.pdfDoc
       .getPage(self.paginationComponent.getCurrentPage())
       .then((page) => {
         //Set the HTML properties
         const canvas = document.createElement("canvas");
-
         canvas.setAttribute("class", "canvas__container");
         const textLayer = document.createElement("div");
         textLayer.setAttribute("class", "textLayer");
-
         const ctx = canvas.getContext("2d");
         const viewport = page.getViewport({
           scale: self.zoomComponent.getZoom(),
         });
         canvas.height = viewport.height;
         canvas.width = viewport.width;
-
         // Render the PDF page into the canvas context.
         const renderCtx = {
           canvasContext: ctx,
@@ -118,7 +116,11 @@ class PdfReaderComponent {
 
         self.paginationComponent.setCurrentPage();
       });
-    loader.className += " hidden"; // class "loader hidden"
+  };
+
+  reset = () => {
+    this.paginationComponent.setCurrentPage(1);
+    this.zoomComponent.setZoom(1);
   };
 }
 
