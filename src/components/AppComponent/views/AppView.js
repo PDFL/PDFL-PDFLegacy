@@ -1,15 +1,17 @@
 class AppView {
-  components = [...document.getElementsByClassName("app-view")];
+
+  views = [...document.getElementsByClassName('app-view')];
 
   cleanView = () => {
-    this.components.forEach((component) => {
-      component.hidden = true;
+    this.views.forEach(view => {
+      view.hidden = true;
     });
-  };
+  }
 
   init() {
     this.cleanView();
     this.component.hidden = false;
   }
 }
+
 export { AppView };

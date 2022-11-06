@@ -43,7 +43,9 @@ const PDFLEvents = {
     onShowWelcomeView: 'onShowWelcomeView',
     onShowInputView: 'onShowInputView',
     onShowReaderView: 'onShowReaderView',
-    onRenderPage: 'onRenderPage'
+    onRenderPage: 'onRenderPage',
+    onResetReader: 'onResetReader',
+    onReadNewFile: 'onReadNewFile'
 }
 
 export { PDFLEvents, EventHandlerService };

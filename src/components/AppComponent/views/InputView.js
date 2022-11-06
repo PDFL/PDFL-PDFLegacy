@@ -1,11 +1,12 @@
-import {FileUpload} from '../../FileUploadComponent';
+import { FileUploadComponent } from '../../FileUploadComponent';
 import { AppView } from './AppView.js';
 
-class InputView extends AppView{
+class InputView extends AppView {
 
-    static fileUpload = new FileUpload();
+    static FileUploadComponent = new FileUploadComponent();
 
     component = document.getElementById('input-page');
 
 }
+
 export { InputView };

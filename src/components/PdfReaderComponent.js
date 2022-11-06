@@ -26,13 +26,21 @@ class PdfReaderComponent {
   /**
    * Add event listener to view elements of the toolbar
    */
-  #registerEvents = () => {
-    this.components.openNew.addEventListener("click", this.#onNewFile);
+   #registerEvents = () => {
+    this.components.openNew.addEventListener('click', this.#onNewFile);
 
     EventHandlerService.subscribe(PDFLEvents.onRenderPage, () => {
-      this.#renderPage();
+        this.#renderPage();
     });
-  };
+
+    EventHandlerService.subscribe(PDFLEvents.onResetReader, () => {
+        this.reset();
+    });
+    
+    EventHandlerService.subscribe(PDFLEvents.onReadNewFile, (pdf) => {
+        this.loadPdf(pdf);
+    });
+  }
 
   #onNewFile = () => {
     EventHandlerService.publish(PDFLEvents.onShowInputView);
