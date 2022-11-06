@@ -10,8 +10,9 @@ html{
 }
 
 body{
-    width: 100%;
+    position: relative;
     height: 100vh;
+    width: 100%;
     margin: 0;
 }
 #pdf-viewer{
@@ -20,21 +21,21 @@ body{
   font-family: "Roboto", sans-serif;
   box-sizing: border-box;
   height: 100vh;
-  background-color: #a2a2a2;
+  background-color: #f5f5f5;
 }
 
 #pdf_container{
-  background-color: #a2a2a2;
+  background-color: #f5f5f5;
 }
 
 header{
-    height: 70px;
+    height: 60px;
 }
 
 .zoom:hover,
 .print-button:hover {
     background-color: #ddd;
-    color: #489c8a;
+    color: var(--color);;
     opacity: 0.8;
     cursor: pointer;
 }
@@ -65,7 +66,7 @@ header{
 }
 
 .next {
-    background-color: #489c8a;
+    background-color: var(--color);;
     color: white;
 }
 
@@ -74,16 +75,30 @@ header{
 }
 
 .canvas__container {
+    box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px;
     display: block;
     margin-left: auto;
     margin-right: auto;
     margin-top: 5rem;
 }
 
+.num-pages{
+  text-align: center; 
+  color: var(--iconColor); 
+  font-weight: 600; 
+  font-size: small;
+}
+
+hr{
+  width: 70%;
+  border: 1px solid;
+  color: var(--iconColor)
+}
+
 .zoom {
-    color: #489c8a;
+    color: var(--color);;
     outline: #fff;
-    border: 1px solid #489c8a;
+    border: 1px solid var(--color);;
     background-color: #ffffff;
     border-radius: 50%;
     padding: 12px 12px;
@@ -110,9 +125,9 @@ input[type="number"]::-webkit-outer-spin-button {
 
 .print-button {
     border: none;
-    color: #489c8a;
+    color: var(--color);;
     outline: #fff;
-    border: 1px solid #489c8a;
+    border: 1px solid var(--color);;
     border-radius: 50%;
     padding: 12px 12px;
     text-align: center;
@@ -138,14 +153,14 @@ input[type="number"]::-webkit-outer-spin-button {
     color: #fff;
     transition: all 0.2s ease-in-out;
     box-sizing: border-box;
-    background: #489c8a;
-    border-color: #489c8a;
+    background: var(--color);;
+    border-color: var(--color);;
     cursor: pointer;
 }
 
 .btn:hover{
     background-color: #ddd;
-    color: #489c8a;
+    color: var(--color);;
 }
 
 /* Hide Print button */
@@ -154,6 +169,224 @@ input[type="number"]::-webkit-outer-spin-button {
         display: none;
     }
 }
+
+/*CSS Floating Menu Button */
+/*
+@-webkit-keyframes come-in {
+  0% {
+    -webkit-transform: translatey(100px);
+            transform: translatey(100px);
+    opacity: 0;
+  }
+  30% {
+    -webkit-transform: translateX(-50px) scale(0.4);
+            transform: translateX(-50px) scale(0.4);
+  }
+  70% {
+    -webkit-transform: translateX(0px) scale(1.2);
+            transform: translateX(0px) scale(1.2);
+  }
+  100% {
+    -webkit-transform: translatey(0px) scale(1);
+            transform: translatey(0px) scale(1);
+    opacity: 1;
+  }
+}
+@keyframes come-in {
+  0% {
+    -webkit-transform: translatey(100px);
+            transform: translatey(100px);
+    opacity: 0;
+  }
+  30% {
+    -webkit-transform: translateX(-50px) scale(0.4);
+            transform: translateX(-50px) scale(0.4);
+  }
+  70% {
+    -webkit-transform: translateX(0px) scale(1.2);
+            transform: translateX(0px) scale(1.2);
+  }
+  100% {
+    -webkit-transform: translatey(0px) scale(1);
+            transform: translatey(0px) scale(1);
+    opacity: 1;
+  }
+}
+.floating-container {
+  position: fixed;
+  width: 100px;
+  height: 100px;
+  bottom: 0;
+  right: 0;
+  margin: 35px 25px;
+}
+.floating-container:hover {
+  height: 300px;
+}
+.floating-container:hover .floating-button {
+  -webkit-transform: translatey(5px);
+          transform: translatey(5px);
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+}
+.floating-container:hover .element-container .float-element:nth-child(1) {
+  -webkit-animation: come-in 0.4s forwards 0.2s;
+          animation: come-in 0.4s forwards 0.2s;
+}
+.floating-container:hover .element-container .float-element:nth-child(2) {
+  -webkit-animation: come-in 0.4s forwards 0.4s;
+          animation: come-in 0.4s forwards 0.4s;
+}
+.floating-container:hover .element-container .float-element:nth-child(3) {
+  -webkit-animation: come-in 0.4s forwards 0.6s;
+          animation: come-in 0.4s forwards 0.6s;
+}
+.floating-container .floating-button {
+  position: absolute;
+  width: 65px;
+  height: 65px;
+  background: var(--color);;
+  bottom: 0;
+  border-radius: 50%;
+  left: 0;
+  right: 0;
+  margin: auto;
+  color: white;
+  line-height: 70px;
+  text-align: center;
+  font-size: 23px;
+  z-index: 100;
+  cursor: pointer;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+}
+.floating-container .float-element {
+  position: relative;
+  display: block;
+  border-radius: 50%;
+  width: 55px;
+  height: 55px;
+  margin: 15px auto;
+  color: white;
+  font-weight: 500;
+  text-align: center;
+  line-height: 55px;
+  z-index: 0;
+  opacity: 0;
+  -webkit-transform: translateY(100px);
+          transform: translateY(100px);
+}
+.floating-container .float-element .material-icons {
+  vertical-align: middle;
+  font-size: 22px;
+}
+.floating-container .float-element:nth-child(1) {
+  background: #ffcd00;
+  color: var(--color);;
+}
+.floating-container .float-element:nth-child(2) {
+  background: var(--color);;
+}
+.floating-container .float-element:nth-child(3) {
+  background: var(--color);;
+}*/
+
+/* CSS for SideToolBar */
+.sidenav {
+  width: 80px;
+  justify-items: center;
+  display: grid;
+  position: fixed;
+  z-index: 1;
+  top: 100px;
+  left: 20px;
+  overflow-x: hidden;
+  padding: 8px 0px;
+}
+
+.sidenav a {
+  text-align: center;
+  padding: 8px 0px 8px 0px;
+  text-decoration: none;
+  font-size: 25px;
+  color: var(--iconColor);
+  display: block;
+}
+
+.sidenav a:hover {
+  color: #ffcd00;
+}
+
+.sidetoolbar {
+  width: 60px;
+  background-color: #ffffff;
+  border: solid #ffffff;
+  border-radius: 15px;
+  margin-bottom: 20px;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+/* Transition to a bigger shadow on hover */
+.sidetoolbar:hover {
+  border-radius: 15px;
+  -webkit-transform: scale(1.15, 1.15);
+  transform: scale(1.15, 1.15);
+}
+
+/* Fade in the pseudo-element with the bigger shadow */
+.sidetoolbar:hover::after {
+  opacity: 1;
+  border-radius: 15px;
+}
+
+/* CSS for Loader */
+.loader{
+  position: fixed;
+  z-index: 99;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #489c8a;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logoloader{
+  width: 50%;
+  animation: myAnim 800ms ease 0s 2 normal forwards, fadeOut 1s;
+  animation-fill-mode: forwards;
+}
+
+.loader > img {
+  width: 100px;
+}
+
+.loader.hidden{
+  animation: fadeOut 1s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes fadeOut {
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+@keyframes myAnim {
+	0% {
+		transform: rotate(0);
+	}
+
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
 
 /* CSS for the Text Render */
 
@@ -249,5 +482,3 @@ input[type="number"]::-webkit-outer-spin-button {
   .textLayer .endOfContent.active {
     top: 0;
   }
-  
-  
