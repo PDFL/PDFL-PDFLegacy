@@ -13,15 +13,15 @@ class PdfReaderComponent {
     openNew: document.querySelector("#open_new"),
   };
 
-  /**
-   * @constructor
-   */
-  constructor() {
-    this.paginationComponent = new PaginationComponent();
-    this.zoomComponent = new ZoomComponent();
-
-    this.#registerEvents();
-  }
+    /**
+     * @constructor
+     */
+    constructor() {
+      this.paginationComponent = new PaginationComponent();
+      this.zoomComponent = new ZoomComponent();
+  
+      this.#registerEvents();
+    }
 
   /**
    * Add event listener to view elements of the toolbar
@@ -40,7 +40,7 @@ class PdfReaderComponent {
     EventHandlerService.subscribe(PDFLEvents.onReadNewFile, (pdf) => {
         this.loadPdf(pdf);
     });
-  }
+}
 
   #onNewFile = () => {
     EventHandlerService.publish(PDFLEvents.onShowInputView);
@@ -70,7 +70,7 @@ class PdfReaderComponent {
   /**
    * Private function, render the page
    */
-  #renderPage = () => {
+   #renderPage = () => {
     const self = this;
     this.pdfDoc
       .getPage(self.paginationComponent.getCurrentPage())
@@ -125,11 +125,11 @@ class PdfReaderComponent {
         self.paginationComponent.setCurrentPage();
       });
   };
-
+  
   reset = () => {
-    this.paginationComponent.setCurrentPage(1);
-    this.zoomComponent.setZoom(1);
-  };
+      this.paginationComponent.setCurrentPage(1);
+      this.zoomComponent.setZoom(1);
+  }
 }
 
 export { PdfReaderComponent };
