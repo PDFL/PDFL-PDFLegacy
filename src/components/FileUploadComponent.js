@@ -12,7 +12,6 @@ class FileUploadComponent {
      * @constructor
      */
     constructor() {
-        this.reader = new PdfReaderComponent();
         this.#registerEvents();
     }
 
@@ -75,17 +74,15 @@ class FileUploadComponent {
      * @param file
      */
     #readFile = (file) => {
-        const pdfReader = this.reader;
-        pdfReader.reset();
+        EventHandlerService.publish(PDFLEvents.onResetReader);
         
         const fileReader = new FileReader();
         fileReader.onload = function () {
-            pdfReader.loadPdf(new Uint8Array(this.result));
+            EventHandlerService.publish(PDFLEvents.onReadNewFile, new Uint8Array(this.result));
             EventHandlerService.publish(PDFLEvents.onShowReaderView);
         };
         fileReader.readAsArrayBuffer(file);
     }
-
 
 }
 
