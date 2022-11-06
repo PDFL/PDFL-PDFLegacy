@@ -1,5 +1,4 @@
 import { EventHandlerService, PDFLEvents } from "../services/EventHandlerService";
-import { PdfReaderComponent } from "./PdfReaderComponent";
 
 class FileUploadComponent {
 
