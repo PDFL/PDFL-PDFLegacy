@@ -16,7 +16,7 @@
 
 </head>
 
-<body style="position: relative;height: 100vh;margin: 0;">
+<body>
     <!--WELCOME PAGE-->
     <div id="welcome-page" class="app-view">
         <div class="uploader-container" style="color:black">
@@ -43,7 +43,7 @@
                         </button>
                     </div>
                 </div>
-                <img src="../assets/pic.png" style="max-width:500px; height:500px" />
+                <img src="../assets/pic.png" class="main-pic"/>
             </div>
             <footer>
                 <div style="font-size:10px">
@@ -60,12 +60,12 @@
             </footer>
         </div>
         <div class="logo">
-            <img src="../assets/logo.png" style="height:25px; width:30px" />
+            <img src="../assets/logo.png" class="black-logo" style="height:25px; width:30px" />
         </div>
     </div>
 
     <!--INPUT PAGE-->
-    <div id="input-page" style="background: var(--color);height:100vh" hidden class="app-view">
+    <div id="input-page" hidden class="app-view">
         <div class="uploader-container-input">
             <form id="file-upload-form" class="uploader">
                 <input type="file" name="fileUpload" accept="application/pdf" id="fileOpen" />
@@ -78,7 +78,7 @@
             </form>
         </div>
         <div class="logo">
-            <img src="../assets/green_logo.png" style="height:45px; width:50px" />
+            <img src="../assets/green_logo.png" class="green-logo" />
         </div>
     </div>
 
@@ -96,12 +96,12 @@
                 <input type="number" value="1" id="current_page" hidden />
                 <a><i class="material-icons" id="prev_page">chevron_left
                     </i></a>
-                <p style="text-align: center; color: var(--iconColor); font-weight: 600; font-size: small;">
+                <p class="num-pages">
                     <span id="page_num"></span>/
                     <span id="page_count"></span>
                 </p>
                 <a><i class="material-icons" id="next_page">chevron_right</i></a>
-                <hr style="width: 70%; border: 1px solid; color: var(--iconColor)">
+                <hr>
                 <a href=" #"><i class="material-icons" id="zoom_in">zoom_in
                     </i></a>
                 <a><i class="material-icons" id="zoom_out">zoom_out
@@ -120,7 +120,7 @@
         <nav class="navbar">
             <!-- LOGO -->
             <div class="padding">
-                <img src="../assets/logo.png" style="height:25px; width:30px" />
+                <img src="../assets/logo.png" class="black-logo" />
             </div>
 
 
