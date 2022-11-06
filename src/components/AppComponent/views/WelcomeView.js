@@ -1,27 +1,24 @@
 import { AppView } from './AppView.js';
 import { EventHandlerService, PDFLEvents } from "../../../services/EventHandlerService.js";
 
-
 class WelcomeView extends AppView {
 
-    component = document.getElementById('welcome-page');
-    button = document.getElementById('button-file');
-
-    Components = {
-        buttonFile: document.getElementById("button-file"),
+    components = {
+        view: document.getElementById('welcome-page'),
+        buttonFile: document.getElementById("button-file")
     }
 
     init() {
         this.cleanView();
-        this.component.hidden = false;
+        this.components.view.hidden = false;
         this.#registerEvents();
     }
 
     /**
      * Add event listeners for welcome view
      */
-     #registerEvents = () => {
-        this.Components.buttonFile.addEventListener('click', this.#changeView);
+    #registerEvents = () => {
+        this.components.buttonFile.addEventListener('click', this.#changeView);
     }
 
     /**
@@ -30,8 +27,6 @@ class WelcomeView extends AppView {
     #changeView = () => {
         EventHandlerService.publish(PDFLEvents.onShowInputView);
     }
-
-
 
 }
 

@@ -1,7 +1,7 @@
 import { EventHandlerService, PDFLEvents } from "../services/EventHandlerService";
 import { PdfReaderComponent } from "./PdfReaderComponent";
 
-class FileUpload {
+class FileUploadComponent {
 
     components = {
         dropArea: document.getElementById("file-drag"),
@@ -10,7 +10,6 @@ class FileUpload {
 
     /**
      * @constructor
-     * @param onFileReady  callback with file data once loaded
      */
     constructor() {
         this.reader = new PdfReaderComponent();
@@ -90,4 +89,4 @@ class FileUpload {
 
 }
 
-export { FileUpload };
+export { FileUploadComponent };
