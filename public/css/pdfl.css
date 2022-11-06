@@ -10,8 +10,9 @@ html{
 }
 
 body{
-    width: 100%;
+    position: relative;
     height: 100vh;
+    width: 100%;
     margin: 0;
 }
 #pdf-viewer{
@@ -79,6 +80,19 @@ header{
     margin-left: auto;
     margin-right: auto;
     margin-top: 5rem;
+}
+
+.num-pages{
+  text-align: center; 
+  color: var(--iconColor); 
+  font-weight: 600; 
+  font-size: small;
+}
+
+hr{
+  width: 70%;
+  border: 1px solid;
+  color: var(--iconColor)
 }
 
 .zoom {

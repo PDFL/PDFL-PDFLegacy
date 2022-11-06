@@ -18,6 +18,26 @@
   top:15px;
 }
 
+.black-logo{
+  height:25px; 
+  width:30px
+}
+
+.green-logo{
+  height:45px; 
+  width:50px
+}
+
+.main-pic{
+  max-width:500px; 
+  height:500px
+}
+
+#input-page{
+  background: var(--color);
+  height:100vh
+}
+
 .font-header{
   font-family: opensans-regular-webfont, Arial, sans-serif;
   font-weight: 900;
