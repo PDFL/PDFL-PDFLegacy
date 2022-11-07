@@ -3,6 +3,7 @@ import { PaginationComponent } from './PaginationComponent';
 import { ZoomComponent } from './ZoomComponent';
 
 const pdfjsLib = require("pdfjs-dist");
+var canvas, textLayer, ctx, viewport, renderCtx;
 
 class PdfReaderComponent {
 
@@ -38,6 +39,7 @@ class PdfReaderComponent {
 
         EventHandlerService.subscribe(PDFLEvents.onRenderPage, () => {
             this.#renderPage();
+            this.#renderText();
         });
     }
 
@@ -56,6 +58,7 @@ class PdfReaderComponent {
             self.pdfDoc = data;
             self.paginationComponent.setPageCount(data.numPages);
             self.#renderPage();
+            self.#renderText();
         }).catch((err) => {
             console.log(err.message); // TODO: handle error in some way
         });
@@ -70,26 +73,41 @@ class PdfReaderComponent {
             .getPage(self.paginationComponent.getCurrentPage())
             .then((page) => {
                 //Set the HTML properties
-                const canvas = document.createElement("canvas");
+                canvas = document.createElement("canvas");
                 canvas.setAttribute('class', 'canvas__container');
-                const textLayer = document.createElement("div");
-                textLayer.setAttribute('class', 'textLayer')
+                textLayer = document.createElement("div");
+                textLayer.setAttribute('class', 'textLayer');
 
-                const ctx = canvas.getContext('2d');
-                const viewport = page.getViewport({
+                ctx = canvas.getContext('2d');
+                viewport = page.getViewport({
                     scale: self.zoomComponent.getZoom(),
                 });
                 canvas.height = viewport.height;
                 canvas.width = viewport.width;
 
                 // Render the PDF page into the canvas context.
-                const renderCtx = {
+                renderCtx = {
                     canvasContext: ctx,
                     viewport: viewport,
                 };
 
-                var pageRendering = page.render(renderCtx);
-                pageRendering.promise.then(function () {
+                page.render(renderCtx);
+
+                //Scroll is possible but not supported by other navigation functions, clear container before adding the new page
+                self.components.pdfContainer.innerHTML = "";
+                self.components.pdfContainer.appendChild(canvas);
+                //self.components.pdfContainer.appendChild(textLayer);
+
+                self.paginationComponent.setCurrentPage();
+            });
+    }
+
+    #renderText = () => {
+        const self = this;
+        this.pdfDoc
+            .getPage(self.paginationComponent.getCurrentPage())
+            .then((page) => {
+                //Set the HTML properties
 
                     page.getTextContent().then(function (textContent) {
 
@@ -107,15 +125,12 @@ class PdfReaderComponent {
 
                     });
 
-                    page.render(renderCtx);
-                })
 
                 //Scroll is possible but not supported by other navigation functions, clear container before adding the new page
-                self.components.pdfContainer.innerHTML = "";
-                self.components.pdfContainer.appendChild(canvas);
+                //self.components.pdfContainer.innerHTML = "";
                 self.components.pdfContainer.appendChild(textLayer);
 
-                self.paginationComponent.setCurrentPage();
+                //self.paginationComponent.setCurrentPage();
             });
     }
 
