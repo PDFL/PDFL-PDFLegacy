@@ -5,6 +5,7 @@
     align-items: center;
     height: 60px;
     background-color: white;
+    z-index: 2;
 }
 .nav-links a {
     color: var(--iconColor);
@@ -19,6 +20,7 @@
     font-size: 18px;
     overflow: hidden;
     cursor: pointer;
+    z-index: 2;
 }
 .menu li:hover {
     transform: scale(1.25, 1.25);
