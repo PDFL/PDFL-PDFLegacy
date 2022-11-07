@@ -3,7 +3,9 @@ import { PaginationComponent } from './PaginationComponent';
 import { ZoomComponent } from './ZoomComponent';
 
 const pdfjsLib = require("pdfjs-dist");
-var canvas, textLayer, ctx, viewport, renderCtx;
+
+//Global variables to be used in different functions
+let canvas, textLayer, ctx, viewport, renderCtx;
 
 class PdfReaderComponent {
 
@@ -65,27 +67,26 @@ class PdfReaderComponent {
     }
 
     /**
-     * Private function, render the page 
+     * Private function to render the page 
      */
     #renderPage = () => {
         const self = this;
         this.pdfDoc
-            .getPage(self.paginationComponent.getCurrentPage())
+            .getPage(this.paginationComponent.getCurrentPage())
             .then((page) => {
+
                 //Set the HTML properties
                 canvas = document.createElement("canvas");
                 canvas.setAttribute('class', 'canvas__container');
-                textLayer = document.createElement("div");
-                textLayer.setAttribute('class', 'textLayer');
 
                 ctx = canvas.getContext('2d');
                 viewport = page.getViewport({
-                    scale: self.zoomComponent.getZoom(),
+                    scale: this.zoomComponent.getZoom(),
                 });
                 canvas.height = viewport.height;
                 canvas.width = viewport.width;
 
-                // Render the PDF page into the canvas context.
+                // Render the PDF page into the canvas context
                 renderCtx = {
                     canvasContext: ctx,
                     viewport: viewport,
@@ -94,44 +95,46 @@ class PdfReaderComponent {
                 page.render(renderCtx);
 
                 //Scroll is possible but not supported by other navigation functions, clear container before adding the new page
-                self.components.pdfContainer.innerHTML = "";
-                self.components.pdfContainer.appendChild(canvas);
-                //self.components.pdfContainer.appendChild(textLayer);
-
-                self.paginationComponent.setCurrentPage();
+                this.components.pdfContainer.innerHTML = "";
+                this.components.pdfContainer.appendChild(canvas);
+                this.paginationComponent.setCurrentPage();
             });
     }
 
+    /**
+     * Private function to render the text 
+     */
     #renderText = () => {
         const self = this;
         this.pdfDoc
-            .getPage(self.paginationComponent.getCurrentPage())
+            .getPage(this.paginationComponent.getCurrentPage())
             .then((page) => {
+
                 //Set the HTML properties
+                textLayer = document.createElement("div");
+                textLayer.setAttribute('class', 'textLayer');
 
-                    page.getTextContent().then(function (textContent) {
+                page.getTextContent().then(function (textContent) {
 
-                        textLayer.style.left = canvas.offsetLeft + 'px';
-                        textLayer.style.top = canvas.offsetTop + 'px';
-                        textLayer.style.height = canvas.offsetHeight + 'px';
-                        textLayer.style.width = canvas.offsetWidth + 'px';
+                    textLayer.style.left = canvas.offsetLeft + 'px';
+                    textLayer.style.top = canvas.offsetTop + 'px';
+                    textLayer.style.height = canvas.offsetHeight + 'px';
+                    textLayer.style.width = canvas.offsetWidth + 'px';
 
-                        pdfjsLib.renderTextLayer({
-                            textContent: textContent,
-                            container: textLayer,
-                            viewport: viewport,
-                            textDivs: []
-                        });
-
+                    //Render the text inside the textLayer container
+                    pdfjsLib.renderTextLayer({
+                        textContent: textContent,
+                        container: textLayer,
+                        viewport: viewport,
+                        textDivs: []
                     });
 
+                });
 
-                //Scroll is possible but not supported by other navigation functions, clear container before adding the new page
-                //self.components.pdfContainer.innerHTML = "";
+                //Display the container
                 self.components.pdfContainer.appendChild(textLayer);
-
-                //self.paginationComponent.setCurrentPage();
             });
+
     }
 
 }
