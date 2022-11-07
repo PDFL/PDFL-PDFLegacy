@@ -1,4 +1,7 @@
-import { EventHandlerService, PDFLEvents } from "../services/EventHandlerService";
+import {
+  EventHandlerService,
+  PDFLEvents,
+} from "../services/EventHandlerService";
 
 /**
  * Component that paginates the PDF document that is being read. It calculates next/previous page number 
@@ -15,14 +18,13 @@ import { EventHandlerService, PDFLEvents } from "../services/EventHandlerService
  * @property {int} pageCount maximum page number value
  */
 class PaginationComponent {
-
-    components = {
-        pageNum: document.querySelector('#page_num'),
-        pageCount: document.querySelector('#page_count'),
-        currentPage: document.querySelector('#current_page'),
-        previousPage: document.querySelector('#prev_page'),
-        nextPage: document.querySelector('#next_page'),
-    }
+  components = {
+    pageNum: document.querySelector("#page_num"),
+    pageCount: document.querySelector("#page_count"),
+    currentPage: document.querySelector("#current_page"),
+    previousPage: document.querySelector("#prev_page"),
+    nextPage: document.querySelector("#next_page"),
+  };
 
     /**
      * Creates and initializes new pagination component. Sets maximum page number to 0 and current

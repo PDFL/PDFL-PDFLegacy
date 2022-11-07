@@ -105,11 +105,11 @@
                     </i></a>
             </div>
             <div class="sidetoolbar">
-                <a><i class="material-icons" id="graph_maker" style="padding-top: 6px;">schema
+                <a><i class="material-icons" id="graph_maker" onclick="openNav()">schema
                     </i></a>
             </div>
             <div class="sidetoolbar">
-                <a><i class="material-icons" style="padding-top: 6px;">fullscreen</i>
+                <a><i class="material-icons">fullscreen</i>
             </div>
         </div>
 
@@ -140,8 +140,12 @@
             <img src="assets/logo_white.png" alt="loading..." class="logoloader" />
         </div>
 
-
-        <div id="pdf_container">
+        <div id="mySidenav" class="sidepage">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        </div>
+        <div id="main">
+            <div id="pdf_container">
+            </div>
         </div>
 
         <!--floating button hidden for now-->

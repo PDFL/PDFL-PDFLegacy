@@ -387,6 +387,43 @@ input[type="number"]::-webkit-outer-spin-button {
 	}
 }
 
+/* CSS for SidePage */
+/* The side navigation menu */
+.sidepage {
+  height: 100%; /* 100% Full-height */
+  width: 0; /* 0 width - change this with JavaScript */
+  position: fixed; /* Stay in place */
+  z-index: 0; /* Stay on top */
+  margin-top: 0; /* Stay at the top */
+  right: 0;
+  overflow-x: hidden; /* Disable horizontal scroll */
+  padding-top: 60px; /* Place content 60px from the top */
+  transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+  background-image: linear-gradient(to bottom, transparent 50%, #8ccfc1 50%),
+                    linear-gradient(to right, #8ccfc1 50%, transparent 50%);
+  background-size: 10px 10px, 10px 10px;
+}
+
+.closebtn {
+  position: absolute;
+  top: 0;
+  left: 15px;
+  font-size: 50px;
+  z-index: 2;
+  color: black;
+  cursor: pointer;
+}
+
+.closebtn:hover{
+  color: red;
+}
+
+/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+#main {
+  transition: margin-right .5s;
+  padding: 20px;
+}
+
 
 /* CSS for the Text Render */
 
