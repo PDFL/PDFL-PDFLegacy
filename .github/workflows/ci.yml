@@ -1,6 +1,6 @@
 name: CI
 
-on: 
+on:
   push:
 
 jobs:
@@ -14,12 +14,12 @@ jobs:
       - name: "🔧 setup node"
         uses: actions/setup-node@v3.5.1
         with:
-            node-version: "16"
-            
+          node-version: "18"
+
       - name: "📦 install dependencies"
         run: npm install
 
-      - name: "🧠 doing some brain things"
+      - name: "🧠 run unit tests"
         run: npm test
 
       - name: "😶‍🌫️ linter prettier"
