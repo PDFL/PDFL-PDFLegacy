@@ -21,7 +21,7 @@ const REFERENCES_API =
  * Gets citations and references for a pdf document.
  *
  * @param {Pdfjs Document} pdfDoc
- * @returns {LinkedPapers} linked papers of 'pdfDoc'
+ * @returns {Promise<LinkedPapers>} linked papers of 'pdfDoc'
  */
 async function getLinkedPapers(pdfDoc) {
   let metadata = await pdfDoc.getMetadata();
@@ -46,9 +46,14 @@ async function getLinkedPapers(pdfDoc) {
 
   let paperID = currentPaperInfo.paperId;
 
+  let [citations, references] = await Promise.all([
+    getCitations(paperID),
+    getReferences(paperID),
+  ]);
+
   return {
-    citations: await getCitations(paperID),
-    references: await getReferences(paperID),
+    citations: citations,
+    references: references,
   };
 }
 
@@ -56,7 +61,7 @@ async function getLinkedPapers(pdfDoc) {
  * Gets paperId and title from sem scholar API.
  *
  * @param {string} title
- * @returns {PaperInfo}
+ * @returns {Promise<PaperInfo>}
  */
 async function getPaperInfo(title) {
   let titleQuery = title.replace(" ", "+");
@@ -70,7 +75,7 @@ async function getPaperInfo(title) {
  * Gets papers that cite this paper from sem scholar.
  *
  * @param {string} paperID
- * @returns {PaperInfo[]}
+ * @returns {Promise<PaperInfo[]>}
  */
 async function getCitations(paperID) {
   let data = (
@@ -83,7 +88,7 @@ async function getCitations(paperID) {
  * Gets papers that are cited by this paper from sem scholar.
  *
  * @param {string} paperID
- * @returns {PaperInfo[]}
+ * @returns {Promise<PaperInfo[]>}
  */
 async function getReferences(paperID) {
   let data = (
