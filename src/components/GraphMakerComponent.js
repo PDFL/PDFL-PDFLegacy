@@ -6,8 +6,8 @@ import {
 class GraphMakerComponent {
   components = {
     graphMakerBtn: document.querySelector("#graph_maker"),
-    closeBtn: document.querySelector("#closeBtn"),
-    fullScreen: document.querySelector("#fullscreen"),
+    closeBtn: document.querySelector("#close_btn"),
+    fullScreen: document.querySelector("#full_screen"),
     body: document.querySelector("#body"),
   };
 
@@ -25,12 +25,12 @@ class GraphMakerComponent {
    * Callback for zoom in event
    */
   #graphMakerOn = () => {
-    document.getElementById("mySidenav").style.width = "1000px";
+    document.getElementById("side_nav").style.width = "1000px";
     document.getElementById("main").style.marginRight = "1000px";
   };
 
   #graphMakerOff = () => {
-    document.getElementById("mySidenav").style.width = "0";
+    document.getElementById("side_nav").style.width = "0";
     document.getElementById("main").style.marginRight = "0";
   };
 
