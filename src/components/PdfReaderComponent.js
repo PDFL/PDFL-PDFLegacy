@@ -10,8 +10,6 @@ class PdfReaderComponent {
         pdfContainer: document.querySelector('#pdf_container'),
         openNew: document.querySelector('#open_new'),
         canvas: null,
-        textLayer: null,
-        ctx: null,
         viewport: null,
     }
 
@@ -80,7 +78,7 @@ class PdfReaderComponent {
                 component.canvas = document.createElement("canvas");
                 component.canvas.setAttribute('class', 'canvas__container');
 
-                component.ctx = component.canvas.getContext('2d');
+                const ctx = component.canvas.getContext('2d');
                 component.viewport = page.getViewport({
                     scale: this.zoomComponent.getZoom(),
                 });
@@ -89,7 +87,7 @@ class PdfReaderComponent {
 
                 // Render the PDF page into the canvas context
                 const renderCtx = {
-                    canvasContext: component.ctx,
+                    canvasContext: ctx,
                     viewport: component.viewport,
                 };
 
@@ -112,20 +110,20 @@ class PdfReaderComponent {
             .then((page) => {
 
                 //Set the HTML properties
-                component.textLayer = document.createElement("div");
-                component.textLayer.setAttribute('class', 'textLayer');
+                const textLayer = document.createElement("div");
+                textLayer.setAttribute('class', 'textLayer');
 
                 page.getTextContent().then(function (textContent) {
 
-                    component.textLayer.style.left = component.canvas.offsetLeft + 'px';
-                    component.textLayer.style.top = component.canvas.offsetTop + 'px';
-                    component.textLayer.style.height = component.canvas.offsetHeight + 'px';
-                    component.textLayer.style.width = component.canvas.offsetWidth + 'px';
+                    textLayer.style.left = component.canvas.offsetLeft + 'px';
+                    textLayer.style.top = component.canvas.offsetTop + 'px';
+                    textLayer.style.height = component.canvas.offsetHeight + 'px';
+                    textLayer.style.width = component.canvas.offsetWidth + 'px';
 
                     //Render the text inside the textLayer container
                     pdfjsLib.renderTextLayer({
                         textContent: textContent,
-                        container: component.textLayer,
+                        container: textLayer,
                         viewport: component.viewport,
                         textDivs: []
                     });
@@ -133,7 +131,7 @@ class PdfReaderComponent {
                 });
 
                 //Display the container
-                component.pdfContainer.appendChild(component.textLayer);
+                component.pdfContainer.appendChild(textLayer);
             });
 
     }
