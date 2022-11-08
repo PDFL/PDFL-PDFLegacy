@@ -40,7 +40,7 @@
                         </button>
                     </div>
                 </div>
-                <img src="./assets/pic.png" class="main-pic"/>
+                <img src="../assets/pic.png" class="main-pic" />
             </div>
             <footer>
                 <div style="font-size:10px">
@@ -85,11 +85,10 @@
         <!--SideToolBar-->
         <div class="sidenav">
             <div class="sidetoolbar">
-                <a>
-                    <i class="fa-solid fa-magnifying-glass" style="font-size:17px"></i>
-                </a>
+                <a><i class="material-icons" id="search">search
+                    </i></a>
             </div>
-            <div class="sidetoolbar">
+            <div class=" sidetoolbar">
                 <input type="number" value="1" id="current_page" hidden />
                 <a><i class="material-icons" id="prev_page">chevron_left
                     </i></a>
@@ -105,11 +104,11 @@
                     </i></a>
             </div>
             <div class="sidetoolbar">
-                <a><i class="material-icons" id="graph_maker" onclick="openNav()">schema
+                <a><i class="material-icons" id="graph_maker">schema
                     </i></a>
             </div>
             <div class="sidetoolbar">
-                <a><i class="material-icons">fullscreen</i>
+                <a><i class="material-icons" id="fullscreen">fullscreen</i>
             </div>
         </div>
 
@@ -141,7 +140,7 @@
         </div>
 
         <div id="mySidenav" class="sidepage">
-            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+            <a id="closeBtn" class="closebtn">&times;</a>
         </div>
         <div id="main">
             <div id="pdf_container">
