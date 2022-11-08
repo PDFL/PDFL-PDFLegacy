@@ -5,7 +5,8 @@
         "build": "webpack --no-devtool",
         "lint": "prettier-eslint \"PDFL-PDFLegacy/**/*.js\"",
         "test": "jest --passWithNoTests",
-        "serve": "webpack serve"
+        "serve": "webpack serve",
+        "watch": "webpack --watch"
     },
     "devDependencies": {
         "@babel/core": "^7.20.2",

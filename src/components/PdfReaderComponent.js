@@ -2,6 +2,7 @@ import {
   EventHandlerService,
   PDFLEvents,
 } from "../services/EventHandlerService";
+import { getLinkedPapers } from "../services/KnowledgeGraphService";
 import { PaginationComponent } from "./PaginationComponent";
 import { ZoomComponent } from "./ZoomComponent";
 
@@ -76,6 +77,9 @@ class PdfReaderComponent {
     pdfjsLib
       .getDocument(pdf)
       .promise.then((data) => {
+        // TODO: move this to a button action
+        console.log(getLinkedPapers(data));
+
         self.pdfDoc = data;
         self.paginationComponent.setPageCount(data.numPages);
         self.#renderPage();
