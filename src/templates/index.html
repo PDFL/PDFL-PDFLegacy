@@ -16,25 +16,26 @@
 <body>
     <!--WELCOME PAGE-->
     <div id="welcome-page" class="app-view">
-        <div class="uploader-container" style="color:black">
+        <div class="uploader-container">
             <div class="layout">
                 <div class="text">
                     <h1 class="font-header">PDF <br>
-                        <div style="margin-top:-20px">Legacy </div>
+                        <h1 class="font-header" id="secondText">Legacy </h1>
                     </h1>
-                    <h1 style="font-weight:900;font-size:15px">YOUR PDF,</h1>
+                    <h1 class="thirdText">YOUR PDF,</h1>
                     <span class="media-text">
-                        <h1 style="font-weight:900;font-size:15px"> BUT </h1>
-                        <h1 style="font-size:60px" class="font-header better"> BETTER </h1>
+                        <h1 class="thirdText"> BUT </h1>
+                        <h1 class="font-header better"> BETTER </h1>
                     </span>
-                    <div style="display:inline-grid">
+                    <div>
                         <button class="btn-welcome pointer" id="button-file">
                             <div>Read your pdf
                                 <span aria-hidden="true" data-icon="+" />
                             </div>
                         </button>
-                        <button class="btn-welcome pointer" style="margin-top:10px">
-                            <div style="float:left">About Us
+                        <br>
+                        <button class="btn-welcome pointer">
+                            <div>About Us
                                 <span aria-hidden="true" data-icon="+" />
                             </div>
                         </button>
@@ -43,7 +44,7 @@
                 <img src="../assets/pic.png" class="main-pic" />
             </div>
             <footer>
-                <div style="font-size:10px">
+                <div>
                     <div>Site made with by our team <span>&#9829; </span> example :
                         <a href="https://twitter.com/veksenn">@teammember1</a> &amp;
                         <a href="https://twitter.com/ZTHall">@teammember2</a>...
@@ -57,7 +58,7 @@
             </footer>
         </div>
         <div class="logo">
-            <img src="../assets/logo.png" class="black-logo" style="height:25px; width:30px" />
+            <img src="../assets/logo.png" class="black-logo" />
         </div>
     </div>
 
@@ -122,15 +123,12 @@
 
             <!-- NAVIGATION MENU -->
             <ul class="nav-links">
-                <!-- USING CHECKBOX HACK -->
-                <input type="checkbox" id="checkbox_toggle" />
-                <label for="checkbox_toggle" class="hamburger">&#9776;</label>
                 <!-- NAVIGATION MENUS -->
                 <div class="menu">
                     <li><a><button id="open_new">+ OPEN</button></a></li>
-                    <li><a><i style="font-size:25px" class="fa-solid fa-floppy-disk"></i></a></li>
-                    <li><a><i style="font-size:25px" class="fa-solid fa-download"></i></a></li>
-                    <li><a><i style="font-size:25px" class="fa-solid fa-print"></i></a></li>
+                    <li><a><i class="fa-solid fa-floppy-disk"></i></a></li>
+                    <li><a><i class="fa-solid fa-download"></i></a></li>
+                    <li><a><i class="fa-solid fa-print"></i></a></li>
                 </div>
             </ul>
         </nav>
