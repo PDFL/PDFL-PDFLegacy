@@ -4,7 +4,6 @@
     box-sizing: border-box;
 }
 
-
 html{
     height: 100vh;
 }
@@ -15,6 +14,16 @@ body{
     width: 100%;
     margin: 0;
 }
+
+#secondText{
+  margin-top: -55px;
+}
+
+.thirdText{
+  font-weight: 900;
+  font-size:15px;
+}
+
 #pdf-viewer{
   margin: 0;
   padding: 0;
