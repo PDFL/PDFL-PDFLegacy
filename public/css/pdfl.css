@@ -180,7 +180,10 @@ input[type="number"]::-webkit-outer-spin-button {
     white-space: pre;
     cursor: text;
     transform-origin: 0% 0%;
-    height: 100px;
+
+    /* this value realize the collision between the span text and
+    avoid jumping selection text between the lines */
+    height: 80px;
   }
   
   /* Only necessary in Google Chrome, see issue 14205, and most unfortunately

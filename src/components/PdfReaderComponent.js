@@ -4,14 +4,15 @@ import { ZoomComponent } from './ZoomComponent';
 
 const pdfjsLib = require("pdfjs-dist");
 
-//Global variables to be used in different functions
-let canvas, textLayer, ctx, viewport, renderCtx;
-
 class PdfReaderComponent {
 
     components = {
         pdfContainer: document.querySelector('#pdf_container'),
-        openNew: document.querySelector('#open_new')
+        openNew: document.querySelector('#open_new'),
+        canvas: null,
+        textLayer: null,
+        ctx: null,
+        viewport: null,
     }
 
     /**
@@ -70,33 +71,33 @@ class PdfReaderComponent {
      * Private function to render the page 
      */
     #renderPage = () => {
-        const self = this;
+        const component = this.components;
         this.pdfDoc
             .getPage(this.paginationComponent.getCurrentPage())
             .then((page) => {
 
                 //Set the HTML properties
-                canvas = document.createElement("canvas");
-                canvas.setAttribute('class', 'canvas__container');
+                component.canvas = document.createElement("canvas");
+                component.canvas.setAttribute('class', 'canvas__container');
 
-                ctx = canvas.getContext('2d');
-                viewport = page.getViewport({
+                component.ctx = component.canvas.getContext('2d');
+                component.viewport = page.getViewport({
                     scale: this.zoomComponent.getZoom(),
                 });
-                canvas.height = viewport.height;
-                canvas.width = viewport.width;
+                component.canvas.height = component.viewport.height;
+                component.canvas.width = component.viewport.width;
 
                 // Render the PDF page into the canvas context
-                renderCtx = {
-                    canvasContext: ctx,
-                    viewport: viewport,
+                const renderCtx = {
+                    canvasContext: component.ctx,
+                    viewport: component.viewport,
                 };
 
                 page.render(renderCtx);
 
                 //Scroll is possible but not supported by other navigation functions, clear container before adding the new page
-                this.components.pdfContainer.innerHTML = "";
-                this.components.pdfContainer.appendChild(canvas);
+                component.pdfContainer.innerHTML = "";
+                component.pdfContainer.appendChild(component.canvas);
                 this.paginationComponent.setCurrentPage();
             });
     }
@@ -105,34 +106,34 @@ class PdfReaderComponent {
      * Private function to render the text 
      */
     #renderText = () => {
-        const self = this;
+        const component = this.components;
         this.pdfDoc
             .getPage(this.paginationComponent.getCurrentPage())
             .then((page) => {
 
                 //Set the HTML properties
-                textLayer = document.createElement("div");
-                textLayer.setAttribute('class', 'textLayer');
+                component.textLayer = document.createElement("div");
+                component.textLayer.setAttribute('class', 'textLayer');
 
                 page.getTextContent().then(function (textContent) {
 
-                    textLayer.style.left = canvas.offsetLeft + 'px';
-                    textLayer.style.top = canvas.offsetTop + 'px';
-                    textLayer.style.height = canvas.offsetHeight + 'px';
-                    textLayer.style.width = canvas.offsetWidth + 'px';
+                    component.textLayer.style.left = component.canvas.offsetLeft + 'px';
+                    component.textLayer.style.top = component.canvas.offsetTop + 'px';
+                    component.textLayer.style.height = component.canvas.offsetHeight + 'px';
+                    component.textLayer.style.width = component.canvas.offsetWidth + 'px';
 
                     //Render the text inside the textLayer container
                     pdfjsLib.renderTextLayer({
                         textContent: textContent,
-                        container: textLayer,
-                        viewport: viewport,
+                        container: component.textLayer,
+                        viewport: component.viewport,
                         textDivs: []
                     });
 
                 });
 
                 //Display the container
-                self.components.pdfContainer.appendChild(textLayer);
+                component.pdfContainer.appendChild(component.textLayer);
             });
 
     }
