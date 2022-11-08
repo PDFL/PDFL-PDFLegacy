@@ -4,6 +4,7 @@ import {
 } from "../services/EventHandlerService";
 import { PaginationComponent } from "./PaginationComponent";
 import { ZoomComponent } from "./ZoomComponent";
+import { GraphMakerComponent } from "./GraphMakerComponent";
 
 const pdfjsLib = require("pdfjs-dist");
 
@@ -19,7 +20,7 @@ class PdfReaderComponent {
   constructor() {
     this.paginationComponent = new PaginationComponent();
     this.zoomComponent = new ZoomComponent();
-
+    this.GraphMakerComponent = new GraphMakerComponent();
     this.#registerEvents();
   }
 
@@ -28,7 +29,6 @@ class PdfReaderComponent {
    */
   #registerEvents = () => {
     this.components.openNew.addEventListener("click", this.#onNewFile);
-
     EventHandlerService.subscribe(PDFLEvents.onRenderPage, () => {
       this.#renderPage();
     });

@@ -1,9 +1,8 @@
-import { AppView } from './AppView.js';
-
+import { AppView } from "./AppView.js";
+import { GraphMakerComponent } from "../../GraphMakerComponent";
 class ReaderView extends AppView {
-
-    component = document.getElementById('pdf-viewer');
-
+  static graphmaker = new GraphMakerComponent();
+  component = document.getElementById("pdf-viewer");
 }
 
-export { ReaderView }
+export { ReaderView };
