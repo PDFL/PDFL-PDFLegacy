@@ -1,6 +1,5 @@
 import { AppView } from './AppView.js';
 import { PdfReaderComponent } from '../../PdfReaderComponent.js';
-import { GraphMakerComponent } from "../../GraphMakerComponent";
 
 /**
  * PDF reader page view.
@@ -10,9 +9,7 @@ import { GraphMakerComponent } from "../../GraphMakerComponent";
  * @property {HTMLElement} component element representing the reader view
  */
 class ReaderView extends AppView {
-    static reader = new PdfReaderComponent();
-
-  static graphmaker = new GraphMakerComponent();
+  static reader = new PdfReaderComponent();
   component = document.getElementById("pdf-viewer");
 }
 

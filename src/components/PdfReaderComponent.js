@@ -34,7 +34,7 @@ class PdfReaderComponent {
     constructor() {
       this.paginationComponent = new PaginationComponent();
       this.zoomComponent = new ZoomComponent();
-      this.GraphMakerComponent = new GraphMakerComponent();
+      this.graphMakerComponent = new GraphMakerComponent();
       this.#registerEvents();
     }
 
