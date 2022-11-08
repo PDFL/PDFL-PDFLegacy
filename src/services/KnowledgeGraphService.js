@@ -97,4 +97,4 @@ async function getReferences(paperID) {
   return data.map(({ citedPaper }) => citedPaper);
 }
 
-export { getLinkedPapers, getCitations, getReferences };
+module.exports = { getLinkedPapers, getCitations, getReferences, getPaperInfo };

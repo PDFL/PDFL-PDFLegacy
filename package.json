@@ -4,7 +4,7 @@
     "scripts": {
         "build": "webpack --no-devtool",
         "lint": "prettier-eslint \"PDFL-PDFLegacy/**/*.js\"",
-        "test": "jest --passWithNoTests",
+        "test": "jest --coverage --collectCoverageFrom='./src/**' --coverageReporters='text-summary'",
         "serve": "webpack serve",
         "watch": "webpack --watch"
     },
