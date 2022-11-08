@@ -51,7 +51,9 @@ class PdfReaderComponent {
       .getDocument(pdf)
       .promise.then((data) => {
         // TODO: move this to a button action
-        console.log(getLinkedPapers(data));
+        getLinkedPapers(data).then((linkedPapers) => {
+          console.log(linkedPapers);
+        });
 
         self.pdfDoc = data;
         self.paginationComponent.setPageCount(data.numPages);
