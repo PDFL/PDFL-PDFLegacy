@@ -4,11 +4,12 @@
     "scripts": {
         "build": "webpack",
         "lint": "prettier-eslint \"PDFL-PDFLegacy/**/*.js\"",
-        "test": "jest --coverage --collectCoverageFrom='./src/**' --coverageReporters='text-summary'",
+        "test": "echo 0",
         "serve": "webpack serve",
         "watch": "webpack --watch"
     },
     "devDependencies": {
+        "@mui/icons-material": "^5.10.9",
         "jest": "^29.2.2",
         "pdfjs-dist": "^2.16.105",
         "prettier": "^2.7.1",
@@ -16,7 +17,9 @@
         "prettier-eslint-cli": "^7.1.0",
         "webpack": "^5.11.1",
         "webpack-cli": "^4.3.1",
-        "webpack-dev-server": "^4.11.1",
-        "@mui/icons-material": "^5.10.9"
+        "webpack-dev-server": "^4.11.1"
+    },
+    "dependencies": {
+        "string-similarity": "^4.0.4"
     }
 }
