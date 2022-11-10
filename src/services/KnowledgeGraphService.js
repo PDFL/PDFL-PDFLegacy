@@ -1,14 +1,18 @@
+import { compareSimilarity } from "./Utils";
+
 const KEYWORD_API =
   "http://api.semanticscholar.org/graph/v1/paper/search?query=";
 const CITATIONS_API =
-  "https://api.semanticscholar.org/graph/v1/paper/{paper_id}/citations";
+  "https://api.semanticscholar.org/graph/v1/paper/{paper_id}/citations?fields=title,citationCount,influentialCitationCount";
 const REFERENCES_API =
-  "https://api.semanticscholar.org/graph/v1/paper/{paper_id}/references";
+  "https://api.semanticscholar.org/graph/v1/paper/{paper_id}/references?fields=title,citationCount,influentialCitationCount";
 
 /**
  * @typedef {Object} PaperInfo
  * @property {string} paperId
  * @property {string} title
+ * @property {int} citationCount
+ * @property {int} influentialCitationCount
  */
 
 /**
@@ -18,15 +22,14 @@ const REFERENCES_API =
  */
 
 /**
- * Gets citations and references for a pdf document.
+ * Gets citations and references for a pdf document and the
+ * reference and citation count for those papers.
  *
  * @param {Pdfjs Document} pdfDoc
  * @returns {Promise<LinkedPapers>} linked papers of 'pdfDoc'
  */
 async function getLinkedPapers(pdfDoc) {
   let metadata = await pdfDoc.getMetadata();
-
-  console.log(metadata);
 
   // TODO: check if some useful ID is in the metadata
 
@@ -38,7 +41,7 @@ async function getLinkedPapers(pdfDoc) {
   }
 
   let currentPaperInfo = await getPaperInfo(title);
-  if (currentPaperInfo.title !== title) {
+  if (!compareSimilarity(currentPaperInfo.title, title)) {
     console.warn("Titles do not match!");
     // TODO: parse references from pdf text
     return [];
@@ -97,4 +100,4 @@ async function getReferences(paperID) {
   return data.map(({ citedPaper }) => citedPaper);
 }
 
-module.exports = { getLinkedPapers, getCitations, getReferences, getPaperInfo };
+export { getLinkedPapers, getCitations, getReferences, getPaperInfo };
