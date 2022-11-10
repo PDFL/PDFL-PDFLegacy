@@ -8,6 +8,7 @@
         "serve": "webpack serve"
     },
     "devDependencies": {
+        "@mui/icons-material": "^5.10.9",
         "jest": "^29.2.2",
         "pdfjs-dist": "^2.16.105",
         "prettier": "^2.7.1",
@@ -16,6 +17,7 @@
         "webpack": "^5.11.1",
         "webpack-cli": "^4.3.1",
         "webpack-dev-server": "^4.11.1",
-        "@mui/icons-material": "^5.10.9"
+        "@emotion/react": "^11.10.5",
+        "@emotion/styled": "^11.10.5"
     }
 }
