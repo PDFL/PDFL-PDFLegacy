@@ -1,7 +1,6 @@
 import { EventHandlerService, PDFLEvents } from "../services/EventHandlerService";
-import { PdfReaderComponent } from "./PdfReaderComponent";
 
-class FileUpload {
+class FileUploadComponent {
 
     components = {
         dropArea: document.getElementById("file-drag"),
@@ -10,10 +9,8 @@ class FileUpload {
 
     /**
      * @constructor
-     * @param onFileReady  callback with file data once loaded
      */
     constructor() {
-        this.reader = new PdfReaderComponent();
         this.#registerEvents();
     }
 
@@ -76,18 +73,16 @@ class FileUpload {
      * @param file
      */
     #readFile = (file) => {
-        const pdfReader = this.reader;
-        pdfReader.reset();
+        EventHandlerService.publish(PDFLEvents.onResetReader);
         
         const fileReader = new FileReader();
         fileReader.onload = function () {
-            pdfReader.loadPdf(new Uint8Array(this.result));
+            EventHandlerService.publish(PDFLEvents.onReadNewFile, new Uint8Array(this.result));
             EventHandlerService.publish(PDFLEvents.onShowReaderView);
         };
         fileReader.readAsArrayBuffer(file);
     }
 
-
 }
 
-export { FileUpload };
+export { FileUploadComponent };
