@@ -10,7 +10,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "App": () => (/* binding */ App)
 /* harmony export */ });
 /* harmony import */ var _views_InputView_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
-/* harmony import */ var _views_ReaderView_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(16);
+/* harmony import */ var _views_ReaderView_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(6);
 /* harmony import */ var _views_WelcomeView_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(17);
 /* harmony import */ var _services_EventHandlerService__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(4);
 
@@ -81,17 +81,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "InputView": () => (/* binding */ InputView)
 /* harmony export */ });
 /* harmony import */ var _FileUploadComponent__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
-/* harmony import */ var _AppView_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(15);
+/* harmony import */ var _AppView_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(5);
 
 
 
-class InputView extends _AppView_js__WEBPACK_IMPORTED_MODULE_1__.AppView{
+class InputView extends _AppView_js__WEBPACK_IMPORTED_MODULE_1__.AppView {
 
-    static fileUpload = new _FileUploadComponent__WEBPACK_IMPORTED_MODULE_0__.FileUpload();
+    static FileUploadComponent = new _FileUploadComponent__WEBPACK_IMPORTED_MODULE_0__.FileUploadComponent();
 
     component = document.getElementById('input-page');
 
 }
+
 
 
 /***/ }),
@@ -101,14 +102,12 @@ class InputView extends _AppView_js__WEBPACK_IMPORTED_MODULE_1__.AppView{
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "FileUpload": () => (/* binding */ FileUpload)
+/* harmony export */   "FileUploadComponent": () => (/* binding */ FileUploadComponent)
 /* harmony export */ });
 /* harmony import */ var _services_EventHandlerService__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4);
-/* harmony import */ var _PdfReaderComponent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(5);
 
 
-
-class FileUpload {
+class FileUploadComponent {
 
     components = {
         dropArea: document.getElementById("file-drag"),
@@ -117,10 +116,8 @@ class FileUpload {
 
     /**
      * @constructor
-     * @param onFileReady  callback with file data once loaded
      */
     constructor() {
-        this.reader = new _PdfReaderComponent__WEBPACK_IMPORTED_MODULE_1__.PdfReaderComponent();
         this.#registerEvents();
     }
 
@@ -183,17 +180,15 @@ class FileUpload {
      * @param file
      */
     #readFile = (file) => {
-        const pdfReader = this.reader;
-        pdfReader.reset();
+        _services_EventHandlerService__WEBPACK_IMPORTED_MODULE_0__.EventHandlerService.publish(_services_EventHandlerService__WEBPACK_IMPORTED_MODULE_0__.PDFLEvents.onResetReader);
         
         const fileReader = new FileReader();
         fileReader.onload = function () {
-            pdfReader.loadPdf(new Uint8Array(this.result));
+            _services_EventHandlerService__WEBPACK_IMPORTED_MODULE_0__.EventHandlerService.publish(_services_EventHandlerService__WEBPACK_IMPORTED_MODULE_0__.PDFLEvents.onReadNewFile, new Uint8Array(this.result));
             _services_EventHandlerService__WEBPACK_IMPORTED_MODULE_0__.EventHandlerService.publish(_services_EventHandlerService__WEBPACK_IMPORTED_MODULE_0__.PDFLEvents.onShowReaderView);
         };
         fileReader.readAsArrayBuffer(file);
     }
-
 
 }
 
@@ -254,7 +249,9 @@ const PDFLEvents = {
     onShowWelcomeView: 'onShowWelcomeView',
     onShowInputView: 'onShowInputView',
     onShowReaderView: 'onShowReaderView',
-    onRenderPage: 'onRenderPage'
+    onRenderPage: 'onRenderPage',
+    onResetReader: 'onResetReader',
+    onReadNewFile: 'onReadNewFile'
 }
 
 
@@ -266,16 +263,67 @@ const PDFLEvents = {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "AppView": () => (/* binding */ AppView)
+/* harmony export */ });
+class AppView {
+
+  views = [...document.getElementsByClassName('app-view')];
+
+  cleanView = () => {
+    this.views.forEach(view => {
+      view.hidden = true;
+    });
+  }
+
+  init() {
+    this.cleanView();
+    this.component.hidden = false;
+  }
+}
+
+
+
+/***/ }),
+/* 6 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "ReaderView": () => (/* binding */ ReaderView)
+/* harmony export */ });
+/* harmony import */ var _AppView_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5);
+/* harmony import */ var _PdfReaderComponent_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(7);
+
+
+
+class ReaderView extends _AppView_js__WEBPACK_IMPORTED_MODULE_0__.AppView {
+
+    static reader = new _PdfReaderComponent_js__WEBPACK_IMPORTED_MODULE_1__.PdfReaderComponent();
+
+    component = document.getElementById('pdf-viewer');
+
+}
+
+
+
+/***/ }),
+/* 7 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "PdfReaderComponent": () => (/* binding */ PdfReaderComponent)
 /* harmony export */ });
 /* harmony import */ var _services_EventHandlerService__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4);
-/* harmony import */ var _PaginationComponent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(6);
-/* harmony import */ var _ZoomComponent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(7);
+/* harmony import */ var _PaginationComponent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(8);
+/* harmony import */ var _ZoomComponent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(9);
 
 
 
 
-const pdfjsLib = __webpack_require__(8);
+const pdfjsLib = __webpack_require__(10);
 
 class PdfReaderComponent {
   components = {
@@ -283,26 +331,34 @@ class PdfReaderComponent {
     openNew: document.querySelector("#open_new"),
   };
 
-  /**
-   * @constructor
-   */
-  constructor() {
-    this.paginationComponent = new _PaginationComponent__WEBPACK_IMPORTED_MODULE_1__.PaginationComponent();
-    this.zoomComponent = new _ZoomComponent__WEBPACK_IMPORTED_MODULE_2__.ZoomComponent();
-
-    this.#registerEvents();
-  }
+    /**
+     * @constructor
+     */
+    constructor() {
+      this.paginationComponent = new _PaginationComponent__WEBPACK_IMPORTED_MODULE_1__.PaginationComponent();
+      this.zoomComponent = new _ZoomComponent__WEBPACK_IMPORTED_MODULE_2__.ZoomComponent();
+  
+      this.#registerEvents();
+    }
 
   /**
    * Add event listener to view elements of the toolbar
    */
-  #registerEvents = () => {
-    this.components.openNew.addEventListener("click", this.#onNewFile);
+   #registerEvents = () => {
+    this.components.openNew.addEventListener('click', this.#onNewFile);
 
     _services_EventHandlerService__WEBPACK_IMPORTED_MODULE_0__.EventHandlerService.subscribe(_services_EventHandlerService__WEBPACK_IMPORTED_MODULE_0__.PDFLEvents.onRenderPage, () => {
-      this.#renderPage();
+        this.#renderPage();
     });
-  };
+
+    _services_EventHandlerService__WEBPACK_IMPORTED_MODULE_0__.EventHandlerService.subscribe(_services_EventHandlerService__WEBPACK_IMPORTED_MODULE_0__.PDFLEvents.onResetReader, () => {
+        this.reset();
+    });
+    
+    _services_EventHandlerService__WEBPACK_IMPORTED_MODULE_0__.EventHandlerService.subscribe(_services_EventHandlerService__WEBPACK_IMPORTED_MODULE_0__.PDFLEvents.onReadNewFile, (pdf) => {
+        this.loadPdf(pdf);
+    });
+}
 
   #onNewFile = () => {
     _services_EventHandlerService__WEBPACK_IMPORTED_MODULE_0__.EventHandlerService.publish(_services_EventHandlerService__WEBPACK_IMPORTED_MODULE_0__.PDFLEvents.onShowInputView);
@@ -332,7 +388,7 @@ class PdfReaderComponent {
   /**
    * Private function, render the page
    */
-  #renderPage = () => {
+   #renderPage = () => {
     const self = this;
     this.pdfDoc
       .getPage(self.paginationComponent.getCurrentPage())
@@ -387,18 +443,18 @@ class PdfReaderComponent {
         self.paginationComponent.setCurrentPage();
       });
   };
-
+  
   reset = () => {
-    this.paginationComponent.setCurrentPage(1);
-    this.zoomComponent.setZoom(1);
-  };
+      this.paginationComponent.setCurrentPage(1);
+      this.zoomComponent.setZoom(1);
+  }
 }
 
 
 
 
 /***/ }),
-/* 6 */
+/* 8 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -497,7 +553,7 @@ class PaginationComponent {
 
 
 /***/ }),
-/* 7 */
+/* 9 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -554,7 +610,7 @@ class ZoomComponent {
 
 
 /***/ }),
-/* 8 */
+/* 10 */
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 /**
@@ -11295,7 +11351,7 @@ var _base_factory = __w_pdfjs_require__(9);
 
 const fetchData = function (url) {
   return new Promise((resolve, reject) => {
-    const fs = __webpack_require__(9);
+    const fs = __webpack_require__(11);
 
     fs.readFile(url, (error, data) => {
       if (error || !data) {
@@ -11310,7 +11366,7 @@ const fetchData = function (url) {
 
 class NodeCanvasFactory extends _base_factory.BaseCanvasFactory {
   _createCanvas(width, height) {
-    const Canvas = __webpack_require__(10);
+    const Canvas = __webpack_require__(12);
 
     return Canvas.createCanvas(width, height);
   }
@@ -17036,7 +17092,7 @@ exports.SVGGraphics = SVGGraphics;
           input = Buffer.from(literals);
         }
 
-        const output = (__webpack_require__(11).deflateSync)(input, {
+        const output = (__webpack_require__(13).deflateSync)(input, {
           level: 9
         });
 
@@ -18471,13 +18527,13 @@ var _network_utils = __w_pdfjs_require__(33);
 
 ;
 
-const fs = __webpack_require__(9);
+const fs = __webpack_require__(11);
 
-const http = __webpack_require__(12);
+const http = __webpack_require__(14);
 
-const https = __webpack_require__(13);
+const https = __webpack_require__(15);
 
-const url = __webpack_require__(14);
+const url = __webpack_require__(16);
 
 const fileUriRegex = /^file:\/\/\/[a-zA-Z]:\//;
 
@@ -20327,18 +20383,6 @@ const pdfjsBuild = '172ccdbe5';
 //# sourceMappingURL=pdf.js.map
 
 /***/ }),
-/* 9 */
-/***/ (() => {
-
-/* (ignored) */
-
-/***/ }),
-/* 10 */
-/***/ (() => {
-
-/* (ignored) */
-
-/***/ }),
 /* 11 */
 /***/ (() => {
 
@@ -20364,49 +20408,15 @@ const pdfjsBuild = '172ccdbe5';
 
 /***/ }),
 /* 15 */
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/***/ (() => {
 
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "AppView": () => (/* binding */ AppView)
-/* harmony export */ });
-class AppView {
-  components = [...document.getElementsByClassName("app-view")];
-
-  cleanView = () => {
-    this.components.forEach((component) => {
-      component.hidden = true;
-    });
-  };
-
-  init() {
-    this.cleanView();
-    this.component.hidden = false;
-  }
-}
-
-
+/* (ignored) */
 
 /***/ }),
 /* 16 */
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/***/ (() => {
 
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "ReaderView": () => (/* binding */ ReaderView)
-/* harmony export */ });
-/* harmony import */ var _AppView_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(15);
-
-
-class ReaderView extends _AppView_js__WEBPACK_IMPORTED_MODULE_0__.AppView {
-
-    component = document.getElementById('pdf-viewer');
-
-}
-
-
+/* (ignored) */
 
 /***/ }),
 /* 17 */
@@ -20417,32 +20427,29 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "WelcomeView": () => (/* binding */ WelcomeView)
 /* harmony export */ });
-/* harmony import */ var _AppView_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(15);
+/* harmony import */ var _AppView_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5);
 /* harmony import */ var _services_EventHandlerService_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(4);
-
 
 
 
 class WelcomeView extends _AppView_js__WEBPACK_IMPORTED_MODULE_0__.AppView {
 
-    component = document.getElementById('welcome-page');
-    button = document.getElementById('button-file');
-
-    Components = {
-        buttonFile: document.getElementById("button-file"),
+    components = {
+        view: document.getElementById('welcome-page'),
+        buttonFile: document.getElementById("button-file")
     }
 
     init() {
         this.cleanView();
-        this.component.hidden = false;
+        this.components.view.hidden = false;
         this.#registerEvents();
     }
 
     /**
      * Add event listeners for welcome view
      */
-     #registerEvents = () => {
-        this.Components.buttonFile.addEventListener('click', this.#changeView);
+    #registerEvents = () => {
+        this.components.buttonFile.addEventListener('click', this.#changeView);
     }
 
     /**
@@ -20451,8 +20458,6 @@ class WelcomeView extends _AppView_js__WEBPACK_IMPORTED_MODULE_0__.AppView {
     #changeView = () => {
         _services_EventHandlerService_js__WEBPACK_IMPORTED_MODULE_1__.EventHandlerService.publish(_services_EventHandlerService_js__WEBPACK_IMPORTED_MODULE_1__.PDFLEvents.onShowInputView);
     }
-
-
 
 }
 
