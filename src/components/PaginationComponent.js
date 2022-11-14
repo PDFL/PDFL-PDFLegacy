@@ -20,7 +20,7 @@ import {
 class PaginationComponent {
   components = {
     pageNum: document.querySelector("#page-num"),
-    pageCount: document.querySelector("#page-count"),
+    pageCount: document.querySelectorAll('#page-count'),
     currentPage: document.querySelector("#current-page"),
     previousPage: document.querySelector("#prev-page"),
     nextPage: document.querySelector("#next-page"),

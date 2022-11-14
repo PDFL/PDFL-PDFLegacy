@@ -75,6 +75,14 @@
     width: 1em;
 }
 
+.inline{
+  display: inline-grid;
+}
+
+.footer-text{
+  font-size: 10px;
+}
+
 #file-upload-form {
   display: block;
   clear: both;
