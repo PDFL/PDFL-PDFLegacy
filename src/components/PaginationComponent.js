@@ -1,8 +1,9 @@
 import { EventHandlerService, PDFLEvents } from "../services/EventHandlerService";
 
 /**
- * Component that displays previous/next page buttons, as well as current and maximum page 
- * number of PDF file. Calculates next/previous page number and stores it.
+ * Component that paginates the PDF document that is being read. It calculates next/previous page number 
+ * and stores current and maximum page number of PDF document. This component displays labels for current
+ * and maximum page number, together with previous/next page buttons.
  * 
  * @property {Object} components object that holds DOM elements that are within component
  * @property {HTMLElement} components.pageNum element that displays current page number
