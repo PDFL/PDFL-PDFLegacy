@@ -3,9 +3,8 @@ import {
   PDFLEvents,
 } from "../services/EventHandlerService";
 import { getLinkedPapers } from "../services/KnowledgeGraphService";
-import { PaginationComponent } from "./PaginationComponent";
-import { ZoomComponent } from "./ZoomComponent";
 import { SidePageComponent } from "./SidePageComponent";
+import { ToolbarComponent } from "./ToolbarComponent";
 
 const pdfjsLib = require("pdfjs-dist");
 
@@ -32,8 +31,7 @@ class PdfReaderComponent {
      * @constructor
      */
     constructor() {
-      this.paginationComponent = new PaginationComponent();
-      this.zoomComponent = new ZoomComponent();
+      this.toolbarComponent = new ToolbarComponent();
       this.sidePageComponent = new SidePageComponent();
     
       this.#registerEvents();
@@ -80,7 +78,7 @@ class PdfReaderComponent {
       .getDocument(pdf)
       .promise.then((data) => {
         self.pdfDoc = data;
-        self.paginationComponent.setPageCount(data.numPages);
+        self.toolbarComponent.setPageCount(data.numPages);
         self.#renderPage();
       })
       .catch((err) => {
@@ -96,7 +94,7 @@ class PdfReaderComponent {
    #renderPage = () => {
     const self = this;
     this.pdfDoc
-      .getPage(self.paginationComponent.getCurrentPage())
+      .getPage(self.toolbarComponent.getCurrentPage())
       .then((page) => {
         //Set the HTML properties
         const canvas = document.createElement("canvas");
@@ -105,7 +103,7 @@ class PdfReaderComponent {
         textLayer.setAttribute("class", "textLayer");
         const ctx = canvas.getContext("2d");
         const viewport = page.getViewport({
-          scale: self.zoomComponent.getZoom(),
+          scale: self.toolbarComponent.getZoom(),
         });
         canvas.height = viewport.height;
         canvas.width = viewport.width;
@@ -145,7 +143,7 @@ class PdfReaderComponent {
         self.components.pdfContainer.appendChild(canvas);
         self.components.pdfContainer.appendChild(textLayer);
 
-        self.paginationComponent.setCurrentPage();
+        self.toolbarComponent.setCurrentPage();
       });
   };
   
@@ -154,9 +152,9 @@ class PdfReaderComponent {
    * of zoom component to 1.
    */
   reset = () => {
-      this.paginationComponent.setCurrentPage(1);
-      this.zoomComponent.setZoom(1);
-  }
+    this.sidePageComponent.hideSidePage();
+    this.toolbarComponent.reset();
+  };
 }
 
 export { PdfReaderComponent };

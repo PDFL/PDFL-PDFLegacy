@@ -92,38 +92,7 @@ let linksMock = [
 
 class GraphMakerComponent {
   components = {
-    fullScreen: document.querySelector("#full-screen"),//TODO: move
-    body: document.querySelector("body"),//TODO: move
     knowledgeGraph: document.querySelector("#knowledge-graph"),
-  };
-
-  /**
-   * @constructor
-   */
-  constructor() {
-    this.#registerEvents();
-  }
-
-  /**
-   * Add event listeners to upload view
-   */
-  #registerEvents = () => {
-    this.components.fullScreen.addEventListener("click", this.#showFullScreen);
-  };
-
-  /**
-   * Callback for showing pdf reader view in full screen when button clicked
-   */
-  #showFullScreen = () => {
-    if (this.components.body.requestFullscreen) {
-      this.components.body.requestFullscreen();
-    } else if (this.components.body.webkitRequestFullscreen) {
-      /* Safari */
-      this.components.body.webkitRequestFullscreen();
-    } else if (this.components.body.msRequestFullscreen) {
-      /* IE11 */
-      this.components.body.msRequestFullscreen();
-    }
   };
 
   /**
