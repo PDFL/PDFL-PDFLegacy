@@ -4,6 +4,8 @@ class GraphMakerComponent {
     closeBtn: document.querySelector("#close-btn"),
     fullScreen: document.querySelector("#full-screen"),
     body: document.querySelector("body"),
+    sideNav: document.querySelector("#side-page"),
+    pdfContainer: document.querySelector("#pdf-container")
   };
 
   /**
@@ -26,16 +28,16 @@ class GraphMakerComponent {
    * Callback for div visible in view event
    */
   #graphMakerOn = () => {
-    document.getElementById("side-nav").style.width = "1000px";
-    document.getElementById("main").style.marginRight = "1000px";
+    this.components.sideNav.className = "half-width";
+    this.components.pdfContainer.className = "half-width";
   };
 
   /**
    * Callback for div not visible in view event
    */
   #graphMakerOff = () => {
-    document.getElementById("side-nav").style.width = "0";
-    document.getElementById("main").style.marginRight = "0";
+    this.components.sideNav.className = "no-width";
+    this.components.pdfContainer.className = "full-width";
   };
 
   /**

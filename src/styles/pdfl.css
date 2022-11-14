@@ -35,6 +35,7 @@ body{
 
 #pdf-container{
   background-color: #f5f5f5;
+  transition: 0.5s;
 }
 
 header{
@@ -408,23 +409,13 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 /* CSS for SidePage */
-/* The side navigation menu */
-.sidepage {
-  height: 100%; /* 100% Full-height */
-  width: 0; /* 0 width - change this with JavaScript */
-  position: fixed; /* Stay in place */
-  z-index: 0; /* Stay on top */
-  margin-top: 0; /* Stay at the top */
-  right: 0;
-  overflow-x: hidden; /* Disable horizontal scroll */
-  padding-top: 60px; /* Place content 60px from the top */
-  transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
-  /*
-  background-image: linear-gradient(to bottom, transparent 50%, #8ccfc1 50%),
-                    linear-gradient(to right, #8ccfc1 50%, transparent 50%); 
-  background-size: 10px 10px, 10px 10px;
-  */ /*square background*/
+#side-page {
+  transition: 0.5s;
   background-color: lightgrey;
+  position: relative;
+  right: 0;
+  overflow-x: hidden;
+  z-index: 1;
 }
 
 .closebtn {
@@ -444,9 +435,23 @@ input[type="number"]::-webkit-outer-spin-button {
 /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
 #main {
   transition: margin-right .5s;
-  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  position: inherit;
 }
 
+.no-width{
+  width: 0;
+}
+
+.half-width{
+  width: 50%;
+}
+
+.full-width{
+  width: 100%;
+}
 
 /* CSS for the Text Render */
 
@@ -541,4 +546,15 @@ input[type="number"]::-webkit-outer-spin-button {
   
   .textLayer .endOfContent.active {
     top: 0;
+  }
+
+  /*Mobile (320px — 480px) and tablet (481px — 768px)*/
+  /*TODO: include small screens (769px — 1024px)?*/
+  @media (max-width: 768px) {
+    #pdf-container.half-width {
+      width: 0;
+    }
+    #side-page.half-width{
+      width: 100%;
+    }
   }
