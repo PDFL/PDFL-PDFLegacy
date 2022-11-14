@@ -1,7 +1,7 @@
 import { EventHandlerService, PDFLEvents } from "../services/EventHandlerService";
 
 /**
- * Component that displays zoom previous/next page buttons, as well as current and maximum page 
+ * Component that displays previous/next page buttons, as well as current and maximum page 
  * number of PDF file. Calculates next/previous page number and stores it.
  * 
  * @property {Object} components object that holds DOM elements that are within component
