@@ -39,7 +39,7 @@ class PdfReaderComponent {
   
     /**
      * Adds event listeners to component and it's elements.
-     * @private Private class method
+     * @private
      */
    #registerEvents = () => {
     this.components.openNew.addEventListener('click', this.#onNewFile);
@@ -59,7 +59,7 @@ class PdfReaderComponent {
 
   /**
    * Cretes event triggered when application view changed from reader view to input view.
-   * @private Private class method
+   * @private
    */
   #onNewFile = () => {
     EventHandlerService.publish(PDFLEvents.onShowInputView);
@@ -88,7 +88,7 @@ class PdfReaderComponent {
 
   /**
    * Renders the page.
-   * @private Private class method
+   * @private
    */
    #renderPage = () => {
     const self = this;

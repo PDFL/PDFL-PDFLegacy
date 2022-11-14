@@ -24,7 +24,7 @@ class FileUploadComponent {
 
     /**
      * Adds event listeners to component's elements.
-     * @private Private class method
+     * @private
      */
      #registerEvents = () => {
         this.components.fileOpen.addEventListener('input', this.#onFileChange);
@@ -35,7 +35,7 @@ class FileUploadComponent {
 
     /**
      * Callback for file input.
-     * @private Private class method
+     * @private
      * @param {Event} event event triggered on new file input
      */
     #onFileChange = (event) => {
@@ -47,7 +47,7 @@ class FileUploadComponent {
 
     /**
      * Callback for drag over event.
-     * @private Private class method
+     * @private
      * @param {Event} event event triggered when file is dragged over file upload rectangle
      */
     #onDragOver = (event) => {
@@ -59,7 +59,7 @@ class FileUploadComponent {
 
     /**
      * Callback for drag leave event.
-     * @private Private class method
+     * @private
      * @param {Event} event event triggered when file is dragged out of file upload rectangle
      */
     #onDragLeave = (event) => {
@@ -70,7 +70,7 @@ class FileUploadComponent {
 
     /**
      * Callback for drop event.
-     * @private Private class method
+     * @private
      * @param {Event} event event triggered when file is dropped in file upload rectangle
      */
     #onDrop = (event) => {
@@ -83,7 +83,7 @@ class FileUploadComponent {
 
     /**
      * Function to read and return the data of the selected/dropped file.
-     * @private Private class method
+     * @private
      * @param {File} file uploaded PDF file
      */
     #readFile = (file) => {

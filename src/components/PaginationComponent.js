@@ -37,7 +37,7 @@ class PaginationComponent {
 
     /**
      * Adds event listeners to component's elements.
-     * @private Private class method
+     * @private
      */
     #registerEvents = () => {
         this.components.previousPage.addEventListener('click', this.#showPrevPage);
@@ -47,7 +47,7 @@ class PaginationComponent {
 
     /**
     * Callback for the previous page event. Render the previous page of the current one if available
-    * @private Private class method
+    * @private
     */
     #showPrevPage = () => {
         if (this.currentPage <= 1) return;
@@ -58,7 +58,7 @@ class PaginationComponent {
 
     /**
      * Callback for the next page event. Render the next page of the current one if available.
-     * @private Private class method
+     * @private
      */
     #showNextPage = () => {
         if (this.currentPage >= this.pageCount) return;
@@ -69,7 +69,7 @@ class PaginationComponent {
 
     /**
      * Callback for page number input listener. Render the given page if available.
-     * @private Private class method
+     * @private
      * @param {Event} event event triggered on page number change
      */
     #currentPageKeypress = (event) => {
@@ -90,7 +90,7 @@ class PaginationComponent {
 
     /**
      * Displays new page number and renders that page.
-     * @private Private class method
+     * @private
      */
     #currentPageChanged = () => {
         this.components.currentPage.value = this.currentPage;

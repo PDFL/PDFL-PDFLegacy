@@ -33,7 +33,7 @@ class App {
 
     /**
      * Adds application listeners.
-     * @private Private class method
+     * @private
      */
     #registerEvents = () => {
         EventHandlerService.subscribe(PDFLEvents.onShowInputView, () => {
@@ -46,7 +46,7 @@ class App {
 
     /**
      * Initialize the view, show the welcome page
-     * @private Private class method
+     * @private
      */
     #showWelcomeView = () => {
         this.view = new WelcomeView();
