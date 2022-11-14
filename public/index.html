@@ -30,7 +30,7 @@
                         <h1 class="third-text"> BUT </h1>
                         <h1 class="font-header better"> BETTER </h1>
                     </span>
-                    <div>
+                    <div class="inline">
                         <button class="btn-welcome pointer" id="button-file">
                             <div>Read your pdf
                                 <span aria-hidden="true" data-icon="+" />
@@ -47,7 +47,7 @@
                 <img src="../assets/pic.png" id="main-pic" />
             </div>
             <footer>
-                <div>
+                <div class="footer-text">
                     <div>Site made with by our team <span>&#9829; </span> example :
                         <a href="https://twitter.com/veksenn">@teammember1</a> &amp;
                         <a href="https://twitter.com/ZTHall">@teammember2</a>...
@@ -98,6 +98,7 @@
                 <p id="num-pages">
                     <span id="page-num"></span>/
                     <span id="page-count"></span>
+                    <span class="tooltiptext">Page <input type="number" value="1" id="current-page"/> of <span id="page-count"></span></span>
                 </p>
                 <a>
                     <i class="material-icons" id="next-page">chevron_right</i>
@@ -128,6 +129,9 @@
             </div>
             <!-- NAVIGATION MENU -->
             <ul id="nav-links">
+                <!-- USING CHECKBOX HACK -->
+                <input type="checkbox" id="checkbox-toggle" />
+                <label for="checkbox-toggle" class="hamburger">&#9776;</label>
                 <!-- NAVIGATION MENUS -->
                 <div id="menu">
                     <li><a><button id="open-new">+ OPEN</button></a></li>
@@ -145,6 +149,7 @@
             <div id="pdf-container" class="full-width"></div>
             <div id="side-page" class="no-width">
                 <a id="close-btn" class="closebtn">&times;</a>
+                <img src="assets/knowledge_graph.png" id="knowledge-graph"/>
             </div>
         </div>
 

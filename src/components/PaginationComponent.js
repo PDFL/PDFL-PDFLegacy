@@ -6,7 +6,7 @@ import {
 class PaginationComponent {
   components = {
     pageNum: document.querySelector("#page-num"),
-    pageCount: document.querySelector("#page-count"),
+    pageCount: document.querySelectorAll('#page-count'),
     currentPage: document.querySelector("#current-page"),
     previousPage: document.querySelector("#prev-page"),
     nextPage: document.querySelector("#next-page"),
@@ -72,7 +72,8 @@ class PaginationComponent {
 
   setPageCount = (pageNumber) => {
     this.pageCount = pageNumber;
-    this.components.pageCount.textContent = pageNumber;
+    this.components.pageCount[0].textContent = pageNumber;
+    this.components.pageCount[1].textContent = pageNumber;
   };
 
   setCurrentPage = (pageNumber = this.currentPage) => {

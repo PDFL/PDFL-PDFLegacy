@@ -123,8 +123,12 @@ input[type="number"] {
     margin: 0;
     text-align: center;
     width: 20%;
-    height: 2rem;
+    height: 1rem;
     font-size: 1rem;
+    border: none;
+    border-radius: 1px;
+    margin-left: 5px;
+    margin-right: 5px;
 }
 
 input[type="number"]::-webkit-inner-spin-button,
@@ -303,15 +307,11 @@ input[type="number"]::-webkit-outer-spin-button {
 
 /* CSS for SideToolBar */
 #sidenav {
-  width: 80px;
-  justify-items: center;
-  display: grid;
-  position: fixed;
-  z-index: 1;
-  top: 100px;
-  left: 20px;
-  overflow-x: hidden;
   padding: 8px 0px;
+  width: -moz-available;
+  position: fixed;
+  top: 67px;
+  left: 22px;
 }
 
 #sidenav a {
@@ -408,29 +408,6 @@ input[type="number"]::-webkit-outer-spin-button {
 	}
 }
 
-/* CSS for SidePage */
-#side-page {
-  transition: 0.5s;
-  background-color: lightgrey;
-  position: relative;
-  right: 0;
-  overflow-x: hidden;
-  z-index: 1;
-}
-
-.closebtn {
-  position: absolute;
-  top: 0;
-  left: 15px;
-  font-size: 50px;
-  z-index: 2;
-  color: black;
-  cursor: pointer;
-}
-
-.closebtn:hover{
-  color: red;
-}
 
 /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
 #main {
@@ -451,6 +428,48 @@ input[type="number"]::-webkit-outer-spin-button {
 
 .full-width{
   width: 100%;
+}
+
+#num-pages {
+  position: relative;
+}
+
+#num-pages .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 10px 0;
+  position: absolute;
+  top: -10px;
+  left: 200%;
+  margin-left: -60px;
+  opacity: 0;
+  transition: opacity 0.3s;
+  background-color: #045;
+  cursor: auto;
+}
+
+#num-pages .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 100%;
+  margin-top: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent #045 transparent transparent;
+}
+
+#num-pages:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+
+.material-icons{
+  user-select: none;
 }
 
 /* CSS for the Text Render */
@@ -555,6 +574,35 @@ input[type="number"]::-webkit-outer-spin-button {
       width: 0;
     }
     #side-page.half-width{
-      width: 100%;
+      width: 50%;
     }
+  }
+
+
+  /* KNOWLEDGE GRAPH STYLE */
+  #knowledge-graph{
+    min-width: 100%;
+  }
+  /* CSS for SidePage */
+  #side-page {
+    transition: 0.5s;
+    background-color: rgba(255,255,255,0.5);
+    position: relative;
+    right: 0;
+    overflow-x: hidden;
+    z-index: 1;
+  }
+
+  .closebtn {
+    position: absolute;
+    top: 0;
+    right: 15px;
+    font-size: 50px;
+    z-index: 2;
+    color: black;
+    cursor: pointer;
+  }
+
+  .closebtn:hover{
+    color: red;
   }
