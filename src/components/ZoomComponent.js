@@ -3,8 +3,8 @@ import { EventHandlerService, PDFLEvents } from "../services/EventHandlerService
 class ZoomComponent {
 
     components = {
-        zoomIn: document.querySelector('#zoom_in'),
-        zoomOut: document.querySelector('#zoom_out'),
+        zoomIn: document.querySelector('#zoom-in'),
+        zoomOut: document.querySelector('#zoom-out'),
     }
 
     constructor() {

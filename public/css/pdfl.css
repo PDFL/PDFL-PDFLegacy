@@ -15,11 +15,11 @@ body{
     margin: 0;
 }
 
-#secondText{
+#second-text{
   margin-top: -55px;
 }
 
-.thirdText{
+.third-text{
   font-weight: 900;
   font-size:15px;
 }
@@ -33,7 +33,7 @@ body{
   background-color: #f5f5f5;
 }
 
-#pdf_container{
+#pdf-container{
   background-color: #f5f5f5;
 }
 
@@ -91,7 +91,7 @@ header{
     margin-top: 5rem;
 }
 
-.num-pages{
+#num-pages{
   text-align: center; 
   color: var(--iconColor); 
   font-weight: 600; 
@@ -301,7 +301,7 @@ input[type="number"]::-webkit-outer-spin-button {
 }*/
 
 /* CSS for SideToolBar */
-.sidenav {
+#sidenav {
   width: 80px;
   justify-items: center;
   display: grid;
@@ -313,7 +313,7 @@ input[type="number"]::-webkit-outer-spin-button {
   padding: 8px 0px;
 }
 
-.sidenav a {
+#sidenav a {
   text-align: center;
   padding: 8px 0px 8px 0px;
   text-decoration: none;
@@ -322,7 +322,7 @@ input[type="number"]::-webkit-outer-spin-button {
   display: block;
 }
 
-.sidenav a:hover {
+#sidenav a:hover {
   color: #ffcd00;
 }
 
@@ -350,11 +350,11 @@ input[type="number"]::-webkit-outer-spin-button {
   border-radius: 15px;
 }
 
-#graph_maker{
+#graph-maker{
     padding-top: 6px;
 }
 
-#full_screen{
+#full-screen{
   padding-top: 6px;
 }
 
@@ -362,7 +362,7 @@ input[type="number"]::-webkit-outer-spin-button {
   padding-top: 6px;
 }
 /* CSS for Loader */
-.loader{
+#loader{
   position: fixed;
   z-index: 99;
   top: 0;
@@ -375,17 +375,17 @@ input[type="number"]::-webkit-outer-spin-button {
   align-items: center;
 }
 
-.logoloader{
+#logo-loader{
   width: 50%;
   animation: myAnim 800ms ease 0s 2 normal forwards, fadeOut 1s;
   animation-fill-mode: forwards;
 }
 
-.loader > img {
+#loader > img {
   width: 100px;
 }
 
-.loader.hidden{
+#loader.hidden{
   animation: fadeOut 1s;
   animation-fill-mode: forwards;
 }

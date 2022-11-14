@@ -10,8 +10,8 @@ const pdfjsLib = require("pdfjs-dist");
 
 class PdfReaderComponent {
   components = {
-    pdfContainer: document.querySelector("#pdf_container"),
-    openNew: document.querySelector("#open_new"),
+    pdfContainer: document.querySelector("#pdf-container"),
+    openNew: document.querySelector("#open-new"),
   };
 
   /**
@@ -44,7 +44,7 @@ class PdfReaderComponent {
    */
   loadPdf = (pdf) => {
     const self = this;
-    const loader = document.querySelector(".loader");
+    const loader = document.querySelector("#loader");
     pdfjsLib.GlobalWorkerOptions.workerSrc = "webpack/pdf.worker.bundle.js";
     pdfjsLib
       .getDocument(pdf)

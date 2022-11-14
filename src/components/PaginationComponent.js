@@ -5,11 +5,11 @@ import {
 
 class PaginationComponent {
   components = {
-    pageNum: document.querySelector("#page_num"),
-    pageCount: document.querySelector("#page_count"),
-    currentPage: document.querySelector("#current_page"),
-    previousPage: document.querySelector("#prev_page"),
-    nextPage: document.querySelector("#next_page"),
+    pageNum: document.querySelector("#page-num"),
+    pageCount: document.querySelector("#page-count"),
+    currentPage: document.querySelector("#current-page"),
+    previousPage: document.querySelector("#prev-page"),
+    nextPage: document.querySelector("#next-page"),
   };
 
   constructor() {

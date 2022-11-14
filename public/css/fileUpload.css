@@ -6,7 +6,7 @@
   --iconColor: #26596b;
   --font: 'Montserrat'
 }
-.logo{
+#logo{
   position:absolute;
   left:15px;
   top:15px;
@@ -23,12 +23,12 @@
   width:30px
 }
 
-.green-logo{
+#green-logo{
   height:45px; 
   width:50px
 }
 
-.main-pic{
+#main-pic{
   max-width:500px; 
   height:500px
 }
@@ -75,21 +75,18 @@
     width: 1em;
 }
 
-
-.border-input{
-    height: inherit;
-
-    background-image: repeating-linear-gradient(0deg, black, black 10px, transparent 10px, transparent 20px, black 20px), repeating-linear-gradient(90deg, black, black 10px, transparent 10px, transparent 20px, black 20px), repeating-linear-gradient(180deg, black, black 10px, transparent 10px, transparent 20px, black 20px), repeating-linear-gradient(270deg, black, black 10px, transparent 10px, transparent 20px, black 20px); background-size: 3px calc(100% + 20px), calc(100% + 20px) 3px, 3px calc(100% + 20px) , calc(100% + 20px) 3px; background-position: 0 0, 0 0, 100% 0, 0 100%; background-repeat: no-repeat; animation: borderAnimation 1s infinite linear; }
-
-    @keyframes borderAnimation { from { background-position: 0 0, -20px 0, 100% -20px, 0 100%; } to { background-position: 0 -20px, 0 0, 100% 0, -20px 100%; } 
-} 
-
-.uploader {
+#file-upload-form {
   display: block;
   clear: both;
   margin: 0 auto;
   width: 100%;
   max-width: 600px;
+}
+
+#file-drag{
+  height: inherit;
+  background-image: repeating-linear-gradient(0deg, black, black 10px, transparent 10px, transparent 20px, black 20px), repeating-linear-gradient(90deg, black, black 10px, transparent 10px, transparent 20px, black 20px), repeating-linear-gradient(180deg, black, black 10px, transparent 10px, transparent 20px, black 20px), repeating-linear-gradient(270deg, black, black 10px, transparent 10px, transparent 20px, black 20px); background-size: 3px calc(100% + 20px), calc(100% + 20px) 3px, 3px calc(100% + 20px) , calc(100% + 20px) 3px; background-position: 0 0, 0 0, 100% 0, 0 100%; background-repeat: no-repeat; animation: borderAnimation 1s infinite linear; }
+  @keyframes borderAnimation { from { background-position: 0 0, -20px 0, 100% -20px, 0 100%; } to { background-position: 0 -20px, 0 0, 100% 0, -20px 100%; } 
 }
 
 label[id="file-drag"][drop-active=true]{
@@ -123,7 +120,7 @@ input[type="file"] {
   display: none;
 }
 
-.uploader-container{
+#uploader-container{
 width: 100%; /* needs to be defined to keep the default block behavior */
 text-align: center;
 margin: 0; /* again, for perfect center */
@@ -133,7 +130,7 @@ color:black;
 }
 
 
-.uploader-container-input{
+#uploader-container-input{
 top: 50%; /* moved down by 50% of the screen height */
 transform: translateY(-50%); /* moved back up (Y axis) by half of its height to achieve the perfect center */
 width: 100%; /* needs to be defined to keep the default block behavior */
@@ -146,17 +143,17 @@ position: absolute;
 
 
 @media (min-width: 568px){
-.layout {
+#layout {
     display: block;
 }
-.text{
+#text{
   float: unset;
   margin-bottom: 25px;
 }
-.media-text{
+#media-text{
   display: block;
 }
-.uploader-container{
+#uploader-container{
   transform: none;
   top: unset; 
 }
@@ -164,19 +161,19 @@ position: absolute;
 
 
 @media (min-width: 1200px){
-.layout {
+#layout {
   display: inline-flex;
   flex-wrap: wrap;
   gap: 8em;
 }
-.text{
+#text{
   text-align: left;
 }
-.media-text{
+#media-text{
   display: flex;
   margin-top: -20px;
 }
-.uploader-container{
+#uploader-container{
   top: 50%; /* moved down by 50% of the screen height */
   transform: translateY(-50%); /* moved back up (Y axis) by half of its height to achieve the perfect center */
 }
