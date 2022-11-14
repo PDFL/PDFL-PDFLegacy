@@ -90,7 +90,7 @@ let linksMock = [
   }
 ]
 
-class GraphMakerComponent {
+class KnowledgeGraphComponent {
   components = {
     knowledgeGraph: document.querySelector("#knowledge-graph"),
   };
@@ -142,4 +142,4 @@ class GraphMakerComponent {
   };
 }
 
-export { GraphMakerComponent };
+export { KnowledgeGraphComponent };
