@@ -5,7 +5,7 @@ import {
 import { getLinkedPapers } from "../services/KnowledgeGraphService";
 import { PaginationComponent } from "./PaginationComponent";
 import { ZoomComponent } from "./ZoomComponent";
-import { GraphMakerComponent } from "./GraphMakerComponent";
+import { SidePageComponent } from "./SidePageComponent";
 
 const pdfjsLib = require("pdfjs-dist");
 
@@ -34,7 +34,8 @@ class PdfReaderComponent {
     constructor() {
       this.paginationComponent = new PaginationComponent();
       this.zoomComponent = new ZoomComponent();
-      this.graphMakerComponent = new GraphMakerComponent();
+      this.sidePageComponent = new SidePageComponent();
+    
       this.#registerEvents();
     }
 
