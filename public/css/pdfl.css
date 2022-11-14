@@ -582,6 +582,8 @@ input[type="number"]::-webkit-outer-spin-button {
   /* KNOWLEDGE GRAPH STYLE */
   #knowledge-graph{
     min-width: 100%;
+    display: flex;
+    justify-content: center;
   }
   /* CSS for SidePage */
   #side-page {
