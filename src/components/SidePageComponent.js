@@ -2,7 +2,7 @@ import {
     EventHandlerService,
     PDFLEvents,
   } from "../services/EventHandlerService";
-import { GraphMakerComponent } from "./GraphMakerComponent";
+import { KnowledgeGraphComponent } from "./KnowledgeGraphComponent";
 
 /**
  * Component representing side window that can be closed. It is a placeholder
@@ -27,7 +27,7 @@ class SidePageComponent {
    * @constructor
    */
   constructor() {
-    this.graphMakerComponent = new GraphMakerComponent();
+    this.knowledgeGraphComponent = new KnowledgeGraphComponent();
 
     this.#registerEvents();
   }
@@ -48,7 +48,7 @@ class SidePageComponent {
    */
   #showKnowledgeGraph = () => {
     this.#showSidePage();
-    this.graphMakerComponent.displayGraph();
+    this.knowledgeGraphComponent.displayGraph();
   };
 
   /**
