@@ -1,3 +1,7 @@
+import {
+    EventHandlerService,
+    PDFLEvents,
+  } from "../services/EventHandlerService";
 import { GraphMakerComponent } from "./GraphMakerComponent";
 
 /**
@@ -12,7 +16,6 @@ import { GraphMakerComponent } from "./GraphMakerComponent";
  */
 class SidePageComponent {
   components = {
-    graphMakerBtn: document.querySelector("#graph-maker"),
     closeBtn: document.querySelector("#close-btn"),
     sideNav: document.querySelector("#side-page"),
     pdfContainer: document.querySelector("#pdf-container"),
@@ -34,8 +37,10 @@ class SidePageComponent {
    * @private
    */
   #registerEvents = () => {
-    this.components.graphMakerBtn.addEventListener("click", this.#showKnowledgeGraph);
-    this.components.closeBtn.addEventListener("click", this.#hideSidePage);
+    EventHandlerService.subscribe(PDFLEvents.onShowKnowledgeGraph, () => {
+        this.#showKnowledgeGraph();
+    });
+    this.components.closeBtn.addEventListener("click", this.hideSidePage);
   };
 
   /**
@@ -57,9 +62,8 @@ class SidePageComponent {
 
   /**
    * Callback for making component not visible.
-   * @private
    */
-  #hideSidePage = () => {
+  hideSidePage = () => {
     this.components.sideNav.className = "no-width";
     this.components.pdfContainer.className = "full-width";
   };

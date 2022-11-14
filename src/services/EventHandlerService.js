@@ -37,13 +37,14 @@ class EventHandlerService {
 
 /**
  * Enum of possible event type (to avoid typos)
- * @type {{onShowInputView: string, onShowReaderView: string, onRenderPage: string}}
+ * @type {{onShowInputView: string, onShowReaderView: string, onRenderPage: string, onShowKnowledgeGraph: string}}
  */
 const PDFLEvents = {
     onShowWelcomeView: 'onShowWelcomeView',
     onShowInputView: 'onShowInputView',
     onShowReaderView: 'onShowReaderView',
-    onRenderPage: 'onRenderPage'
+    onRenderPage: 'onRenderPage',
+    onShowKnowledgeGraph: 'onShowKnowledgeGraph'
 }
 
 export { PDFLEvents, EventHandlerService };
