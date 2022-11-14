@@ -7,6 +7,17 @@ import { ZoomComponent } from "./ZoomComponent";
 
 const pdfjsLib = require("pdfjs-dist");
 
+/**
+ * Component representing the PDF reader. Displays the content of PDF document and actions 
+ * that can be applied to the document in the reader.
+ * 
+ * @property {Object} components object that holds DOM elements that are within component
+ * @property {HTMLElement} components.pdfContainer element containing the PDF reader
+ * @property {HTMLElement} components.openNew button that takes user to input view page
+ * @property {PaginationComponent} paginationComponent pagination component within the reader
+ * @property {ZoomComponent} zoomComponent zoom component within the reader
+ * @property {PDFDocumentProxy} pdfDoc PDF document
+ */
 class PdfReaderComponent {
   components = {
     pdfContainer: document.querySelector("#pdf_container"),
@@ -14,6 +25,8 @@ class PdfReaderComponent {
   };
 
     /**
+     * Creates and initializes new zoom component. Creates new PaginationComponent and 
+     * ZoomComponent objects.
      * @constructor
      */
     constructor() {
@@ -23,9 +36,11 @@ class PdfReaderComponent {
       this.#registerEvents();
     }
 
-  /**
-   * Add event listener to view elements of the toolbar
-   */
+  
+    /**
+     * Adds event listeners to component and it's elements.
+     * @private Private class method
+     */
    #registerEvents = () => {
     this.components.openNew.addEventListener('click', this.#onNewFile);
 
@@ -42,13 +57,17 @@ class PdfReaderComponent {
     });
 }
 
+  /**
+   * Cretes event triggered when application view changed from reader view to input view.
+   * @private Private class method
+   */
   #onNewFile = () => {
     EventHandlerService.publish(PDFLEvents.onShowInputView);
   };
 
   /**
-   * Load and render the first page of the given pdf
-   * @param pdf data, filename or url of a PDF document
+   * Load and render the first page of the given pdf.
+   * @param {Uint8Array} pdf data, filename or url of a PDF document
    */
   loadPdf = (pdf) => {
     const self = this;
@@ -68,7 +87,8 @@ class PdfReaderComponent {
   };
 
   /**
-   * Private function, render the page
+   * Renders the page.
+   * @private Private class method
    */
    #renderPage = () => {
     const self = this;
@@ -126,6 +146,10 @@ class PdfReaderComponent {
       });
   };
   
+  /**
+   * Sets current page of pagination component to 1 and current zoom level
+   * of zoom component to 1.
+   */
   reset = () => {
       this.paginationComponent.setCurrentPage(1);
       this.zoomComponent.setZoom(1);
