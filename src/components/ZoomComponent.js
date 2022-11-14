@@ -42,7 +42,7 @@ class ZoomComponent {
 
     /**
      * Adds event listeners to component's elements.
-     * @private Private class method
+     * @private
      */
     #registerEvents = () => {
         this.components.zoomIn.addEventListener('click', this.#zoomIn);
@@ -51,7 +51,7 @@ class ZoomComponent {
 
     /**
      * Callback for zoom in action.
-     * @private Private class method
+     * @private
      */
     #zoomIn = () => {
         this.zoom *= 4 / 3;
@@ -60,7 +60,7 @@ class ZoomComponent {
 
     /**
      * Callback for the zoom out action.
-     * @private Private class method
+     * @private
      */
     #zoomOut = () => {
         this.zoom *= 2 / 3;

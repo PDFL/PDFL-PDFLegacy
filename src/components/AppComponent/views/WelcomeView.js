@@ -27,7 +27,7 @@ class WelcomeView extends AppView {
 
     /**
      * Add event listeners for welcome view
-     * @private Private class method
+     * @private
      */
     #registerEvents = () => {
         this.components.buttonFile.addEventListener('click', this.#changeView);
@@ -35,7 +35,7 @@ class WelcomeView extends AppView {
 
     /**
     * Function for button listener to change view
-    * @private Private class method
+    * @private
     */
     #changeView = () => {
         EventHandlerService.publish(PDFLEvents.onShowInputView);
