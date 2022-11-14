@@ -2,6 +2,7 @@ import {
   EventHandlerService,
   PDFLEvents,
 } from "../services/EventHandlerService";
+import { getLinkedPapers } from "../services/KnowledgeGraphService";
 import { PaginationComponent } from "./PaginationComponent";
 import { ZoomComponent } from "./ZoomComponent";
 

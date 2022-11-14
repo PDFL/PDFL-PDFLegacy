@@ -4,8 +4,9 @@
     "scripts": {
         "build": "webpack --no-devtool",
         "lint": "prettier-eslint \"PDFL-PDFLegacy/**/*.js\"",
-        "test": "jest --passWithNoTests",
-        "serve": "webpack serve"
+        "test": "echo 0",
+        "serve": "webpack serve",
+        "watch": "webpack --watch"
     },
     "devDependencies": {
         "@babel/core": "^7.20.2",
@@ -24,5 +25,8 @@
         "webpack-cli": "^4.3.1",
         "webpack-dev-server": "^4.11.1"
     },
-    "private": true
+    "private": true,
+    "dependencies": {
+        "string-similarity": "^4.0.4"
+    }
 }
