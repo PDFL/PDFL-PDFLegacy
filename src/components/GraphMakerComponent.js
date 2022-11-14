@@ -1,9 +1,3 @@
-import { FavoriteRounded } from "@mui/icons-material";
-import {
-  EventHandlerService,
-  PDFLEvents,
-} from "../services/EventHandlerService";
-
 class GraphMakerComponent {
   components = {
     graphMakerBtn: document.querySelector("#graph-maker"),
