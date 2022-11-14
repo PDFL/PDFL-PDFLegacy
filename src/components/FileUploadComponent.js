@@ -1,5 +1,12 @@
 import { EventHandlerService, PDFLEvents } from "../services/EventHandlerService";
 
+/**
+ * Component that takes in the PDF file that user uploads and processes it.
+ * 
+ * @property {Object} components object that holds DOM elements that are within component
+ * @property {HTMLElement} components.dropArea rectangle in which PDF file can be dropped to and uploaded 
+ * @property {HTMLElement} components.fileOpen input element used for PDF file upload
+ */
 class FileUploadComponent {
 
     components = {
@@ -8,6 +15,7 @@ class FileUploadComponent {
     }
 
     /**
+     * Creates and initializes new file upload component.
      * @constructor
      */
     constructor() {
@@ -15,7 +23,8 @@ class FileUploadComponent {
     }
 
     /**
-     * Add event listeners to upload view
+     * Adds event listeners to component's elements.
+     * @private Private class method
      */
      #registerEvents = () => {
         this.components.fileOpen.addEventListener('input', this.#onFileChange);
@@ -25,52 +34,57 @@ class FileUploadComponent {
     }
 
     /**
-     * Callback for file input
-     * @param e
+     * Callback for file input.
+     * @private Private class method
+     * @param {Event} event event triggered on new file input
      */
-    #onFileChange = (e) => {
+    #onFileChange = (event) => {
         if (this.components.fileOpen.value == "") return;
-
-        this.#readFile(e.target.files[0]);
+        
+        this.#readFile(event.target.files[0]);
         this.components.fileOpen.value = null;
     }
 
     /**
-     * Callback for drag over event
-     * @param e
+     * Callback for drag over event.
+     * @private Private class method
+     * @param {Event} event event triggered when file is dragged over file upload rectangle
      */
-    #onDragOver = (e) => {
-        e.target.setAttribute('drop-active', true);
-        e.stopPropagation();
-        e.preventDefault();
-        e.dataTransfer.dropEffect = 'copy';
+    #onDragOver = (event) => {
+        event.target.setAttribute('drop-active', true);
+        event.stopPropagation();
+        event.preventDefault();
+        event.dataTransfer.dropEffect = 'copy';
     }
 
     /**
-     * Callback for drag leave event
-     * @param e
+     * Callback for drag leave event.
+     * @private Private class method
+     * @param {Event} event event triggered when file is dragged out of file upload rectangle
      */
-    #onDragLeave = (e) => {
-        e.stopPropagation();
-        e.preventDefault();
-        e.target.removeAttribute('drop-active');
+    #onDragLeave = (event) => {
+        event.stopPropagation();
+        event.preventDefault();
+        event.target.removeAttribute('drop-active');
     }
 
     /**
-     * Callback for drop event
-     * @param e
+     * Callback for drop event.
+     * @private Private class method
+     * @param {Event} event event triggered when file is dropped in file upload rectangle
      */
-    #onDrop = (e) => {
-        e.target.removeAttribute('drop-active');
-        e.stopPropagation();
-        e.preventDefault();
-        const file = e.dataTransfer.files[0];
+    #onDrop = (event) => {
+        event.target.removeAttribute('drop-active');
+        event.stopPropagation();
+        event.preventDefault();
+        const file = event.dataTransfer.files[0];
         this.#readFile(file);
     }
 
     /**
-     * Function to read and return the data of the selected/dropped file
-     * @param file
+     * Function to read and return the data of the selected/dropped file.
+     * @private Private class method
+     * @param {File} file uploaded PDF file
      */
     #readFile = (file) => {
         EventHandlerService.publish(PDFLEvents.onResetReader);
