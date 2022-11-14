@@ -89,7 +89,12 @@ let linksMock = [
       "target": "649def34f8be52c8b66281af98ae884c09aef38b"
   }
 ]
-
+/**
+ * Component responsible for displaying the knowledge graph.
+ * 
+ * @property {Object} components object that holds elements within this component
+ * @property {HTMLElement} components.knowledgeGraph element in which knowledge graph will be displayed
+ */
 class KnowledgeGraphComponent {
   components = {
     knowledgeGraph: document.querySelector("#knowledge-graph"),

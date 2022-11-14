@@ -9,10 +9,10 @@ import { KnowledgeGraphComponent } from "./KnowledgeGraphComponent";
  * for other components to be shown.
  *
  * @property {Object} components object that holds DOM elements that represent this component, as well as component's context
- * @property {HTMLElement} components.graphMakerBtn button that generates knowledge graph
  * @property {HTMLElement} components.closeBtn button that closes side page
  * @property {HTMLElement} components.sideNav placeholder of this component
  * @property {HTMLElement} components.pdfContainer sibling component of this component that displays PDF reader
+ * @property {KnowledgeGraphComponent} knowledgeGraphComponent knowledge graph component
  */
 class SidePageComponent {
   components = {
@@ -33,7 +33,7 @@ class SidePageComponent {
   }
 
   /**
-   * Adds event listeners to component's elements.
+   * Adds event listeners to component's elements and component itself.
    * @private
    */
   #registerEvents = () => {
@@ -44,7 +44,7 @@ class SidePageComponent {
   };
 
   /**
-   * Callback for generation of knowledge graph.
+   * Callback for generation of a knowledge graph.
    */
   #showKnowledgeGraph = () => {
     this.#showSidePage();
@@ -52,7 +52,7 @@ class SidePageComponent {
   };
 
   /**
-   * Callback for making component visible.
+   * Callback for making a component visible.
    * @private
    */
   #showSidePage = () => {
@@ -61,7 +61,7 @@ class SidePageComponent {
   };
 
   /**
-   * Callback for making component not visible.
+   * Callback for making a component not visible.
    */
   hideSidePage = () => {
     this.components.sideNav.className = "no-width";
