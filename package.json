@@ -28,6 +28,7 @@
     "private": true,
     "dependencies": {
         "string-similarity": "^4.0.4",
+        "webpack-dev-server": "^4.11.1",
         "@emotion/react": "^11.10.5",
         "@emotion/styled": "^11.10.5"
     }

@@ -56,8 +56,8 @@ class PaginationComponent {
         if (this.currentPage <= 1) return;
         this.currentPage--;
 
-        this.#currentPageChanged();
-    };
+    this.#currentPageChanged();
+  };
 
     /**
      * Callback for the next page event. Render the next page of the current one if available.
@@ -67,8 +67,8 @@ class PaginationComponent {
         if (this.currentPage >= this.pageCount) return;
         this.currentPage++;
 
-        this.#currentPageChanged();
-    };
+    this.#currentPageChanged();
+  };
 
     /**
      * Callback for page number input listener. Render the given page if available.
@@ -78,18 +78,15 @@ class PaginationComponent {
     #currentPageKeypress = (event) => {
         const keycode = event.keyCode ? event.keyCode : event.which;
 
-        if (keycode === 13) {
-            // Get the new page number and render it.
-            let desiredPage = this.components.currentPage.valueAsNumber;
-            this.currentPage = Math.min(
-                Math.max(desiredPage, 1),
-                this.pageCount
-            );
-            
-            this.components.pageNum.textContent = this.currentPage;
-            this.#currentPageChanged();
-        }
+    if (keycode === 13) {
+      // Get the new page number and render it.
+      let desiredPage = this.components.currentPage.valueAsNumber;
+      this.currentPage = Math.min(Math.max(desiredPage, 1), this.pageCount);
+
+      this.components.pageNum.textContent = this.currentPage;
+      this.#currentPageChanged();
     }
+  };
 
     /**
      * Displays new page number and renders that page.
