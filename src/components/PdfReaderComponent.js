@@ -2,9 +2,8 @@ import {
   EventHandlerService,
   PDFLEvents,
 } from "../services/EventHandlerService";
-import { getLinkedPapers } from "../services/KnowledgeGraphService";
-import { PaginationComponent } from "./PaginationComponent";
-import { ZoomComponent } from "./ZoomComponent";
+import { SidePageComponent } from "./SidePageComponent";
+import { ToolbarComponent } from "./ToolbarComponent";
 
 const pdfjsLib = require("pdfjs-dist");
 
@@ -15,25 +14,25 @@ const pdfjsLib = require("pdfjs-dist");
  * @property {Object} components object that holds DOM elements that are within component
  * @property {HTMLElement} components.pdfContainer element containing the PDF reader
  * @property {HTMLElement} components.openNew button that takes user to input view page
- * @property {PaginationComponent} paginationComponent pagination component within the reader
- * @property {ZoomComponent} zoomComponent zoom component within the reader
+ * @property {SidePageComponent} sidePageComponent side component within the reader
+ * @property {ToolbarComponent} toolbarComponent toolbar component within the reader
  * @property {PDFDocumentProxy} pdfDoc PDF document
  */
 class PdfReaderComponent {
   components = {
-    pdfContainer: document.querySelector("#pdf_container"),
-    openNew: document.querySelector("#open_new"),
+    pdfContainer: document.querySelector("#pdf-container"),
+    openNew: document.querySelector("#open-new"),
   };
 
     /**
-     * Creates and initializes new zoom component. Creates new PaginationComponent and 
-     * ZoomComponent objects.
+     * Creates and initializes new zoom component. Creates new ToolbarComponent and 
+     * SidePageComponent objects.
      * @constructor
      */
     constructor() {
-      this.paginationComponent = new PaginationComponent();
-      this.zoomComponent = new ZoomComponent();
-  
+      this.toolbarComponent = new ToolbarComponent();
+      this.sidePageComponent = new SidePageComponent();
+    
       this.#registerEvents();
     }
 
@@ -72,13 +71,14 @@ class PdfReaderComponent {
    */
   loadPdf = (pdf) => {
     const self = this;
-    const loader = document.querySelector(".loader");
+    const loader = document.querySelector("#loader");
     pdfjsLib.GlobalWorkerOptions.workerSrc = "webpack/pdf.worker.bundle.js";
     pdfjsLib
       .getDocument(pdf)
       .promise.then((data) => {
         self.pdfDoc = data;
-        self.paginationComponent.setPageCount(data.numPages);
+        self.toolbarComponent.setPageCount(data.numPages);
+        self.sidePageComponent.setPDF(data);
         self.#renderPage();
       })
       .catch((err) => {
@@ -94,7 +94,7 @@ class PdfReaderComponent {
    #renderPage = () => {
     const self = this;
     this.pdfDoc
-      .getPage(self.paginationComponent.getCurrentPage())
+      .getPage(self.toolbarComponent.getCurrentPage())
       .then((page) => {
         //Set the HTML properties
         const canvas = document.createElement("canvas");
@@ -103,7 +103,7 @@ class PdfReaderComponent {
         textLayer.setAttribute("class", "textLayer");
         const ctx = canvas.getContext("2d");
         const viewport = page.getViewport({
-          scale: self.zoomComponent.getZoom(),
+          scale: self.toolbarComponent.getZoom(),
         });
         canvas.height = viewport.height;
         canvas.width = viewport.width;
@@ -143,7 +143,7 @@ class PdfReaderComponent {
         self.components.pdfContainer.appendChild(canvas);
         self.components.pdfContainer.appendChild(textLayer);
 
-        self.paginationComponent.setCurrentPage();
+        self.toolbarComponent.setCurrentPage();
       });
   };
   
@@ -152,9 +152,9 @@ class PdfReaderComponent {
    * of zoom component to 1.
    */
   reset = () => {
-      this.paginationComponent.setCurrentPage(1);
-      this.zoomComponent.setZoom(1);
-  }
+    this.sidePageComponent.hideSidePage();
+    this.toolbarComponent.reset();
+  };
 }
 
 export { PdfReaderComponent };

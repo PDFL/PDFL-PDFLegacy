@@ -4,7 +4,6 @@
     box-sizing: border-box;
 }
 
-
 html{
     height: 100vh;
 }
@@ -15,6 +14,16 @@ body{
     width: 100%;
     margin: 0;
 }
+
+#second-text{
+  margin-top: -55px;
+}
+
+.third-text{
+  font-weight: 900;
+  font-size:15px;
+}
+
 #pdf-viewer{
   margin: 0;
   padding: 0;
@@ -24,8 +33,9 @@ body{
   background-color: #f5f5f5;
 }
 
-#pdf_container{
+#pdf-container{
   background-color: #f5f5f5;
+  transition: 0.5s;
 }
 
 header{
@@ -82,7 +92,7 @@ header{
     margin-top: 5rem;
 }
 
-.num-pages{
+#num-pages{
   text-align: center; 
   color: var(--iconColor); 
   font-weight: 600; 
@@ -113,8 +123,12 @@ input[type="number"] {
     margin: 0;
     text-align: center;
     width: 20%;
-    height: 2rem;
+    height: 1rem;
     font-size: 1rem;
+    border: none;
+    border-radius: 1px;
+    margin-left: 5px;
+    margin-right: 5px;
 }
 
 input[type="number"]::-webkit-inner-spin-button,
@@ -292,19 +306,16 @@ input[type="number"]::-webkit-outer-spin-button {
 }*/
 
 /* CSS for SideToolBar */
-.sidenav {
-  width: 80px;
-  justify-items: center;
-  display: grid;
-  position: fixed;
-  z-index: 1;
-  top: 100px;
-  left: 20px;
-  overflow-x: hidden;
+#sidenav {
   padding: 8px 0px;
+  width: -moz-available;
+  position: fixed;
+  top: 67px;
+  left: 22px;
+  z-index: 1;
 }
 
-.sidenav a {
+#sidenav a {
   text-align: center;
   padding: 8px 0px 8px 0px;
   text-decoration: none;
@@ -313,7 +324,7 @@ input[type="number"]::-webkit-outer-spin-button {
   display: block;
 }
 
-.sidenav a:hover {
+#sidenav a:hover {
   color: #ffcd00;
 }
 
@@ -341,8 +352,19 @@ input[type="number"]::-webkit-outer-spin-button {
   border-radius: 15px;
 }
 
+#graph-maker{
+    padding-top: 6px;
+}
+
+#full-screen{
+  padding-top: 6px;
+}
+
+#search{
+  padding-top: 6px;
+}
 /* CSS for Loader */
-.loader{
+#loader{
   position: fixed;
   z-index: 99;
   top: 0;
@@ -355,17 +377,17 @@ input[type="number"]::-webkit-outer-spin-button {
   align-items: center;
 }
 
-.logoloader{
+#logo-loader{
   width: 50%;
   animation: myAnim 800ms ease 0s 2 normal forwards, fadeOut 1s;
   animation-fill-mode: forwards;
 }
 
-.loader > img {
+#loader > img {
   width: 100px;
 }
 
-.loader.hidden{
+#loader.hidden{
   animation: fadeOut 1s;
   animation-fill-mode: forwards;
 }
@@ -387,6 +409,69 @@ input[type="number"]::-webkit-outer-spin-button {
 	}
 }
 
+
+/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+#main {
+  transition: margin-right .5s;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  position: inherit;
+}
+
+.no-width{
+  width: 0;
+}
+
+.half-width{
+  width: 50%;
+}
+
+.full-width{
+  width: 100%;
+}
+
+#num-pages {
+  position: relative;
+}
+
+#num-pages .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 10px 0;
+  position: absolute;
+  top: -10px;
+  left: 200%;
+  margin-left: -60px;
+  opacity: 0;
+  transition: opacity 0.3s;
+  background-color: #045;
+  cursor: auto;
+}
+
+#num-pages .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 100%;
+  margin-top: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent #045 transparent transparent;
+}
+
+#num-pages:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+
+.material-icons{
+  user-select: none;
+}
 
 /* CSS for the Text Render */
 
@@ -481,4 +566,46 @@ input[type="number"]::-webkit-outer-spin-button {
   
   .textLayer .endOfContent.active {
     top: 0;
+  }
+
+  /*Mobile (320px — 480px) and tablet (481px — 768px)*/
+  /*TODO: include small screens (769px — 1024px)?*/
+  @media (max-width: 768px) {
+    #pdf-container.half-width {
+      width: 0;
+    }
+    #side-page.half-width{
+      width: 50%;
+    }
+  }
+
+
+  /* KNOWLEDGE GRAPH STYLE */
+  #knowledge-graph{
+    min-width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+  /* CSS for SidePage */
+  #side-page {
+    transition: 0.5s;
+    background-color: rgba(0, 0, 0, 0.1);
+    position: relative;
+    right: 0;
+    overflow-x: hidden;
+    z-index: 2;
+  }
+
+  .closebtn {
+    position: absolute;
+    top: 0;
+    right: 15px;
+    font-size: 50px;
+    z-index: 2;
+    color: black;
+    cursor: pointer;
+  }
+
+  .closebtn:hover{
+    color: red;
   }

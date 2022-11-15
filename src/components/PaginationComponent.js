@@ -1,4 +1,7 @@
-import { EventHandlerService, PDFLEvents } from "../services/EventHandlerService";
+import {
+  EventHandlerService,
+  PDFLEvents,
+} from "../services/EventHandlerService";
 
 /**
  * Component that paginates the PDF document that is being read. It calculates next/previous page number 
@@ -15,14 +18,13 @@ import { EventHandlerService, PDFLEvents } from "../services/EventHandlerService
  * @property {int} pageCount maximum page number value
  */
 class PaginationComponent {
-
-    components = {
-        pageNum: document.querySelector('#page_num'),
-        pageCount: document.querySelector('#page_count'),
-        currentPage: document.querySelector('#current_page'),
-        previousPage: document.querySelector('#prev_page'),
-        nextPage: document.querySelector('#next_page'),
-    }
+  components = {
+    pageNum: document.querySelector("#page-num"),
+    pageCount: document.querySelectorAll('#page-count'),
+    currentPage: document.querySelector("#current-page"),
+    previousPage: document.querySelector("#prev-page"),
+    nextPage: document.querySelector("#next-page"),
+  };
 
     /**
      * Creates and initializes new pagination component. Sets maximum page number to 0 and current
@@ -54,8 +56,8 @@ class PaginationComponent {
         if (this.currentPage <= 1) return;
         this.currentPage--;
 
-        this.#currentPageChanged();
-    };
+    this.#currentPageChanged();
+  };
 
     /**
      * Callback for the next page event. Render the next page of the current one if available.
@@ -65,8 +67,8 @@ class PaginationComponent {
         if (this.currentPage >= this.pageCount) return;
         this.currentPage++;
 
-        this.#currentPageChanged();
-    };
+    this.#currentPageChanged();
+  };
 
     /**
      * Callback for page number input listener. Render the given page if available.
@@ -76,18 +78,15 @@ class PaginationComponent {
     #currentPageKeypress = (event) => {
         const keycode = event.keyCode ? event.keyCode : event.which;
 
-        if (keycode === 13) {
-            // Get the new page number and render it.
-            let desiredPage = this.components.currentPage.valueAsNumber;
-            this.currentPage = Math.min(
-                Math.max(desiredPage, 1),
-                this.pageCount
-            );
-            
-            this.components.pageNum.textContent = this.currentPage;
-            this.#currentPageChanged();
-        }
+    if (keycode === 13) {
+      // Get the new page number and render it.
+      let desiredPage = this.components.currentPage.valueAsNumber;
+      this.currentPage = Math.min(Math.max(desiredPage, 1), this.pageCount);
+
+      this.components.pageNum.textContent = this.currentPage;
+      this.#currentPageChanged();
     }
+  };
 
     /**
      * Displays new page number and renders that page.
@@ -104,7 +103,8 @@ class PaginationComponent {
      */
     setPageCount = (pageNumber) => {
         this.pageCount = pageNumber;
-        this.components.pageCount.textContent = pageNumber;
+        this.components.pageCount[0].textContent = pageNumber;
+        this.components.pageCount[1].textContent = pageNumber;
     }
 
     /**

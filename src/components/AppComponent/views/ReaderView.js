@@ -9,11 +9,8 @@ import { PdfReaderComponent } from '../../PdfReaderComponent.js';
  * @property {HTMLElement} component element representing the reader view
  */
 class ReaderView extends AppView {
-
-    static reader = new PdfReaderComponent();
-
-    component = document.getElementById('pdf-viewer');
-
+  static reader = new PdfReaderComponent();
+  component = document.getElementById("pdf-viewer");
 }
 
-export { ReaderView }
+export { ReaderView };

@@ -10,40 +10,42 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+    <script src="http://www.unpkg.com/force-graph"></script> <!--TODO: webpack-->
 
 </head>
 
 <body>
     <!--WELCOME PAGE-->
     <div id="welcome-page" class="app-view">
-        <div class="uploader-container" style="color:black">
-            <div class="layout">
-                <div class="text">
+        <div id="uploader-container">
+            <div id="layout">
+                <div id="text">
                     <h1 class="font-header">PDF <br>
-                        <div style="margin-top:-20px">Legacy </div>
+                        <h1 class="font-header" id="second-text">Legacy </h1>
                     </h1>
-                    <h1 style="font-weight:900;font-size:15px">YOUR PDF,</h1>
-                    <span class="media-text">
-                        <h1 style="font-weight:900;font-size:15px"> BUT </h1>
-                        <h1 style="font-size:60px" class="font-header better"> BETTER </h1>
+                    <h1 class="third-text">YOUR PDF,</h1>
+                    <span id="media-text">
+                        <h1 class="third-text"> BUT </h1>
+                        <h1 class="font-header better"> BETTER </h1>
                     </span>
-                    <div style="display:inline-grid">
+                    <div class="inline">
                         <button class="btn-welcome pointer" id="button-file">
                             <div>Read your pdf
                                 <span aria-hidden="true" data-icon="+" />
                             </div>
                         </button>
-                        <button class="btn-welcome pointer" style="margin-top:10px">
-                            <div style="float:left">About Us
+                        <br>
+                        <button class="btn-welcome pointer">
+                            <div>About Us
                                 <span aria-hidden="true" data-icon="+" />
                             </div>
                         </button>
                     </div>
                 </div>
-                <img src="./assets/pic.png" class="main-pic"/>
+                <img src="../assets/pic.png" id="main-pic" />
             </div>
             <footer>
-                <div style="font-size:10px">
+                <div class="footer-text">
                     <div>Site made with by our team <span>&#9829; </span> example :
                         <a href="https://twitter.com/veksenn">@teammember1</a> &amp;
                         <a href="https://twitter.com/ZTHall">@teammember2</a>...
@@ -56,17 +58,16 @@
                 </div>
             </footer>
         </div>
-        <div class="logo">
-            <img src="../assets/logo.png" class="black-logo" style="height:25px; width:30px" />
+        <div id="logo">
+            <img src="../assets/logo.png" class="black-logo" />
         </div>
     </div>
-
     <!--INPUT PAGE-->
     <div id="input-page" hidden class="app-view">
-        <div class="uploader-container-input">
-            <form id="file-upload-form" class="uploader">
-                <input type="file" name="fileUpload" accept="application/pdf" id="fileOpen" />
-                <label for="fileOpen" id="file-drag" class="border-input">
+        <div id="uploader-container-input">
+            <form id="file-upload-form">
+                <input type="file" name="file-upload" accept="application/pdf" id="file-open" />
+                <label for="file-open" id="file-drag">
                     <i class="fa fa-download" aria-hidden="true"></i>
                     <div>Select a file or drag here</div>
                     <div class="hidden">Please select a pdf file</div>
@@ -75,73 +76,78 @@
             </form>
         </div>
         <div class="logo">
-            <img src="../assets/green_logo.png" class="green-logo" />
+            <img src="../assets/green_logo.png" id="green-logo" />
         </div>
     </div>
-
-
     <!--PDF READER-->
     <div id="pdf-viewer" hidden class="app-view">
         <!--SideToolBar-->
-        <div class="sidenav">
+        <div id="sidenav">
             <div class="sidetoolbar">
                 <a>
-                    <i class="fa-solid fa-magnifying-glass" style="font-size:17px"></i>
+                    <i class="material-icons" id="search">search</i>
                 </a>
             </div>
             <div class="sidetoolbar">
-                <input type="number" value="1" id="current_page" hidden />
-                <a><i class="material-icons" id="prev_page">chevron_left
-                    </i></a>
-                <p class="num-pages">
-                    <span id="page_num"></span>/
-                    <span id="page_count"></span>
+                <a>
+                    <i class="material-icons" id="prev-page">chevron_left</i>
+                </a>
+                <p id="num-pages">
+                    <span id="page-num"></span>/
+                    <span id="page-count"></span>
+                    <span class="tooltiptext">Page <input type="number" value="1" id="current-page"/> of <span id="page-count"></span></span>
                 </p>
-                <a><i class="material-icons" id="next_page">chevron_right</i></a>
+                <a>
+                    <i class="material-icons" id="next-page">chevron_right</i>
+                </a>
                 <hr>
-                <a href=" #"><i class="material-icons" id="zoom_in">zoom_in
-                    </i></a>
-                <a><i class="material-icons" id="zoom_out">zoom_out
-                    </i></a>
+                <a href=" #">
+                    <i class="material-icons" id="zoom-in">zoom_in</i>
+                </a>
+                <a>
+                    <i class="material-icons" id="zoom-out">zoom_out</i>
+                </a>
             </div>
             <div class="sidetoolbar">
-                <a><i class="material-icons" id="graph_maker" style="padding-top: 6px;">schema
-                    </i></a>
+                <a>
+                    <i class="material-icons" id="graph-maker">schema</i>
+                </a>
             </div>
             <div class="sidetoolbar">
-                <a><i class="material-icons" style="padding-top: 6px;">fullscreen</i>
+                <a>
+                    <i class="material-icons" id="full-screen">fullscreen</i>
+                </a>
             </div>
         </div>
-
-
-        <nav class="navbar">
+        <nav id="navbar">
             <!-- LOGO -->
-            <div class="padding">
+            <div id="padding">
                 <img src="../assets/logo.png" class="black-logo" />
             </div>
-
-
             <!-- NAVIGATION MENU -->
-            <ul class="nav-links">
+            <ul id="nav-links">
                 <!-- USING CHECKBOX HACK -->
-                <input type="checkbox" id="checkbox_toggle" />
-                <label for="checkbox_toggle" class="hamburger">&#9776;</label>
+                <input type="checkbox" id="checkbox-toggle" />
+                <label for="checkbox-toggle" class="hamburger">&#9776;</label>
                 <!-- NAVIGATION MENUS -->
-                <div class="menu">
-                    <li><a><button id="open_new">+ OPEN</button></a></li>
-                    <li><a><i style="font-size:25px" class="fa-solid fa-floppy-disk"></i></a></li>
-                    <li><a><i style="font-size:25px" class="fa-solid fa-download"></i></a></li>
-                    <li><a><i style="font-size:25px" class="fa-solid fa-print"></i></a></li>
+                <div id="menu">
+                    <li><a><button id="open-new">+ OPEN</button></a></li>
+                    <li><a><i class="fa-solid fa-floppy-disk"></i></a></li>
+                    <li><a><i class="fa-solid fa-download"></i></a></li>
+                    <li><a><i class="fa-solid fa-print"></i></a></li>
                 </div>
             </ul>
         </nav>
 
-        <div class="loader">
-            <img src="assets/logo_white.png" alt="loading..." class="logoloader" />
+        <div id="loader">
+            <img src="assets/logo_white.png" alt="loading..." id="logo-loader" />
         </div>
-
-
-        <div id="pdf_container">
+        <div id="main">
+            <div id="pdf-container" class="full-width"></div>
+            <div id="side-page" class="no-width">
+                <a id="close-btn" class="closebtn">&times;</a>
+                <div id="knowledge-graph"></div>
+            </div>
         </div>
 
         <!--floating button hidden for now-->
