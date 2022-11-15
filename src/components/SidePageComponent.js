@@ -67,5 +67,9 @@ class SidePageComponent {
     this.components.sideNav.className = "no-width";
     this.components.pdfContainer.className = "full-width";
   };
+
+  setPDF = (data) => {
+    this.knowledgeGraphComponent.setPDF(data);
+  }
 }
 export { SidePageComponent };

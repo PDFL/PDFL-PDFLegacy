@@ -79,6 +79,7 @@ class PdfReaderComponent {
       .promise.then((data) => {
         self.pdfDoc = data;
         self.toolbarComponent.setPageCount(data.numPages);
+        self.sidePageComponent.setPDF(data);
         self.#renderPage();
       })
       .catch((err) => {

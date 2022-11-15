@@ -133,13 +133,17 @@ function getGraphStructure(paperId, paperTitle, references, citations){
   nodes.push({id: paperId, label: paperTitle});
 
   for(let reference of references){
-    nodes.push({id: reference.paperId, label: reference.title})
-    links.push({id: reference.paperId + paperId, source: paperId, target: reference.paperId})
+    if(reference.paperId && reference.paperId != ""){
+      nodes.push({id: reference.paperId, label: reference.title})
+      links.push({id: reference.paperId + paperId, source: paperId, target: reference.paperId})
+    }
   }
 
   for(let citation of citations){
-    nodes.push({id: citation.paperId, label: citation.title})
-    links.push({id: citation.paperId + paperId, source: citation.paperId, target: paperId})
+    if(citation.paperId && citation.paperId != ""){
+      nodes.push({id: citation.paperId, label: citation.title})
+      links.push({id: citation.paperId + paperId, source: citation.paperId, target: paperId})
+    }
   }
 
   return {nodes: nodes, links: links};
