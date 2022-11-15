@@ -5,8 +5,8 @@ import {
 } from "../src/services/KnowledgeGraphService";
 
 const TITLE =
-  "Frequncy and Density Associated Grouping Patterns of Male Roosevelt Elk";
-const PAPER_ID = "e21c794b4941a5628b3b8c138ee211a5b75b66a08";
+  "Frequency and Density Associated Grouping Patterns of Male Roosevelt Elk";
+const PAPER_ID = "e21c794b4941a5628b3b8c138e211a5b75b66a08";
 // This paper has this paper_id, 1 citation and 74 references
 
 test("Tests KnowledgeGraphService.getPaperID", async () => {
