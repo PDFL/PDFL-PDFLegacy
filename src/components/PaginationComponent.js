@@ -106,7 +106,8 @@ class PaginationComponent {
      */
     setPageCount = (pageNumber) => {
         this.pageCount = pageNumber;
-        this.components.pageCount.textContent = pageNumber;
+        this.components.pageCount[0].textContent = pageNumber;
+        this.components.pageCount[1].textContent = pageNumber;
     }
 
     /**
