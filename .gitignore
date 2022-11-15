@@ -111,3 +111,6 @@ dist/index.html
 dist/main.bundle.js
 dist/pdf.worker.bundle.js
 *.map
+
+.vscode/
+.vscode
