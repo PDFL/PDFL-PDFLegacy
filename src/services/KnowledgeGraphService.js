@@ -1,11 +1,5 @@
+import { fetchCitations, fetchPaperInfo, fetchReferences } from "./Api";
 import { compareSimilarity } from "./Utils";
-
-const KEYWORD_API =
-  "https://api.semanticscholar.org/graph/v1/paper/search?query=";
-const CITATIONS_API =
-  "https://api.semanticscholar.org/graph/v1/paper/{paper_id}/citations?fields=title,citationCount,influentialCitationCount";
-const REFERENCES_API =
-  "https://api.semanticscholar.org/graph/v1/paper/{paper_id}/references?fields=title,citationCount,influentialCitationCount";
 
 /**
  * @typedef {Object} PaperInfo
@@ -58,7 +52,7 @@ async function getLinkedPapers(pdfDoc) {
 }
 
 /**
- * Gets paperId and title from sem scholar API.
+ * Gets paperId and title.
  *
  * @param {string} title
  * @returns {Promise<PaperInfo>}
@@ -66,34 +60,28 @@ async function getLinkedPapers(pdfDoc) {
 async function getPaperInfo(title) {
   let titleQuery = title.replace(" ", "+");
 
-  let currentPaper = (await (await fetch(KEYWORD_API + titleQuery)).json())
-    .data[0];
-  return currentPaper;
+  return await fetchPaperInfo(titleQuery);
 }
 
 /**
- * Gets papers that cite this paper from sem scholar.
+ * Gets papers that cite this paper.
  *
  * @param {string} paperID
  * @returns {Promise<PaperInfo[]>}
  */
 async function getCitations(paperID) {
-  let data = (
-    await (await fetch(CITATIONS_API.replace("{paper_id}", paperID))).json()
-  ).data;
+  let data = await fetchCitations(paperID);
   return data.map(({ citingPaper }) => citingPaper);
 }
 
 /**
- * Gets papers that are cited by this paper from sem scholar.
+ * Gets papers that are cited by this paper.
  *
  * @param {string} paperID
  * @returns {Promise<PaperInfo[]>}
  */
 async function getReferences(paperID) {
-  let data = (
-    await (await fetch(REFERENCES_API.replace("{paper_id}", paperID))).json()
-  ).data;
+  let data = await fetchReferences(paperID);
   return data.map(({ citedPaper }) => citedPaper);
 }
 
@@ -117,36 +105,44 @@ async function getReferences(paperID) {
  */
 
 /**
- * Returns object structure of paper's references and citations 
- * that graph generatior takes in. 
- * 
+ * Returns object structure of paper's references and citations
+ * that graph generatior takes in.
+ *
  * @param {string} paperId paper id
  * @param {string} paperTitle paper title
- * @param {PaperInfo[]} references papers that paper is referencing 
+ * @param {PaperInfo[]} references papers that paper is referencing
  * @param {PaperInfo[]} citations papers that are citing the paper
  * @returns {GraphData}
  */
-function getGraphStructure(paperId, paperTitle, references, citations){
+function getGraphStructure(paperId, paperTitle, references, citations) {
   let nodes = new Array();
   let links = new Array();
 
-  nodes.push({id: paperId, label: paperTitle});
+  nodes.push({ id: paperId, label: paperTitle });
 
-  for(let reference of references){
-    if(reference.paperId && reference.paperId != ""){
-      nodes.push({id: reference.paperId, label: reference.title})
-      links.push({id: reference.paperId + paperId, source: paperId, target: reference.paperId})
+  for (let reference of references) {
+    if (reference.paperId && reference.paperId != "") {
+      nodes.push({ id: reference.paperId, label: reference.title });
+      links.push({
+        id: reference.paperId + paperId,
+        source: paperId,
+        target: reference.paperId,
+      });
     }
   }
 
-  for(let citation of citations){
-    if(citation.paperId && citation.paperId != ""){
-      nodes.push({id: citation.paperId, label: citation.title})
-      links.push({id: citation.paperId + paperId, source: citation.paperId, target: paperId})
+  for (let citation of citations) {
+    if (citation.paperId && citation.paperId != "") {
+      nodes.push({ id: citation.paperId, label: citation.title });
+      links.push({
+        id: citation.paperId + paperId,
+        source: citation.paperId,
+        target: paperId,
+      });
     }
   }
 
-  return {nodes: nodes, links: links};
+  return { nodes: nodes, links: links };
 }
 
 export { getLinkedPapers, getCitations, getReferences, getPaperInfo };
