@@ -15,8 +15,8 @@ const pdfjsLib = require("pdfjs-dist");
  * @property {Object} components object that holds DOM elements that are within component
  * @property {HTMLElement} components.pdfContainer element containing the PDF reader
  * @property {HTMLElement} components.openNew button that takes user to input view page
- * @property {PaginationComponent} paginationComponent pagination component within the reader
- * @property {ZoomComponent} zoomComponent zoom component within the reader
+ * @property {SidePageComponent} sidePageComponent side component within the reader
+ * @property {ToolbarComponent} toolbarComponent toolbar component within the reader
  * @property {PDFDocumentProxy} pdfDoc PDF document
  */
 class PdfReaderComponent {
@@ -26,8 +26,8 @@ class PdfReaderComponent {
   };
 
     /**
-     * Creates and initializes new zoom component. Creates new PaginationComponent and 
-     * ZoomComponent objects.
+     * Creates and initializes new zoom component. Creates new ToolbarComponent and 
+     * SidePageComponent objects.
      * @constructor
      */
     constructor() {
