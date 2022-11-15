@@ -4,7 +4,7 @@
     "scripts": {
         "build": "webpack --no-devtool",
         "lint": "prettier-eslint \"PDFL-PDFLegacy/**/*.js\"",
-        "test": "echo 0",
+        "test": "jest --coverage --collectCoverageFrom='./src/**' --coverageReporters='text-summary'",
         "serve": "webpack serve",
         "watch": "webpack --watch"
     },
@@ -27,9 +27,8 @@
     },
     "private": true,
     "dependencies": {
-        "string-similarity": "^4.0.4",
-        "webpack-dev-server": "^4.11.1",
         "@emotion/react": "^11.10.5",
-        "@emotion/styled": "^11.10.5"
+        "@emotion/styled": "^11.10.5",
+        "string-similarity": "^4.0.4"
     }
 }
