@@ -1,3 +1,5 @@
+import { MAX_REFERENCES } from "../src/Constants";
+import { fetchPaperInfo } from "../src/services/Api";
 import {
   getCitations,
   getReferences,
@@ -33,5 +35,5 @@ test("Tests KnowledgeGraphService.getCitations", async () => {
 test("Tests KnowledgeGraphService.getReferences", async () => {
   let references = await getReferences(PAPER_ID);
 
-  expect(references.length).toBe(74);
+  expect(references.length).toBe(MAX_REFERENCES); // because MAX_REFERENCES < 74
 });
