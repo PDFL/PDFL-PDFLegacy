@@ -19,6 +19,7 @@ import { compareSimilarity } from "./Utils";
  * Gets citations and references for a pdf document and the
  * reference and citation count for those papers.
  *
+ * @async
  * @param {Pdfjs Document} pdfDoc
  * @returns {Promise<LinkedPapers>} linked papers of 'pdfDoc'
  */
@@ -34,8 +35,8 @@ async function getLinkedPapers(pdfDoc) {
     return [];
   }
 
-  let currentPaperInfo = await getPaperInfo(title);
-  if (!compareSimilarity(currentPaperInfo.title, title)) {
+  let currentPaperInfo = await fetchPaperInfo(title);
+  if (!currentPaperInfo || !compareSimilarity(currentPaperInfo.title, title)) {
     console.warn("Titles do not match!");
     // TODO: parse references from pdf text
     return [];
@@ -52,20 +53,9 @@ async function getLinkedPapers(pdfDoc) {
 }
 
 /**
- * Gets paperId and title.
- *
- * @param {string} title
- * @returns {Promise<PaperInfo>}
- */
-async function getPaperInfo(title) {
-  let titleQuery = title.replace(" ", "+");
-
-  return await fetchPaperInfo(titleQuery);
-}
-
-/**
  * Gets papers that cite this paper.
  *
+ * @async
  * @param {string} paperID
  * @returns {Promise<PaperInfo[]>}
  */
@@ -77,6 +67,7 @@ async function getCitations(paperID) {
 /**
  * Gets papers that are cited by this paper.
  *
+ * @async
  * @param {string} paperID
  * @returns {Promise<PaperInfo[]>}
  */
@@ -145,4 +136,4 @@ function getGraphStructure(paperId, paperTitle, references, citations) {
   return { nodes: nodes, links: links };
 }
 
-export { getLinkedPapers, getCitations, getReferences, getPaperInfo };
+export { getLinkedPapers, getCitations, getReferences };

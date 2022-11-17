@@ -19,20 +19,22 @@ const FIELDS_TO_FETCH_FOR_PAPER =
 
 /**
  * Fetches paperId and title from sem scholar API.
+ * Returns null if no match is found.
  *
+ * @async
  * @param {string} titleQuery
  * @returns {Promise<import("./KnowledgeGraphService").PaperInfo>}
  */
 async function fetchPaperInfo(titleQuery) {
   let queryParams = new URLSearchParams({ query: titleQuery, limit: 1 });
-  let currentPaper = (await (await fetch(KEYWORD_API + queryParams)).json())
-    .data[0];
-  return currentPaper;
+  let paper = (await (await fetch(KEYWORD_API + queryParams)).json()).data[0];
+  return paper;
 }
 
 /**
  * Fetches papers that cite this paper from sem scholar.
  *
+ * @async
  * @param {string} paperID
  * @returns {Promise<CitedPaper[]>}
  */
@@ -49,6 +51,7 @@ async function fetchCitations(paperID) {
 /**
  * Fetches papers that are cited by this paper from sem scholar.
  *
+ * @async
  * @param {string} paperID
  * @returns {Promise<CitingPaper[]>}
  */
