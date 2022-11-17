@@ -3,29 +3,29 @@ name: CD
 on:
   workflow_run:
     workflows: [CI]
-    branches: [main, ci_fix]
+    branches: [main, cd_fix]
     types: [completed]
 
 jobs:
-    build-and-deploy:
-      name: Build and Deploy
-      runs-on: ubuntu-latest
-      if: ${{ github.event.workflow_run.conclusion == 'success' }}
-      steps:
-        - name: "🔧 setup node"
-          uses: actions/setup-node@v3.5.1
-          with:
-            node-version: "16"
+  build-and-deploy:
+    name: Build and Deploy
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - name: "🔧 setup node"
+        uses: actions/setup-node@v3.5.1
+        with:
+          node-version: "16"
 
-        - name: Checkout 🛎️
-          uses: actions/checkout@v2.3.1
+      - name: Checkout 🛎️
+        uses: actions/checkout@v2.3.1
 
-        - name: Install and Build 🔧
-          run: |
-            npm install
-            npm run build
-        - name: Deploy 🚀
-          uses: JamesIves/github-pages-deploy-action@4.1.4
-          with:
-            branch: build # The branch the action should deploy to.
-            folder: public # The folder the action should deploy.
+      - name: Install and Build 🔧
+        run: |
+          npm install
+          npm run build
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@4.1.4
+        with:
+          branch: build # The branch the action should deploy to.
+          folder: dist # The folder the action should deploy.
