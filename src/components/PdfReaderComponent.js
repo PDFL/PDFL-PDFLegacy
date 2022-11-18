@@ -6,6 +6,7 @@ import { SidePageComponent } from "./SidePageComponent";
 import { ToolbarComponent } from "./ToolbarComponent";
 
 const pdfjsLib = require("pdfjs-dist");
+const pdfjsViewer = require("pdfjs-dist/web/pdf_viewer");
 
 /**
  * Component representing the PDF reader. Displays the content of PDF document and actions 
@@ -22,40 +23,43 @@ class PdfReaderComponent {
   components = {
     pdfContainer: document.querySelector("#pdf-container"),
     openNew: document.querySelector("#open-new"),
+    canvas: null,
+    viewport: null,
   };
 
-    /**
-     * Creates and initializes new zoom component. Creates new ToolbarComponent and 
-     * SidePageComponent objects.
-     * @constructor
-     */
-    constructor() {
-      this.toolbarComponent = new ToolbarComponent();
-      this.sidePageComponent = new SidePageComponent();
-    
-      this.#registerEvents();
-    }
+  /**
+   * Creates and initializes new zoom component. Creates new ToolbarComponent and 
+   * SidePageComponent objects.
+   * @constructor
+   */
+  constructor() {
+    this.toolbarComponent = new ToolbarComponent();
+    this.sidePageComponent = new SidePageComponent();
 
-  
-    /**
-     * Adds event listeners to component and it's elements.
-     * @private
-     */
-   #registerEvents = () => {
+    this.#registerEvents();
+  }
+
+
+  /**
+   * Adds event listeners to component and it's elements.
+   * @private
+   */
+  #registerEvents = () => {
     this.components.openNew.addEventListener('click', this.#onNewFile);
 
     EventHandlerService.subscribe(PDFLEvents.onRenderPage, () => {
-        this.#renderPage();
+      this.#renderPage();
+      this.#renderText();
     });
 
     EventHandlerService.subscribe(PDFLEvents.onResetReader, () => {
-        this.reset();
+      this.reset();
     });
-    
+
     EventHandlerService.subscribe(PDFLEvents.onReadNewFile, (pdf) => {
-        this.loadPdf(pdf);
+      this.loadPdf(pdf);
     });
-}
+  }
 
   /**
    * Cretes event triggered when application view changed from reader view to input view.
@@ -73,13 +77,13 @@ class PdfReaderComponent {
     const self = this;
     const loader = document.querySelector("#loader");
     pdfjsLib.GlobalWorkerOptions.workerSrc = "webpack/pdf.worker.bundle.js";
-    pdfjsLib
-      .getDocument(pdf)
-      .promise.then((data) => {
+    pdfjsLib.getDocument(pdf).promise.then((data) => {
         self.pdfDoc = data;
         self.toolbarComponent.setPageCount(data.numPages);
         self.sidePageComponent.setPDF(data);
         self.#renderPage();
+        self.#renderText();
+        //self.#renderLink();
       })
       .catch((err) => {
         console.log(err.message); // TODO: handle error in some way
@@ -91,62 +95,139 @@ class PdfReaderComponent {
    * Renders the page.
    * @private
    */
-   #renderPage = () => {
-    const self = this;
+  #renderPage = () => {
+    const component = this.components;
     this.pdfDoc
-      .getPage(self.toolbarComponent.getCurrentPage())
+      .getPage(this.toolbarComponent.getCurrentPage())
       .then((page) => {
+
         //Set the HTML properties
-        const canvas = document.createElement("canvas");
-        canvas.setAttribute("class", "canvas__container");
-        const textLayer = document.createElement("div");
-        textLayer.setAttribute("class", "textLayer");
-        const ctx = canvas.getContext("2d");
-        const viewport = page.getViewport({
-          scale: self.toolbarComponent.getZoom(),
+        component.canvas = document.createElement("canvas");
+        component.canvas.setAttribute("class", "canvas__container");
+
+        const ctx = component.canvas.getContext("2d");
+        component.viewport = page.getViewport({
+          scale: this.toolbarComponent.getZoom(),
         });
-        canvas.height = viewport.height;
-        canvas.width = viewport.width;
+        component.canvas.height = component.viewport.height;
+        component.canvas.width = component.viewport.width;
+
         // Render the PDF page into the canvas context.
         const renderCtx = {
           canvasContext: ctx,
-          viewport: viewport,
+          viewport: component.viewport,
         };
-
-        var renderTask = page.render(renderCtx);
-
-        renderTask.promise.then(function () {
-          page.getTextContent().then(function (textContent) {
-            textLayer.style.left = canvas.offsetLeft + "px";
-            textLayer.style.top = canvas.offsetTop + "px";
-            textLayer.style.height = canvas.offsetHeight + "px";
-            textLayer.style.width = canvas.offsetWidth + "px";
-
-            pdfjsLib.renderTextLayer({
-              textContent: textContent,
-              container: textLayer,
-              viewport: viewport,
-              textDivs: [],
-            });
-          });
-        });
 
         page.render(renderCtx);
 
-        if (ctx) {
-          ctx.clearRect(0, 0, canvas.width, canvas.height);
-          ctx.beginPath();
-        }
-
         //Scroll is possible but not supported by other navigation functions, clear container before adding the new page
-        self.components.pdfContainer.innerHTML = "";
-        self.components.pdfContainer.appendChild(canvas);
-        self.components.pdfContainer.appendChild(textLayer);
-
-        self.toolbarComponent.setCurrentPage();
+        component.pdfContainer.innerHTML = "";
+        component.pdfContainer.appendChild(component.canvas);
+        this.toolbarComponent.setCurrentPage();
       });
   };
-  
+
+  /**
+     * Private function to render the text 
+     */
+  #renderText = () => {
+    const component = this.components;
+    this.pdfDoc
+      .getPage(this.toolbarComponent.getCurrentPage())
+      .then((page) => {
+
+        //Set the HTML properties
+        const textLayer = document.createElement("div");
+        textLayer.setAttribute('class', 'textLayer');
+
+        page.getTextContent().then(function (textContent) {
+
+          textLayer.style.left = component.canvas.offsetLeft + 'px';
+          textLayer.style.top = component.canvas.offsetTop + 'px';
+          textLayer.style.height = component.canvas.offsetHeight + 'px';
+          textLayer.style.width = component.canvas.offsetWidth + 'px';
+
+          //Render the text inside the textLayer container
+          pdfjsLib.renderTextLayer({
+            textContent: textContent,
+            container: textLayer,
+            viewport: component.viewport,
+            textDivs: []
+          });
+
+        });
+
+        const pdfLinkService = new pdfjsViewer.PDFLinkService();
+
+        page.getAnnotations().then(function (annotationsData) {
+
+          textLayer.style.left = component.canvas.offsetLeft + 'px';
+          textLayer.style.top = component.canvas.offsetTop + 'px';
+          textLayer.style.height = component.viewport.offsetHeight + 'px';
+          textLayer.style.width = component.viewport.offsetWidth + 'px';
+
+
+          //Render the text inside the textLayer container
+          pdfjsLib.AnnotationLayer.render({
+            div: textLayer,
+            viewport: component.viewport.clone({ dontFlip: true }),
+            annotations: annotationsData,
+            page: page,
+            linkService: pdfLinkService,
+            enableScripting: true,
+            renderInteractiveForms: true,
+          });
+
+          //for @matteovisotto: --onLinkLayerRendered--
+
+        });
+
+        //Display the container
+        component.pdfContainer.appendChild(textLayer);
+      });
+
+  }
+
+  //TODO: check if we need two different function for the link or not depending on how cover the annotationLayer in HTML
+  /* #renderLink = () => {
+    const component = this.components;
+    this.pdfDoc
+      .getPage(this.paginationComponent.getCurrentPage())
+      .then((page) => {
+
+        //Set the HTML properties
+        const annotationLayer = document.createElement("div");
+        annotationLayer.setAttribute('class', 'annotation-layer');
+
+        const pdfLinkService = new pdfjsViewer.PDFLinkService();
+
+        page.getAnnotations().then(function (annotationsData) {
+
+          annotationLayer.style.left = component.canvas.offsetLeft + 'px';
+          annotationLayer.style.top = component.canvas.offsetTop + 'px';
+          annotationLayer.style.height = component.viewport.offsetHeight + 'px';
+          annotationLayer.style.width = component.viewport.offsetWidth + 'px';
+
+
+          //Render the text inside the textLayer container
+          pdfjsLib.AnnotationLayer.render({
+            div: annotationLayer,
+            viewport: component.viewport.clone({ dontFlip: true }),
+            annotations: annotationsData,
+            page: page,
+            linkService: pdfLinkService,
+            enableScripting: true,
+            renderInteractiveForms: true,
+          });
+
+        });
+
+        //Display the links
+        component.pdfContainer.appendChild(annotationLayer);
+      });
+
+  } */
+
   /**
    * Sets current page of pagination component to 1 and current zoom level
    * of zoom component to 1.
