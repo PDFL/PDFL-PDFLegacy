@@ -1,5 +1,8 @@
 import { nodesMock, linksMock } from "../mocks/KnowledgeGaphMocks";
-import { getLinkedPapers } from "../services/KnowledgeGraphService";
+import {
+  buildGraphProcedure,
+  getLinkedPapers,
+} from "../services/KnowledgeGraphService";
 /**
  * Component responsible for displaying the knowledge graph.
  *
@@ -23,16 +26,15 @@ class KnowledgeGraphComponent {
       let data;
       if (!linkedPapers || linkedPapers.length == 0)
         data = { nodes: nodesMock, links: linksMock };
-      else
-        data = linkedPapers;
-      
-      ForceGraph()(this.components.knowledgeGraph)
+      else data = linkedPapers;
+
+      let graph = ForceGraph()(this.components.knowledgeGraph)
         .graphData(data)
         .nodeId("id")
         .nodeAutoColorBy("group")
         .nodeCanvasObject((node, ctx, globalScale) => {
           //TODO: add custom style
-          const label = node.label;
+          const label = node.label.substring(0, 4);
           const fontSize = 12 / globalScale;
           ctx.font = `${fontSize}px Sans-Serif`;
           const textWidth = ctx.measureText(label).width;
@@ -65,6 +67,8 @@ class KnowledgeGraphComponent {
             );
         })
         .linkDirectionalArrowLength(6);
+
+      buildGraphProcedure(graph, data);
     });
   };
 }

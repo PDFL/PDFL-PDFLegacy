@@ -1,3 +1,4 @@
+import { MAX_CITATION } from "../Constants";
 import { fetchCitations, fetchPaperInfo, fetchReferences } from "./Api";
 import { compareSimilarity } from "./Utils";
 
@@ -42,14 +43,29 @@ async function getLinkedPapers(pdfDoc) {
     return [];
   }
 
-  let paperID = currentPaperInfo.paperId;
+  return await getLinkedPapersByPaper(currentPaperInfo);
+}
 
+/**
+ * Gets citations and references for a pdf document and the
+ * reference and citation count for those papers.
+ *
+ * @async
+ * @param {PaperInfo} paperInfo
+ * @returns {Promise<LinkedPapers>} linked papers of 'pdfDoc'
+ */
+async function getLinkedPapersByPaper(paperInfo) {
   let [citations, references] = await Promise.all([
-    getCitations(paperID),
-    getReferences(paperID),
+    getCitations(paperInfo.paperId),
+    getReferences(paperInfo.paperId),
   ]);
 
-  return getGraphStructure(paperID, title, references, citations);
+  return getGraphStructure(
+    paperInfo.paperId,
+    paperInfo.title,
+    references,
+    citations
+  );
 }
 
 /**
@@ -136,4 +152,48 @@ function getGraphStructure(paperId, paperTitle, references, citations) {
   return { nodes: nodes, links: links };
 }
 
-export { getLinkedPapers, getCitations, getReferences };
+async function buildGraphProcedure(graph, nodesToExpand) {
+  for (let [i, node] of nodesToExpand.nodes.entries()) {
+    if (i + 1 == MAX_CITATION) {
+      break;
+    }
+    let linkedPapers = await getLinkedPapersByPaper({
+      paperId: node.id,
+      title: node.label,
+    });
+    //linkedPapers.nodes.splice(0, 1);
+    addToGraph(graph, linkedPapers);
+  }
+}
+
+function addToGraph(graph, linkedPapers) {
+  const { nodes, links } = graph.graphData();
+  const nodesToAdd = linkedPapers.nodes;
+  const linksToAdd = linkedPapers.links;
+  let nodeToAddFiltered = [];
+  let nodeIdsInGraph = nodes.map(({ id }) => id);
+  for (let node of nodesToAdd) {
+    if (nodeIdsInGraph.includes(node.id)) {
+      continue;
+    }
+    nodeToAddFiltered.push(node);
+  }
+
+  let linksToAddFiltered = [];
+  let linkIdsInGraph = links.map(({ id }) => id);
+  for (let link of linksToAdd) {
+    if (linkIdsInGraph.includes(link.id)) {
+      continue;
+    }
+    linksToAddFiltered.push(link);
+  }
+
+  nodes.push(...nodeToAddFiltered);
+  links.push(...linksToAddFiltered);
+  graph.graphData({
+    nodes: nodes,
+    links: links,
+  });
+}
+
+export { getLinkedPapers, getCitations, getReferences, buildGraphProcedure };
