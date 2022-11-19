@@ -1,3 +1,5 @@
+import { MAX_CITATION, MAX_REFERENCES } from "../Constants";
+
 const KEYWORD_API = "https://api.semanticscholar.org/graph/v1/paper/search?";
 const CITATIONS_API =
   "https://api.semanticscholar.org/graph/v1/paper/{paper_id}/citations?";
@@ -39,7 +41,10 @@ async function fetchPaperInfo(titleQuery) {
  * @returns {Promise<CitedPaper[]>}
  */
 async function fetchCitations(paperID) {
-  let queryParams = new URLSearchParams({ fields: FIELDS_TO_FETCH_FOR_PAPER });
+  let queryParams = new URLSearchParams({
+    fields: FIELDS_TO_FETCH_FOR_PAPER,
+    limit: MAX_CITATION,
+  });
   let data = (
     await (
       await fetch(CITATIONS_API.replace("{paper_id}", paperID) + queryParams)
@@ -56,7 +61,10 @@ async function fetchCitations(paperID) {
  * @returns {Promise<CitingPaper[]>}
  */
 async function fetchReferences(paperID) {
-  let queryParams = new URLSearchParams({ fields: FIELDS_TO_FETCH_FOR_PAPER });
+  let queryParams = new URLSearchParams({
+    fields: FIELDS_TO_FETCH_FOR_PAPER,
+    limit: MAX_REFERENCES,
+  });
   let data = (
     await (
       await fetch(REFERENCES_API.replace("{paper_id}", paperID) + queryParams)
