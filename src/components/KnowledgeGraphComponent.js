@@ -1,3 +1,4 @@
+import { MAX_GRAPH_DEPTH } from "../Constants";
 import { nodesMock, linksMock } from "../mocks/KnowledgeGaphMocks";
 import {
   buildGraphProcedure,
@@ -68,7 +69,7 @@ class KnowledgeGraphComponent {
         })
         .linkDirectionalArrowLength(6);
 
-      buildGraphProcedure(graph, data);
+      buildGraphProcedure(graph, MAX_GRAPH_DEPTH);
     });
   };
 }
