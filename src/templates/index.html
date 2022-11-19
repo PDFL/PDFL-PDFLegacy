@@ -10,7 +10,8 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
-    <script src="https://www.unpkg.com/force-graph"></script> <!--TODO: webpack-->
+    <script src="https://www.unpkg.com/force-graph"></script>
+    <!--TODO: webpack-->
 
 </head>
 
@@ -95,7 +96,8 @@
                 <p id="num-pages">
                     <span id="page-num"></span>/
                     <span id="page-count"></span>
-                    <span class="tooltiptext">Page <input type="number" value="1" id="current-page"/> of <span id="page-count"></span></span>
+                    <span class="tooltiptext">Page <input type="number" value="1" id="current-page" /> of <span
+                            id="page-count"></span></span>
                 </p>
                 <a>
                     <i class="material-icons" id="next-page">chevron_right</i>
@@ -142,9 +144,19 @@
         <div id="loader">
             <img src="assets/logo_white.png" alt="loading..." id="logo-loader" />
         </div>
+
         <div id="main">
             <div id="pdf-container" class="full-width"></div>
+
             <div id="side-page" class="no-width">
+                <div id="background-loader-2">
+                    <div id="loader-2">
+                        <div class="bubble"></div>
+                        <div class="bubble"></div>
+                        <div class="bubble"></div>
+                        <div class="bubble"></div>
+                    </div>
+                </div>
                 <a id="close-btn" class="closebtn">&times;</a>
                 <div id="knowledge-graph"></div>
             </div>

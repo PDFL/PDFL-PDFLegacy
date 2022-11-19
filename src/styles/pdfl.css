@@ -38,9 +38,6 @@ body{
   transition: 0.5s;
 }
 
-header{
-    height: 60px;
-}
 
 .zoom:hover,
 .print-button:hover {
@@ -89,7 +86,7 @@ header{
     display: block;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 5rem;
+    margin-top: 2rem;
 }
 
 #num-pages{
@@ -371,7 +368,7 @@ input[type="number"]::-webkit-outer-spin-button {
   left: 0;
   width: 100%;
   height: 100%;
-  background: #489c8a;
+  background: var(--color);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -379,7 +376,7 @@ input[type="number"]::-webkit-outer-spin-button {
 
 #logo-loader{
   width: 50%;
-  animation: myAnim 800ms ease 0s 2 normal forwards, fadeOut 1s;
+  animation: myAnim 600ms ease 0s 80 normal forwards, fadeOut 1s;
   animation-fill-mode: forwards;
 }
 
@@ -391,6 +388,66 @@ input[type="number"]::-webkit-outer-spin-button {
   animation: fadeOut 1s;
   animation-fill-mode: forwards;
 }
+
+#background-loader-2{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: #34495e;
+  z-index: 999;
+}
+
+#background-loader-2.hidden{
+  animation: fadeOut 1s;
+  animation-fill-mode: forwards;
+}
+
+
+#loader-2 {
+  position: relative;
+  top: 50%;
+  left: 50%;
+}
+
+.bubble {
+  animation: expand .75s ease-in-out infinite;
+  border-radius: 20px;
+  display: inline-block;
+  transform-origin: center center;
+  margin: 0 3px;
+  width: 20px;
+  height: 20px;
+  z-index: 999;
+}
+
+.bubble:nth-child(1) {
+  background: #27ae60;
+}
+
+.bubble:nth-child(2) {
+  animation-delay: 180ms;
+  background: #f1c40f;
+}
+
+.bubble:nth-child(3) {
+  animation-delay: 360ms;
+  background: #e67e22;
+}
+
+.bubble:nth-child(4) {
+  animation-delay: 540ms;
+  background: #2980b9;
+}
+
+@keyframes expand {
+  0% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(1.55);
+  }
+}
+
 
 @keyframes fadeOut {
   100% {
@@ -594,6 +651,7 @@ input[type="number"]::-webkit-outer-spin-button {
     right: 0;
     overflow-x: hidden;
     z-index: 2;
+    cursor: move;
   }
 
   .closebtn {
@@ -601,7 +659,7 @@ input[type="number"]::-webkit-outer-spin-button {
     top: 0;
     right: 15px;
     font-size: 50px;
-    z-index: 2;
+    z-index: 999;
     color: black;
     cursor: pointer;
   }
