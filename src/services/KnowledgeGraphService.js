@@ -1,11 +1,5 @@
+import { fetchCitations, fetchPaperInfo, fetchReferences } from "./Api";
 import { compareSimilarity } from "./Utils";
-
-const KEYWORD_API =
-  "https://api.semanticscholar.org/graph/v1/paper/search?query=";
-const CITATIONS_API =
-  "https://api.semanticscholar.org/graph/v1/paper/{paper_id}/citations?fields=title,citationCount,influentialCitationCount";
-const REFERENCES_API =
-  "https://api.semanticscholar.org/graph/v1/paper/{paper_id}/references?fields=title,citationCount,influentialCitationCount";
 
 /**
  * @typedef {Object} PaperInfo
@@ -25,8 +19,9 @@ const REFERENCES_API =
  * Gets citations and references for a pdf document and the
  * reference and citation count for those papers.
  *
+ * @async
  * @param {Pdfjs Document} pdfDoc
- * @returns {Promise<LinkedPapers>} linked papers of 'pdfDoc'
+ * @returns {Promise<GraphData>} linked papers of 'pdfDoc'
  */
 async function getLinkedPapers(pdfDoc) {
   let metadata = await pdfDoc.getMetadata();
@@ -40,60 +35,58 @@ async function getLinkedPapers(pdfDoc) {
     return [];
   }
 
-  let currentPaperInfo = await getPaperInfo(title);
-  if (!compareSimilarity(currentPaperInfo.title, title)) {
+  let currentPaperInfo = await fetchPaperInfo(title);
+  if (!currentPaperInfo || !compareSimilarity(currentPaperInfo.title, title)) {
     console.warn("Titles do not match!");
     // TODO: parse references from pdf text
     return [];
   }
 
-  let paperID = currentPaperInfo.paperId;
+  return await getLinkedNodesByPaper(currentPaperInfo);
+}
 
+/**
+ * Gets linked papers (nodes) of the given paper.
+ *
+ * @async
+ * @param {PaperInfo} paperInfo
+ * @returns {Promise<GraphData>} linked papers of 'pdfDoc'
+ */
+async function getLinkedNodesByPaper(paperInfo) {
   let [citations, references] = await Promise.all([
-    getCitations(paperID),
-    getReferences(paperID),
+    getCitations(paperInfo.paperId),
+    getReferences(paperInfo.paperId),
   ]);
 
-  return getGraphStructure(paperID, title, references, citations);
+  return getGraphStructure(
+    paperInfo.paperId,
+    paperInfo.title,
+    references,
+    citations
+  );
 }
 
 /**
- * Gets paperId and title from sem scholar API.
+ * Gets papers that cite this paper.
  *
- * @param {string} title
- * @returns {Promise<PaperInfo>}
- */
-async function getPaperInfo(title) {
-  let titleQuery = title.replace(" ", "+");
-
-  let currentPaper = (await (await fetch(KEYWORD_API + titleQuery)).json())
-    .data[0];
-  return currentPaper;
-}
-
-/**
- * Gets papers that cite this paper from sem scholar.
- *
+ * @async
  * @param {string} paperID
  * @returns {Promise<PaperInfo[]>}
  */
 async function getCitations(paperID) {
-  let data = (
-    await (await fetch(CITATIONS_API.replace("{paper_id}", paperID))).json()
-  ).data;
+  let data = await fetchCitations(paperID);
   return data.map(({ citingPaper }) => citingPaper);
 }
 
 /**
- * Gets papers that are cited by this paper from sem scholar.
+ * Gets papers that are cited by this paper.
  *
+ * @async
  * @param {string} paperID
  * @returns {Promise<PaperInfo[]>}
  */
 async function getReferences(paperID) {
-  let data = (
-    await (await fetch(REFERENCES_API.replace("{paper_id}", paperID))).json()
-  ).data;
+  let data = await fetchReferences(paperID);
   return data.map(({ citedPaper }) => citedPaper);
 }
 
@@ -232,4 +225,4 @@ function addToGraph(graph, linkedNodes) {
   });
 }
 
-export { getLinkedPapers, getCitations, getReferences, getPaperInfo };
+export { getLinkedPapers, getCitations, getReferences, buildGraphProcedure };
