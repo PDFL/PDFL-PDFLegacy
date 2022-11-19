@@ -1,4 +1,3 @@
-import { MAX_CITATION } from "../Constants";
 import { fetchCitations, fetchPaperInfo, fetchReferences } from "./Api";
 import { compareSimilarity } from "./Utils";
 
@@ -22,7 +21,7 @@ import { compareSimilarity } from "./Utils";
  *
  * @async
  * @param {Pdfjs Document} pdfDoc
- * @returns {Promise<LinkedPapers>} linked papers of 'pdfDoc'
+ * @returns {Promise<GraphData>} linked papers of 'pdfDoc'
  */
 async function getLinkedPapers(pdfDoc) {
   let metadata = await pdfDoc.getMetadata();
@@ -43,18 +42,17 @@ async function getLinkedPapers(pdfDoc) {
     return [];
   }
 
-  return await getLinkedPapersByPaper(currentPaperInfo);
+  return await getLinkedNodesByPaper(currentPaperInfo);
 }
 
 /**
- * Gets citations and references for a pdf document and the
- * reference and citation count for those papers.
+ * Gets linked papers (nodes) of the given paper.
  *
  * @async
  * @param {PaperInfo} paperInfo
- * @returns {Promise<LinkedPapers>} linked papers of 'pdfDoc'
+ * @returns {Promise<GraphData>} linked papers of 'pdfDoc'
  */
-async function getLinkedPapersByPaper(paperInfo) {
+async function getLinkedNodesByPaper(paperInfo) {
   let [citations, references] = await Promise.all([
     getCitations(paperInfo.paperId),
     getReferences(paperInfo.paperId),
@@ -152,47 +150,74 @@ function getGraphStructure(paperId, paperTitle, references, citations) {
   return { nodes: nodes, links: links };
 }
 
-async function buildGraphProcedure(graph, nodesToExpand) {
-  for (let [i, node] of nodesToExpand.nodes.entries()) {
-    if (i + 1 == MAX_CITATION) {
-      break;
-    }
-    let linkedPapers = await getLinkedPapersByPaper({
+/**
+ * Keeps adding nodes to Knowledge graph procedurally.
+ * Input should be a graph with depth 1.
+ *
+ * @async
+ * @param {ForceGraph} graph
+ * @param {Number} maxDepth
+ */
+async function buildGraphProcedure(graph, maxDepth) {
+  let nodesToExpand = graph.graphData();
+  await buildGraphDepth(graph, nodesToExpand, 1, maxDepth);
+}
+
+/**
+ * Recursive function which adds nodes to a Knowledge Graph.
+ * For maxDepth 2, it will add the next depth (nodesToAdd),
+ * for maxDepth 3, it will add that and the the linked papers
+ * of nodesToAdd.
+ *
+ * @async
+ * @param {ForceGraph} graph
+ * @param {GraphData} nodesToAdd
+ * @param {Number} depth
+ * @param {Number} maxDepth
+ */
+async function buildGraphDepth(graph, nodesToAdd, depth, maxDepth) {
+  if (depth == maxDepth) return;
+
+  let nodesToAddNextDepth = [];
+  for (let node of nodesToAdd.nodes) {
+    let linkedPapers = await getLinkedNodesByPaper({
       paperId: node.id,
       title: node.label,
     });
-    //linkedPapers.nodes.splice(0, 1);
+    linkedPapers.re;
     addToGraph(graph, linkedPapers);
+    nodesToAddNextDepth.push(linkedPapers);
+  }
+
+  for (let nodesToExpand of nodesToAddNextDepth) {
+    await buildGraphDepth(graph, nodesToExpand, depth + 1, maxDepth);
   }
 }
 
-function addToGraph(graph, linkedPapers) {
+/**
+ * Adds GraphData to a graph, this will trigger automatic
+ * redisplaying of the graph, linkedNodes can contain
+ * duplicates.
+ *
+ * @param {ForceGraph} graph
+ * @param {GraphData} linkedNodes
+ */
+function addToGraph(graph, linkedNodes) {
   const { nodes, links } = graph.graphData();
-  const nodesToAdd = linkedPapers.nodes;
-  const linksToAdd = linkedPapers.links;
-  let nodeToAddFiltered = [];
+
   let nodeIdsInGraph = nodes.map(({ id }) => id);
-  for (let node of nodesToAdd) {
-    if (nodeIdsInGraph.includes(node.id)) {
-      continue;
-    }
-    nodeToAddFiltered.push(node);
-  }
+  let nodeToAddFiltered = linkedNodes.nodes.filter((node) => {
+    return !nodeIdsInGraph.includes(node.id);
+  });
 
-  let linksToAddFiltered = [];
   let linkIdsInGraph = links.map(({ id }) => id);
-  for (let link of linksToAdd) {
-    if (linkIdsInGraph.includes(link.id)) {
-      continue;
-    }
-    linksToAddFiltered.push(link);
-  }
+  let linksToAddFiltered = linkedNodes.links.filter((link) => {
+    return !linkIdsInGraph.includes(link.id);
+  });
 
-  nodes.push(...nodeToAddFiltered);
-  links.push(...linksToAddFiltered);
   graph.graphData({
-    nodes: nodes,
-    links: links,
+    nodes: nodes.concat(nodeToAddFiltered),
+    links: links.concat(linksToAddFiltered),
   });
 }
 
