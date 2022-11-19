@@ -1,7 +1,12 @@
 import ForceGraph from "force-graph";
 import { MAX_GRAPH_DEPTH } from "../Constants";
 import { nodesMock, linksMock } from "../mocks/KnowledgeGaphMocks";
-import { getLinkedPapers } from "../services/KnowledgeGraphService";
+
+import {
+  getLinkedPapers,
+  buildGraphProcedure,
+} from "../services/KnowledgeGraphService";
+
 /**
  * Component responsible for displaying the knowledge graph.
  *
