@@ -171,7 +171,7 @@ input[type="number"]::-webkit-outer-spin-button {
 
 .btn:hover{
     background-color: #ddd;
-    color: var(--color);;
+    color: var(--color);
 }
 
 /* Hide Print button */
@@ -393,8 +393,12 @@ input[type="number"]::-webkit-outer-spin-button {
   position: absolute;
   width: 100%;
   height: 100%;
-  background-color: #34495e;
+  background-color: #28323b;
   z-index: 999;
+}
+
+#background-loader-2.transparent{
+  background-color: transparent;
 }
 
 #background-loader-2.hidden{
@@ -402,11 +406,55 @@ input[type="number"]::-webkit-outer-spin-button {
   animation-fill-mode: forwards;
 }
 
+#background-loader-2.error{
+  background-color: #28323b;
+}
+
+#error-message-div{
+  visibility: hidden;
+}
+
+#error-message-div.visualize{
+  visibility: visible;
+  position: absolute;
+  top: 35%;
+  left: 30%;
+  align-items: center;
+  text-align: center;
+  cursor: default;
+}
+
+#error-message{
+  position: relative;
+  font-size: medium;
+  font-weight: 100;
+  color: var(--color);
+  text-align: center;
+}
+
+#logo-broken{
+  width: 25%;
+  height: 25%;
+}
 
 #loader-2 {
   position: relative;
   top: 50%;
   left: 50%;
+}
+
+#loader-2.move {
+  animation: moveUp 500ms;
+  animation-fill-mode: forwards;
+}
+
+#loader-2.hidden {
+  visibility: hidden;
+}
+
+@keyframes moveUp {
+  0%   {left:50%; top:50%;}
+  100%  {left:2%; top:2%;}
 }
 
 .bubble {

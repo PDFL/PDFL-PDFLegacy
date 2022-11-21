@@ -11,6 +11,9 @@
     <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
     <script src="https://www.unpkg.com/force-graph"></script>
+    <script src="//unpkg.com/d3-quadtree"></script>
+    <script src="//unpkg.com/d3-force"></script>
+    <link rel="shortcut icon" type="image/png" href="../../dist/assets/logo.png" />
     <!--TODO: webpack-->
 
 </head>
@@ -155,6 +158,14 @@
                         <div class="bubble"></div>
                         <div class="bubble"></div>
                         <div class="bubble"></div>
+                    </div>
+                    <div id="error-message-div">
+                        <img src="assets/logo_broken.png" alt="heart broken" id="logo-broken" />
+                        <p id="error-message">Ops :'( you broke our heart. <br><br> You can try later, but don't ask
+                            us,
+                            <br>
+                            because we don't trust you anymore
+                        </p>
                     </div>
                 </div>
                 <a id="close-btn" class="closebtn">&times;</a>
