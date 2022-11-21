@@ -9,12 +9,51 @@ import {
  *
  * @property {Object} components object that holds elements within this component
  * @property {HTMLElement} components.knowledgeGraph element in which knowledge graph will be displayed
+ * @property {int} depth depth of knowledge graph
  */
 class KnowledgeGraphComponent {
   components = {
     knowledgeGraph: document.querySelector("#knowledge-graph"),
+    graphDepth: document.querySelector("#graph-depth"),
   };
 
+  /**
+   * Creates and initializes new knowledge graph component. Sets depth
+   * of knowledge graph to 1.
+   * 
+   * @constructor
+   */
+  constructor() {
+    this.depth = 1;
+
+    this.#registerEvents();
+  }
+
+  /**
+   * Adds event listeners to component's elements.
+   * @private
+   */
+  #registerEvents = () => {
+    this.components.graphDepth.addEventListener("change", this.#changeDepth);
+  };
+
+  /**
+   * Sets new depth of knowledge graph and displays graph of that depth.
+   * @private
+   * @param {Event} event event triggered when new depth chosen from dropdown menu
+   */
+  #changeDepth = (event) => {
+    const selectedDepth = parseInt(event.target.value);
+    if(selectedDepth == this.depth) return;
+    this.depth = selectedDepth;
+
+    this.displayGraph();
+  };
+
+  /**
+   * Setter for PDF document from which knowledge graph will be generated.
+   * @param {PDFDocumentProxy} pdfDocument PDF document
+   */
   setPDF = (pdfDocument) => {
     this.pdfDocument = pdfDocument;
   };
@@ -69,7 +108,7 @@ class KnowledgeGraphComponent {
         })
         .linkDirectionalArrowLength(6);
 
-      buildGraphProcedure(graph, MAX_GRAPH_DEPTH);
+        buildGraphProcedure(graph, this.depth); //TODO: solve with caching
     });
   };
 }
