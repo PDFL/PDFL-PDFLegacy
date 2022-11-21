@@ -13,6 +13,7 @@ import {
  * @property {Object} components object that holds elements within this component
  * @property {HTMLElement} components.knowledgeGraph element in which knowledge graph will be displayed
  * @property {HTMLElement} components.graphDepth input element for depth selection
+ * @property {int} depth depth of knowledge graph
  */
 class KnowledgeGraphComponent {
   components = {
@@ -21,11 +22,14 @@ class KnowledgeGraphComponent {
   };
 
   /**
-   * Creates and initializes new knowledge graph component.
-   *
+   * Creates and initializes new knowledge graph component. Sets depth
+   * of knowledge graph to 1.
+   * 
    * @constructor
    */
-  constructor() {
+   constructor() {
+    this.depth = 1;
+
     this.#registerEvents();
   }
 
@@ -44,6 +48,8 @@ class KnowledgeGraphComponent {
    */
   #changeDepth = (event) => {
     const selectedDepth = parseInt(event.target.value);
+    if(selectedDepth == this.depth) return;
+    this.depth = selectedDepth;
 
     try {
       this.displayGraph(selectedDepth);
@@ -130,13 +136,7 @@ class KnowledgeGraphComponent {
           EventHandlerService.publish(PDFLEvents.onHideSidePageLoader)
         );
 
-      graph.onNodeClick((node) => {
-        // Center/zoom on node
-        graph.centerAt(node.x, node.y, 1000);
-        graph.zoom(4, 2000);
-      });
-    }).catch((error) => {
-        EventHandlerService.publish(PDFLEvents.onShowSidePageError);
+      buildGraphProcedure(graph, MAX_GRAPH_DEPTH);
     });
   };
 }
