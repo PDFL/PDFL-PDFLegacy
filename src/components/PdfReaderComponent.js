@@ -48,6 +48,24 @@ class PdfReaderComponent {
   #registerEvents = () => {
     this.components.openNew.addEventListener('click', this.#onNewFile);
 
+    document.addEventListener('click', function () {
+
+      var textSel = window.getSelection();
+      var links = document.getElementsByClassName('linkAnnotation');
+
+      if (textSel == 0) {
+        alert(textSel.toString().length);
+        for (let i = 0; i <= links.length - 1; i++) {
+          links[i].style.display = "block";
+          
+        }
+      } else {
+        for(let i = 0; i <= links.length - 1; i++) {
+          links[i].style.display = "none";
+        }
+      } 
+  })
+
     EventHandlerService.subscribe(PDFLEvents.onRenderPage, () => {
       this.#renderPage();
       this.#renderText();
