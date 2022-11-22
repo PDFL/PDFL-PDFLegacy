@@ -46,7 +46,10 @@ const PDFLEvents = {
     onRenderPage: 'onRenderPage',
     onShowKnowledgeGraph: 'onShowKnowledgeGraph',
     onResetReader: 'onResetReader',
-    onReadNewFile: 'onReadNewFile'
+    onReadNewFile: 'onReadNewFile',
+    onLinkLayerRendered: 'onLinkLayerRendered',
+    onNewPageRequest: 'onNewPageRequest',
+    onPopupContentReady: 'onPopupContentReady'
 }
 
 export { PDFLEvents, EventHandlerService };
