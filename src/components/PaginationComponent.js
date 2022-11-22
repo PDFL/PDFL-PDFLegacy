@@ -43,9 +43,14 @@ class PaginationComponent {
      * @private
      */
     #registerEvents = () => {
+        const self = this;
         this.components.previousPage.addEventListener('click', this.#showPrevPage);
         this.components.nextPage.addEventListener('click', this.#showNextPage);
         this.components.currentPage.addEventListener('keypress', this.#currentPageKeypress);
+        EventHandlerService.subscribe(PDFLEvents.onNewPageRequest, function(pageNumber){
+          self.setCurrentPage(pageNumber);
+          EventHandlerService.publish(PDFLEvents.onRenderPage);
+        });
     }
 
     /**
