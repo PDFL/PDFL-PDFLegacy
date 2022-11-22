@@ -52,7 +52,8 @@ class ReferenceComponent {
     event.preventDefault();
     const target = event.target.closest('a');
     if (!target) return;
-    const reference = target.getAttribute('href').replace('#', '');
+    const reference = decodeURIComponent(target.getAttribute('href').replace('#', ''));
+    console.log(reference);
     self.#solveReference(reference).then(pageNumber => {
       EventHandlerService.publish(PDFLEvents.onNewPageRequest, pageNumber);
     });
@@ -67,7 +68,7 @@ class ReferenceComponent {
     event.preventDefault();
     const target = event.target.closest('a');
     if (!target) return;
-    const reference = target.getAttribute('href').replace('#', '');
+    const reference = decodeURIComponent(target.getAttribute('href').replace('#', ''));
     self.#solveReference(reference).then(pageNumber => {
       self.#parseReference(reference, pageNumber);
     });
@@ -80,7 +81,12 @@ class ReferenceComponent {
    */
   #solveReference = async (refId) => {
     const self = this;
-    const destinationObject = await self.pdfDoc.getDestination(refId);
+    var destinationObject;
+    if(refId.includes('num') && refId.includes('gen')){
+      destinationObject = JSON.parse(refId);
+    } else {
+      destinationObject = await self.pdfDoc.getDestination(refId);
+    }
     const pageIndex = await self.pdfDoc.getPageIndex(destinationObject[0])
     return pageIndex + 1;
   }
