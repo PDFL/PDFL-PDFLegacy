@@ -17,6 +17,7 @@ class ReferenceComponent {
   }
 
   #onLinkLayerRendered = () => {
+    if(this.pdfDoc === null){ throw new Error('PDFDocument object missed'); }
     const pageHref = document.getElementsByClassName('internalLink');
     for (var i = 0; i < pageHref.length; i++) {
       const aElem = pageHref.item(i);
