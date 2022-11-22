@@ -170,7 +170,9 @@ async function buildGraphProcedure(graph, maxDepth) {
     document.querySelector(
       "#error-message-div"
     ); /* query selector for the brackground of the div for error message */
+
   let nodesToExpand = graph.graphData();
+
   backgroundLoader2.className += " transparent";
   loader2.className += " move";
   await buildGraphDepth(graph, nodesToExpand, 1, maxDepth)

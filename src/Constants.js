@@ -1,4 +1,5 @@
 const SIMILARITY_THRESHOLD = 0.78;
+
 const MAX_GRAPH_DEPTH = 3;
 const MAX_CITATION = 2;
 const MAX_REFERENCES = 2;

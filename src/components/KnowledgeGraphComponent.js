@@ -1,13 +1,9 @@
-import { GroupAddSharp, OfflinePinRounded } from "@mui/icons-material";
-import ForceGraph from "force-graph";
 import { MAX_GRAPH_DEPTH } from "../Constants";
 import { nodesMock, linksMock } from "../mocks/KnowledgeGaphMocks";
-
 import {
-  getLinkedPapers,
   buildGraphProcedure,
+  getLinkedPapers,
 } from "../services/KnowledgeGraphService";
-
 /**
  * Component responsible for displaying the knowledge graph.
  *
@@ -29,12 +25,11 @@ class KnowledgeGraphComponent {
   displayGraph = () => {
     getLinkedPapers(this.pdfDocument).then((linkedPapers) => {
       let data;
-
       if (!linkedPapers || linkedPapers.length == 0)
         data = { nodes: nodesMock, links: linksMock };
       else data = linkedPapers;
-      let graph = ForceGraph()(this.components.knowledgeGraph)
 
+      let graph = ForceGraph()(this.components.knowledgeGraph)
         .graphData(data)
         .nodeId("id")
         .nodeAutoColorBy("group")
