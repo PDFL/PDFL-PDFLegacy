@@ -68,6 +68,7 @@ class KnowledgeGraphComponent {
               ...bckgDimensions
             );
         })
+
         .linkCurvature(0.06)
         .linkDirectionalArrowLength(7)
         .linkDirectionalArrowRelPos(0.5)

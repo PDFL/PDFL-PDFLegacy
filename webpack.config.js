@@ -33,7 +33,7 @@ module.exports = {
     ],
   },
   plugins: [new HtmlWebpackPlugin({ template: "./src/templates/index.html" })],
-  devtool: "eval",
+  devtool: "eval-cheap-module-source-map",
   optimization: {
     runtimeChunk: "single",
   },
