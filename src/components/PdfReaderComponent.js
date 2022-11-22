@@ -48,23 +48,7 @@ class PdfReaderComponent {
   #registerEvents = () => {
     this.components.openNew.addEventListener('click', this.#onNewFile);
 
-    document.addEventListener('click', function () {
-
-      var textSel = window.getSelection();
-      var links = document.getElementsByClassName('linkAnnotation');
-
-      if (textSel == 0) {
-        alert(textSel.toString().length);
-        for (let i = 0; i <= links.length - 1; i++) {
-          links[i].style.display = "block";
-          
-        }
-      } else {
-        for(let i = 0; i <= links.length - 1; i++) {
-          links[i].style.display = "none";
-        }
-      } 
-  })
+    document.addEventListener('mousedown', this.#hideLinks);
 
     EventHandlerService.subscribe(PDFLEvents.onRenderPage, () => {
       this.#renderPage();
@@ -88,6 +72,22 @@ class PdfReaderComponent {
     EventHandlerService.publish(PDFLEvents.onShowInputView);
   };
 
+  #hideLinks = () => {
+    var textSel = window.getSelection();
+    var links = document.getElementsByClassName('linkAnnotation');
+
+    if (textSel == 0) {
+      for (let i = 0; i <= links.length - 1; i++) {
+        links[i].style.display = "block";
+
+      }
+    } else {
+      for (let i = 0; i <= links.length - 1; i++) {
+        links[i].style.display = "none";
+      }
+    }
+  }
+
   /**
    * Load and render the first page of the given pdf.
    * @param {Uint8Array} pdf data, filename or url of a PDF document
@@ -97,14 +97,14 @@ class PdfReaderComponent {
     const loader = document.querySelector("#loader");
     pdfjsLib.GlobalWorkerOptions.workerSrc = "webpack/pdf.worker.bundle.js";
     pdfjsLib.getDocument(pdf).promise.then((data) => {
-        self.pdfDoc = data;
-        self.referenceComponent.setPdfDoc(data);
-        self.toolbarComponent.setPageCount(data.numPages);
-        self.sidePageComponent.setPDF(data);
-        self.#renderPage();
-        self.#renderText();
-        //self.#renderLink();
-      })
+      self.pdfDoc = data;
+      self.referenceComponent.setPdfDoc(data);
+      self.toolbarComponent.setPageCount(data.numPages);
+      self.sidePageComponent.setPDF(data);
+      self.#renderPage();
+      self.#renderText();
+      //self.#renderLink();
+    })
       .catch((err) => {
         console.log(err.message); // TODO: handle error in some way
       });
