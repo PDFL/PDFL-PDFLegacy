@@ -12,4 +12,17 @@ function compareSimilarity(string1, string2) {
   return SIMILARITY_THRESHOLD < compareTwoStrings(string1, string2);
 }
 
-export { compareSimilarity };
+function mouseOverDelayEvent(element, delay = 2000, callback){
+  var timeout = null;
+  element.addEventListener('mouseover', function(event) {
+        timeout = setTimeout(function(){
+          callback(event);
+        }, delay);
+  });
+
+  element.addEventListener('mouseout', function() {
+    clearTimeout(timeout);
+  });
+}
+
+export { compareSimilarity, mouseOverDelayEvent };

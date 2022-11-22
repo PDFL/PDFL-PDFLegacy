@@ -4,6 +4,7 @@ import {
 } from "../services/EventHandlerService";
 import { SidePageComponent } from "./SidePageComponent";
 import { ToolbarComponent } from "./ToolbarComponent";
+import { ReferenceComponent } from "./ReferenceComponent";
 
 const pdfjsLib = require("pdfjs-dist");
 const pdfjsViewer = require("pdfjs-dist/web/pdf_viewer");
@@ -35,7 +36,7 @@ class PdfReaderComponent {
   constructor() {
     this.toolbarComponent = new ToolbarComponent();
     this.sidePageComponent = new SidePageComponent();
-
+    this.referenceComponent = new ReferenceComponent();
     this.#registerEvents();
   }
 
@@ -79,6 +80,7 @@ class PdfReaderComponent {
     pdfjsLib.GlobalWorkerOptions.workerSrc = "webpack/pdf.worker.bundle.js";
     pdfjsLib.getDocument(pdf).promise.then((data) => {
         self.pdfDoc = data;
+        self.referenceComponent.setPdfDoc(data);
         self.toolbarComponent.setPageCount(data.numPages);
         self.sidePageComponent.setPDF(data);
         self.#renderPage();
@@ -132,6 +134,7 @@ class PdfReaderComponent {
      */
   #renderText = () => {
     const component = this.components;
+    const self = this;
     this.pdfDoc
       .getPage(this.toolbarComponent.getCurrentPage())
       .then((page) => {
@@ -179,7 +182,7 @@ class PdfReaderComponent {
           });
 
           //for @matteovisotto: --onLinkLayerRendered--
-
+          EventHandlerService.publish(PDFLEvents.onLinkLayerRendered);
         });
 
         //Display the container
