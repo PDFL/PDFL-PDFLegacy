@@ -2,6 +2,8 @@ import {EventHandlerService, PDFLEvents} from "../services/EventHandlerService";
 import { mouseOverDelayEvent } from "../services/Utils";
 import {ImageExtractorService} from "../services/DocumentParser/ImageExtractorService";
 import { TextExtractorService } from "../services/DocumentParser/TextExtractorService";
+import {ExternalCitationExtractorService} from "../services/DocumentParser/ExternalCitationExtractorService";
+import {TableExtractorService} from "../services/DocumentParser/TableExtractorService";
 
 class ReferenceComponent {
 
@@ -65,8 +67,14 @@ class ReferenceComponent {
       case 'subsubsection':
         parseService = new TextExtractorService(self.pdfDoc, pageNumber, reference);
         break;
+      case 'cite':
+        parseService = new ExternalCitationExtractorService(self.pdfDoc, pageNumber, reference);
+        break;
+      case 'table':
+        parseService = new TableExtractorService(self.pdfDoc, pageNumber, reference);
+        break;
       default:
-        throw new Error("Parser not implemented exception");
+        throw new Error("Parser not implemented exception for type " + referenceType);
     }
     parseService.getContent().then(result => {
       EventHandlerService.publish(PDFLEvents.onPopupContentReady, result);
