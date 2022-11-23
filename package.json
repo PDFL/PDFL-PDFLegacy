@@ -29,10 +29,6 @@
     "dependencies": {
         "@emotion/react": "^11.10.5",
         "@emotion/styled": "^11.10.5",
-        "d3": "^7.6.1",
-        "d3-force": "^3.0.0",
-        "d3-quadtree": "^3.0.1",
-        "force-graph": "^1.42.16",
         "string-similarity": "^4.0.4"
     }
 }
