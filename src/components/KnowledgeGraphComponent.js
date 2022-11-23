@@ -41,8 +41,6 @@ class KnowledgeGraphComponent {
    */
   #changeDepth = (event) => {
     const selectedDepth = parseInt(event.target.value);
-    if(selectedDepth == this.depth) return;
-
     this.displayGraph(selectedDepth);
   };
 
