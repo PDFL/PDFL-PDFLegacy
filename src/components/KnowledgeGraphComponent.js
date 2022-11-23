@@ -9,7 +9,6 @@ import {
  *
  * @property {Object} components object that holds elements within this component
  * @property {HTMLElement} components.knowledgeGraph element in which knowledge graph will be displayed
- * @property {int} depth depth of knowledge graph
  */
 class KnowledgeGraphComponent {
   components = {
@@ -24,8 +23,6 @@ class KnowledgeGraphComponent {
    * @constructor
    */
   constructor() {
-    this.depth = 1;
-
     this.#registerEvents();
   }
 
@@ -45,9 +42,8 @@ class KnowledgeGraphComponent {
   #changeDepth = (event) => {
     const selectedDepth = parseInt(event.target.value);
     if(selectedDepth == this.depth) return;
-    this.depth = selectedDepth;
 
-    this.displayGraph();
+    this.displayGraph(selectedDepth);
   };
 
   /**
@@ -61,7 +57,7 @@ class KnowledgeGraphComponent {
   /**
    * Displays knowledge graph.
    */
-  displayGraph = () => {
+  displayGraph = (depth = 1) => {
     getLinkedPapers(this.pdfDocument).then((linkedPapers) => {
       let data;
       if (!linkedPapers || linkedPapers.length == 0)
@@ -108,7 +104,7 @@ class KnowledgeGraphComponent {
         })
         .linkDirectionalArrowLength(6);
 
-        buildGraphProcedure(graph, this.depth); //TODO: solve with caching
+        buildGraphProcedure(graph, depth); //TODO: solve with caching
     });
   };
 }
