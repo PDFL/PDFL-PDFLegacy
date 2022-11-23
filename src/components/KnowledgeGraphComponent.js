@@ -2,6 +2,7 @@ import { MAX_GRAPH_DEPTH } from "../Constants";
 import { nodesMock, linksMock } from "../mocks/KnowledgeGaphMocks";
 import {
   buildGraphProcedure,
+  fieldsOfStudyToColor,
   getLinkedPapers,
 } from "../services/KnowledgeGraphService";
 /**
@@ -43,7 +44,7 @@ class KnowledgeGraphComponent {
             (n) => n + fontSize * 0.2
           ); // some padding
 
-          ctx.fillStyle = "rgba(255, 255, 255, 0.8)";
+          ctx.fillStyle = fieldsOfStudyToColor(node.fieldsOfStudy);
           ctx.fillRect(
             node.x - bckgDimensions[0] / 2,
             node.y - bckgDimensions[1] / 2,

@@ -8,6 +8,7 @@ import {
 const TITLE =
   "Frequency and Density Associated Grouping Patterns of Male Roosevelt Elk";
 const PAPER_ID = "e21c794b4941a5628b3b8c138e211a5b75b66a08";
+const EXPECTED_FIELDS_OF_STUDY = ["Biology"];
 // This paper has this paper_id, 1 citation and 74 references
 
 test("Tests KnowledgeGraphService.getPaperID", async () => {
@@ -15,6 +16,9 @@ test("Tests KnowledgeGraphService.getPaperID", async () => {
 
   expect(paperInfo.title).toBe(TITLE);
   expect(paperInfo.paperId).toBe(PAPER_ID);
+  expect(paperInfo.fieldsOfStudy.sort()).toEqual(
+    EXPECTED_FIELDS_OF_STUDY.sort()
+  );
 });
 
 test("Tests KnowledgeGraphService.getPaperID, title does not exist", async () => {
@@ -29,6 +33,9 @@ test("Tests KnowledgeGraphService.getCitations", async () => {
   let citations = await getCitations(PAPER_ID);
 
   expect(citations.length).toBe(1);
+  expect(citations[0].fieldsOfStudy.sort()).toEqual(
+    EXPECTED_FIELDS_OF_STUDY.sort()
+  );
 });
 
 test("Tests KnowledgeGraphService.getReferences", async () => {
