@@ -22,6 +22,7 @@ class PdfReaderComponent {
   components = {
     pdfContainer: document.querySelector("#pdf-container"),
     openNew: document.querySelector("#open-new"),
+    loader: document.querySelector("#loader"),
   };
 
   /**
@@ -70,7 +71,6 @@ class PdfReaderComponent {
    */
   loadPdf = (pdf) => {
     const self = this;
-    const loader = document.querySelector("#loader");
     pdfjsLib.GlobalWorkerOptions.workerSrc = "webpack/pdf.worker.bundle.js";
     pdfjsLib
       .getDocument(pdf)
@@ -83,7 +83,7 @@ class PdfReaderComponent {
       .catch((err) => {
         console.log(err.message); // TODO: handle error in some way
       });
-    loader.className += " hidden";
+    this.components.loader.className += " hidden";
   };
 
   /**

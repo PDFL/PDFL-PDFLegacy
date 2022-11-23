@@ -159,32 +159,8 @@ function getGraphStructure(paperId, paperTitle, references, citations) {
  * @param {Number} maxDepth
  */
 async function buildGraphProcedure(graph, maxDepth) {
-  const loader2 =
-    document.querySelector(
-      "#loader-2"
-    ); /* query selector for loader for graph */
-  const backgroundLoader2 = document.querySelector(
-    "#background-loader-2"
-  ); /* query selector for the brackground of the loader of the graph */
-  const errorMessageDiv =
-    document.querySelector(
-      "#error-message-div"
-    ); /* query selector for the brackground of the div for error message */
-
   let nodesToExpand = graph.graphData();
-
-  backgroundLoader2.className += " transparent";
-  loader2.className += " move";
-  await buildGraphDepth(graph, nodesToExpand, 1, maxDepth)
-    .then(() => {
-      backgroundLoader2.className += " hidden";
-    })
-    .catch((err) => {
-      console.log(err.message);
-      loader2.className += " hidden";
-      backgroundLoader2.className += " error";
-      errorMessageDiv.className += " visualize";
-    });
+  await buildGraphDepth(graph, nodesToExpand, 1, maxDepth);
 }
 
 /**
