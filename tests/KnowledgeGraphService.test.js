@@ -34,5 +34,5 @@ test("Tests KnowledgeGraphService.getCitations", async () => {
 test("Tests KnowledgeGraphService.getReferences", async () => {
   let references = await getReferences(PAPER_ID);
 
-  expect(references.length).toBe(MAX_REFERENCES);
+  expect(references.length).toBe(MAX_REFERENCES); // because MAX_REFERENCES < 74
 });

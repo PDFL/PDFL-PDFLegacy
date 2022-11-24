@@ -10,7 +10,11 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
-    <script src="https://www.unpkg.com/force-graph"></script> <!--TODO: webpack-->
+    <script src="https://www.unpkg.com/force-graph"></script>
+    <script src="//unpkg.com/d3-quadtree"></script>
+    <script src="//unpkg.com/d3-force"></script>
+    <link rel="shortcut icon" type="image/png" href="../../dist/assets/logo.png" />
+    <!--TODO: webpack-->
 
 </head>
 
@@ -95,7 +99,8 @@
                 <p id="num-pages">
                     <span id="page-num"></span>/
                     <span id="page-count"></span>
-                    <span class="tooltiptext">Page <input type="number" value="1" id="current-page"/> of <span id="page-count"></span></span>
+                    <span class="tooltiptext">Page <input type="number" value="1" id="current-page" /> of <span
+                            id="page-count"></span></span>
                 </p>
                 <a>
                     <i class="material-icons" id="next-page">chevron_right</i>
@@ -142,9 +147,27 @@
         <div id="loader">
             <img src="assets/logo_white.png" alt="loading..." id="logo-loader" />
         </div>
+
         <div id="main">
             <div id="pdf-container" class="full-width"></div>
+
             <div id="side-page" class="no-width">
+                <div id="background-loader-2">
+                    <div id="loader-2">
+                        <div class="bubble"></div>
+                        <div class="bubble"></div>
+                        <div class="bubble"></div>
+                        <div class="bubble"></div>
+                    </div>
+                    <div id="error-message-div">
+                        <img src="assets/logo_broken.png" alt="heart broken" id="logo-broken" />
+                        <p id="error-message">Ops :'( you broke our heart. <br><br> You can try later, but don't ask
+                            us,
+                            <br>
+                            because we don't trust you anymore
+                        </p>
+                    </div>
+                </div>
                 <a id="close-btn" class="closebtn">&times;</a>
                 <label for="graph-depth">Graph depth:</label>
                 <select name="graph-depth" id="graph-depth">
