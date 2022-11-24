@@ -4,10 +4,12 @@ import {ImageExtractorService} from "../services/DocumentParser/ImageExtractorSe
 import { TextExtractorService } from "../services/DocumentParser/TextExtractorService";
 import {ExternalCitationExtractorService} from "../services/DocumentParser/ExternalCitationExtractorService";
 import {TableExtractorService} from "../services/DocumentParser/TableExtractorService";
+import { GenericExtractorService } from "../services/DocumentParser/GenericExtractorService";
 
 /**
  * This class handles user interaction with internal document references
  * @property {object} pdfDocument
+ * @property {object} overEventPosition
  */
 class ReferenceComponent {
 
@@ -17,6 +19,7 @@ class ReferenceComponent {
    */
   constructor() {
     this.pdfDoc = null;
+    this.overEventPosition = {x: null, y: null};
     EventHandlerService.subscribe(PDFLEvents.onLinkLayerRendered, this.#onLinkLayerRendered.bind(this));
   }
 
@@ -66,6 +69,8 @@ class ReferenceComponent {
   #onInternalReferenceOver = (event) => {
     const self = this;
     event.preventDefault();
+    this.overEventPosition.x = event.clientX;
+    this.overEventPosition.y = event.clientY;
     const target = event.target.closest('a');
     if (!target) return;
     const reference = decodeURIComponent(target.getAttribute('href').replace('#', ''));
@@ -83,10 +88,19 @@ class ReferenceComponent {
     const self = this;
     var destinationObject;
     if(refId.includes('num') && refId.includes('gen')){
-      destinationObject = JSON.parse(refId);
+      try {
+        destinationObject = JSON.parse(refId);
+      } catch (e) {
+        destinationObject = null;
+      }
     } else {
       destinationObject = await self.pdfDoc.getDestination(refId);
     }
+
+    if(destinationObject == null){
+      throw new Error('Unsupported reference type');
+    }
+
     const pageIndex = await self.pdfDoc.getPageIndex(destinationObject[0])
     return pageIndex + 1;
   }
@@ -97,6 +111,7 @@ class ReferenceComponent {
    * @param pageNumber the solved page number
    */
   #parseReference = (reference, pageNumber) => {
+    //TODO:- If we have the object is it possible to know the ref type?
     const self = this;
     const referenceType = reference.split('.')[0];
     var parseService = undefined;
@@ -116,10 +131,16 @@ class ReferenceComponent {
         parseService = new TableExtractorService(self.pdfDoc, pageNumber, reference);
         break;
       default:
+        if(reference.includes('num') && reference.includes('gen')){
+          parseService = new GenericExtractorService(self.pdfDoc, pageNumber, reference);
+          break;
+        }
         throw new Error("Parser not implemented exception for type " + referenceType);
     }
     parseService.getContent().then(result => {
-      EventHandlerService.publish(PDFLEvents.onPopupContentReady, result);
+      console.log(result);
+      console.log(self.overEventPosition)
+      EventHandlerService.publish(PDFLEvents.onPopupContentReady, self.overEventPosition, result);
     });
   }
 
