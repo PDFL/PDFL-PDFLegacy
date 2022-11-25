@@ -48,7 +48,7 @@ class PdfReaderComponent {
   #registerEvents = () => {
     this.components.openNew.addEventListener('click', this.#onNewFile);
 
-    document.addEventListener('mousedown', this.#hideLinks);
+    this.components.pdfContainer.addEventListener('mousemove', this.#hideLinks);
 
     EventHandlerService.subscribe(PDFLEvents.onRenderPage, () => {
       this.#renderPage();
