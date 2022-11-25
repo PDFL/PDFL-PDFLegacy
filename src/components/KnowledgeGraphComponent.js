@@ -13,6 +13,10 @@ import {
 class KnowledgeGraphComponent {
   components = {
     knowledgeGraph: document.querySelector("#knowledge-graph"),
+    graphDepth:
+      document.querySelector(
+        "#graph-depth"
+      ) /* query selector for setting graph dept */,
     loader2:
       document.querySelector(
         "#loader-2"
@@ -26,6 +30,50 @@ class KnowledgeGraphComponent {
       ) /* query selector for the brackground of the div for error message */,
   };
 
+  /**
+   * Creates and initializes new knowledge graph component. Sets depth
+   * of knowledge graph to 1.
+   *
+   * @constructor
+   */
+  constructor() {
+    this.#registerEvents();
+  }
+
+  /**
+   * Adds event listeners to component's elements.
+   * @private
+   */
+  #registerEvents = () => {
+    this.components.graphDepth.addEventListener("change", this.#changeDepth);
+  };
+
+  /**
+   * Sets new depth of knowledge graph and displays graph of that depth.
+   * @private
+   * @param {Event} event event triggered when new depth chosen from dropdown menu
+   */
+  #changeDepth = (event) => {
+    const selectedDepth = parseInt(event.target.value);
+    this.components.backgroundLoader2.className -= " transparent";
+    // loader stay in the center for now this.components.loader2.className -= " move";
+    this.displayGraph(selectedDepth)
+      .then(() => {
+        this.components.backgroundLoader2.className += " hidden";
+      })
+      .catch((err) => {
+        console.log(err.message);
+        this.components.loader2.className += " hidden";
+        this.components.backgroundLoader2.className += " error";
+        this.components.errorMessageDiv.className += " visualize";
+      });
+  };
+
+  /**
+   * Setter for PDF document from which knowledge graph will be generated.
+   * @param {PDFDocumentProxy} pdfDocument PDF document
+   */
+
   setPDF = (pdfDocument) => {
     this.pdfDocument = pdfDocument;
   };
@@ -33,7 +81,7 @@ class KnowledgeGraphComponent {
   /**
    * Displays knowledge graph.
    */
-  displayGraph = () => {
+  displayGraph = (depth = 1) => {
     getLinkedPapers(this.pdfDocument)
       .then((linkedPapers) => {
         let data;
@@ -41,7 +89,7 @@ class KnowledgeGraphComponent {
           data = { nodes: nodesMock, links: linksMock };
         else data = linkedPapers;
         this.components.backgroundLoader2.className += " transparent";
-        this.components.loader2.className += " move";
+        // loader stay in the center for now this.components.loader2.className += " move";
         let graph = ForceGraph()(this.components.knowledgeGraph)
           .graphData(data)
           .nodeId("id")
@@ -89,9 +137,9 @@ class KnowledgeGraphComponent {
           .linkDirectionalArrowColor(["#2980b9"])
           .cooldownTime(300)
           .d3Force("center", null)
-          .onEngineStop(() => graph.zoomToFit(300));
+          .onEngineStop(() => graph.zoomToFit(500));
 
-        buildGraphProcedure(graph, MAX_GRAPH_DEPTH)
+        buildGraphProcedure(graph, depth) //TODO: solve with caching
           .then(() => {
             this.components.backgroundLoader2.className += " hidden";
           })

@@ -398,7 +398,7 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 #background-loader-2.transparent{
-  background-color: transparent;
+  background-color: rgba(0, 0, 0, 0.3);
 }
 
 #background-loader-2.hidden{
