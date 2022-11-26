@@ -6,6 +6,17 @@ const CITATIONS_API =
 const REFERENCES_API =
   "https://api.semanticscholar.org/graph/v1/paper/{paper_id}/references?";
 
+const HEADERS = new Headers({
+  "X-Api-Key": process.env.SEMANTIC_SCHOLAR_API_KEY,
+});
+
+const FETCH_OPTIONS = process.env.SEMANTIC_SCHOLAR_API_KEY
+  ? {
+      mode: "cors",
+      headers: HEADERS,
+    }
+  : undefined;
+
 const FIELDS_TO_FETCH_FOR_PAPER =
   "title,citationCount,influentialCitationCount";
 
@@ -29,7 +40,9 @@ const FIELDS_TO_FETCH_FOR_PAPER =
  */
 async function fetchPaperInfo(titleQuery) {
   let queryParams = new URLSearchParams({ query: titleQuery, limit: 1 });
-  let paper = (await (await fetch(KEYWORD_API + queryParams)).json()).data[0];
+  let paper = (
+    await (await fetch(KEYWORD_API + queryParams, FETCH_OPTIONS)).json()
+  ).data[0];
   return paper;
 }
 
@@ -47,7 +60,10 @@ async function fetchCitations(paperID) {
   });
   let data = (
     await (
-      await fetch(CITATIONS_API.replace("{paper_id}", paperID) + queryParams)
+      await fetch(
+        CITATIONS_API.replace("{paper_id}", paperID) + queryParams,
+        FETCH_OPTIONS
+      )
     ).json()
   ).data;
   return data;
@@ -67,7 +83,10 @@ async function fetchReferences(paperID) {
   });
   let data = (
     await (
-      await fetch(REFERENCES_API.replace("{paper_id}", paperID) + queryParams)
+      await fetch(
+        REFERENCES_API.replace("{paper_id}", paperID) + queryParams,
+        FETCH_OPTIONS
+      )
     ).json()
   ).data;
   return data;

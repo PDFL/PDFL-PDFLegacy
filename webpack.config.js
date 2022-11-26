@@ -1,5 +1,5 @@
 const path = require("path");
-
+const Dotenv = require("dotenv-webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
@@ -32,7 +32,10 @@ module.exports = {
       },
     ],
   },
-  plugins: [new HtmlWebpackPlugin({ template: "./src/templates/index.html" })],
+  plugins: [
+    new HtmlWebpackPlugin({ template: "./src/templates/index.html" }),
+    new Dotenv(),
+  ],
   devtool: "eval-cheap-module-source-map",
   optimization: {
     runtimeChunk: "single",
