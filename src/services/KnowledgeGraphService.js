@@ -1,5 +1,12 @@
 import { fetchCitations, fetchPaperInfo, fetchReferences } from "./Api";
-import { compareSimilarity } from "./Utils";
+import { compareSimilarity, timeout } from "./Utils";
+import {
+  setGraphData,
+  hasGraphData,
+  getGraphData,
+  print,
+  addGraphData,
+} from "./CachingService";
 
 /**
  * @typedef {Object} PaperInfo
@@ -21,7 +28,7 @@ import { compareSimilarity } from "./Utils";
  *
  * @async
  * @param {Pdfjs Document} pdfDoc
- * @returns {Promise<GraphData>} linked papers of 'pdfDoc'
+ * @returns {GraphData} linked papers of 'pdfDoc'
  */
 async function getLinkedPapers(pdfDoc) {
   let metadata = await pdfDoc.getMetadata();
@@ -42,7 +49,27 @@ async function getLinkedPapers(pdfDoc) {
     return [];
   }
 
-  return await getLinkedNodesByPaper(currentPaperInfo);
+  return getCreatedGraphData(currentPaperInfo);
+}
+
+/**
+ * Returns cached or fetched graph data of depth 1 for current paper.
+ *
+ * @param {PaperInfo} currentPaperInfo informational about current paper
+ * @returns {GraphData} linked papers of 'pdfDoc'
+ */
+async function getCreatedGraphData(currentPaperInfo) {
+  const paperId = currentPaperInfo.paperId;
+  const depth = 1;
+
+  let graphData;
+  if (hasGraphData(paperId, depth)) graphData = getGraphData(paperId, depth);
+  else {
+    graphData = await getLinkedNodesByPaper(currentPaperInfo);
+    setGraphData(paperId, depth, graphData);
+  }
+
+  return graphData;
 }
 
 /**
@@ -151,45 +178,115 @@ function getGraphStructure(paperId, paperTitle, references, citations) {
 }
 
 /**
- * Keeps adding nodes to Knowledge graph procedurally.
- * Input should be a graph with depth 1.
+ * Keeps adding/removing nodes to Knowledge graph procedurally with
+ * existing data in cache or newly fetched data.
+ * If old depth is smaller than selected depth nodes will be added
+ * to graph, otherwise nodes will be removed.
  *
  * @async
- * @param {ForceGraph} graph
- * @param {Number} maxDepth
+ * @param {ForceGraph} graph graph being displayed
+ * @param {int} selectedDepth new selected depth
+ * @param {int} oldDepth previously selected depth
  */
-async function buildGraphProcedure(graph, maxDepth) {
-  let nodesToExpand = graph.graphData();
-  await buildGraphDepth(graph, nodesToExpand, 1, maxDepth);
+async function buildGraphProcedure(graph, selectedDepth, oldDepth) {
+  const paperId = graph.graphData().nodes[0].id;
+
+  if (hasGraphData(paperId, selectedDepth)) {
+    if (oldDepth > selectedDepth) {
+      // TODO: removing nodes one by one
+      console.log("removing...");
+      graph.graphData(getGraphData(paperId, 1));
+      for (let i = 2; i <= selectedDepth; i++)
+        addToGraph(graph, getGraphData(paperId, i));
+    } else {
+      await addExistingDataToGraph(graph, oldDepth, selectedDepth, paperId);
+    }
+  } else {
+    await buildGraphDepth(graph, paperId, selectedDepth, oldDepth);
+    setGraphData(paperId, selectedDepth, graph.graphData());
+  }
 }
 
 /**
- * Recursive function which adds nodes to a Knowledge Graph.
- * For maxDepth 2, it will add the next depth (nodesToAdd),
- * for maxDepth 3, it will add that and the the linked papers
- * of nodesToAdd.
+ * Adds cached graph data to graph one node at time. For better UX
+ * after each node is added timeout of 500 ms is called.
  *
- * @async
- * @param {ForceGraph} graph
- * @param {GraphData} nodesToAdd
- * @param {Number} depth
- * @param {Number} maxDepth
+ * @param {ForceGraph} graph graph being displayed
+ * @param {int} oldDepth previously selected depth
+ * @param {int} selectedDepth selected depth
+ * @param {string} paperId id of paper for which graph is being displayed
  */
-async function buildGraphDepth(graph, nodesToAdd, depth, maxDepth) {
-  if (depth == maxDepth) return;
+async function addExistingDataToGraph(graph, oldDepth, selectedDepth, paperId) {
+  let currentData = structuredClone(graph.graphData());
 
-  let nodesToAddNextDepth = [];
-  for (let node of nodesToAdd.nodes) {
+  for (let i = oldDepth + 1; i <= selectedDepth; i++) {
+    let data = structuredClone(getGraphData(paperId, i));
+
+    for (let node of data.nodes) {
+      if (currentData.nodes.find((n) => n.id == node.id)) continue;
+
+      let links = new Array();
+      for (let link of data.links) {
+        let source = currentData.nodes.find((n) => n.id == link.source.id);
+        let target = currentData.nodes.find((n) => n.id == link.target.id);
+
+        if (
+          !currentData.links.find((l) => l.id == link.id) &&
+          ((link.source.id == node.id && target) ||
+            (link.target.id == node.id && source))
+        ) {
+          if (source) link.source = source;
+          if (target) link.target = target;
+          links.push(link);
+        }
+      }
+
+      currentData.nodes.push(node);
+      currentData.links.push(...links);
+
+      graph.graphData(currentData);
+
+      await timeout(500);
+    }
+  }
+}
+
+/**
+ * Builds graph of given depth. This recursion builds graph depth by depth beginning with
+ * given depth. For given depth graph data will be fetched for external service. If there is
+ * no cached data on depth lower than given, data for that depth will be fetched and added to graph,
+ * this repeats recursively for all lower depths with no data in cache.
+ *
+ * @param {ForceGraph} graph
+ * @param {string} paperId
+ * @param {int} depth
+ * @param {int} oldDepth
+ */
+async function buildGraphDepth(graph, paperId, depth, oldDepth) {
+  let graphDataLowerLevel = getGraphData(paperId, depth - 1);
+  if (!graphDataLowerLevel) {
+    await buildGraphDepth(graph, paperId, depth - 1, depth);
+    graphDataLowerLevel = getGraphData(paperId, depth - 1);
+  } else if (oldDepth < depth && oldDepth != depth - 1) {
+    for (let d = oldDepth + 1; d < depth; d++)
+      await addExistingDataToGraph(graph, d - 1, d, paperId);
+  }
+
+  let nodeIdsInGraph = graphDataLowerLevel.nodes.map(({ id }) => id);
+  for (let node of graphDataLowerLevel.nodes) {
+    if (node.id == paperId) continue;
+
     let linkedPapers = await getLinkedNodesByPaper({
       paperId: node.id,
       title: node.label,
     });
-    let addedNodes = addToGraph(graph, linkedPapers);
-    nodesToAddNextDepth.push(addedNodes);
-  }
+    linkedPapers.re;
+    linkedPapers.nodes = linkedPapers.nodes.filter(
+      (n) => !nodeIdsInGraph.includes(n.id)
+    );
 
-  for (let nodesToExpand of nodesToAddNextDepth) {
-    await buildGraphDepth(graph, nodesToExpand, depth + 1, maxDepth);
+    addToGraph(graph, linkedPapers);
+    addGraphData(paperId, depth, linkedPapers);
   }
 }
 

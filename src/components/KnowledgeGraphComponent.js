@@ -24,7 +24,7 @@ class KnowledgeGraphComponent {
   /**
    * Creates and initializes new knowledge graph component. Sets depth
    * of knowledge graph to 1.
-   * 
+   *
    * @constructor
    */
    constructor() {
@@ -48,7 +48,10 @@ class KnowledgeGraphComponent {
    */
   #changeDepth = (event) => {
     const selectedDepth = parseInt(event.target.value);
-    if(selectedDepth == this.depth) return;
+    if (selectedDepth == this.depth) return;
+    
+    buildGraphProcedure(this.graph, selectedDepth, this.depth);
+    
     this.depth = selectedDepth;
 
     try {
