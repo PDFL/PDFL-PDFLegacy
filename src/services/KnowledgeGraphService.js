@@ -184,9 +184,8 @@ async function buildGraphDepth(graph, nodesToAdd, depth, maxDepth) {
       paperId: node.id,
       title: node.label,
     });
-    linkedPapers.re;
-    addToGraph(graph, linkedPapers);
-    nodesToAddNextDepth.push(linkedPapers);
+    let addedNodes = addToGraph(graph, linkedPapers);
+    nodesToAddNextDepth.push(addedNodes);
   }
 
   for (let nodesToExpand of nodesToAddNextDepth) {
@@ -199,14 +198,17 @@ async function buildGraphDepth(graph, nodesToAdd, depth, maxDepth) {
  * redisplaying of the graph, linkedNodes can contain
  * duplicates.
  *
+ * Returns graph data that has been added.
+ *
  * @param {ForceGraph} graph
  * @param {GraphData} linkedNodes
+ * @returns {GraphData}
  */
 function addToGraph(graph, linkedNodes) {
   const { nodes, links } = graph.graphData();
 
   let nodeIdsInGraph = nodes.map(({ id }) => id);
-  let nodeToAddFiltered = linkedNodes.nodes.filter((node) => {
+  let nodesToAddFiltered = linkedNodes.nodes.filter((node) => {
     return !nodeIdsInGraph.includes(node.id);
   });
 
@@ -216,9 +218,14 @@ function addToGraph(graph, linkedNodes) {
   });
 
   graph.graphData({
-    nodes: nodes.concat(nodeToAddFiltered),
+    nodes: nodes.concat(nodesToAddFiltered),
     links: links.concat(linksToAddFiltered),
   });
+
+  return {
+    nodes: nodesToAddFiltered,
+    links: linksToAddFiltered,
+  };
 }
 
 export { getLinkedPapers, getCitations, getReferences, buildGraphProcedure };
