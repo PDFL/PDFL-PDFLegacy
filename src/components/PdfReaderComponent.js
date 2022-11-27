@@ -180,8 +180,6 @@ class PdfReaderComponent {
             enableScripting: true,
             renderInteractiveForms: true,
           });
-
-          //for @matteovisotto: --onLinkLayerRendered--
           EventHandlerService.publish(PDFLEvents.onLinkLayerRendered);
         });
 
