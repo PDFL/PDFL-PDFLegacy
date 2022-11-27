@@ -624,3 +624,50 @@ input[type="number"]::-webkit-outer-spin-button {
   .closebtn:hover{
     color: red;
   }
+
+  /* Css for Reference */
+  #pop-up{
+    position: absolute;
+    width: auto;
+    height: 50px;
+    background-color: transparent;
+    border-radius: 25px;
+  }
+
+  #pop-up-title{
+    color: white;
+    text-align: center;
+    font-weight: 500;
+    font-size: 12px;
+  }
+
+  #content-reference-div{
+    width: auto;
+  }
+
+  #pop-up-content{
+    color: white;
+    text-align: justify;
+    font-weight: 100;
+    margin-left: 15px;
+    margin-right: 15px;
+    font-size: 12px;
+  }
+
+  #side-page-reference-btn{
+    position: relative;
+    float: right;
+    width: auto;
+    height: auto;
+    font-size: 9px;
+    margin-top: -40px;
+    border-radius: 20px;
+    background-color: #045;
+    transform: scale(0.8);
+  }
+
+  #open-in-the-side-icon{
+    margin-top: 13px;
+  }
+
+ 

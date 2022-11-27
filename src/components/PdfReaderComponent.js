@@ -5,6 +5,7 @@ import {
 import { SidePageComponent } from "./SidePageComponent";
 import { ToolbarComponent } from "./ToolbarComponent";
 import { ReferenceComponent } from "./ReferenceComponent";
+import { PopupComponent } from "./PopupComponent";
 
 const pdfjsLib = require("pdfjs-dist");
 const pdfjsViewer = require("pdfjs-dist/web/pdf_viewer");
@@ -18,6 +19,7 @@ const pdfjsViewer = require("pdfjs-dist/web/pdf_viewer");
  * @property {HTMLElement} components.openNew button that takes user to input view page
  * @property {SidePageComponent} sidePageComponent side component within the reader
  * @property {ToolbarComponent} toolbarComponent toolbar component within the reader
+ * @property {PopupComponent} popupComponent popup component within the reader
  * @property {PDFDocumentProxy} pdfDoc PDF document
  */
 class PdfReaderComponent {
@@ -37,6 +39,7 @@ class PdfReaderComponent {
     this.toolbarComponent = new ToolbarComponent();
     this.sidePageComponent = new SidePageComponent();
     this.referenceComponent = new ReferenceComponent();
+    this.PopupComponent = new PopupComponent();
     this.#registerEvents();
   }
 
