@@ -13,7 +13,7 @@ class DocumentParser {
   /**
    * Factory method
    * @param referenceType {string} the parsed reference type
-   * @param parameters object containing constructor parameters
+   * @param parameters {Object} object containing constructor parameters
    * @returns {GenericExtractorService|TextExtractorService|ImageExtractorService}
    */
   static parserFactory = (referenceType, parameters) => {
