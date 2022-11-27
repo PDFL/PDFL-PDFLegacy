@@ -389,7 +389,7 @@ input[type="number"]::-webkit-outer-spin-button {
   animation-fill-mode: forwards;
 }
 
-#background-loader-2{
+#side-page-loader{
   position: absolute;
   width: 100%;
   height: 100%;
@@ -397,31 +397,29 @@ input[type="number"]::-webkit-outer-spin-button {
   z-index: 999;
 }
 
-#background-loader-2.transparent{
-  background-color: transparent;
+#side-page-loader.transparent{
+  background-color: rgba(0, 0, 0, 0.3);
 }
 
-#background-loader-2.hidden{
+#side-page-loader.hidden{
   animation: fadeOut 1s;
   animation-fill-mode: forwards;
 }
 
-#background-loader-2.error{
+#side-page-loader.error{
   background-color: #28323b;
 }
-
 #error-message-div{
-  visibility: hidden;
-}
-
-#error-message-div.visualize{
-  visibility: visible;
   position: absolute;
   top: 35%;
   left: 30%;
   align-items: center;
   text-align: center;
   cursor: default;
+}
+
+#error-message-div.hidden{
+  visibility: hidden;
 }
 
 #error-message{
@@ -437,18 +435,18 @@ input[type="number"]::-webkit-outer-spin-button {
   height: 25%;
 }
 
-#loader-2 {
+#loader-bubbles {
   position: relative;
   top: 50%;
   left: 50%;
 }
 
-#loader-2.move {
+#loader-bubbles.move {
   animation: moveUp 500ms;
   animation-fill-mode: forwards;
 }
 
-#loader-2.hidden {
+#loader-bubbles.hidden {
   visibility: hidden;
 }
 
