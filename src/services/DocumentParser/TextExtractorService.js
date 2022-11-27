@@ -40,7 +40,6 @@ class TextExtractorService extends DocumentParser {
   #getText = async (page, reference) => {
     var title = "";
     let text = await page.getTextContent();
-    console.log(text);
     var refFound = false;
     var index = 0;
     while (!refFound || index < text.items.length) {
