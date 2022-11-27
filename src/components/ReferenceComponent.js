@@ -150,32 +150,27 @@ class ReferenceComponent {
           reference
         );
         break;
-      case "cite":
-        parseService = new ExternalCitationExtractorService(
-          self.pdfDoc,
-          pageNumber,
-          reference
-        );
-        break;
-      case "table":
-        parseService = new TableExtractorService(
-          self.pdfDoc,
-          pageNumber,
-          reference
-        );
-        break;
-      default:
-        if (reference.includes("num") && reference.includes("gen")) {
-          parseService = new GenericExtractorService(
+      /*case "cite":
+          parseService = new ExternalCitationExtractorService(
             self.pdfDoc,
             pageNumber,
             reference
           );
           break;
-        }
-        throw new Error(
-          "Parser not implemented exception for type " + referenceType
+      case "table":
+        /*parseService = new TableExtractorService(
+          self.pdfDoc,
+          pageNumber,
+          reference
         );
+        break;*/
+      default:
+        parseService = new GenericExtractorService(
+          self.pdfDoc,
+          pageNumber,
+          reference
+        );
+        break;
     }
     parseService.getContent().then((result) => {
       EventHandlerService.publish(
