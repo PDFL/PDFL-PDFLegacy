@@ -332,17 +332,22 @@ var EventHandlerService = /*#__PURE__*/function () {
 }();
 /**
  * Enum of possible event type (to avoid typos)
- * @type {{onShowInputView: string, onShowReaderView: string, onRenderPage: string, onShowKnowledgeGraph: string}}
+ * @type {{onShowInputView: string, onShowReaderView: string, onRenderPage: string, onShowKnowledgeGraph: string,
+ * onResetReader: string, onReadNewFile: string, onShowTransparentSidePageLoader: string, onShowOpaqueSidePageLoader: string,
+ * onHideSidePageLoader: string, onShowSidePageError: string}}
  */
 _defineProperty(EventHandlerService, "eventObject", []);
 var PDFLEvents = {
-  onShowWelcomeView: 'onShowWelcomeView',
   onShowInputView: 'onShowInputView',
   onShowReaderView: 'onShowReaderView',
   onRenderPage: 'onRenderPage',
   onShowKnowledgeGraph: 'onShowKnowledgeGraph',
   onResetReader: 'onResetReader',
-  onReadNewFile: 'onReadNewFile'
+  onReadNewFile: 'onReadNewFile',
+  onShowTransparentSidePageLoader: 'onShowTransparentSidePageLoader',
+  onShowOpaqueSidePageLoader: 'onShowOpaqueSidePageLoader',
+  onHideSidePageLoader: 'onHideSidePageLoader',
+  onShowSidePageError: 'onShowSidePageError'
 };
 
 
@@ -613,6 +618,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _services_EventHandlerService__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4);
 /* harmony import */ var _KnowledgeGraphComponent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(9);
+/* harmony import */ var _SidePageLoaderComponent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(15);
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -625,6 +631,7 @@ function _classApplyDescriptorGet(receiver, descriptor) { if (descriptor.get) { 
 
 
 
+
 /**
  * Component representing side window that can be closed. It is a placeholder
  * for other components to be shown.
@@ -634,6 +641,7 @@ function _classApplyDescriptorGet(receiver, descriptor) { if (descriptor.get) { 
  * @property {HTMLElement} components.sideNav placeholder of this component
  * @property {HTMLElement} components.pdfContainer sibling component of this component that displays PDF reader
  * @property {KnowledgeGraphComponent} knowledgeGraphComponent knowledge graph component
+ * @property {SidePageLoaderComponent} loader component that displays loader in this page
  */
 var _registerEvents = /*#__PURE__*/new WeakMap();
 var _showKnowledgeGraph = /*#__PURE__*/new WeakMap();
@@ -641,7 +649,7 @@ var _showSidePage = /*#__PURE__*/new WeakMap();
 var SidePageComponent = /*#__PURE__*/_createClass(
 /**
  * Creates and initializes new side page component. Creates all components
- * that can be shown within this component.
+ * that can be shown within this component, as well as the loader.
  * @constructor
  */
 function SidePageComponent() {
@@ -683,6 +691,7 @@ function SidePageComponent() {
     _this.knowledgeGraphComponent.setPDF(data);
   });
   this.knowledgeGraphComponent = new _KnowledgeGraphComponent__WEBPACK_IMPORTED_MODULE_1__.KnowledgeGraphComponent();
+  this.loader = new _SidePageLoaderComponent__WEBPACK_IMPORTED_MODULE_2__.SidePageLoaderComponent();
   _classPrivateFieldGet(this, _registerEvents).call(this);
 }
 
@@ -702,9 +711,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "KnowledgeGraphComponent": () => (/* binding */ KnowledgeGraphComponent)
 /* harmony export */ });
-/* harmony import */ var _Constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(10);
-/* harmony import */ var _mocks_KnowledgeGaphMocks__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(11);
-/* harmony import */ var _services_KnowledgeGraphService__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(12);
+/* harmony import */ var _services_KnowledgeGraphService__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(10);
+/* harmony import */ var _services_EventHandlerService__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(4);
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
@@ -714,7 +722,12 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _classPrivateFieldInitSpec(obj, privateMap, value) { _checkPrivateRedeclaration(obj, privateMap); privateMap.set(obj, value); }
+function _checkPrivateRedeclaration(obj, privateCollection) { if (privateCollection.has(obj)) { throw new TypeError("Cannot initialize the same private elements twice on an object"); } }
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _classPrivateFieldGet(receiver, privateMap) { var descriptor = _classExtractFieldDescriptor(receiver, privateMap, "get"); return _classApplyDescriptorGet(receiver, descriptor); }
+function _classExtractFieldDescriptor(receiver, privateMap, action) { if (!privateMap.has(receiver)) { throw new TypeError("attempted to " + action + " private field on non-instance"); } return privateMap.get(receiver); }
+function _classApplyDescriptorGet(receiver, descriptor) { if (descriptor.get) { return descriptor.get.call(receiver); } return descriptor.value; }
 
 
 
@@ -723,29 +736,53 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
  *
  * @property {Object} components object that holds elements within this component
  * @property {HTMLElement} components.knowledgeGraph element in which knowledge graph will be displayed
+ * @property {HTMLElement} components.graphDepth input element for depth selection
  */
-var KnowledgeGraphComponent = /*#__PURE__*/_createClass(function KnowledgeGraphComponent() {
+var _registerEvents = /*#__PURE__*/new WeakMap();
+var _changeDepth = /*#__PURE__*/new WeakMap();
+var KnowledgeGraphComponent = /*#__PURE__*/_createClass(
+/**
+ * Creates and initializes new knowledge graph component.
+ *
+ * @constructor
+ */
+function KnowledgeGraphComponent() {
   var _this = this;
   _classCallCheck(this, KnowledgeGraphComponent);
   _defineProperty(this, "components", {
     knowledgeGraph: document.querySelector("#knowledge-graph"),
-    loader2: document.querySelector("#loader-2") /* query selector for loader for graph */,
-    backgroundLoader2: document.querySelector("#background-loader-2") /* query selector for the brackground of the loader of the graph */,
-    errorMessageDiv: document.querySelector("#error-message-div") /* query selector for the brackground of the div for error message */
+    graphDepth: document.querySelector("#graph-depth")
+  });
+  _classPrivateFieldInitSpec(this, _registerEvents, {
+    writable: true,
+    value: function value() {
+      _this.components.graphDepth.addEventListener("change", _classPrivateFieldGet(_this, _changeDepth));
+    }
+  });
+  _classPrivateFieldInitSpec(this, _changeDepth, {
+    writable: true,
+    value: function value(event) {
+      var selectedDepth = parseInt(event.target.value);
+      try {
+        _this.displayGraph(selectedDepth);
+        _services_EventHandlerService__WEBPACK_IMPORTED_MODULE_1__.EventHandlerService.publish(_services_EventHandlerService__WEBPACK_IMPORTED_MODULE_1__.PDFLEvents.onHideSidePageLoader);
+      } catch (error) {
+        _services_EventHandlerService__WEBPACK_IMPORTED_MODULE_1__.EventHandlerService.publish(_services_EventHandlerService__WEBPACK_IMPORTED_MODULE_1__.PDFLEvents.onShowSidePageError);
+      }
+    }
   });
   _defineProperty(this, "setPDF", function (pdfDocument) {
     _this.pdfDocument = pdfDocument;
   });
-  _defineProperty(this, "displayGraph", function () {
-    (0,_services_KnowledgeGraphService__WEBPACK_IMPORTED_MODULE_2__.getLinkedPapers)(_this.pdfDocument).then(function (linkedPapers) {
-      var data;
-      if (!linkedPapers || linkedPapers.length == 0) data = {
-        nodes: _mocks_KnowledgeGaphMocks__WEBPACK_IMPORTED_MODULE_1__.nodesMock,
-        links: _mocks_KnowledgeGaphMocks__WEBPACK_IMPORTED_MODULE_1__.linksMock
-      };else data = linkedPapers;
-      _this.components.backgroundLoader2.className += " transparent";
-      _this.components.loader2.className += " move";
-      var graph = ForceGraph()(_this.components.knowledgeGraph).graphData(data).nodeId("id").nodeAutoColorBy("group").nodeCanvasObject(function (node, ctx, globalScale) {
+  _defineProperty(this, "displayGraph", function (depth) {
+    if (!depth) {
+      depth = 1;
+      _services_EventHandlerService__WEBPACK_IMPORTED_MODULE_1__.EventHandlerService.publish(_services_EventHandlerService__WEBPACK_IMPORTED_MODULE_1__.PDFLEvents.onShowOpaqueSidePageLoader);
+    }
+    (0,_services_KnowledgeGraphService__WEBPACK_IMPORTED_MODULE_0__.getLinkedPapers)(_this.pdfDocument).then(function (linkedPapers) {
+      if (!linkedPapers || linkedPapers.length == 0) return _services_EventHandlerService__WEBPACK_IMPORTED_MODULE_1__.EventHandlerService.publish(_services_EventHandlerService__WEBPACK_IMPORTED_MODULE_1__.PDFLEvents.onShowSidePageError);
+      _services_EventHandlerService__WEBPACK_IMPORTED_MODULE_1__.EventHandlerService.publish(_services_EventHandlerService__WEBPACK_IMPORTED_MODULE_1__.PDFLEvents.onShowTransparentSidePageLoader);
+      var graph = ForceGraph()(_this.components.knowledgeGraph).graphData(linkedPapers).nodeId("id").nodeAutoColorBy("group").nodeCanvasObject(function (node, ctx, globalScale) {
         var label = node.label.substring(0, 4);
         var fontSize = 14 / globalScale;
         ctx.font = "".concat(fontSize, "px Sans-Serif");
@@ -766,131 +803,31 @@ var KnowledgeGraphComponent = /*#__PURE__*/_createClass(function KnowledgeGraphC
         var bckgDimensions = node.__bckgDimensions;
         bckgDimensions && ctx.fillRect.apply(ctx, [node.x - bckgDimensions[0] / 2, node.y - bckgDimensions[1] / 2].concat(_toConsumableArray(bckgDimensions)));
       }).linkCurvature(0.06).linkDirectionalArrowLength(7).linkDirectionalArrowRelPos(0.5).linkDirectionalParticles(1).linkDirectionalParticleWidth(5).linkDirectionalParticleColor(["#2980b9"]).linkDirectionalArrowColor(["#2980b9"]).cooldownTime(300).d3Force("center", null).onEngineStop(function () {
-        return graph.zoomToFit(300);
+        return graph.zoomToFit(500);
       });
-      (0,_services_KnowledgeGraphService__WEBPACK_IMPORTED_MODULE_2__.buildGraphProcedure)(graph, _Constants__WEBPACK_IMPORTED_MODULE_0__.MAX_GRAPH_DEPTH).then(function () {
-        _this.components.backgroundLoader2.className += " hidden";
-      })["catch"](function (err) {
-        console.log(err.message);
-        _this.components.loader2.className += " hidden";
-        _this.components.backgroundLoader2.className += " error";
-        _this.components.errorMessageDiv.className += " visualize";
+      (0,_services_KnowledgeGraphService__WEBPACK_IMPORTED_MODULE_0__.buildGraphProcedure)(graph, depth) //TODO: solve with caching
+      .then(function () {
+        return _services_EventHandlerService__WEBPACK_IMPORTED_MODULE_1__.EventHandlerService.publish(_services_EventHandlerService__WEBPACK_IMPORTED_MODULE_1__.PDFLEvents.onHideSidePageLoader);
       });
       graph.onNodeClick(function (node) {
         // Center/zoom on node
         graph.centerAt(node.x, node.y, 1000);
         graph.zoom(4, 2000);
       });
-    })["catch"](function (err) {
-      console.log(err.message);
-      _this.components.loader2.className += " hidden";
-      _this.components.backgroundLoader2.className += " error";
-      _this.components.errorMessageDiv.className += " visualize";
     });
   });
-});
+  _classPrivateFieldGet(this, _registerEvents).call(this);
+}
+
+/**
+ * Adds event listeners to component's elements.
+ * @private
+ */);
+
 
 
 /***/ }),
 /* 10 */
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "MAX_CITATION": () => (/* binding */ MAX_CITATION),
-/* harmony export */   "MAX_GRAPH_DEPTH": () => (/* binding */ MAX_GRAPH_DEPTH),
-/* harmony export */   "MAX_REFERENCES": () => (/* binding */ MAX_REFERENCES),
-/* harmony export */   "SIMILARITY_THRESHOLD": () => (/* binding */ SIMILARITY_THRESHOLD)
-/* harmony export */ });
-var SIMILARITY_THRESHOLD = 0.78;
-var MAX_GRAPH_DEPTH = 3;
-var MAX_CITATION = 2;
-var MAX_REFERENCES = 2;
-
-
-/***/ }),
-/* 11 */
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "linksMock": () => (/* binding */ linksMock),
-/* harmony export */   "nodesMock": () => (/* binding */ nodesMock)
-/* harmony export */ });
-var nodesMock = [{
-  id: "649def34f8be52c8b66281af98ae884c09aef38b",
-  label: "Construction of the Literature Graph in Semantic Scholar"
-}, {
-  id: "1fec9d41d372267b4474f18cbeadd806c8b67adb",
-  label: "Extracting Scientific Figures with Distantly Supervised Neural Networks"
-}, {
-  id: "921b2958cac4138d188fd5047aa12bbcf37ac867",
-  label: "Content-Based Citation Recommendation"
-}, {
-  id: "2264e14e35dc5a3db93437bc408a03171af8c59d",
-  label: "The AI2 system at SemEval-2017 Task 10 (ScienceIE): semi-supervised end-to-end entity and relation extraction"
-}, {
-  id: "74a69228157b3fa1c7adc14e7715039e54f4b067",
-  label: "MetaMap Lite: an evaluation of a new Java implementation of MetaMap"
-}, {
-  id: "25b77db5bfca92029532ca70ee659fdf88db8484",
-  label: "SMAuC - The Scientific Multi-Authorship Corpus"
-}, {
-  id: "7e0fda71cc2e561385c0a2e29f5a81654a11157f",
-  label: "VarMAE: Pre-training of Variational Masked Autoencoder for Domain-adaptive Language Understanding"
-}, {
-  id: "4a236906f5bed6385c7b3bf3f10a0099e41d4566",
-  label: "Semantic-Native Communication: A Simplicial Complex Perspective"
-}, {
-  id: "97394fd6876dd10a0bdf233beb8216f16e074bee",
-  label: "Visual Exploration of Literature with Argo Scholar"
-}, {
-  id: "42b2fd8a0ab69281022de528c591c665f5f2ad3b",
-  label: "A Multi-Domain Benchmark for Personalized Search Evaluation"
-}];
-var linksMock = [{
-  id: "0",
-  source: "649def34f8be52c8b66281af98ae884c09aef38b",
-  target: "1fec9d41d372267b4474f18cbeadd806c8b67adb"
-}, {
-  id: "1",
-  source: "649def34f8be52c8b66281af98ae884c09aef38b",
-  target: "921b2958cac4138d188fd5047aa12bbcf37ac867"
-}, {
-  id: "2",
-  source: "649def34f8be52c8b66281af98ae884c09aef38b",
-  target: "2264e14e35dc5a3db93437bc408a03171af8c59d"
-}, {
-  id: "3",
-  source: "649def34f8be52c8b66281af98ae884c09aef38b",
-  target: "74a69228157b3fa1c7adc14e7715039e54f4b067"
-}, {
-  id: "4",
-  source: "25b77db5bfca92029532ca70ee659fdf88db8484",
-  target: "649def34f8be52c8b66281af98ae884c09aef38b"
-}, {
-  id: "5",
-  source: "7e0fda71cc2e561385c0a2e29f5a81654a11157f",
-  target: "649def34f8be52c8b66281af98ae884c09aef38b"
-}, {
-  id: "6",
-  source: "4a236906f5bed6385c7b3bf3f10a0099e41d4566",
-  target: "649def34f8be52c8b66281af98ae884c09aef38b"
-}, {
-  id: "7",
-  source: "97394fd6876dd10a0bdf233beb8216f16e074bee",
-  target: "649def34f8be52c8b66281af98ae884c09aef38b"
-}, {
-  id: "8",
-  source: "42b2fd8a0ab69281022de528c591c665f5f2ad3b",
-  target: "649def34f8be52c8b66281af98ae884c09aef38b"
-}];
-
-
-/***/ }),
-/* 12 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -901,8 +838,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "getLinkedPapers": () => (/* binding */ getLinkedPapers),
 /* harmony export */   "getReferences": () => (/* binding */ getReferences)
 /* harmony export */ });
-/* harmony import */ var _Api__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(13);
-/* harmony import */ var _Utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(14);
+/* harmony import */ var _Api__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(11);
+/* harmony import */ var _Utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(13);
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -1322,7 +1259,7 @@ function addToGraph(graph, linkedNodes) {
 
 
 /***/ }),
-/* 13 */
+/* 11 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1332,7 +1269,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "fetchPaperInfo": () => (/* binding */ fetchPaperInfo),
 /* harmony export */   "fetchReferences": () => (/* binding */ fetchReferences)
 /* harmony export */ });
-/* harmony import */ var _Constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(10);
+/* harmony import */ var _Constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(12);
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return exports; }; var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, defineProperty = Object.defineProperty || function (obj, key, desc) { obj[key] = desc.value; }, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag"; function define(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: !0, configurable: !0, writable: !0 }), obj[key]; } try { define({}, ""); } catch (err) { define = function define(obj, key, value) { return obj[key] = value; }; } function wrap(innerFn, outerFn, self, tryLocsList) { var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []); return defineProperty(generator, "_invoke", { value: makeInvokeMethod(innerFn, self, context) }), generator; } function tryCatch(fn, obj, arg) { try { return { type: "normal", arg: fn.call(obj, arg) }; } catch (err) { return { type: "throw", arg: err }; } } exports.wrap = wrap; var ContinueSentinel = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var IteratorPrototype = {}; define(IteratorPrototype, iteratorSymbol, function () { return this; }); var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([]))); NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype); var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype); function defineIteratorMethods(prototype) { ["next", "throw", "return"].forEach(function (method) { define(prototype, method, function (arg) { return this._invoke(method, arg); }); }); } function AsyncIterator(generator, PromiseImpl) { function invoke(method, arg, resolve, reject) { var record = tryCatch(generator[method], generator, arg); if ("throw" !== record.type) { var result = record.arg, value = result.value; return value && "object" == _typeof(value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) { invoke("next", value, resolve, reject); }, function (err) { invoke("throw", err, resolve, reject); }) : PromiseImpl.resolve(value).then(function (unwrapped) { result.value = unwrapped, resolve(result); }, function (error) { return invoke("throw", error, resolve, reject); }); } reject(record.arg); } var previousPromise; defineProperty(this, "_invoke", { value: function value(method, arg) { function callInvokeWithMethodAndArg() { return new PromiseImpl(function (resolve, reject) { invoke(method, arg, resolve, reject); }); } return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(innerFn, self, context) { var state = "suspendedStart"; return function (method, arg) { if ("executing" === state) throw new Error("Generator is already running"); if ("completed" === state) { if ("throw" === method) throw arg; return doneResult(); } for (context.method = method, context.arg = arg;;) { var delegate = context.delegate; if (delegate) { var delegateResult = maybeInvokeDelegate(delegate, context); if (delegateResult) { if (delegateResult === ContinueSentinel) continue; return delegateResult; } } if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) { if ("suspendedStart" === state) throw state = "completed", context.arg; context.dispatchException(context.arg); } else "return" === context.method && context.abrupt("return", context.arg); state = "executing"; var record = tryCatch(innerFn, self, context); if ("normal" === record.type) { if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue; return { value: record.arg, done: context.done }; } "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg); } }; } function maybeInvokeDelegate(delegate, context) { var method = delegate.iterator[context.method]; if (undefined === method) { if (context.delegate = null, "throw" === context.method) { if (delegate.iterator["return"] && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method)) return ContinueSentinel; context.method = "throw", context.arg = new TypeError("The iterator does not provide a 'throw' method"); } return ContinueSentinel; } var record = tryCatch(method, delegate.iterator, context.arg); if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel; var info = record.arg; return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel); } function pushTryEntry(locs) { var entry = { tryLoc: locs[0] }; 1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry); } function resetTryEntry(entry) { var record = entry.completion || {}; record.type = "normal", delete record.arg, entry.completion = record; } function Context(tryLocsList) { this.tryEntries = [{ tryLoc: "root" }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0); } function values(iterable) { if (iterable) { var iteratorMethod = iterable[iteratorSymbol]; if (iteratorMethod) return iteratorMethod.call(iterable); if ("function" == typeof iterable.next) return iterable; if (!isNaN(iterable.length)) { var i = -1, next = function next() { for (; ++i < iterable.length;) { if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next; } return next.value = undefined, next.done = !0, next; }; return next.next = next; } } return { next: doneResult }; } function doneResult() { return { value: undefined, done: !0 }; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, defineProperty(Gp, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), defineProperty(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) { var ctor = "function" == typeof genFun && genFun.constructor; return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name)); }, exports.mark = function (genFun) { return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun; }, exports.awrap = function (arg) { return { __await: arg }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () { return this; }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) { void 0 === PromiseImpl && (PromiseImpl = Promise); var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl); return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) { return result.done ? result.value : iter.next(); }); }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () { return this; }), define(Gp, "toString", function () { return "[object Generator]"; }), exports.keys = function (val) { var object = Object(val), keys = []; for (var key in object) { keys.push(key); } return keys.reverse(), function next() { for (; keys.length;) { var key = keys.pop(); if (key in object) return next.value = key, next.done = !1, next; } return next.done = !0, next; }; }, exports.values = values, Context.prototype = { constructor: Context, reset: function reset(skipTempReset) { if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) { "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined); } }, stop: function stop() { this.done = !0; var rootRecord = this.tryEntries[0].completion; if ("throw" === rootRecord.type) throw rootRecord.arg; return this.rval; }, dispatchException: function dispatchException(exception) { if (this.done) throw exception; var context = this; function handle(loc, caught) { return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught; } for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i], record = entry.completion; if ("root" === entry.tryLoc) return handle("end"); if (entry.tryLoc <= this.prev) { var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc"); if (hasCatch && hasFinally) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } else if (hasCatch) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); } else { if (!hasFinally) throw new Error("try statement without catch or finally"); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } } } }, abrupt: function abrupt(type, arg) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) { var finallyEntry = entry; break; } } finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null); var record = finallyEntry ? finallyEntry.completion : {}; return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record); }, complete: function complete(record, afterLoc) { if ("throw" === record.type) throw record.arg; return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel; }, finish: function finish(finallyLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel; } }, "catch": function _catch(tryLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc === tryLoc) { var record = entry.completion; if ("throw" === record.type) { var thrown = record.arg; resetTryEntry(entry); } return thrown; } } throw new Error("illegal catch attempt"); }, delegateYield: function delegateYield(iterable, resultName, nextLoc) { return this.delegate = { iterator: values(iterable), resultName: resultName, nextLoc: nextLoc }, "next" === this.method && (this.arg = undefined), ContinueSentinel; } }, exports; }
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -1471,7 +1408,25 @@ function _fetchReferences() {
 
 
 /***/ }),
-/* 14 */
+/* 12 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "MAX_CITATION": () => (/* binding */ MAX_CITATION),
+/* harmony export */   "MAX_GRAPH_DEPTH": () => (/* binding */ MAX_GRAPH_DEPTH),
+/* harmony export */   "MAX_REFERENCES": () => (/* binding */ MAX_REFERENCES),
+/* harmony export */   "SIMILARITY_THRESHOLD": () => (/* binding */ SIMILARITY_THRESHOLD)
+/* harmony export */ });
+var SIMILARITY_THRESHOLD = 0.78;
+var MAX_GRAPH_DEPTH = 3;
+var MAX_CITATION = 2;
+var MAX_REFERENCES = 2;
+
+
+/***/ }),
+/* 13 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1479,8 +1434,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "compareSimilarity": () => (/* binding */ compareSimilarity)
 /* harmony export */ });
-/* harmony import */ var _Constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(10);
-var _require = __webpack_require__(15),
+/* harmony import */ var _Constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(12);
+var _require = __webpack_require__(14),
   compareTwoStrings = _require.compareTwoStrings;
 
 
@@ -1497,7 +1452,7 @@ function compareSimilarity(string1, string2) {
 
 
 /***/ }),
-/* 15 */
+/* 14 */
 /***/ ((module) => {
 
 module.exports = {
@@ -1565,6 +1520,116 @@ function areArgsValid(mainString, targetStrings) {
 	if (!targetStrings.length) return false;
 	if (targetStrings.find( function (s) { return typeof s !== 'string'})) return false;
 	return true;
+}
+
+
+/***/ }),
+/* 15 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "SidePageLoaderComponent": () => (/* binding */ SidePageLoaderComponent)
+/* harmony export */ });
+/* harmony import */ var _services_EventHandlerService__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4);
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _classPrivateMethodInitSpec(obj, privateSet) { _checkPrivateRedeclaration(obj, privateSet); privateSet.add(obj); }
+function _classPrivateFieldInitSpec(obj, privateMap, value) { _checkPrivateRedeclaration(obj, privateMap); privateMap.set(obj, value); }
+function _checkPrivateRedeclaration(obj, privateCollection) { if (privateCollection.has(obj)) { throw new TypeError("Cannot initialize the same private elements twice on an object"); } }
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _classPrivateMethodGet(receiver, privateSet, fn) { if (!privateSet.has(receiver)) { throw new TypeError("attempted to get private field on non-instance"); } return fn; }
+function _classPrivateFieldGet(receiver, privateMap) { var descriptor = _classExtractFieldDescriptor(receiver, privateMap, "get"); return _classApplyDescriptorGet(receiver, descriptor); }
+function _classExtractFieldDescriptor(receiver, privateMap, action) { if (!privateMap.has(receiver)) { throw new TypeError("attempted to " + action + " private field on non-instance"); } return privateMap.get(receiver); }
+function _classApplyDescriptorGet(receiver, descriptor) { if (descriptor.get) { return descriptor.get.call(receiver); } return descriptor.value; }
+
+
+/**
+ * Component representing the loader in side page. It can be used when data from 
+ * asynchronous function is being displayed in side page. If error occurs while
+ * retrieving data from asynchronous function this component can also display
+ * error message.
+ *
+ * @property {Object} components object that holds DOM elements within this component
+ * @property {HTMLElement} components.loader placeholder for loader animation or error message
+ * @property {HTMLElement} components.loaderAnimation loading animation element
+ * @property {HTMLElement} components.errorMessageDiv error message element
+ */
+var _registerEvents = /*#__PURE__*/new WeakMap();
+var _hideLoader = /*#__PURE__*/new WeakSet();
+var _showTransparentLoader = /*#__PURE__*/new WeakSet();
+var _showOpaqueLoader = /*#__PURE__*/new WeakSet();
+var _showLoader = /*#__PURE__*/new WeakSet();
+var _hideErrorDisplay = /*#__PURE__*/new WeakSet();
+var _showErrorDisplay = /*#__PURE__*/new WeakSet();
+var SidePageLoaderComponent = /*#__PURE__*/_createClass(
+/**
+ * Creates and initializes new side page loader component.
+ */
+function SidePageLoaderComponent() {
+  var _this = this;
+  _classCallCheck(this, SidePageLoaderComponent);
+  _classPrivateMethodInitSpec(this, _showErrorDisplay);
+  _classPrivateMethodInitSpec(this, _hideErrorDisplay);
+  _classPrivateMethodInitSpec(this, _showLoader);
+  _classPrivateMethodInitSpec(this, _showOpaqueLoader);
+  _classPrivateMethodInitSpec(this, _showTransparentLoader);
+  _classPrivateMethodInitSpec(this, _hideLoader);
+  _defineProperty(this, "components", {
+    loaderAnimation: document.querySelector("#loader-bubbles"),
+    loader: document.querySelector("#side-page-loader"),
+    errorMessageDiv: document.querySelector("#error-message-div")
+  });
+  _classPrivateFieldInitSpec(this, _registerEvents, {
+    writable: true,
+    value: function value() {
+      _services_EventHandlerService__WEBPACK_IMPORTED_MODULE_0__.EventHandlerService.subscribe(_services_EventHandlerService__WEBPACK_IMPORTED_MODULE_0__.PDFLEvents.onHideSidePageLoader, function () {
+        _classPrivateMethodGet(_this, _hideLoader, _hideLoader2).call(_this);
+      });
+      _services_EventHandlerService__WEBPACK_IMPORTED_MODULE_0__.EventHandlerService.subscribe(_services_EventHandlerService__WEBPACK_IMPORTED_MODULE_0__.PDFLEvents.onShowTransparentSidePageLoader, function () {
+        _classPrivateMethodGet(_this, _showTransparentLoader, _showTransparentLoader2).call(_this);
+      });
+      _services_EventHandlerService__WEBPACK_IMPORTED_MODULE_0__.EventHandlerService.subscribe(_services_EventHandlerService__WEBPACK_IMPORTED_MODULE_0__.PDFLEvents.onShowOpaqueSidePageLoader, function () {
+        _classPrivateMethodGet(_this, _showOpaqueLoader, _showOpaqueLoader2).call(_this);
+      });
+      _services_EventHandlerService__WEBPACK_IMPORTED_MODULE_0__.EventHandlerService.subscribe(_services_EventHandlerService__WEBPACK_IMPORTED_MODULE_0__.PDFLEvents.onShowSidePageError, function () {
+        _classPrivateMethodGet(_this, _showErrorDisplay, _showErrorDisplay2).call(_this);
+      });
+    }
+  });
+  _classPrivateFieldGet(this, _registerEvents).call(this);
+}
+
+/**
+ * Registers events for showing or hiding loader or error message.
+ */);
+function _hideLoader2() {
+  this.components.loader.classList.add("hidden");
+}
+function _showTransparentLoader2() {
+  _classPrivateMethodGet(this, _showLoader, _showLoader2).call(this);
+  this.components.loader.classList.add("transparent");
+}
+function _showOpaqueLoader2() {
+  _classPrivateMethodGet(this, _showLoader, _showLoader2).call(this);
+  this.components.loader.classList.remove("transparent");
+}
+function _showLoader2() {
+  _classPrivateMethodGet(this, _hideErrorDisplay, _hideErrorDisplay2).call(this);
+  this.components.loaderAnimation.classList.remove("hidden");
+  this.components.loader.classList.remove("hidden");
+}
+function _hideErrorDisplay2() {
+  this.components.errorMessageDiv.classList.add("hidden");
+  this.components.loader.classList.remove("error");
+}
+function _showErrorDisplay2() {
+  this.components.loader.classList.remove("hidden");
+  this.components.loader.classList.add("error");
+  this.components.loaderAnimation.classList.add("hidden");
+  this.components.errorMessageDiv.classList.remove("hidden");
 }
 
 
@@ -22408,7 +22473,7 @@ __webpack_require__.r(__webpack_exports__);
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
 ___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://fonts.googleapis.com/css2?family=Roboto&display=swap);"]);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "* {\n    box-sizing: border-box;\n}\n\nhtml{\n    height: 100vh;\n}\n\nbody{\n    position: relative;\n    height: 100vh;\n    width: 100%;\n    margin: 0;\n}\n\n#second-text{\n  margin-top: -55px;\n}\n\n.third-text{\n  font-weight: 900;\n  font-size:15px;\n}\n\n#pdf-viewer{\n  margin: 0;\n  padding: 0;\n  font-family: \"Roboto\", sans-serif;\n  box-sizing: border-box;\n  height: 100vh;\n  background-color: #f5f5f5;\n}\n\n#pdf-container{\n  background-color: #f5f5f5;\n  transition: 0.5s;\n}\n\n\n.zoom:hover,\n.print-button:hover {\n    background-color: #ddd;\n    color: var(--color);;\n    opacity: 0.8;\n    cursor: pointer;\n}\n\n.navigation {\n    margin: 0;\n    background-color: #ffffff;\n    color: #000;\n    padding: 0.3rem;\n    list-style: none;\n    display: flex;\n    align-items: center;\n    justify-content: space-between;\n    position: fixed;\n    top: 0;\n    left: 0;\n    width: 100%;\n    z-index: 2;\n}\n\n.navigation__item {\n    margin: 0.5rem;\n}\n\n.previous {\n    background-color: #f1f1f1;\n    color: black;\n}\n\n.next {\n    background-color: var(--color);;\n    color: white;\n}\n\n.round {\n    border-radius: 50%;\n}\n\n.canvas__container {\n    box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px;\n    display: block;\n    margin-left: auto;\n    margin-right: auto;\n    margin-top: 2rem;\n}\n\n#num-pages{\n  text-align: center; \n  color: var(--iconColor); \n  font-weight: 600; \n  font-size: small;\n}\n\nhr{\n  width: 70%;\n  border: 1px solid;\n  color: var(--iconColor)\n}\n\n.zoom {\n    color: var(--color);;\n    outline: #fff;\n    border: 1px solid var(--color);;\n    background-color: #ffffff;\n    border-radius: 50%;\n    padding: 12px 12px;\n    text-align: center;\n    transition: all 0.3s ease;\n    font-size: 1rem;\n}\n\ninput[type=\"number\"] {\n    -moz-appearance: textfield;\n    appearance: textfield;\n    margin: 0;\n    text-align: center;\n    width: 20%;\n    height: 1rem;\n    font-size: 1rem;\n    border: none;\n    border-radius: 1px;\n    margin-left: 5px;\n    margin-right: 5px;\n}\n\ninput[type=\"number\"]::-webkit-inner-spin-button,\ninput[type=\"number\"]::-webkit-outer-spin-button {\n    -webkit-appearance: none;\n    margin: 0;\n}\n\n.print-button {\n    border: none;\n    color: var(--color);;\n    outline: #fff;\n    border: 1px solid var(--color);;\n    border-radius: 50%;\n    padding: 12px 12px;\n    text-align: center;\n    transition: all 0.3s ease;\n    font-size: 1rem;\n}\n\n.btn {\n    display: inline-block;\n    margin: .5rem .5rem 1rem .5rem;\n    clear: both;\n    font-family: inherit;\n    font-weight: 700;\n    font-size: 14px;\n    text-decoration: none;\n    text-transform: initial;\n    border: none;\n    border-radius: .2rem;\n    outline: none;\n    padding: 0 1rem;\n    height: 36px;\n    line-height: 36px;\n    color: #fff;\n    transition: all 0.2s ease-in-out;\n    box-sizing: border-box;\n    background: var(--color);;\n    border-color: var(--color);;\n    cursor: pointer;\n}\n\n.btn:hover{\n    background-color: #ddd;\n    color: var(--color);\n}\n\n/* Hide Print button */\n@media print {\n    .navigation {\n        display: none;\n    }\n}\n\n/*CSS Floating Menu Button */\n/*\n@-webkit-keyframes come-in {\n  0% {\n    -webkit-transform: translatey(100px);\n            transform: translatey(100px);\n    opacity: 0;\n  }\n  30% {\n    -webkit-transform: translateX(-50px) scale(0.4);\n            transform: translateX(-50px) scale(0.4);\n  }\n  70% {\n    -webkit-transform: translateX(0px) scale(1.2);\n            transform: translateX(0px) scale(1.2);\n  }\n  100% {\n    -webkit-transform: translatey(0px) scale(1);\n            transform: translatey(0px) scale(1);\n    opacity: 1;\n  }\n}\n@keyframes come-in {\n  0% {\n    -webkit-transform: translatey(100px);\n            transform: translatey(100px);\n    opacity: 0;\n  }\n  30% {\n    -webkit-transform: translateX(-50px) scale(0.4);\n            transform: translateX(-50px) scale(0.4);\n  }\n  70% {\n    -webkit-transform: translateX(0px) scale(1.2);\n            transform: translateX(0px) scale(1.2);\n  }\n  100% {\n    -webkit-transform: translatey(0px) scale(1);\n            transform: translatey(0px) scale(1);\n    opacity: 1;\n  }\n}\n.floating-container {\n  position: fixed;\n  width: 100px;\n  height: 100px;\n  bottom: 0;\n  right: 0;\n  margin: 35px 25px;\n}\n.floating-container:hover {\n  height: 300px;\n}\n.floating-container:hover .floating-button {\n  -webkit-transform: translatey(5px);\n          transform: translatey(5px);\n  -webkit-transition: all 0.3s;\n  transition: all 0.3s;\n}\n.floating-container:hover .element-container .float-element:nth-child(1) {\n  -webkit-animation: come-in 0.4s forwards 0.2s;\n          animation: come-in 0.4s forwards 0.2s;\n}\n.floating-container:hover .element-container .float-element:nth-child(2) {\n  -webkit-animation: come-in 0.4s forwards 0.4s;\n          animation: come-in 0.4s forwards 0.4s;\n}\n.floating-container:hover .element-container .float-element:nth-child(3) {\n  -webkit-animation: come-in 0.4s forwards 0.6s;\n          animation: come-in 0.4s forwards 0.6s;\n}\n.floating-container .floating-button {\n  position: absolute;\n  width: 65px;\n  height: 65px;\n  background: var(--color);;\n  bottom: 0;\n  border-radius: 50%;\n  left: 0;\n  right: 0;\n  margin: auto;\n  color: white;\n  line-height: 70px;\n  text-align: center;\n  font-size: 23px;\n  z-index: 100;\n  cursor: pointer;\n  -webkit-transition: all 0.3s;\n  transition: all 0.3s;\n}\n.floating-container .float-element {\n  position: relative;\n  display: block;\n  border-radius: 50%;\n  width: 55px;\n  height: 55px;\n  margin: 15px auto;\n  color: white;\n  font-weight: 500;\n  text-align: center;\n  line-height: 55px;\n  z-index: 0;\n  opacity: 0;\n  -webkit-transform: translateY(100px);\n          transform: translateY(100px);\n}\n.floating-container .float-element .material-icons {\n  vertical-align: middle;\n  font-size: 22px;\n}\n.floating-container .float-element:nth-child(1) {\n  background: #ffcd00;\n  color: var(--color);;\n}\n.floating-container .float-element:nth-child(2) {\n  background: var(--color);;\n}\n.floating-container .float-element:nth-child(3) {\n  background: var(--color);;\n}*/\n\n/* CSS for SideToolBar */\n#sidenav {\n  padding: 8px 0px;\n  width: -moz-available;\n  position: fixed;\n  top: 67px;\n  left: 22px;\n  z-index: 1;\n}\n\n#sidenav a {\n  text-align: center;\n  padding: 8px 0px 8px 0px;\n  text-decoration: none;\n  font-size: 25px;\n  color: var(--iconColor);\n  display: block;\n}\n\n#sidenav a:hover {\n  color: #ffcd00;\n}\n\n.sidetoolbar {\n  width: 60px;\n  background-color: #ffffff;\n  border: solid #ffffff;\n  border-radius: 15px;\n  margin-bottom: 20px;\n  cursor: pointer;\n  box-shadow: 0 1px 2px rgba(0,0,0,0.15);\n  transition: box-shadow 0.3s ease-in-out;\n}\n\n/* Transition to a bigger shadow on hover */\n.sidetoolbar:hover {\n  border-radius: 15px;\n  -webkit-transform: scale(1.15, 1.15);\n  transform: scale(1.15, 1.15);\n}\n\n/* Fade in the pseudo-element with the bigger shadow */\n.sidetoolbar:hover::after {\n  opacity: 1;\n  border-radius: 15px;\n}\n\n#graph-maker{\n    padding-top: 6px;\n}\n\n#full-screen{\n  padding-top: 6px;\n}\n\n#search{\n  padding-top: 6px;\n}\n/* CSS for Loader */\n#loader{\n  position: fixed;\n  z-index: 99;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background: var(--color);\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n\n#logo-loader{\n  width: 50%;\n  animation: myAnim 600ms ease 0s 80 normal forwards, fadeOut 1s;\n  animation-fill-mode: forwards;\n}\n\n#loader > img {\n  width: 100px;\n}\n\n#loader.hidden{\n  animation: fadeOut 1s;\n  animation-fill-mode: forwards;\n}\n\n#background-loader-2{\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  background-color: #28323b;\n  z-index: 999;\n}\n\n#background-loader-2.transparent{\n  background-color: transparent;\n}\n\n#background-loader-2.hidden{\n  animation: fadeOut 1s;\n  animation-fill-mode: forwards;\n}\n\n#background-loader-2.error{\n  background-color: #28323b;\n}\n\n#error-message-div{\n  visibility: hidden;\n}\n\n#error-message-div.visualize{\n  visibility: visible;\n  position: absolute;\n  top: 35%;\n  left: 30%;\n  align-items: center;\n  text-align: center;\n  cursor: default;\n}\n\n#error-message{\n  position: relative;\n  font-size: medium;\n  font-weight: 100;\n  color: var(--color);\n  text-align: center;\n}\n\n#logo-broken{\n  width: 25%;\n  height: 25%;\n}\n\n#loader-2 {\n  position: relative;\n  top: 50%;\n  left: 50%;\n}\n\n#loader-2.move {\n  animation: moveUp 500ms;\n  animation-fill-mode: forwards;\n}\n\n#loader-2.hidden {\n  visibility: hidden;\n}\n\n@keyframes moveUp {\n  0%   {left:50%; top:50%;}\n  100%  {left:2%; top:2%;}\n}\n\n.bubble {\n  animation: expand .75s ease-in-out infinite;\n  border-radius: 20px;\n  display: inline-block;\n  transform-origin: center center;\n  margin: 0 3px;\n  width: 20px;\n  height: 20px;\n  z-index: 999;\n}\n\n.bubble:nth-child(1) {\n  background: #27ae60;\n}\n\n.bubble:nth-child(2) {\n  animation-delay: 180ms;\n  background: #f1c40f;\n}\n\n.bubble:nth-child(3) {\n  animation-delay: 360ms;\n  background: #e67e22;\n}\n\n.bubble:nth-child(4) {\n  animation-delay: 540ms;\n  background: #2980b9;\n}\n\n@keyframes expand {\n  0% {\n    transform: scale(1);\n  }\n  25% {\n    transform: scale(1.55);\n  }\n}\n\n\n@keyframes fadeOut {\n  100% {\n    opacity: 0;\n    visibility: hidden;\n  }\n}\n\n@keyframes myAnim {\n\t0% {\n\t\ttransform: rotate(0);\n\t}\n\n\t100% {\n\t\ttransform: rotate(360deg);\n\t}\n}\n\n\n/* Style page content - use this if you want to push the page content to the right when you open the side navigation */\n#main {\n  transition: margin-right .5s;\n  display: flex;\n  justify-content: space-between;\n  width: 100%;\n  position: inherit;\n}\n\n.no-width{\n  width: 0;\n}\n\n.half-width{\n  width: 50%;\n}\n\n.full-width{\n  width: 100%;\n}\n\n#num-pages {\n  position: relative;\n}\n\n#num-pages .tooltiptext {\n  visibility: hidden;\n  width: 120px;\n  background-color: #555;\n  color: #fff;\n  text-align: center;\n  border-radius: 6px;\n  padding: 10px 0;\n  position: absolute;\n  top: -10px;\n  left: 200%;\n  margin-left: -60px;\n  opacity: 0;\n  transition: opacity 0.3s;\n  background-color: #045;\n  cursor: auto;\n}\n\n#num-pages .tooltiptext::after {\n  content: \"\";\n  position: absolute;\n  top: 50%;\n  right: 100%;\n  margin-top: -5px;\n  border-width: 5px;\n  border-style: solid;\n  border-color: transparent #045 transparent transparent;\n}\n\n#num-pages:hover .tooltiptext {\n  visibility: visible;\n  opacity: 1;\n}\n\n.material-icons{\n  user-select: none;\n}\n\n/* CSS for the Text Render */\n\n.textLayer {\n    position: absolute;\n    text-align: initial;\n    left: 0;\n    top: 0;\n    right: 0;\n    bottom: 0;\n    overflow: hidden;\n    opacity: 0.2;\n    line-height: 1;\n    -webkit-text-size-adjust: none;\n       -moz-text-size-adjust: none;\n            text-size-adjust: none;\n    forced-color-adjust: none;\n  }\n  \n  .textLayer span,\n  .textLayer br {\n    color: transparent;\n    position: absolute;\n    white-space: pre;\n    cursor: text;\n    transform-origin: 0% 0%;\n  }\n  \n  /* Only necessary in Google Chrome, see issue 14205, and most unfortunately\n   * the problem doesn't show up in \"text\" reference tests. */\n  .textLayer span.markedContent {\n    top: 0;\n    height: 0;\n  }\n  \n  .textLayer .highlight {\n    margin: -1px;\n    padding: 1px;\n    background-color: rgba(180, 0, 170, 1);\n    border-radius: 4px;\n  }\n  \n  .textLayer .highlight.appended {\n    position: initial;\n  }\n  \n  .textLayer .highlight.begin {\n    border-radius: 4px 0 0 4px;\n  }\n  \n  .textLayer .highlight.end {\n    border-radius: 0 4px 4px 0;\n  }\n  \n  .textLayer .highlight.middle {\n    border-radius: 0;\n  }\n  \n  .textLayer .highlight.selected {\n    background-color: rgba(0, 100, 0, 1);\n  }\n  \n  .textLayer ::-moz-selection {\n    background: rgba(0, 0, 255, 1);\n  }\n  \n  .textLayer ::selection {\n    background: rgba(0, 0, 255, 1);\n  }\n  \n  /* Avoids https://github.com/mozilla/pdf.js/issues/13840 in Chrome */\n  .textLayer br::-moz-selection {\n    background: transparent;\n  }\n  .textLayer br::selection {\n    background: transparent;\n  }\n  \n  .textLayer .endOfContent {\n    display: block;\n    position: absolute;\n    left: 0;\n    top: 100%;\n    right: 0;\n    bottom: 0;\n    z-index: -1;\n    cursor: default;\n    -webkit-user-select: none;\n       -moz-user-select: none;\n            user-select: none;\n  }\n  \n  .textLayer .endOfContent.active {\n    top: 0;\n  }\n\n  /*Mobile (320px — 480px) and tablet (481px — 768px)*/\n  /*TODO: include small screens (769px — 1024px)?*/\n  @media (max-width: 768px) {\n    #pdf-container.half-width {\n      width: 0;\n    }\n    #side-page.half-width{\n      width: 50%;\n    }\n  }\n\n\n  /* KNOWLEDGE GRAPH STYLE */\n  #knowledge-graph{\n    min-width: 100%;\n    display: flex;\n    justify-content: center;\n  }\n  /* CSS for SidePage */\n  #side-page {\n    transition: 0.5s;\n    background-color: rgba(0, 0, 0, 0.1);\n    position: relative;\n    right: 0;\n    overflow-x: hidden;\n    z-index: 2;\n    cursor: move;\n  }\n\n  .closebtn {\n    position: absolute;\n    top: 0;\n    right: 15px;\n    font-size: 50px;\n    z-index: 999;\n    color: black;\n    cursor: pointer;\n  }\n\n  .closebtn:hover{\n    color: red;\n  }", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "* {\n    box-sizing: border-box;\n}\n\nhtml{\n    height: 100vh;\n}\n\nbody{\n    position: relative;\n    height: 100vh;\n    width: 100%;\n    margin: 0;\n}\n\n#second-text{\n  margin-top: -55px;\n}\n\n.third-text{\n  font-weight: 900;\n  font-size:15px;\n}\n\n#pdf-viewer{\n  margin: 0;\n  padding: 0;\n  font-family: \"Roboto\", sans-serif;\n  box-sizing: border-box;\n  height: 100vh;\n  background-color: #f5f5f5;\n}\n\n#pdf-container{\n  background-color: #f5f5f5;\n  transition: 0.5s;\n}\n\n\n.zoom:hover,\n.print-button:hover {\n    background-color: #ddd;\n    color: var(--color);;\n    opacity: 0.8;\n    cursor: pointer;\n}\n\n.navigation {\n    margin: 0;\n    background-color: #ffffff;\n    color: #000;\n    padding: 0.3rem;\n    list-style: none;\n    display: flex;\n    align-items: center;\n    justify-content: space-between;\n    position: fixed;\n    top: 0;\n    left: 0;\n    width: 100%;\n    z-index: 2;\n}\n\n.navigation__item {\n    margin: 0.5rem;\n}\n\n.previous {\n    background-color: #f1f1f1;\n    color: black;\n}\n\n.next {\n    background-color: var(--color);;\n    color: white;\n}\n\n.round {\n    border-radius: 50%;\n}\n\n.canvas__container {\n    box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px;\n    display: block;\n    margin-left: auto;\n    margin-right: auto;\n    margin-top: 2rem;\n}\n\n#num-pages{\n  text-align: center; \n  color: var(--iconColor); \n  font-weight: 600; \n  font-size: small;\n}\n\nhr{\n  width: 70%;\n  border: 1px solid;\n  color: var(--iconColor)\n}\n\n.zoom {\n    color: var(--color);;\n    outline: #fff;\n    border: 1px solid var(--color);;\n    background-color: #ffffff;\n    border-radius: 50%;\n    padding: 12px 12px;\n    text-align: center;\n    transition: all 0.3s ease;\n    font-size: 1rem;\n}\n\ninput[type=\"number\"] {\n    -moz-appearance: textfield;\n    appearance: textfield;\n    margin: 0;\n    text-align: center;\n    width: 20%;\n    height: 1rem;\n    font-size: 1rem;\n    border: none;\n    border-radius: 1px;\n    margin-left: 5px;\n    margin-right: 5px;\n}\n\ninput[type=\"number\"]::-webkit-inner-spin-button,\ninput[type=\"number\"]::-webkit-outer-spin-button {\n    -webkit-appearance: none;\n    margin: 0;\n}\n\n.print-button {\n    border: none;\n    color: var(--color);;\n    outline: #fff;\n    border: 1px solid var(--color);;\n    border-radius: 50%;\n    padding: 12px 12px;\n    text-align: center;\n    transition: all 0.3s ease;\n    font-size: 1rem;\n}\n\n.btn {\n    display: inline-block;\n    margin: .5rem .5rem 1rem .5rem;\n    clear: both;\n    font-family: inherit;\n    font-weight: 700;\n    font-size: 14px;\n    text-decoration: none;\n    text-transform: initial;\n    border: none;\n    border-radius: .2rem;\n    outline: none;\n    padding: 0 1rem;\n    height: 36px;\n    line-height: 36px;\n    color: #fff;\n    transition: all 0.2s ease-in-out;\n    box-sizing: border-box;\n    background: var(--color);;\n    border-color: var(--color);;\n    cursor: pointer;\n}\n\n.btn:hover{\n    background-color: #ddd;\n    color: var(--color);\n}\n\n/* Hide Print button */\n@media print {\n    .navigation {\n        display: none;\n    }\n}\n\n/*CSS Floating Menu Button */\n/*\n@-webkit-keyframes come-in {\n  0% {\n    -webkit-transform: translatey(100px);\n            transform: translatey(100px);\n    opacity: 0;\n  }\n  30% {\n    -webkit-transform: translateX(-50px) scale(0.4);\n            transform: translateX(-50px) scale(0.4);\n  }\n  70% {\n    -webkit-transform: translateX(0px) scale(1.2);\n            transform: translateX(0px) scale(1.2);\n  }\n  100% {\n    -webkit-transform: translatey(0px) scale(1);\n            transform: translatey(0px) scale(1);\n    opacity: 1;\n  }\n}\n@keyframes come-in {\n  0% {\n    -webkit-transform: translatey(100px);\n            transform: translatey(100px);\n    opacity: 0;\n  }\n  30% {\n    -webkit-transform: translateX(-50px) scale(0.4);\n            transform: translateX(-50px) scale(0.4);\n  }\n  70% {\n    -webkit-transform: translateX(0px) scale(1.2);\n            transform: translateX(0px) scale(1.2);\n  }\n  100% {\n    -webkit-transform: translatey(0px) scale(1);\n            transform: translatey(0px) scale(1);\n    opacity: 1;\n  }\n}\n.floating-container {\n  position: fixed;\n  width: 100px;\n  height: 100px;\n  bottom: 0;\n  right: 0;\n  margin: 35px 25px;\n}\n.floating-container:hover {\n  height: 300px;\n}\n.floating-container:hover .floating-button {\n  -webkit-transform: translatey(5px);\n          transform: translatey(5px);\n  -webkit-transition: all 0.3s;\n  transition: all 0.3s;\n}\n.floating-container:hover .element-container .float-element:nth-child(1) {\n  -webkit-animation: come-in 0.4s forwards 0.2s;\n          animation: come-in 0.4s forwards 0.2s;\n}\n.floating-container:hover .element-container .float-element:nth-child(2) {\n  -webkit-animation: come-in 0.4s forwards 0.4s;\n          animation: come-in 0.4s forwards 0.4s;\n}\n.floating-container:hover .element-container .float-element:nth-child(3) {\n  -webkit-animation: come-in 0.4s forwards 0.6s;\n          animation: come-in 0.4s forwards 0.6s;\n}\n.floating-container .floating-button {\n  position: absolute;\n  width: 65px;\n  height: 65px;\n  background: var(--color);;\n  bottom: 0;\n  border-radius: 50%;\n  left: 0;\n  right: 0;\n  margin: auto;\n  color: white;\n  line-height: 70px;\n  text-align: center;\n  font-size: 23px;\n  z-index: 100;\n  cursor: pointer;\n  -webkit-transition: all 0.3s;\n  transition: all 0.3s;\n}\n.floating-container .float-element {\n  position: relative;\n  display: block;\n  border-radius: 50%;\n  width: 55px;\n  height: 55px;\n  margin: 15px auto;\n  color: white;\n  font-weight: 500;\n  text-align: center;\n  line-height: 55px;\n  z-index: 0;\n  opacity: 0;\n  -webkit-transform: translateY(100px);\n          transform: translateY(100px);\n}\n.floating-container .float-element .material-icons {\n  vertical-align: middle;\n  font-size: 22px;\n}\n.floating-container .float-element:nth-child(1) {\n  background: #ffcd00;\n  color: var(--color);;\n}\n.floating-container .float-element:nth-child(2) {\n  background: var(--color);;\n}\n.floating-container .float-element:nth-child(3) {\n  background: var(--color);;\n}*/\n\n/* CSS for SideToolBar */\n#sidenav {\n  padding: 8px 0px;\n  width: -moz-available;\n  position: fixed;\n  top: 67px;\n  left: 22px;\n  z-index: 1;\n}\n\n#sidenav a {\n  text-align: center;\n  padding: 8px 0px 8px 0px;\n  text-decoration: none;\n  font-size: 25px;\n  color: var(--iconColor);\n  display: block;\n}\n\n#sidenav a:hover {\n  color: #ffcd00;\n}\n\n.sidetoolbar {\n  width: 60px;\n  background-color: #ffffff;\n  border: solid #ffffff;\n  border-radius: 15px;\n  margin-bottom: 20px;\n  cursor: pointer;\n  box-shadow: 0 1px 2px rgba(0,0,0,0.15);\n  transition: box-shadow 0.3s ease-in-out;\n}\n\n/* Transition to a bigger shadow on hover */\n.sidetoolbar:hover {\n  border-radius: 15px;\n  -webkit-transform: scale(1.15, 1.15);\n  transform: scale(1.15, 1.15);\n}\n\n/* Fade in the pseudo-element with the bigger shadow */\n.sidetoolbar:hover::after {\n  opacity: 1;\n  border-radius: 15px;\n}\n\n#graph-maker{\n    padding-top: 6px;\n}\n\n#full-screen{\n  padding-top: 6px;\n}\n\n#search{\n  padding-top: 6px;\n}\n/* CSS for Loader */\n#loader{\n  position: fixed;\n  z-index: 99;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background: var(--color);\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n\n#logo-loader{\n  width: 50%;\n  animation: myAnim 600ms ease 0s 80 normal forwards, fadeOut 1s;\n  animation-fill-mode: forwards;\n}\n\n#loader > img {\n  width: 100px;\n}\n\n#loader.hidden{\n  animation: fadeOut 1s;\n  animation-fill-mode: forwards;\n}\n\n#side-page-loader{\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  background-color: #28323b;\n  z-index: 999;\n}\n\n#side-page-loader.transparent{\n  background-color: rgba(0, 0, 0, 0.3);\n}\n\n#side-page-loader.hidden{\n  animation: fadeOut 1s;\n  animation-fill-mode: forwards;\n}\n\n#side-page-loader.error{\n  background-color: #28323b;\n}\n#error-message-div{\n  position: absolute;\n  top: 35%;\n  left: 30%;\n  align-items: center;\n  text-align: center;\n  cursor: default;\n}\n\n#error-message-div.hidden{\n  visibility: hidden;\n}\n\n#error-message{\n  position: relative;\n  font-size: medium;\n  font-weight: 100;\n  color: var(--color);\n  text-align: center;\n}\n\n#logo-broken{\n  width: 25%;\n  height: 25%;\n}\n\n#loader-bubbles {\n  position: relative;\n  top: 50%;\n  left: 50%;\n}\n\n#loader-bubbles.move {\n  animation: moveUp 500ms;\n  animation-fill-mode: forwards;\n}\n\n#loader-bubbles.hidden {\n  visibility: hidden;\n}\n\n@keyframes moveUp {\n  0%   {left:50%; top:50%;}\n  100%  {left:2%; top:2%;}\n}\n\n.bubble {\n  animation: expand .75s ease-in-out infinite;\n  border-radius: 20px;\n  display: inline-block;\n  transform-origin: center center;\n  margin: 0 3px;\n  width: 20px;\n  height: 20px;\n  z-index: 999;\n}\n\n.bubble:nth-child(1) {\n  background: #27ae60;\n}\n\n.bubble:nth-child(2) {\n  animation-delay: 180ms;\n  background: #f1c40f;\n}\n\n.bubble:nth-child(3) {\n  animation-delay: 360ms;\n  background: #e67e22;\n}\n\n.bubble:nth-child(4) {\n  animation-delay: 540ms;\n  background: #2980b9;\n}\n\n@keyframes expand {\n  0% {\n    transform: scale(1);\n  }\n  25% {\n    transform: scale(1.55);\n  }\n}\n\n\n@keyframes fadeOut {\n  100% {\n    opacity: 0;\n    visibility: hidden;\n  }\n}\n\n@keyframes myAnim {\n\t0% {\n\t\ttransform: rotate(0);\n\t}\n\n\t100% {\n\t\ttransform: rotate(360deg);\n\t}\n}\n\n\n/* Style page content - use this if you want to push the page content to the right when you open the side navigation */\n#main {\n  transition: margin-right .5s;\n  display: flex;\n  justify-content: space-between;\n  width: 100%;\n  position: inherit;\n}\n\n.no-width{\n  width: 0;\n}\n\n.half-width{\n  width: 50%;\n}\n\n.full-width{\n  width: 100%;\n}\n\n#num-pages {\n  position: relative;\n}\n\n#num-pages .tooltiptext {\n  visibility: hidden;\n  width: 120px;\n  background-color: #555;\n  color: #fff;\n  text-align: center;\n  border-radius: 6px;\n  padding: 10px 0;\n  position: absolute;\n  top: -10px;\n  left: 200%;\n  margin-left: -60px;\n  opacity: 0;\n  transition: opacity 0.3s;\n  background-color: #045;\n  cursor: auto;\n}\n\n#num-pages .tooltiptext::after {\n  content: \"\";\n  position: absolute;\n  top: 50%;\n  right: 100%;\n  margin-top: -5px;\n  border-width: 5px;\n  border-style: solid;\n  border-color: transparent #045 transparent transparent;\n}\n\n#num-pages:hover .tooltiptext {\n  visibility: visible;\n  opacity: 1;\n}\n\n.material-icons{\n  user-select: none;\n}\n\n/* CSS for the Text Render */\n\n.textLayer {\n    position: absolute;\n    text-align: initial;\n    left: 0;\n    top: 0;\n    right: 0;\n    bottom: 0;\n    overflow: hidden;\n    opacity: 0.2;\n    line-height: 1;\n    -webkit-text-size-adjust: none;\n       -moz-text-size-adjust: none;\n            text-size-adjust: none;\n    forced-color-adjust: none;\n  }\n  \n  .textLayer span,\n  .textLayer br {\n    color: transparent;\n    position: absolute;\n    white-space: pre;\n    cursor: text;\n    transform-origin: 0% 0%;\n  }\n  \n  /* Only necessary in Google Chrome, see issue 14205, and most unfortunately\n   * the problem doesn't show up in \"text\" reference tests. */\n  .textLayer span.markedContent {\n    top: 0;\n    height: 0;\n  }\n  \n  .textLayer .highlight {\n    margin: -1px;\n    padding: 1px;\n    background-color: rgba(180, 0, 170, 1);\n    border-radius: 4px;\n  }\n  \n  .textLayer .highlight.appended {\n    position: initial;\n  }\n  \n  .textLayer .highlight.begin {\n    border-radius: 4px 0 0 4px;\n  }\n  \n  .textLayer .highlight.end {\n    border-radius: 0 4px 4px 0;\n  }\n  \n  .textLayer .highlight.middle {\n    border-radius: 0;\n  }\n  \n  .textLayer .highlight.selected {\n    background-color: rgba(0, 100, 0, 1);\n  }\n  \n  .textLayer ::-moz-selection {\n    background: rgba(0, 0, 255, 1);\n  }\n  \n  .textLayer ::selection {\n    background: rgba(0, 0, 255, 1);\n  }\n  \n  /* Avoids https://github.com/mozilla/pdf.js/issues/13840 in Chrome */\n  .textLayer br::-moz-selection {\n    background: transparent;\n  }\n  .textLayer br::selection {\n    background: transparent;\n  }\n  \n  .textLayer .endOfContent {\n    display: block;\n    position: absolute;\n    left: 0;\n    top: 100%;\n    right: 0;\n    bottom: 0;\n    z-index: -1;\n    cursor: default;\n    -webkit-user-select: none;\n       -moz-user-select: none;\n            user-select: none;\n  }\n  \n  .textLayer .endOfContent.active {\n    top: 0;\n  }\n\n  /*Mobile (320px — 480px) and tablet (481px — 768px)*/\n  /*TODO: include small screens (769px — 1024px)?*/\n  @media (max-width: 768px) {\n    #pdf-container.half-width {\n      width: 0;\n    }\n    #side-page.half-width{\n      width: 50%;\n    }\n  }\n\n\n  /* KNOWLEDGE GRAPH STYLE */\n  #knowledge-graph{\n    min-width: 100%;\n    display: flex;\n    justify-content: center;\n  }\n  /* CSS for SidePage */\n  #side-page {\n    transition: 0.5s;\n    background-color: rgba(0, 0, 0, 0.1);\n    position: relative;\n    right: 0;\n    overflow-x: hidden;\n    z-index: 2;\n    cursor: move;\n  }\n\n  .closebtn {\n    position: absolute;\n    top: 0;\n    right: 15px;\n    font-size: 50px;\n    z-index: 999;\n    color: black;\n    cursor: pointer;\n  }\n\n  .closebtn:hover{\n    color: red;\n  }", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
