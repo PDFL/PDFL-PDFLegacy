@@ -20,8 +20,6 @@ const FETCH_OPTIONS = process.env.SEMANTIC_SCHOLAR_API_KEY
 const FIELDS_TO_FETCH_FOR_PAPER =
   "title,citationCount,influentialCitationCount";
 
-const KEY = "pn5TNOquJl1Svkb9KnRpg4MRWR5pfe7p1uyjn93D"
-
 /**
  * @typedef {Object} CitedPaper
  * @property {import("./KnowledgeGraphService").PaperInfo} citedPaper
