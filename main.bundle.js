@@ -814,6 +814,8 @@ function KnowledgeGraphComponent() {
         graph.centerAt(node.x, node.y, 1000);
         graph.zoom(4, 2000);
       });
+    })["catch"](function (error) {
+      _services_EventHandlerService__WEBPACK_IMPORTED_MODULE_1__.EventHandlerService.publish(_services_EventHandlerService__WEBPACK_IMPORTED_MODULE_1__.PDFLEvents.onShowSidePageError);
     });
   });
   _classPrivateFieldGet(this, _registerEvents).call(this);
@@ -1160,12 +1162,15 @@ function buildGraphDepth(_x7, _x8, _x9, _x10) {
  * redisplaying of the graph, linkedNodes can contain
  * duplicates.
  *
+ * Returns graph data that has been added.
+ *
  * @param {ForceGraph} graph
  * @param {GraphData} linkedNodes
+ * @returns {GraphData}
  */
 function _buildGraphDepth() {
   _buildGraphDepth = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6(graph, nodesToAdd, depth, maxDepth) {
-    var nodesToAddNextDepth, _iterator3, _step3, node, linkedPapers, _i2, _nodesToAddNextDepth, nodesToExpand;
+    var nodesToAddNextDepth, _iterator3, _step3, node, linkedPapers, addedNodes, _i2, _nodesToAddNextDepth, nodesToExpand;
     return _regeneratorRuntime().wrap(function _callee6$(_context6) {
       while (1) {
         switch (_context6.prev = _context6.next) {
@@ -1182,7 +1187,7 @@ function _buildGraphDepth() {
             _iterator3.s();
           case 6:
             if ((_step3 = _iterator3.n()).done) {
-              _context6.next = 16;
+              _context6.next = 15;
               break;
             }
             node = _step3.value;
@@ -1193,43 +1198,42 @@ function _buildGraphDepth() {
             });
           case 10:
             linkedPapers = _context6.sent;
-            linkedPapers.re;
-            addToGraph(graph, linkedPapers);
-            nodesToAddNextDepth.push(linkedPapers);
-          case 14:
+            addedNodes = addToGraph(graph, linkedPapers);
+            nodesToAddNextDepth.push(addedNodes);
+          case 13:
             _context6.next = 6;
             break;
-          case 16:
-            _context6.next = 21;
+          case 15:
+            _context6.next = 20;
             break;
-          case 18:
-            _context6.prev = 18;
+          case 17:
+            _context6.prev = 17;
             _context6.t0 = _context6["catch"](4);
             _iterator3.e(_context6.t0);
-          case 21:
-            _context6.prev = 21;
+          case 20:
+            _context6.prev = 20;
             _iterator3.f();
-            return _context6.finish(21);
-          case 24:
+            return _context6.finish(20);
+          case 23:
             _i2 = 0, _nodesToAddNextDepth = nodesToAddNextDepth;
-          case 25:
+          case 24:
             if (!(_i2 < _nodesToAddNextDepth.length)) {
-              _context6.next = 32;
+              _context6.next = 31;
               break;
             }
             nodesToExpand = _nodesToAddNextDepth[_i2];
-            _context6.next = 29;
+            _context6.next = 28;
             return buildGraphDepth(graph, nodesToExpand, depth + 1, maxDepth);
-          case 29:
+          case 28:
             _i2++;
-            _context6.next = 25;
+            _context6.next = 24;
             break;
-          case 32:
+          case 31:
           case "end":
             return _context6.stop();
         }
       }
-    }, _callee6, null, [[4, 18, 21, 24]]);
+    }, _callee6, null, [[4, 17, 20, 23]]);
   }));
   return _buildGraphDepth.apply(this, arguments);
 }
@@ -1241,7 +1245,7 @@ function addToGraph(graph, linkedNodes) {
     var id = _ref.id;
     return id;
   });
-  var nodeToAddFiltered = linkedNodes.nodes.filter(function (node) {
+  var nodesToAddFiltered = linkedNodes.nodes.filter(function (node) {
     return !nodeIdsInGraph.includes(node.id);
   });
   var linkIdsInGraph = links.map(function (_ref2) {
@@ -1252,9 +1256,13 @@ function addToGraph(graph, linkedNodes) {
     return !linkIdsInGraph.includes(link.id);
   });
   graph.graphData({
-    nodes: nodes.concat(nodeToAddFiltered),
+    nodes: nodes.concat(nodesToAddFiltered),
     links: links.concat(linksToAddFiltered)
   });
+  return {
+    nodes: nodesToAddFiltered,
+    links: linksToAddFiltered
+  };
 }
 
 
@@ -1278,6 +1286,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 var KEYWORD_API = "https://api.semanticscholar.org/graph/v1/paper/search?";
 var CITATIONS_API = "https://api.semanticscholar.org/graph/v1/paper/{paper_id}/citations?";
 var REFERENCES_API = "https://api.semanticscholar.org/graph/v1/paper/{paper_id}/references?";
+var HEADERS = new Headers({
+  "X-Api-Key": "pn5TNOquJl1Svkb9KnRpg4MRWR5pfe7p1uyjn93D"
+});
+var FETCH_OPTIONS =  true ? {
+  mode: "cors",
+  headers: HEADERS
+} : 0;
 var FIELDS_TO_FETCH_FOR_PAPER = "title,citationCount,influentialCitationCount";
 
 /**
@@ -1320,7 +1335,7 @@ function _fetchPaperInfo() {
               limit: 1
             });
             _context.next = 3;
-            return fetch(KEYWORD_API + queryParams);
+            return fetch(KEYWORD_API + queryParams, FETCH_OPTIONS);
           case 3:
             _context.next = 5;
             return _context.sent.json();
@@ -1358,7 +1373,7 @@ function _fetchCitations() {
               limit: _Constants__WEBPACK_IMPORTED_MODULE_0__.MAX_CITATION
             });
             _context2.next = 3;
-            return fetch(CITATIONS_API.replace("{paper_id}", paperID) + queryParams);
+            return fetch(CITATIONS_API.replace("{paper_id}", paperID) + queryParams, FETCH_OPTIONS);
           case 3:
             _context2.next = 5;
             return _context2.sent.json();
@@ -1389,7 +1404,7 @@ function _fetchReferences() {
               limit: _Constants__WEBPACK_IMPORTED_MODULE_0__.MAX_REFERENCES
             });
             _context3.next = 3;
-            return fetch(REFERENCES_API.replace("{paper_id}", paperID) + queryParams);
+            return fetch(REFERENCES_API.replace("{paper_id}", paperID) + queryParams, FETCH_OPTIONS);
           case 3:
             _context3.next = 5;
             return _context3.sent.json();
@@ -1420,9 +1435,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "SIMILARITY_THRESHOLD": () => (/* binding */ SIMILARITY_THRESHOLD)
 /* harmony export */ });
 var SIMILARITY_THRESHOLD = 0.78;
-var MAX_GRAPH_DEPTH = 3;
-var MAX_CITATION = 2;
-var MAX_REFERENCES = 2;
+var MAX_GRAPH_DEPTH = 2;
+var MAX_CITATION = 8;
+var MAX_REFERENCES = 8;
 
 
 /***/ }),
