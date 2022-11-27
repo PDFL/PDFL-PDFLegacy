@@ -3,7 +3,7 @@ import {
   PDFLEvents,
 } from "../services/EventHandlerService";
 import { mouseOverDelayEvent } from "../services/Utils";
-import { DocumentParser } from "../services/DocumentParser/DocumentParser";
+import { ParserFactory } from "../services/DocumentParser/ParserFactory";
 
 /**
  * This class handles user interaction with internal document references
@@ -48,7 +48,7 @@ class ReferenceComponent {
         this.#onInternalReferenceClick.bind(this)
       );
       mouseOverDelayEvent(
-          aTagElement,
+        aTagElement,
         2000,
         this.#onInternalReferenceOver.bind(this)
       ); //Delay the over listener
@@ -128,14 +128,14 @@ class ReferenceComponent {
     //TODO:- If we have the object is it possible to know the ref type?
     const self = this;
     const referenceType = reference.split(".")[0];
-    const parseService = DocumentParser.parserFactory(referenceType, {
+    const parseService = ParserFactory(referenceType, {
       pdfDoc: self.pdfDoc,
       pageNumber: pageNumber,
       reference: reference,
     });
 
     parseService.getContent().then((result) => {
-      console.log(result)
+      console.log(result);
       EventHandlerService.publish(
         PDFLEvents.onPopupContentReady,
         self.overEventPosition,
