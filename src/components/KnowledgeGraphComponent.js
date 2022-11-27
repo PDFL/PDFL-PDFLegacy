@@ -135,6 +135,8 @@ class KnowledgeGraphComponent {
         graph.centerAt(node.x, node.y, 1000);
         graph.zoom(4, 2000);
       });
+    }).catch((error) => {
+        EventHandlerService.publish(PDFLEvents.onShowSidePageError);
     });
   };
 }
