@@ -178,6 +178,7 @@ class ReferenceComponent {
         );
     }
     parseService.getContent().then((result) => {
+      console.log(result);
       EventHandlerService.publish(
         PDFLEvents.onPopupContentReady,
         self.overEventPosition,
