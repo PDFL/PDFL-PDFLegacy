@@ -1,3 +1,7 @@
+import {ImageExtractorService} from "./ImageExtractorService";
+import {TextExtractorService} from "./TextExtractorService";
+import {GenericExtractorService} from "./GenericExtractorService";
+
 /**
  * @abstract
  * The document parser class defines the structure of a parser class, it is abstract and it is not allowed to use it directly
@@ -6,6 +10,51 @@
  * @property {string} targetElement
  */
 class DocumentParser {
+  /**
+   * Factory method
+   * @param referenceType {string} the parsed reference type
+   * @param parameters object containing constructor parameters
+   * @returns {GenericExtractorService|TextExtractorService|ImageExtractorService}
+   */
+  static parserFactory = (referenceType, parameters) => {
+    switch (referenceType) {
+      case "figure":
+        return new ImageExtractorService(
+          parameters.pdfDoc,
+          parameters.pageNumber,
+          parameters.reference
+        );
+      case "section":
+      case "subsection":
+      case "subsubsection":
+        return new TextExtractorService(
+          parameters.pdfDoc,
+          parameters.pageNumber,
+          parameters.reference
+        );
+      /*case "cite":
+            return new ExternalCitationExtractorService(
+              parameters.pdfDoc,
+            parameters.pageNumber,
+            parameters.reference
+            );
+            break;
+        case "table":
+          /*return new TableExtractorService(
+           parameters.pdfDoc,
+            parameters.pageNumber,
+            parameters.reference
+          );
+          break;*/
+      default:
+        return new GenericExtractorService(
+          parameters.pdfDoc,
+          parameters.pageNumber,
+          parameters.reference
+        );
+    }
+  };
+
   /**
    * This constructor defines the elements needed from the parser but it cannot be instanced directly, only from subclasses
    * @param pdfDocument the pdf document for which the parsing action has to be executed

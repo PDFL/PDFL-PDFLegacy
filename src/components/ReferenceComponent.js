@@ -3,11 +3,7 @@ import {
   PDFLEvents,
 } from "../services/EventHandlerService";
 import { mouseOverDelayEvent } from "../services/Utils";
-import { ImageExtractorService } from "../services/DocumentParser/ImageExtractorService";
-import { TextExtractorService } from "../services/DocumentParser/TextExtractorService";
-import { ExternalCitationExtractorService } from "../services/DocumentParser/ExternalCitationExtractorService";
-import { TableExtractorService } from "../services/DocumentParser/TableExtractorService";
-import { GenericExtractorService } from "../services/DocumentParser/GenericExtractorService";
+import { DocumentParser } from "../services/DocumentParser/DocumentParser";
 
 /**
  * This class handles user interaction with internal document references
@@ -46,13 +42,13 @@ class ReferenceComponent {
     }
     const pageHref = document.getElementsByClassName("internalLink");
     for (var i = 0; i < pageHref.length; i++) {
-      const aElem = pageHref.item(i);
-      aElem.addEventListener(
+      const aTagElement = pageHref.item(i);
+      aTagElement.addEventListener(
         "click",
         this.#onInternalReferenceClick.bind(this)
       );
       mouseOverDelayEvent(
-        aElem,
+          aTagElement,
         2000,
         this.#onInternalReferenceOver.bind(this)
       ); //Delay the over listener
@@ -132,46 +128,12 @@ class ReferenceComponent {
     //TODO:- If we have the object is it possible to know the ref type?
     const self = this;
     const referenceType = reference.split(".")[0];
-    var parseService = undefined;
-    switch (referenceType) {
-      case "figure":
-        parseService = new ImageExtractorService(
-          self.pdfDoc,
-          pageNumber,
-          reference
-        );
-        break;
-      case "section":
-      case "subsection":
-      case "subsubsection":
-        parseService = new TextExtractorService(
-          self.pdfDoc,
-          pageNumber,
-          reference
-        );
-        break;
-      /*case "cite":
-          parseService = new ExternalCitationExtractorService(
-            self.pdfDoc,
-            pageNumber,
-            reference
-          );
-          break;
-      case "table":
-        /*parseService = new TableExtractorService(
-          self.pdfDoc,
-          pageNumber,
-          reference
-        );
-        break;*/
-      default:
-        parseService = new GenericExtractorService(
-          self.pdfDoc,
-          pageNumber,
-          reference
-        );
-        break;
-    }
+    const parseService = DocumentParser.parserFactory(referenceType, {
+      pdfDoc: self.pdfDoc,
+      pageNumber: pageNumber,
+      reference: reference,
+    });
+
     parseService.getContent().then((result) => {
       EventHandlerService.publish(
         PDFLEvents.onPopupContentReady,
