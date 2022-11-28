@@ -77,12 +77,14 @@ async function getCreatedGraphData(currentPaperInfo) {
  *
  * @async
  * @param {PaperInfo} paperInfo
- * @returns {Promise<GraphData>} linked papers of 'pdfDoc'
+ * @returns {Promise<GraphData>} linked papers of 'pdfDoc' or undefined on error.
  */
 async function getLinkedNodesByPaper(paperInfo) {
-  const citations = await getCitations(paperInfo.paperId);
+  const [citations, references] = await Promise.all([
+    getCitations(paperInfo.paperId),
+    getReferences(paperInfo.paperId),
+  ]);
   if (!citations) return;
-  const references = await getReferences(paperInfo.paperId);
   if (!references) return;
 
   return getGraphStructure(
@@ -98,7 +100,7 @@ async function getLinkedNodesByPaper(paperInfo) {
  *
  * @async
  * @param {string} paperID
- * @returns {Promise<PaperInfo[]>}
+ * @returns {Promise<PaperInfo[]>} or undefined on error.
  */
 async function getCitations(paperID) {
   try {
@@ -114,7 +116,7 @@ async function getCitations(paperID) {
  *
  * @async
  * @param {string} paperID
- * @returns {Promise<PaperInfo[]>}
+ * @returns {Promise<PaperInfo[]>} or undefined on error.
  */
 async function getReferences(paperID) {
   try {
