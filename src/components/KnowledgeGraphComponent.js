@@ -60,9 +60,10 @@ class KnowledgeGraphComponent {
    * @private
    * @param {int} selectedDepth new depth
    */
-  #changeDepth(selectedDepth) {
+  async #changeDepth(selectedDepth) {
     try {
-      buildGraphProcedure(this.graph, selectedDepth, this.depth);
+      EventHandlerService.publish(PDFLEvents.onShowTransparentSidePageLoader);
+      await buildGraphProcedure(this.graph, selectedDepth, this.depth);
       EventHandlerService.publish(PDFLEvents.onHideSidePageLoader);
     } catch (error) {
       EventHandlerService.publish(PDFLEvents.onShowSidePageError);
@@ -143,6 +144,7 @@ class KnowledgeGraphComponent {
         .d3Force("center", null)
         .onEngineStop(() => graph.zoomToFit(500));
 
+        EventHandlerService.publish(PDFLEvents.onHideSidePageLoader);
         this.graph = graph;
     });
   };
