@@ -134,8 +134,6 @@ class ReferenceComponent {
     parseService
       .getContent()
       .then((result) => {
-        console.log(result);
-        console.log(this.overEventPosition);
         EventHandlerService.publish(
           PDFLEvents.onPopupContentReady,
           self.overEventPosition,
@@ -144,7 +142,6 @@ class ReferenceComponent {
         );
       })
       .catch(() => {
-        console.log(pageNumber);
         EventHandlerService.publish(
           PDFLEvents.onPopupContentReady,
           self.overEventPosition,
