@@ -3,11 +3,13 @@ import { DocumentParser } from "./DocumentParser";
 const pdfjsLib = require("pdfjs-dist");
 
 /**
+ * @extends DocumentParser
  * Service class to extract all the images in a given PDF page
  */
 class ImageExtractorService extends DocumentParser {
   /**
    * @see{DocumentParser}
+   * @override
    * @returns {Promise<Object>}
    */
   getContent = async () => {

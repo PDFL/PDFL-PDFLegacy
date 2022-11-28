@@ -3,7 +3,8 @@ import { TextExtractorService } from "./TextExtractorService";
 import { GenericExtractorService } from "./GenericExtractorService";
 
 /**
- * Factory method
+ * Factory method used to initialize the correct parser given the referenceType.
+ * If the reference type is invalid or not implemented yet the default one (Generic) is returned
  * @param referenceType {string} the parsed reference type
  * @param parameters {Object} object containing constructor parameters
  * @returns {GenericExtractorService|TextExtractorService|ImageExtractorService}

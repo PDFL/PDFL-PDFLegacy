@@ -1,6 +1,8 @@
 /**
  * @abstract
  * The document parser class defines the structure of a parser class, it is abstract and it is not allowed to use it directly
+ * A parser is a class that given a page of a pdf file is able to extract the specific content such as images, text, table and so on.
+ * Each subclass of DocumentParser is responsible of managing a specific type
  * @property {Object} pdfDocument
  * @property {int} targetPage
  * @property {string} targetElement

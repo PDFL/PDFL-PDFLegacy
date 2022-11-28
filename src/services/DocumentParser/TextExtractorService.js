@@ -1,7 +1,17 @@
 import { DocumentParser } from "./DocumentParser";
 import { MAX_POPUP_TEXT_LENGTH } from "../../Constants";
 
+/**
+ * @extends DocumentParser
+ * The Text extractor service is a subclass of DocumentParser and it is responsible to give a response back when a text content has to be parsed
+ * In detail, it returns an answare saying the content is a text with a title and can be displayed into a popup
+ */
 class TextExtractorService extends DocumentParser {
+  /**
+   * @override
+   * @see{DocumentParser}
+   * @returns {Promise<{popupDisplayable: boolean, text: (string|*), type: string, title: string}>}
+   */
   getContent = async () => {
     const self = this;
     const page = await this.pdfDocument.getPage(this.targetPage);
