@@ -5,9 +5,9 @@
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_AppComponent_App__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
-/* harmony import */ var _styles_fileUpload_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(27);
-/* harmony import */ var _styles_navbar_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(37);
-/* harmony import */ var _styles_pdfl_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(39);
+/* harmony import */ var _styles_fileUpload_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(28);
+/* harmony import */ var _styles_navbar_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(38);
+/* harmony import */ var _styles_pdfl_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(40);
 
 
 
@@ -25,7 +25,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _views_InputView_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
 /* harmony import */ var _views_ReaderView_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(6);
-/* harmony import */ var _views_WelcomeView_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(26);
+/* harmony import */ var _views_WelcomeView_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(27);
 /* harmony import */ var _services_EventHandlerService__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(4);
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
@@ -463,7 +463,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _services_EventHandlerService__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4);
 /* harmony import */ var _SidePageComponent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(8);
-/* harmony import */ var _ToolbarComponent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(16);
+/* harmony import */ var _ToolbarComponent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(17);
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -476,7 +476,7 @@ function _classApplyDescriptorGet(receiver, descriptor) { if (descriptor.get) { 
 
 
 
-var pdfjsLib = __webpack_require__(19);
+var pdfjsLib = __webpack_require__(20);
 
 /**
  * Component representing the PDF reader. Displays the content of PDF document and actions
@@ -618,7 +618,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _services_EventHandlerService__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4);
 /* harmony import */ var _KnowledgeGraphComponent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(9);
-/* harmony import */ var _SidePageLoaderComponent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(15);
+/* harmony import */ var _SidePageLoaderComponent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(16);
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -713,6 +713,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _services_KnowledgeGraphService__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(10);
 /* harmony import */ var _services_EventHandlerService__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(4);
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return exports; }; var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, defineProperty = Object.defineProperty || function (obj, key, desc) { obj[key] = desc.value; }, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag"; function define(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: !0, configurable: !0, writable: !0 }), obj[key]; } try { define({}, ""); } catch (err) { define = function define(obj, key, value) { return obj[key] = value; }; } function wrap(innerFn, outerFn, self, tryLocsList) { var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []); return defineProperty(generator, "_invoke", { value: makeInvokeMethod(innerFn, self, context) }), generator; } function tryCatch(fn, obj, arg) { try { return { type: "normal", arg: fn.call(obj, arg) }; } catch (err) { return { type: "throw", arg: err }; } } exports.wrap = wrap; var ContinueSentinel = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var IteratorPrototype = {}; define(IteratorPrototype, iteratorSymbol, function () { return this; }); var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([]))); NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype); var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype); function defineIteratorMethods(prototype) { ["next", "throw", "return"].forEach(function (method) { define(prototype, method, function (arg) { return this._invoke(method, arg); }); }); } function AsyncIterator(generator, PromiseImpl) { function invoke(method, arg, resolve, reject) { var record = tryCatch(generator[method], generator, arg); if ("throw" !== record.type) { var result = record.arg, value = result.value; return value && "object" == _typeof(value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) { invoke("next", value, resolve, reject); }, function (err) { invoke("throw", err, resolve, reject); }) : PromiseImpl.resolve(value).then(function (unwrapped) { result.value = unwrapped, resolve(result); }, function (error) { return invoke("throw", error, resolve, reject); }); } reject(record.arg); } var previousPromise; defineProperty(this, "_invoke", { value: function value(method, arg) { function callInvokeWithMethodAndArg() { return new PromiseImpl(function (resolve, reject) { invoke(method, arg, resolve, reject); }); } return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(innerFn, self, context) { var state = "suspendedStart"; return function (method, arg) { if ("executing" === state) throw new Error("Generator is already running"); if ("completed" === state) { if ("throw" === method) throw arg; return doneResult(); } for (context.method = method, context.arg = arg;;) { var delegate = context.delegate; if (delegate) { var delegateResult = maybeInvokeDelegate(delegate, context); if (delegateResult) { if (delegateResult === ContinueSentinel) continue; return delegateResult; } } if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) { if ("suspendedStart" === state) throw state = "completed", context.arg; context.dispatchException(context.arg); } else "return" === context.method && context.abrupt("return", context.arg); state = "executing"; var record = tryCatch(innerFn, self, context); if ("normal" === record.type) { if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue; return { value: record.arg, done: context.done }; } "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg); } }; } function maybeInvokeDelegate(delegate, context) { var method = delegate.iterator[context.method]; if (undefined === method) { if (context.delegate = null, "throw" === context.method) { if (delegate.iterator["return"] && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method)) return ContinueSentinel; context.method = "throw", context.arg = new TypeError("The iterator does not provide a 'throw' method"); } return ContinueSentinel; } var record = tryCatch(method, delegate.iterator, context.arg); if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel; var info = record.arg; return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel); } function pushTryEntry(locs) { var entry = { tryLoc: locs[0] }; 1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry); } function resetTryEntry(entry) { var record = entry.completion || {}; record.type = "normal", delete record.arg, entry.completion = record; } function Context(tryLocsList) { this.tryEntries = [{ tryLoc: "root" }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0); } function values(iterable) { if (iterable) { var iteratorMethod = iterable[iteratorSymbol]; if (iteratorMethod) return iteratorMethod.call(iterable); if ("function" == typeof iterable.next) return iterable; if (!isNaN(iterable.length)) { var i = -1, next = function next() { for (; ++i < iterable.length;) { if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next; } return next.value = undefined, next.done = !0, next; }; return next.next = next; } } return { next: doneResult }; } function doneResult() { return { value: undefined, done: !0 }; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, defineProperty(Gp, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), defineProperty(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) { var ctor = "function" == typeof genFun && genFun.constructor; return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name)); }, exports.mark = function (genFun) { return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun; }, exports.awrap = function (arg) { return { __await: arg }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () { return this; }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) { void 0 === PromiseImpl && (PromiseImpl = Promise); var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl); return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) { return result.done ? result.value : iter.next(); }); }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () { return this; }), define(Gp, "toString", function () { return "[object Generator]"; }), exports.keys = function (val) { var object = Object(val), keys = []; for (var key in object) { keys.push(key); } return keys.reverse(), function next() { for (; keys.length;) { var key = keys.pop(); if (key in object) return next.value = key, next.done = !1, next; } return next.done = !0, next; }; }, exports.values = values, Context.prototype = { constructor: Context, reset: function reset(skipTempReset) { if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) { "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined); } }, stop: function stop() { this.done = !0; var rootRecord = this.tryEntries[0].completion; if ("throw" === rootRecord.type) throw rootRecord.arg; return this.rval; }, dispatchException: function dispatchException(exception) { if (this.done) throw exception; var context = this; function handle(loc, caught) { return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught; } for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i], record = entry.completion; if ("root" === entry.tryLoc) return handle("end"); if (entry.tryLoc <= this.prev) { var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc"); if (hasCatch && hasFinally) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } else if (hasCatch) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); } else { if (!hasFinally) throw new Error("try statement without catch or finally"); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } } } }, abrupt: function abrupt(type, arg) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) { var finallyEntry = entry; break; } } finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null); var record = finallyEntry ? finallyEntry.completion : {}; return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record); }, complete: function complete(record, afterLoc) { if ("throw" === record.type) throw record.arg; return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel; }, finish: function finish(finallyLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel; } }, "catch": function _catch(tryLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc === tryLoc) { var record = entry.completion; if ("throw" === record.type) { var thrown = record.arg; resetTryEntry(entry); } return thrown; } } throw new Error("illegal catch attempt"); }, delegateYield: function delegateYield(iterable, resultName, nextLoc) { return this.delegate = { iterator: values(iterable), resultName: resultName, nextLoc: nextLoc }, "next" === this.method && (this.arg = undefined), ContinueSentinel; } }, exports; }
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
@@ -722,9 +726,11 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _classPrivateMethodInitSpec(obj, privateSet) { _checkPrivateRedeclaration(obj, privateSet); privateSet.add(obj); }
 function _classPrivateFieldInitSpec(obj, privateMap, value) { _checkPrivateRedeclaration(obj, privateMap); privateMap.set(obj, value); }
 function _checkPrivateRedeclaration(obj, privateCollection) { if (privateCollection.has(obj)) { throw new TypeError("Cannot initialize the same private elements twice on an object"); } }
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _classPrivateMethodGet(receiver, privateSet, fn) { if (!privateSet.has(receiver)) { throw new TypeError("attempted to get private field on non-instance"); } return fn; }
 function _classPrivateFieldGet(receiver, privateMap) { var descriptor = _classExtractFieldDescriptor(receiver, privateMap, "get"); return _classApplyDescriptorGet(receiver, descriptor); }
 function _classExtractFieldDescriptor(receiver, privateMap, action) { if (!privateMap.has(receiver)) { throw new TypeError("attempted to " + action + " private field on non-instance"); } return privateMap.get(receiver); }
 function _classApplyDescriptorGet(receiver, descriptor) { if (descriptor.get) { return descriptor.get.call(receiver); } return descriptor.value; }
@@ -737,18 +743,22 @@ function _classApplyDescriptorGet(receiver, descriptor) { if (descriptor.get) { 
  * @property {Object} components object that holds elements within this component
  * @property {HTMLElement} components.knowledgeGraph element in which knowledge graph will be displayed
  * @property {HTMLElement} components.graphDepth input element for depth selection
+ * @property {int} depth depth of knowledge graph
  */
 var _registerEvents = /*#__PURE__*/new WeakMap();
-var _changeDepth = /*#__PURE__*/new WeakMap();
+var _depthSelected = /*#__PURE__*/new WeakMap();
+var _changeDepth = /*#__PURE__*/new WeakSet();
 var KnowledgeGraphComponent = /*#__PURE__*/_createClass(
 /**
- * Creates and initializes new knowledge graph component.
+ * Creates and initializes new knowledge graph component. Sets depth
+ * of knowledge graph to 1.
  *
  * @constructor
  */
 function KnowledgeGraphComponent() {
   var _this = this;
   _classCallCheck(this, KnowledgeGraphComponent);
+  _classPrivateMethodInitSpec(this, _changeDepth);
   _defineProperty(this, "components", {
     knowledgeGraph: document.querySelector("#knowledge-graph"),
     graphDepth: document.querySelector("#graph-depth")
@@ -756,19 +766,15 @@ function KnowledgeGraphComponent() {
   _classPrivateFieldInitSpec(this, _registerEvents, {
     writable: true,
     value: function value() {
-      _this.components.graphDepth.addEventListener("change", _classPrivateFieldGet(_this, _changeDepth));
+      _this.components.graphDepth.addEventListener("change", _classPrivateFieldGet(_this, _depthSelected));
     }
   });
-  _classPrivateFieldInitSpec(this, _changeDepth, {
+  _classPrivateFieldInitSpec(this, _depthSelected, {
     writable: true,
     value: function value(event) {
       var selectedDepth = parseInt(event.target.value);
-      try {
-        _this.displayGraph(selectedDepth);
-        _services_EventHandlerService__WEBPACK_IMPORTED_MODULE_1__.EventHandlerService.publish(_services_EventHandlerService__WEBPACK_IMPORTED_MODULE_1__.PDFLEvents.onHideSidePageLoader);
-      } catch (error) {
-        _services_EventHandlerService__WEBPACK_IMPORTED_MODULE_1__.EventHandlerService.publish(_services_EventHandlerService__WEBPACK_IMPORTED_MODULE_1__.PDFLEvents.onShowSidePageError);
-      }
+      if (selectedDepth == _this.depth) return;
+      _classPrivateMethodGet(_this, _changeDepth, _changeDepth2).call(_this, selectedDepth);
     }
   });
   _defineProperty(this, "setPDF", function (pdfDocument) {
@@ -779,7 +785,7 @@ function KnowledgeGraphComponent() {
       depth = 1;
       _services_EventHandlerService__WEBPACK_IMPORTED_MODULE_1__.EventHandlerService.publish(_services_EventHandlerService__WEBPACK_IMPORTED_MODULE_1__.PDFLEvents.onShowOpaqueSidePageLoader);
     }
-    (0,_services_KnowledgeGraphService__WEBPACK_IMPORTED_MODULE_0__.getLinkedPapers)(_this.pdfDocument).then(function (linkedPapers) {
+    (0,_services_KnowledgeGraphService__WEBPACK_IMPORTED_MODULE_0__.getLinkedPapers)(_this.pdfDocument, depth).then(function (linkedPapers) {
       if (!linkedPapers || linkedPapers.length == 0) return _services_EventHandlerService__WEBPACK_IMPORTED_MODULE_1__.EventHandlerService.publish(_services_EventHandlerService__WEBPACK_IMPORTED_MODULE_1__.PDFLEvents.onShowSidePageError);
       _services_EventHandlerService__WEBPACK_IMPORTED_MODULE_1__.EventHandlerService.publish(_services_EventHandlerService__WEBPACK_IMPORTED_MODULE_1__.PDFLEvents.onShowTransparentSidePageLoader);
       var graph = ForceGraph()(_this.components.knowledgeGraph).graphData(linkedPapers).nodeId("id").nodeAutoColorBy("group").nodeCanvasObject(function (node, ctx, globalScale) {
@@ -805,19 +811,11 @@ function KnowledgeGraphComponent() {
       }).linkCurvature(0.06).linkDirectionalArrowLength(7).linkDirectionalArrowRelPos(0.5).linkDirectionalParticles(1).linkDirectionalParticleWidth(5).linkDirectionalParticleColor(["#2980b9"]).linkDirectionalArrowColor(["#2980b9"]).cooldownTime(300).d3Force("center", null).onEngineStop(function () {
         return graph.zoomToFit(500);
       });
-      (0,_services_KnowledgeGraphService__WEBPACK_IMPORTED_MODULE_0__.buildGraphProcedure)(graph, depth) //TODO: solve with caching
-      .then(function () {
-        return _services_EventHandlerService__WEBPACK_IMPORTED_MODULE_1__.EventHandlerService.publish(_services_EventHandlerService__WEBPACK_IMPORTED_MODULE_1__.PDFLEvents.onHideSidePageLoader);
-      });
-      graph.onNodeClick(function (node) {
-        // Center/zoom on node
-        graph.centerAt(node.x, node.y, 1000);
-        graph.zoom(4, 2000);
-      });
-    })["catch"](function (error) {
-      _services_EventHandlerService__WEBPACK_IMPORTED_MODULE_1__.EventHandlerService.publish(_services_EventHandlerService__WEBPACK_IMPORTED_MODULE_1__.PDFLEvents.onShowSidePageError);
+      _services_EventHandlerService__WEBPACK_IMPORTED_MODULE_1__.EventHandlerService.publish(_services_EventHandlerService__WEBPACK_IMPORTED_MODULE_1__.PDFLEvents.onHideSidePageLoader);
+      _this.graph = graph;
     });
   });
+  this.depth = 1;
   _classPrivateFieldGet(this, _registerEvents).call(this);
 }
 
@@ -825,7 +823,38 @@ function KnowledgeGraphComponent() {
  * Adds event listeners to component's elements.
  * @private
  */);
-
+function _changeDepth2(_x) {
+  return _changeDepth3.apply(this, arguments);
+}
+function _changeDepth3() {
+  _changeDepth3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(selectedDepth) {
+    return _regeneratorRuntime().wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            _context.prev = 0;
+            _services_EventHandlerService__WEBPACK_IMPORTED_MODULE_1__.EventHandlerService.publish(_services_EventHandlerService__WEBPACK_IMPORTED_MODULE_1__.PDFLEvents.onShowTransparentSidePageLoader);
+            _context.next = 4;
+            return (0,_services_KnowledgeGraphService__WEBPACK_IMPORTED_MODULE_0__.buildGraphProcedure)(this.graph, selectedDepth, this.depth);
+          case 4:
+            _services_EventHandlerService__WEBPACK_IMPORTED_MODULE_1__.EventHandlerService.publish(_services_EventHandlerService__WEBPACK_IMPORTED_MODULE_1__.PDFLEvents.onHideSidePageLoader);
+            _context.next = 10;
+            break;
+          case 7:
+            _context.prev = 7;
+            _context.t0 = _context["catch"](0);
+            _services_EventHandlerService__WEBPACK_IMPORTED_MODULE_1__.EventHandlerService.publish(_services_EventHandlerService__WEBPACK_IMPORTED_MODULE_1__.PDFLEvents.onShowSidePageError);
+          case 10:
+            this.depth = selectedDepth;
+          case 11:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee, this, [[0, 7]]);
+  }));
+  return _changeDepth3.apply(this, arguments);
+}
 
 
 /***/ }),
@@ -841,7 +870,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "getReferences": () => (/* binding */ getReferences)
 /* harmony export */ });
 /* harmony import */ var _Api__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(11);
-/* harmony import */ var _Utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(13);
+/* harmony import */ var _Utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(12);
+/* harmony import */ var _KnowledgeGraphCachingService__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(15);
+/* harmony import */ var _Constants__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(14);
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -853,6 +884,8 @@ function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o =
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+
 
 
 
@@ -876,20 +909,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
  *
  * @async
  * @param {Pdfjs Document} pdfDoc
- * @returns {Promise<GraphData>} linked papers of 'pdfDoc'
+ * @returns {GraphData} linked papers of 'pdfDoc'
  */
-function getLinkedPapers(_x) {
+function getLinkedPapers(_x, _x2) {
   return _getLinkedPapers.apply(this, arguments);
 }
 /**
- * Gets linked papers (nodes) of the given paper.
+ * Returns cached or fetched graph data of depth 1 for current paper.
  *
- * @async
- * @param {PaperInfo} paperInfo
- * @returns {Promise<GraphData>} linked papers of 'pdfDoc'
+ * @param {PaperInfo} currentPaperInfo informational about current paper
+ * @returns {GraphData} linked papers of 'pdfDoc'
  */
 function _getLinkedPapers() {
-  _getLinkedPapers = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(pdfDoc) {
+  _getLinkedPapers = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(pdfDoc, depth) {
     var metadata, title, currentPaperInfo;
     return _regeneratorRuntime().wrap(function _callee$(_context) {
       while (1) {
@@ -921,11 +953,8 @@ function _getLinkedPapers() {
             // TODO: parse references from pdf text
             return _context.abrupt("return", []);
           case 13:
-            _context.next = 15;
-            return getLinkedNodesByPaper(currentPaperInfo);
-          case 15:
-            return _context.abrupt("return", _context.sent);
-          case 16:
+            return _context.abrupt("return", getCreatedGraphData(currentPaperInfo));
+          case 14:
           case "end":
             return _context.stop();
         }
@@ -934,7 +963,50 @@ function _getLinkedPapers() {
   }));
   return _getLinkedPapers.apply(this, arguments);
 }
-function getLinkedNodesByPaper(_x2) {
+function getCreatedGraphData(_x3) {
+  return _getCreatedGraphData.apply(this, arguments);
+}
+/**
+ * Gets linked papers (nodes) of the given paper.
+ *
+ * @async
+ * @param {PaperInfo} paperInfo
+ * @returns {Promise<GraphData>} linked papers of 'pdfDoc' or undefined on error.
+ */
+function _getCreatedGraphData() {
+  _getCreatedGraphData = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(currentPaperInfo) {
+    var paperId, depth, graphData;
+    return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+      while (1) {
+        switch (_context2.prev = _context2.next) {
+          case 0:
+            paperId = currentPaperInfo.paperId;
+            depth = 1;
+            if (!(0,_KnowledgeGraphCachingService__WEBPACK_IMPORTED_MODULE_2__.hasGraphData)(paperId, depth)) {
+              _context2.next = 6;
+              break;
+            }
+            graphData = (0,_KnowledgeGraphCachingService__WEBPACK_IMPORTED_MODULE_2__.getGraphData)(paperId, depth);
+            _context2.next = 10;
+            break;
+          case 6:
+            _context2.next = 8;
+            return getLinkedNodesByPaper(currentPaperInfo);
+          case 8:
+            graphData = _context2.sent;
+            (0,_KnowledgeGraphCachingService__WEBPACK_IMPORTED_MODULE_2__.setGraphData)(paperId, depth, graphData);
+          case 10:
+            return _context2.abrupt("return", graphData);
+          case 11:
+          case "end":
+            return _context2.stop();
+        }
+      }
+    }, _callee2);
+  }));
+  return _getCreatedGraphData.apply(this, arguments);
+}
+function getLinkedNodesByPaper(_x4) {
   return _getLinkedNodesByPaper.apply(this, arguments);
 }
 /**
@@ -942,33 +1014,45 @@ function getLinkedNodesByPaper(_x2) {
  *
  * @async
  * @param {string} paperID
- * @returns {Promise<PaperInfo[]>}
+ * @returns {Promise<PaperInfo[]>} or undefined on error.
  */
 function _getLinkedNodesByPaper() {
-  _getLinkedNodesByPaper = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(paperInfo) {
+  _getLinkedNodesByPaper = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(paperInfo) {
     var _yield$Promise$all, _yield$Promise$all2, citations, references;
-    return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+    return _regeneratorRuntime().wrap(function _callee3$(_context3) {
       while (1) {
-        switch (_context2.prev = _context2.next) {
+        switch (_context3.prev = _context3.next) {
           case 0:
-            _context2.next = 2;
+            _context3.next = 2;
             return Promise.all([getCitations(paperInfo.paperId), getReferences(paperInfo.paperId)]);
           case 2:
-            _yield$Promise$all = _context2.sent;
+            _yield$Promise$all = _context3.sent;
             _yield$Promise$all2 = _slicedToArray(_yield$Promise$all, 2);
             citations = _yield$Promise$all2[0];
             references = _yield$Promise$all2[1];
-            return _context2.abrupt("return", getGraphStructure(paperInfo.paperId, paperInfo.title, references, citations));
-          case 7:
+            if (citations) {
+              _context3.next = 8;
+              break;
+            }
+            return _context3.abrupt("return");
+          case 8:
+            if (references) {
+              _context3.next = 10;
+              break;
+            }
+            return _context3.abrupt("return");
+          case 10:
+            return _context3.abrupt("return", getGraphStructure(paperInfo.paperId, paperInfo.title, references, citations));
+          case 11:
           case "end":
-            return _context2.stop();
+            return _context3.stop();
         }
       }
-    }, _callee2);
+    }, _callee3);
   }));
   return _getLinkedNodesByPaper.apply(this, arguments);
 }
-function getCitations(_x3) {
+function getCitations(_x5) {
   return _getCitations.apply(this, arguments);
 }
 /**
@@ -976,33 +1060,38 @@ function getCitations(_x3) {
  *
  * @async
  * @param {string} paperID
- * @returns {Promise<PaperInfo[]>}
+ * @returns {Promise<PaperInfo[]>} or undefined on error.
  */
 function _getCitations() {
-  _getCitations = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(paperID) {
+  _getCitations = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4(paperID) {
     var data;
-    return _regeneratorRuntime().wrap(function _callee3$(_context3) {
+    return _regeneratorRuntime().wrap(function _callee4$(_context4) {
       while (1) {
-        switch (_context3.prev = _context3.next) {
+        switch (_context4.prev = _context4.next) {
           case 0:
-            _context3.next = 2;
+            _context4.prev = 0;
+            _context4.next = 3;
             return (0,_Api__WEBPACK_IMPORTED_MODULE_0__.fetchCitations)(paperID);
-          case 2:
-            data = _context3.sent;
-            return _context3.abrupt("return", data.map(function (_ref3) {
+          case 3:
+            data = _context4.sent;
+            return _context4.abrupt("return", data.map(function (_ref3) {
               var citingPaper = _ref3.citingPaper;
               return citingPaper;
             }));
-          case 4:
+          case 7:
+            _context4.prev = 7;
+            _context4.t0 = _context4["catch"](0);
+            return _context4.abrupt("return");
+          case 10:
           case "end":
-            return _context3.stop();
+            return _context4.stop();
         }
       }
-    }, _callee3);
+    }, _callee4, null, [[0, 7]]);
   }));
   return _getCitations.apply(this, arguments);
 }
-function getReferences(_x4) {
+function getReferences(_x6) {
   return _getReferences.apply(this, arguments);
 }
 /**
@@ -1032,26 +1121,31 @@ function getReferences(_x4) {
  * @returns {GraphData}
  */
 function _getReferences() {
-  _getReferences = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4(paperID) {
+  _getReferences = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5(paperID) {
     var data;
-    return _regeneratorRuntime().wrap(function _callee4$(_context4) {
+    return _regeneratorRuntime().wrap(function _callee5$(_context5) {
       while (1) {
-        switch (_context4.prev = _context4.next) {
+        switch (_context5.prev = _context5.next) {
           case 0:
-            _context4.next = 2;
+            _context5.prev = 0;
+            _context5.next = 3;
             return (0,_Api__WEBPACK_IMPORTED_MODULE_0__.fetchReferences)(paperID);
-          case 2:
-            data = _context4.sent;
-            return _context4.abrupt("return", data.map(function (_ref4) {
+          case 3:
+            data = _context5.sent;
+            return _context5.abrupt("return", data.map(function (_ref4) {
               var citedPaper = _ref4.citedPaper;
               return citedPaper;
             }));
-          case 4:
+          case 7:
+            _context5.prev = 7;
+            _context5.t0 = _context5["catch"](0);
+            return _context5.abrupt("return");
+          case 10:
           case "end":
-            return _context4.stop();
+            return _context5.stop();
         }
       }
-    }, _callee4);
+    }, _callee5, null, [[0, 7]]);
   }));
   return _getReferences.apply(this, arguments);
 }
@@ -1113,50 +1207,325 @@ function getGraphStructure(paperId, paperTitle, references, citations) {
 }
 
 /**
- * Keeps adding nodes to Knowledge graph procedurally.
- * Input should be a graph with depth 1.
+ * Keeps adding/removing nodes to Knowledge graph procedurally with
+ * existing data in cache or newly fetched data.
+ * If old depth is smaller than selected depth nodes will be added
+ * to graph, otherwise nodes will be removed.
  *
  * @async
- * @param {ForceGraph} graph
- * @param {Number} maxDepth
+ * @param {ForceGraph} graph graph being displayed
+ * @param {int} selectedDepth new selected depth
+ * @param {int} oldDepth previously selected depth
  */
-function buildGraphProcedure(_x5, _x6) {
+function buildGraphProcedure(_x7, _x8, _x9) {
   return _buildGraphProcedure.apply(this, arguments);
 }
 /**
- * Recursive function which adds nodes to a Knowledge Graph.
- * For maxDepth 2, it will add the next depth (nodesToAdd),
- * for maxDepth 3, it will add that and the the linked papers
- * of nodesToAdd.
+ * Removes nodes that are on depths higher than new depth
+ * which user selected.
  *
- * @async
- * @param {ForceGraph} graph
- * @param {GraphData} nodesToAdd
- * @param {Number} depth
- * @param {Number} maxDepth
+ * @param {ForceGraph} graph graph being displayed
+ * @param {int} paperId id of paper for which graph is being displayed
+ * @param {int} selectedDepth new selected depth smaller than one being currently displayed
  */
 function _buildGraphProcedure() {
-  _buildGraphProcedure = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5(graph, maxDepth) {
-    var nodesToExpand;
-    return _regeneratorRuntime().wrap(function _callee5$(_context5) {
+  _buildGraphProcedure = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6(graph, selectedDepth, oldDepth) {
+    var paperId;
+    return _regeneratorRuntime().wrap(function _callee6$(_context6) {
       while (1) {
-        switch (_context5.prev = _context5.next) {
+        switch (_context6.prev = _context6.next) {
           case 0:
-            nodesToExpand = graph.graphData();
-            _context5.next = 3;
-            return buildGraphDepth(graph, nodesToExpand, 1, maxDepth);
-          case 3:
+            paperId = graph.graphData().nodes[0].id;
+            if (!(0,_KnowledgeGraphCachingService__WEBPACK_IMPORTED_MODULE_2__.hasGraphData)(paperId, selectedDepth)) {
+              _context6.next = 10;
+              break;
+            }
+            if (!(oldDepth > selectedDepth)) {
+              _context6.next = 6;
+              break;
+            }
+            removeNodes(graph, paperId, selectedDepth);
+            _context6.next = 8;
+            break;
+          case 6:
+            _context6.next = 8;
+            return addExistingDataToGraph(graph, oldDepth, selectedDepth, paperId);
+          case 8:
+            _context6.next = 13;
+            break;
+          case 10:
+            _context6.next = 12;
+            return buildGraphDepth(graph, paperId, selectedDepth, oldDepth);
+          case 12:
+            (0,_KnowledgeGraphCachingService__WEBPACK_IMPORTED_MODULE_2__.setGraphData)(paperId, selectedDepth, graph.graphData());
+          case 13:
           case "end":
-            return _context5.stop();
+            return _context6.stop();
         }
       }
-    }, _callee5);
+    }, _callee6);
   }));
   return _buildGraphProcedure.apply(this, arguments);
 }
-function buildGraphDepth(_x7, _x8, _x9, _x10) {
+function removeNodes(graph, paperId, selectedDepth) {
+  graph.graphData((0,_KnowledgeGraphCachingService__WEBPACK_IMPORTED_MODULE_2__.getGraphData)(paperId, 1));
+  for (var i = 2; i <= selectedDepth; i++) {
+    addToGraph(graph, (0,_KnowledgeGraphCachingService__WEBPACK_IMPORTED_MODULE_2__.getGraphData)(paperId, i));
+  }
+}
+
+/**
+ * Adds cached graph data to graph one node at time. For better UX
+ * after each node is added timeout of 10 ms is called.
+ *
+ * @param {ForceGraph} graph graph being displayed
+ * @param {int} oldDepth previously selected depth
+ * @param {int} selectedDepth selected depth
+ * @param {string} paperId id of paper for which graph is being displayed
+ */
+function addExistingDataToGraph(_x10, _x11, _x12, _x13) {
+  return _addExistingDataToGraph.apply(this, arguments);
+}
+/**
+ * Builds graph of given depth. This recursion builds graph depth by depth beginning with
+ * given depth. For given depth graph data will be fetched for external service. If there is
+ * no cached data on depth lower than given, data for that depth will be fetched and added to graph,
+ * this repeats recursively for all lower depths with no data in cache.
+ *
+ * @param {ForceGraph} graph
+ * @param {string} paperId
+ * @param {int} depth
+ * @param {int} oldDepth
+ */
+function _addExistingDataToGraph() {
+  _addExistingDataToGraph = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7(graph, oldDepth, selectedDepth, paperId) {
+    var currentData, i, data, _iterator3, _step3, _loop, _ret;
+    return _regeneratorRuntime().wrap(function _callee7$(_context8) {
+      while (1) {
+        switch (_context8.prev = _context8.next) {
+          case 0:
+            currentData = structuredClone(graph.graphData());
+            i = oldDepth + 1;
+          case 2:
+            if (!(i <= selectedDepth)) {
+              _context8.next = 26;
+              break;
+            }
+            data = structuredClone((0,_KnowledgeGraphCachingService__WEBPACK_IMPORTED_MODULE_2__.getGraphData)(paperId, i));
+            _iterator3 = _createForOfIteratorHelper(data.nodes);
+            _context8.prev = 5;
+            _loop = /*#__PURE__*/_regeneratorRuntime().mark(function _loop() {
+              var _currentData$links;
+              var node, links, _iterator4, _step4, _loop2;
+              return _regeneratorRuntime().wrap(function _loop$(_context7) {
+                while (1) {
+                  switch (_context7.prev = _context7.next) {
+                    case 0:
+                      node = _step3.value;
+                      if (!currentData.nodes.find(function (n) {
+                        return n.id == node.id;
+                      })) {
+                        _context7.next = 3;
+                        break;
+                      }
+                      return _context7.abrupt("return", "continue");
+                    case 3:
+                      links = new Array();
+                      _iterator4 = _createForOfIteratorHelper(data.links);
+                      try {
+                        _loop2 = function _loop2() {
+                          var link = _step4.value;
+                          var source = currentData.nodes.find(function (n) {
+                            return n.id == link.source.id;
+                          });
+                          var target = currentData.nodes.find(function (n) {
+                            return n.id == link.target.id;
+                          });
+                          if (!currentData.links.find(function (l) {
+                            return l.id == link.id;
+                          }) && (link.source.id == node.id && target || link.target.id == node.id && source)) {
+                            if (source) link.source = source;
+                            if (target) link.target = target;
+                            links.push(link);
+                          }
+                        };
+                        for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
+                          _loop2();
+                        }
+                      } catch (err) {
+                        _iterator4.e(err);
+                      } finally {
+                        _iterator4.f();
+                      }
+                      currentData.nodes.push(node);
+                      (_currentData$links = currentData.links).push.apply(_currentData$links, links);
+                      graph.graphData(currentData);
+                      _context7.next = 11;
+                      return (0,_Utils__WEBPACK_IMPORTED_MODULE_1__.timeout)(_Constants__WEBPACK_IMPORTED_MODULE_3__.TEN_MILLISECONDS);
+                    case 11:
+                    case "end":
+                      return _context7.stop();
+                  }
+                }
+              }, _loop);
+            });
+            _iterator3.s();
+          case 8:
+            if ((_step3 = _iterator3.n()).done) {
+              _context8.next = 15;
+              break;
+            }
+            return _context8.delegateYield(_loop(), "t0", 10);
+          case 10:
+            _ret = _context8.t0;
+            if (!(_ret === "continue")) {
+              _context8.next = 13;
+              break;
+            }
+            return _context8.abrupt("continue", 13);
+          case 13:
+            _context8.next = 8;
+            break;
+          case 15:
+            _context8.next = 20;
+            break;
+          case 17:
+            _context8.prev = 17;
+            _context8.t1 = _context8["catch"](5);
+            _iterator3.e(_context8.t1);
+          case 20:
+            _context8.prev = 20;
+            _iterator3.f();
+            return _context8.finish(20);
+          case 23:
+            i++;
+            _context8.next = 2;
+            break;
+          case 26:
+          case "end":
+            return _context8.stop();
+        }
+      }
+    }, _callee7, null, [[5, 17, 20, 23]]);
+  }));
+  return _addExistingDataToGraph.apply(this, arguments);
+}
+function buildGraphDepth(_x14, _x15, _x16, _x17) {
   return _buildGraphDepth.apply(this, arguments);
 }
+/**
+ * Returns true if depth one lower than new depth is not
+ * equal to current depth. This also means that data of
+ * depth one lower than new depth is not displayed in
+ * current graph.
+ *
+ * @param {int} oldDepth current graph depth
+ * @param {int} depth new graph depth that will be displayed
+ * @returns
+ */
+function _buildGraphDepth() {
+  _buildGraphDepth = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee8(graph, paperId, depth, oldDepth) {
+    var graphDataLowerLevel, d, nodeIdsInGraph, limit, counter, _iterator5, _step5, _node, linkedPapers;
+    return _regeneratorRuntime().wrap(function _callee8$(_context9) {
+      while (1) {
+        switch (_context9.prev = _context9.next) {
+          case 0:
+            graphDataLowerLevel = (0,_KnowledgeGraphCachingService__WEBPACK_IMPORTED_MODULE_2__.getGraphData)(paperId, depth - 1);
+            if (graphDataLowerLevel) {
+              _context9.next = 7;
+              break;
+            }
+            _context9.next = 4;
+            return buildGraphDepth(graph, paperId, depth - 1, depth);
+          case 4:
+            graphDataLowerLevel = (0,_KnowledgeGraphCachingService__WEBPACK_IMPORTED_MODULE_2__.getGraphData)(paperId, depth - 1);
+            _context9.next = 15;
+            break;
+          case 7:
+            if (!lowerDepthNotDisplayed(oldDepth, depth)) {
+              _context9.next = 15;
+              break;
+            }
+            d = oldDepth + 1;
+          case 9:
+            if (!(d < depth)) {
+              _context9.next = 15;
+              break;
+            }
+            _context9.next = 12;
+            return addExistingDataToGraph(graph, d - 1, d, paperId);
+          case 12:
+            d++;
+            _context9.next = 9;
+            break;
+          case 15:
+            nodeIdsInGraph = graphDataLowerLevel.nodes.map(function (_ref5) {
+              var id = _ref5.id;
+              return id;
+            });
+            limit = graphDataLowerLevel.nodes.length > 10 ? 10 : graphDataLowerLevel.nodes.length;
+            counter = 0;
+            _iterator5 = _createForOfIteratorHelper(graphDataLowerLevel.nodes);
+            _context9.prev = 19;
+            _iterator5.s();
+          case 21:
+            if ((_step5 = _iterator5.n()).done) {
+              _context9.next = 36;
+              break;
+            }
+            _node = _step5.value;
+            if (!(_node.id == paperId)) {
+              _context9.next = 25;
+              break;
+            }
+            return _context9.abrupt("continue", 34);
+          case 25:
+            if (!(++counter > limit)) {
+              _context9.next = 27;
+              break;
+            }
+            return _context9.abrupt("break", 36);
+          case 27:
+            _context9.next = 29;
+            return getLinkedNodesByPaper({
+              paperId: _node.id,
+              title: _node.label
+            });
+          case 29:
+            linkedPapers = _context9.sent;
+            linkedPapers.re;
+            linkedPapers.nodes = linkedPapers.nodes.filter(function (n) {
+              return !nodeIdsInGraph.includes(n.id);
+            });
+            addToGraph(graph, linkedPapers);
+            (0,_KnowledgeGraphCachingService__WEBPACK_IMPORTED_MODULE_2__.addGraphData)(paperId, depth, linkedPapers);
+          case 34:
+            _context9.next = 21;
+            break;
+          case 36:
+            _context9.next = 41;
+            break;
+          case 38:
+            _context9.prev = 38;
+            _context9.t0 = _context9["catch"](19);
+            _iterator5.e(_context9.t0);
+          case 41:
+            _context9.prev = 41;
+            _iterator5.f();
+            return _context9.finish(41);
+          case 44:
+          case "end":
+            return _context9.stop();
+        }
+      }
+    }, _callee8, null, [[19, 38, 41, 44]]);
+  }));
+  return _buildGraphDepth.apply(this, arguments);
+}
+function lowerDepthNotDisplayed(oldDepth, depth) {
+  return oldDepth < depth && oldDepth != depth - 1;
+}
+
 /**
  * Adds GraphData to a graph, this will trigger automatic
  * redisplaying of the graph, linkedNodes can contain
@@ -1168,75 +1537,6 @@ function buildGraphDepth(_x7, _x8, _x9, _x10) {
  * @param {GraphData} linkedNodes
  * @returns {GraphData}
  */
-function _buildGraphDepth() {
-  _buildGraphDepth = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6(graph, nodesToAdd, depth, maxDepth) {
-    var nodesToAddNextDepth, _iterator3, _step3, node, linkedPapers, addedNodes, _i2, _nodesToAddNextDepth, nodesToExpand;
-    return _regeneratorRuntime().wrap(function _callee6$(_context6) {
-      while (1) {
-        switch (_context6.prev = _context6.next) {
-          case 0:
-            if (!(depth == maxDepth)) {
-              _context6.next = 2;
-              break;
-            }
-            return _context6.abrupt("return");
-          case 2:
-            nodesToAddNextDepth = [];
-            _iterator3 = _createForOfIteratorHelper(nodesToAdd.nodes);
-            _context6.prev = 4;
-            _iterator3.s();
-          case 6:
-            if ((_step3 = _iterator3.n()).done) {
-              _context6.next = 15;
-              break;
-            }
-            node = _step3.value;
-            _context6.next = 10;
-            return getLinkedNodesByPaper({
-              paperId: node.id,
-              title: node.label
-            });
-          case 10:
-            linkedPapers = _context6.sent;
-            addedNodes = addToGraph(graph, linkedPapers);
-            nodesToAddNextDepth.push(addedNodes);
-          case 13:
-            _context6.next = 6;
-            break;
-          case 15:
-            _context6.next = 20;
-            break;
-          case 17:
-            _context6.prev = 17;
-            _context6.t0 = _context6["catch"](4);
-            _iterator3.e(_context6.t0);
-          case 20:
-            _context6.prev = 20;
-            _iterator3.f();
-            return _context6.finish(20);
-          case 23:
-            _i2 = 0, _nodesToAddNextDepth = nodesToAddNextDepth;
-          case 24:
-            if (!(_i2 < _nodesToAddNextDepth.length)) {
-              _context6.next = 31;
-              break;
-            }
-            nodesToExpand = _nodesToAddNextDepth[_i2];
-            _context6.next = 28;
-            return buildGraphDepth(graph, nodesToExpand, depth + 1, maxDepth);
-          case 28:
-            _i2++;
-            _context6.next = 24;
-            break;
-          case 31:
-          case "end":
-            return _context6.stop();
-        }
-      }
-    }, _callee6, null, [[4, 17, 20, 23]]);
-  }));
-  return _buildGraphDepth.apply(this, arguments);
-}
 function addToGraph(graph, linkedNodes) {
   var _graph$graphData = graph.graphData(),
     nodes = _graph$graphData.nodes,
@@ -1277,12 +1577,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "fetchPaperInfo": () => (/* binding */ fetchPaperInfo),
 /* harmony export */   "fetchReferences": () => (/* binding */ fetchReferences)
 /* harmony export */ });
-/* harmony import */ var _Constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(12);
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return exports; }; var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, defineProperty = Object.defineProperty || function (obj, key, desc) { obj[key] = desc.value; }, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag"; function define(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: !0, configurable: !0, writable: !0 }), obj[key]; } try { define({}, ""); } catch (err) { define = function define(obj, key, value) { return obj[key] = value; }; } function wrap(innerFn, outerFn, self, tryLocsList) { var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []); return defineProperty(generator, "_invoke", { value: makeInvokeMethod(innerFn, self, context) }), generator; } function tryCatch(fn, obj, arg) { try { return { type: "normal", arg: fn.call(obj, arg) }; } catch (err) { return { type: "throw", arg: err }; } } exports.wrap = wrap; var ContinueSentinel = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var IteratorPrototype = {}; define(IteratorPrototype, iteratorSymbol, function () { return this; }); var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([]))); NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype); var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype); function defineIteratorMethods(prototype) { ["next", "throw", "return"].forEach(function (method) { define(prototype, method, function (arg) { return this._invoke(method, arg); }); }); } function AsyncIterator(generator, PromiseImpl) { function invoke(method, arg, resolve, reject) { var record = tryCatch(generator[method], generator, arg); if ("throw" !== record.type) { var result = record.arg, value = result.value; return value && "object" == _typeof(value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) { invoke("next", value, resolve, reject); }, function (err) { invoke("throw", err, resolve, reject); }) : PromiseImpl.resolve(value).then(function (unwrapped) { result.value = unwrapped, resolve(result); }, function (error) { return invoke("throw", error, resolve, reject); }); } reject(record.arg); } var previousPromise; defineProperty(this, "_invoke", { value: function value(method, arg) { function callInvokeWithMethodAndArg() { return new PromiseImpl(function (resolve, reject) { invoke(method, arg, resolve, reject); }); } return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(innerFn, self, context) { var state = "suspendedStart"; return function (method, arg) { if ("executing" === state) throw new Error("Generator is already running"); if ("completed" === state) { if ("throw" === method) throw arg; return doneResult(); } for (context.method = method, context.arg = arg;;) { var delegate = context.delegate; if (delegate) { var delegateResult = maybeInvokeDelegate(delegate, context); if (delegateResult) { if (delegateResult === ContinueSentinel) continue; return delegateResult; } } if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) { if ("suspendedStart" === state) throw state = "completed", context.arg; context.dispatchException(context.arg); } else "return" === context.method && context.abrupt("return", context.arg); state = "executing"; var record = tryCatch(innerFn, self, context); if ("normal" === record.type) { if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue; return { value: record.arg, done: context.done }; } "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg); } }; } function maybeInvokeDelegate(delegate, context) { var method = delegate.iterator[context.method]; if (undefined === method) { if (context.delegate = null, "throw" === context.method) { if (delegate.iterator["return"] && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method)) return ContinueSentinel; context.method = "throw", context.arg = new TypeError("The iterator does not provide a 'throw' method"); } return ContinueSentinel; } var record = tryCatch(method, delegate.iterator, context.arg); if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel; var info = record.arg; return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel); } function pushTryEntry(locs) { var entry = { tryLoc: locs[0] }; 1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry); } function resetTryEntry(entry) { var record = entry.completion || {}; record.type = "normal", delete record.arg, entry.completion = record; } function Context(tryLocsList) { this.tryEntries = [{ tryLoc: "root" }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0); } function values(iterable) { if (iterable) { var iteratorMethod = iterable[iteratorSymbol]; if (iteratorMethod) return iteratorMethod.call(iterable); if ("function" == typeof iterable.next) return iterable; if (!isNaN(iterable.length)) { var i = -1, next = function next() { for (; ++i < iterable.length;) { if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next; } return next.value = undefined, next.done = !0, next; }; return next.next = next; } } return { next: doneResult }; } function doneResult() { return { value: undefined, done: !0 }; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, defineProperty(Gp, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), defineProperty(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) { var ctor = "function" == typeof genFun && genFun.constructor; return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name)); }, exports.mark = function (genFun) { return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun; }, exports.awrap = function (arg) { return { __await: arg }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () { return this; }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) { void 0 === PromiseImpl && (PromiseImpl = Promise); var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl); return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) { return result.done ? result.value : iter.next(); }); }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () { return this; }), define(Gp, "toString", function () { return "[object Generator]"; }), exports.keys = function (val) { var object = Object(val), keys = []; for (var key in object) { keys.push(key); } return keys.reverse(), function next() { for (; keys.length;) { var key = keys.pop(); if (key in object) return next.value = key, next.done = !1, next; } return next.done = !0, next; }; }, exports.values = values, Context.prototype = { constructor: Context, reset: function reset(skipTempReset) { if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) { "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined); } }, stop: function stop() { this.done = !0; var rootRecord = this.tryEntries[0].completion; if ("throw" === rootRecord.type) throw rootRecord.arg; return this.rval; }, dispatchException: function dispatchException(exception) { if (this.done) throw exception; var context = this; function handle(loc, caught) { return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught; } for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i], record = entry.completion; if ("root" === entry.tryLoc) return handle("end"); if (entry.tryLoc <= this.prev) { var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc"); if (hasCatch && hasFinally) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } else if (hasCatch) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); } else { if (!hasFinally) throw new Error("try statement without catch or finally"); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } } } }, abrupt: function abrupt(type, arg) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) { var finallyEntry = entry; break; } } finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null); var record = finallyEntry ? finallyEntry.completion : {}; return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record); }, complete: function complete(record, afterLoc) { if ("throw" === record.type) throw record.arg; return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel; }, finish: function finish(finallyLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel; } }, "catch": function _catch(tryLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc === tryLoc) { var record = entry.completion; if ("throw" === record.type) { var thrown = record.arg; resetTryEntry(entry); } return thrown; } } throw new Error("illegal catch attempt"); }, delegateYield: function delegateYield(iterable, resultName, nextLoc) { return this.delegate = { iterator: values(iterable), resultName: resultName, nextLoc: nextLoc }, "next" === this.method && (this.arg = undefined), ContinueSentinel; } }, exports; }
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
 var KEYWORD_API = "https://api.semanticscholar.org/graph/v1/paper/search?";
 var CITATIONS_API = "https://api.semanticscholar.org/graph/v1/paper/{paper_id}/citations?";
 var REFERENCES_API = "https://api.semanticscholar.org/graph/v1/paper/{paper_id}/references?";
@@ -1369,8 +1667,7 @@ function _fetchCitations() {
         switch (_context2.prev = _context2.next) {
           case 0:
             queryParams = new URLSearchParams({
-              fields: FIELDS_TO_FETCH_FOR_PAPER,
-              limit: _Constants__WEBPACK_IMPORTED_MODULE_0__.MAX_CITATION
+              fields: FIELDS_TO_FETCH_FOR_PAPER
             });
             _context2.next = 3;
             return fetch(CITATIONS_API.replace("{paper_id}", paperID) + queryParams, FETCH_OPTIONS);
@@ -1400,8 +1697,7 @@ function _fetchReferences() {
         switch (_context3.prev = _context3.next) {
           case 0:
             queryParams = new URLSearchParams({
-              fields: FIELDS_TO_FETCH_FOR_PAPER,
-              limit: _Constants__WEBPACK_IMPORTED_MODULE_0__.MAX_REFERENCES
+              fields: FIELDS_TO_FETCH_FOR_PAPER
             });
             _context3.next = 3;
             return fetch(REFERENCES_API.replace("{paper_id}", paperID) + queryParams, FETCH_OPTIONS);
@@ -1429,28 +1725,11 @@ function _fetchReferences() {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "MAX_CITATION": () => (/* binding */ MAX_CITATION),
-/* harmony export */   "MAX_GRAPH_DEPTH": () => (/* binding */ MAX_GRAPH_DEPTH),
-/* harmony export */   "MAX_REFERENCES": () => (/* binding */ MAX_REFERENCES),
-/* harmony export */   "SIMILARITY_THRESHOLD": () => (/* binding */ SIMILARITY_THRESHOLD)
+/* harmony export */   "compareSimilarity": () => (/* binding */ compareSimilarity),
+/* harmony export */   "timeout": () => (/* binding */ timeout)
 /* harmony export */ });
-var SIMILARITY_THRESHOLD = 0.78;
-var MAX_GRAPH_DEPTH = 2;
-var MAX_CITATION = 8;
-var MAX_REFERENCES = 8;
-
-
-/***/ }),
-/* 13 */
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "compareSimilarity": () => (/* binding */ compareSimilarity)
-/* harmony export */ });
-/* harmony import */ var _Constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(12);
-var _require = __webpack_require__(14),
+/* harmony import */ var _Constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(14);
+var _require = __webpack_require__(13),
   compareTwoStrings = _require.compareTwoStrings;
 
 
@@ -1465,9 +1744,21 @@ function compareSimilarity(string1, string2) {
   return _Constants__WEBPACK_IMPORTED_MODULE_0__.SIMILARITY_THRESHOLD < compareTwoStrings(string1, string2);
 }
 
+/**
+ * Sets timeout of given milliseconds.
+ * 
+ * @param {int} ms milliseconds
+ * @returns {Promise} empty promise
+ */
+function timeout(ms) {
+  return new Promise(function (resolve) {
+    return setTimeout(resolve, ms);
+  });
+}
+
 
 /***/ }),
-/* 14 */
+/* 13 */
 /***/ ((module) => {
 
 module.exports = {
@@ -1539,7 +1830,143 @@ function areArgsValid(mainString, targetStrings) {
 
 
 /***/ }),
+/* 14 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "SIMILARITY_THRESHOLD": () => (/* binding */ SIMILARITY_THRESHOLD),
+/* harmony export */   "TEN_MILLISECONDS": () => (/* binding */ TEN_MILLISECONDS)
+/* harmony export */ });
+var SIMILARITY_THRESHOLD = 0.78;
+var TEN_MILLISECONDS = 10;
+
+
+/***/ }),
 /* 15 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "addGraphData": () => (/* binding */ addGraphData),
+/* harmony export */   "getGraphData": () => (/* binding */ getGraphData),
+/* harmony export */   "hasGraphData": () => (/* binding */ hasGraphData),
+/* harmony export */   "setGraphData": () => (/* binding */ setGraphData)
+/* harmony export */ });
+function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+/**
+ * @typedef {Object} GraphData
+ * @property {import("./KnowledgeGraphService").GraphData}
+ */
+
+/**
+ * @property {Map<string, Map<int, GraphData>>} graphDataCache map that caches GraphData by 
+ * paper id and depth. First map has paper id as key and map as value. Second map has depth 
+ * as key and GraphData as value.
+ */
+var graphDataCache = new Map();
+
+/**
+ * Sets {@link GraphData} for given depth and paper id in {@link graphDataCache}. If there is 
+ * existing data for this paper id and depth combination this function will overwrite it with
+ * given data.
+ * 
+ * @param {string} paperId id of paper
+ * @param {int} depth graph depth
+ * @param {GraphData} data graph data
+ */
+function setGraphData(paperId, depth, data) {
+  if (!graphDataCache.has(paperId)) graphDataCache.set(paperId, new Map());
+  graphDataCache.get(paperId).set(depth, data);
+}
+;
+
+/**
+ * Adds nodes and links of given {@link GraphData} to {@link graphDataCache} for given paper id
+ * and depth combination. This function will not overwrite existing data, but
+ * simly add to it. If there is no data on given depth and paper id combination
+ * this function will call {@link setGraphData} function.
+ * 
+ * @param {string} paperId paper id
+ * @param {int} depth graph depth
+ * @param {GraphData} data graph data
+ */
+function addGraphData(paperId, depth, data) {
+  if (!hasGraphData(paperId, depth)) setGraphData(paperId, depth, data);
+  var nodes = data.nodes;
+  var existingNodesAtDepth = graphDataCache.get(paperId).get(depth).nodes;
+  var _iterator = _createForOfIteratorHelper(nodes),
+    _step;
+  try {
+    var _loop = function _loop() {
+      var node = _step.value;
+      if (!existingNodesAtDepth.find(function (n) {
+        return n.id === node.id;
+      })) existingNodesAtDepth.push(node);
+    };
+    for (_iterator.s(); !(_step = _iterator.n()).done;) {
+      _loop();
+    }
+  } catch (err) {
+    _iterator.e(err);
+  } finally {
+    _iterator.f();
+  }
+  var links = data.links;
+  var existingLinksAtDepth = graphDataCache.get(paperId).get(depth).links;
+  var _iterator2 = _createForOfIteratorHelper(links),
+    _step2;
+  try {
+    var _loop2 = function _loop2() {
+      var link = _step2.value;
+      if (!existingLinksAtDepth.find(function (l) {
+        return l.id === link.id;
+      })) existingLinksAtDepth.push(link);
+    };
+    for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+      _loop2();
+    }
+  } catch (err) {
+    _iterator2.e(err);
+  } finally {
+    _iterator2.f();
+  }
+}
+;
+
+/**
+ * Returns true if there is existing {@link GraphData} for given paper id
+ * and depth in {@link graphDataCache}.
+ * 
+ * @param {string} paperId paper id
+ * @param {int} depth graph depth
+ * @returns {Boolean}
+ */
+function hasGraphData(paperId, depth) {
+  return graphDataCache.has(paperId) && graphDataCache.get(paperId).has(depth);
+}
+;
+
+/**
+ * Returns {@link GraphData} from {@link graphDataCache} for given paper id
+ * and depth combination,
+ * 
+ * @param {string} paperId paper id
+ * @param {int} depth graph depth
+ * @returns {GraphData}
+ */
+function getGraphData(paperId, depth) {
+  return graphDataCache.get(paperId).get(depth);
+}
+;
+
+
+/***/ }),
+/* 16 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1649,7 +2076,7 @@ function _showErrorDisplay2() {
 
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1658,8 +2085,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "ToolbarComponent": () => (/* binding */ ToolbarComponent)
 /* harmony export */ });
 /* harmony import */ var _services_EventHandlerService__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4);
-/* harmony import */ var _PaginationComponent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(17);
-/* harmony import */ var _ZoomComponent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(18);
+/* harmony import */ var _PaginationComponent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(18);
+/* harmony import */ var _ZoomComponent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(19);
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1757,7 +2184,7 @@ function ToolbarComponent() {
 
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1883,7 +2310,7 @@ function PaginationComponent() {
 
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1965,7 +2392,7 @@ function ZoomComponent() {
 
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 /**
@@ -12706,7 +13133,7 @@ var _base_factory = __w_pdfjs_require__(9);
 
 const fetchData = function (url) {
   return new Promise((resolve, reject) => {
-    const fs = __webpack_require__(20);
+    const fs = __webpack_require__(21);
 
     fs.readFile(url, (error, data) => {
       if (error || !data) {
@@ -12721,7 +13148,7 @@ const fetchData = function (url) {
 
 class NodeCanvasFactory extends _base_factory.BaseCanvasFactory {
   _createCanvas(width, height) {
-    const Canvas = __webpack_require__(21);
+    const Canvas = __webpack_require__(22);
 
     return Canvas.createCanvas(width, height);
   }
@@ -18447,7 +18874,7 @@ exports.SVGGraphics = SVGGraphics;
           input = Buffer.from(literals);
         }
 
-        const output = (__webpack_require__(22).deflateSync)(input, {
+        const output = (__webpack_require__(23).deflateSync)(input, {
           level: 9
         });
 
@@ -19882,13 +20309,13 @@ var _network_utils = __w_pdfjs_require__(33);
 
 ;
 
-const fs = __webpack_require__(20);
+const fs = __webpack_require__(21);
 
-const http = __webpack_require__(23);
+const http = __webpack_require__(24);
 
-const https = __webpack_require__(24);
+const https = __webpack_require__(25);
 
-const url = __webpack_require__(25);
+const url = __webpack_require__(26);
 
 const fileUriRegex = /^file:\/\/\/[a-zA-Z]:\//;
 
@@ -21738,12 +22165,6 @@ const pdfjsBuild = '172ccdbe5';
 //# sourceMappingURL=pdf.js.map
 
 /***/ }),
-/* 20 */
-/***/ (() => {
-
-/* (ignored) */
-
-/***/ }),
 /* 21 */
 /***/ (() => {
 
@@ -21775,6 +22196,12 @@ const pdfjsBuild = '172ccdbe5';
 
 /***/ }),
 /* 26 */
+/***/ (() => {
+
+/* (ignored) */
+
+/***/ }),
+/* 27 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -21864,7 +22291,7 @@ var WelcomeView = /*#__PURE__*/function (_AppView) {
 
 
 /***/ }),
-/* 27 */
+/* 28 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -21872,19 +22299,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(28);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(29);
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(29);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(30);
 /* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(30);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(31);
 /* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(31);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(32);
 /* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(32);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(33);
 /* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(33);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(34);
 /* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _node_modules_css_loader_dist_cjs_js_fileUpload_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(34);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_fileUpload_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(35);
 
       
       
@@ -21915,7 +22342,7 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 
 /***/ }),
-/* 28 */
+/* 29 */
 /***/ ((module) => {
 
 "use strict";
@@ -22025,7 +22452,7 @@ module.exports = function (list, options) {
 };
 
 /***/ }),
-/* 29 */
+/* 30 */
 /***/ ((module) => {
 
 "use strict";
@@ -22101,7 +22528,7 @@ function domAPI(options) {
 module.exports = domAPI;
 
 /***/ }),
-/* 30 */
+/* 31 */
 /***/ ((module) => {
 
 "use strict";
@@ -22146,7 +22573,7 @@ function insertBySelector(insert, style) {
 module.exports = insertBySelector;
 
 /***/ }),
-/* 31 */
+/* 32 */
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
@@ -22164,7 +22591,7 @@ function setAttributesWithoutAttributes(styleElement) {
 module.exports = setAttributesWithoutAttributes;
 
 /***/ }),
-/* 32 */
+/* 33 */
 /***/ ((module) => {
 
 "use strict";
@@ -22181,7 +22608,7 @@ function insertStyleElement(options) {
 module.exports = insertStyleElement;
 
 /***/ }),
-/* 33 */
+/* 34 */
 /***/ ((module) => {
 
 "use strict";
@@ -22203,7 +22630,7 @@ function styleTagTransform(css, styleElement) {
 module.exports = styleTagTransform;
 
 /***/ }),
-/* 34 */
+/* 35 */
 /***/ ((module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -22211,9 +22638,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(35);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(36);
 /* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(36);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(37);
 /* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
 // Imports
 
@@ -22226,7 +22653,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, "*{\n  box-sizing: border-box;\n}\n:roo
 
 
 /***/ }),
-/* 35 */
+/* 36 */
 /***/ ((module) => {
 
 "use strict";
@@ -22237,7 +22664,7 @@ module.exports = function (i) {
 };
 
 /***/ }),
-/* 36 */
+/* 37 */
 /***/ ((module) => {
 
 "use strict";
@@ -22345,7 +22772,7 @@ module.exports = function (cssWithMappingToString) {
 };
 
 /***/ }),
-/* 37 */
+/* 38 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -22353,19 +22780,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(28);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(29);
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(29);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(30);
 /* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(30);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(31);
 /* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(31);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(32);
 /* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(32);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(33);
 /* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(33);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(34);
 /* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _node_modules_css_loader_dist_cjs_js_navbar_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(38);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_navbar_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(39);
 
       
       
@@ -22396,7 +22823,7 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 
 /***/ }),
-/* 38 */
+/* 39 */
 /***/ ((module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -22404,9 +22831,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(35);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(36);
 /* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(36);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(37);
 /* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
 // Imports
 
@@ -22419,7 +22846,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, "/* NAVBAR STYLING STARTS */\n#navbar {
 
 
 /***/ }),
-/* 39 */
+/* 40 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -22427,19 +22854,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(28);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(29);
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(29);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(30);
 /* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(30);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(31);
 /* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(31);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(32);
 /* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(32);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(33);
 /* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(33);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(34);
 /* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _node_modules_css_loader_dist_cjs_js_pdfl_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(40);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_pdfl_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(41);
 
       
       
@@ -22470,7 +22897,7 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 
 /***/ }),
-/* 40 */
+/* 41 */
 /***/ ((module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -22478,9 +22905,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(35);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(36);
 /* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(36);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(37);
 /* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
 // Imports
 
