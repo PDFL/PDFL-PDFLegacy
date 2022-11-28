@@ -3,6 +3,7 @@ import {
   PDFLEvents,
 } from "../services/EventHandlerService";
 import { KnowledgeGraphComponent } from "./KnowledgeGraphComponent";
+import { SidePageLoaderComponent } from "./SidePageLoaderComponent";
 
 /**
  * Component representing side window that can be closed. It is a placeholder
@@ -13,6 +14,7 @@ import { KnowledgeGraphComponent } from "./KnowledgeGraphComponent";
  * @property {HTMLElement} components.sideNav placeholder of this component
  * @property {HTMLElement} components.pdfContainer sibling component of this component that displays PDF reader
  * @property {KnowledgeGraphComponent} knowledgeGraphComponent knowledge graph component
+ * @property {SidePageLoaderComponent} loader component that displays loader in this page
  */
 class SidePageComponent {
   components = {
@@ -23,11 +25,12 @@ class SidePageComponent {
 
   /**
    * Creates and initializes new side page component. Creates all components
-   * that can be shown within this component.
+   * that can be shown within this component, as well as the loader.
    * @constructor
    */
   constructor() {
     this.knowledgeGraphComponent = new KnowledgeGraphComponent();
+    this.loader = new SidePageLoaderComponent();
 
     this.#registerEvents();
   }
