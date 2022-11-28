@@ -77,9 +77,4 @@ function getGraphData (paperId, depth) {
   return graphDataCache.get(paperId).get(depth);
 };
 
-//TODO: remove
-function print(){
-  console.log(graphDataCache)
-}
-
-export { setGraphData , addGraphData , hasGraphData, getGraphData, print };
+export { setGraphData , addGraphData , hasGraphData, getGraphData };

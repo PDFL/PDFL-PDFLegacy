@@ -55,8 +55,8 @@ async function fetchPaperInfo(titleQuery) {
  */
 async function fetchCitations(paperID) {
   let queryParams = new URLSearchParams({
-    fields: FIELDS_TO_FETCH_FOR_PAPER,
-    limit: MAX_CITATION,
+    fields: FIELDS_TO_FETCH_FOR_PAPER//,
+    //limit: MAX_CITATION,
   });
   let data = (
     await (
@@ -79,7 +79,7 @@ async function fetchCitations(paperID) {
 async function fetchReferences(paperID) {
   let queryParams = new URLSearchParams({
     fields: FIELDS_TO_FETCH_FOR_PAPER,
-    limit: MAX_REFERENCES,
+    //limit: MAX_REFERENCES,
   });
   let data = (
     await (

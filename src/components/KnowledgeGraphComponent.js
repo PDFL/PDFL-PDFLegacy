@@ -38,28 +38,37 @@ class KnowledgeGraphComponent {
    * @private
    */
   #registerEvents = () => {
-    this.components.graphDepth.addEventListener("change", this.#changeDepth);
+    this.components.graphDepth.addEventListener("change", this.#depthSelected);
+  };
+
+  /**
+   * Called when user selects a depth from dropdown menu.
+   *
+   * @private
+   * @param {Event} event event triggered when depth chosen from dropdown menu
+   */
+  #depthSelected = (event) => {
+    const selectedDepth = parseInt(event.target.value);
+    if (selectedDepth == this.depth) return;
+
+    this.#changeDepth(selectedDepth);
   };
 
   /**
    * Sets new depth of knowledge graph and displays graph of that depth.
+   *
    * @private
-   * @param {Event} event event triggered when new depth chosen from dropdown menu
+   * @param {int} selectedDepth new depth
    */
-  #changeDepth = (event) => {
-    const selectedDepth = parseInt(event.target.value);
-    if (selectedDepth == this.depth) return;
-    
-    buildGraphProcedure(this.graph, selectedDepth, this.depth);
-    
-    this.depth = selectedDepth;
-
+  #changeDepth(selectedDepth) {
     try {
-      this.displayGraph(selectedDepth);
+      buildGraphProcedure(this.graph, selectedDepth, this.depth);
       EventHandlerService.publish(PDFLEvents.onHideSidePageLoader);
     } catch (error) {
       EventHandlerService.publish(PDFLEvents.onShowSidePageError);
     }
+
+    this.depth = selectedDepth;
   };
 
   /**
@@ -79,7 +88,7 @@ class KnowledgeGraphComponent {
       EventHandlerService.publish(PDFLEvents.onShowOpaqueSidePageLoader);
     }
 
-    getLinkedPapers(this.pdfDocument).then((linkedPapers) => {
+    getLinkedPapers(this.pdfDocument, depth).then((linkedPapers) => {
       if (!linkedPapers || linkedPapers.length == 0)
         return EventHandlerService.publish(PDFLEvents.onShowSidePageError);
 
@@ -134,12 +143,7 @@ class KnowledgeGraphComponent {
         .d3Force("center", null)
         .onEngineStop(() => graph.zoomToFit(500));
 
-      buildGraphProcedure(graph, depth) //TODO: solve with caching
-        .then(() =>
-          EventHandlerService.publish(PDFLEvents.onHideSidePageLoader)
-        );
-
-      buildGraphProcedure(graph, MAX_GRAPH_DEPTH);
+        this.graph = graph;
     });
   };
 }

@@ -4,9 +4,9 @@ import {
   setGraphData,
   hasGraphData,
   getGraphData,
-  print,
   addGraphData,
-} from "./CachingService";
+} from "./KnowledgeGraphCachingService";
+import { TEN_MILLISECONDS } from "../Constants";
 
 /**
  * @typedef {Object} PaperInfo
@@ -30,7 +30,7 @@ import {
  * @param {Pdfjs Document} pdfDoc
  * @returns {GraphData} linked papers of 'pdfDoc'
  */
-async function getLinkedPapers(pdfDoc) {
+async function getLinkedPapers(pdfDoc, depth) {
   let metadata = await pdfDoc.getMetadata();
 
   // TODO: check if some useful ID is in the metadata
@@ -80,10 +80,10 @@ async function getCreatedGraphData(currentPaperInfo) {
  * @returns {Promise<GraphData>} linked papers of 'pdfDoc'
  */
 async function getLinkedNodesByPaper(paperInfo) {
-  let [citations, references] = await Promise.all([
-    getCitations(paperInfo.paperId),
-    getReferences(paperInfo.paperId),
-  ]);
+  const citations = await getCitations(paperInfo.paperId);
+  if (!citations) return;
+  const references = await getReferences(paperInfo.paperId);
+  if (!references) return;
 
   return getGraphStructure(
     paperInfo.paperId,
@@ -101,8 +101,12 @@ async function getLinkedNodesByPaper(paperInfo) {
  * @returns {Promise<PaperInfo[]>}
  */
 async function getCitations(paperID) {
-  let data = await fetchCitations(paperID);
-  return data.map(({ citingPaper }) => citingPaper);
+  try {
+    let data = await fetchCitations(paperID);
+    return data.map(({ citingPaper }) => citingPaper);
+  } catch (error) {
+    return;
+  }
 }
 
 /**
@@ -113,8 +117,12 @@ async function getCitations(paperID) {
  * @returns {Promise<PaperInfo[]>}
  */
 async function getReferences(paperID) {
-  let data = await fetchReferences(paperID);
-  return data.map(({ citedPaper }) => citedPaper);
+  try {
+    let data = await fetchReferences(paperID);
+    return data.map(({ citedPaper }) => citedPaper);
+  } catch (error) {
+    return;
+  }
 }
 
 /**
@@ -192,15 +200,8 @@ async function buildGraphProcedure(graph, selectedDepth, oldDepth) {
   const paperId = graph.graphData().nodes[0].id;
 
   if (hasGraphData(paperId, selectedDepth)) {
-    if (oldDepth > selectedDepth) {
-      // TODO: removing nodes one by one
-      console.log("removing...");
-      graph.graphData(getGraphData(paperId, 1));
-      for (let i = 2; i <= selectedDepth; i++)
-        addToGraph(graph, getGraphData(paperId, i));
-    } else {
-      await addExistingDataToGraph(graph, oldDepth, selectedDepth, paperId);
-    }
+    if (oldDepth > selectedDepth) removeNodes(graph, paperId, selectedDepth);
+    else await addExistingDataToGraph(graph, oldDepth, selectedDepth, paperId);
   } else {
     await buildGraphDepth(graph, paperId, selectedDepth, oldDepth);
     setGraphData(paperId, selectedDepth, graph.graphData());
@@ -208,8 +209,22 @@ async function buildGraphProcedure(graph, selectedDepth, oldDepth) {
 }
 
 /**
+ * Removes nodes that are on depths higher than new depth
+ * which user selected.
+ *
+ * @param {ForceGraph} graph graph being displayed
+ * @param {int} paperId id of paper for which graph is being displayed
+ * @param {int} selectedDepth new selected depth smaller than one being currently displayed
+ */
+function removeNodes(graph, paperId, selectedDepth) {
+  graph.graphData(getGraphData(paperId, 1));
+  for (let i = 2; i <= selectedDepth; i++)
+    addToGraph(graph, getGraphData(paperId, i));
+}
+
+/**
  * Adds cached graph data to graph one node at time. For better UX
- * after each node is added timeout of 500 ms is called.
+ * after each node is added timeout of 10 ms is called.
  *
  * @param {ForceGraph} graph graph being displayed
  * @param {int} oldDepth previously selected depth
@@ -246,7 +261,7 @@ async function addExistingDataToGraph(graph, oldDepth, selectedDepth, paperId) {
 
       graph.graphData(currentData);
 
-      await timeout(500);
+      await timeout(TEN_MILLISECONDS);
     }
   }
 }
@@ -267,14 +282,20 @@ async function buildGraphDepth(graph, paperId, depth, oldDepth) {
   if (!graphDataLowerLevel) {
     await buildGraphDepth(graph, paperId, depth - 1, depth);
     graphDataLowerLevel = getGraphData(paperId, depth - 1);
-  } else if (oldDepth < depth && oldDepth != depth - 1) {
+  } else if (lowerDepthNotDisplayed(oldDepth, depth)) {
     for (let d = oldDepth + 1; d < depth; d++)
       await addExistingDataToGraph(graph, d - 1, d, paperId);
   }
 
   let nodeIdsInGraph = graphDataLowerLevel.nodes.map(({ id }) => id);
+  let limit =
+    graphDataLowerLevel.nodes.length > 10
+      ? 10
+      : graphDataLowerLevel.nodes.length;
+  let counter = 0;
   for (let node of graphDataLowerLevel.nodes) {
     if (node.id == paperId) continue;
+    if (++counter > limit) break;
 
     let linkedPapers = await getLinkedNodesByPaper({
       paperId: node.id,
@@ -288,6 +309,20 @@ async function buildGraphDepth(graph, paperId, depth, oldDepth) {
     addToGraph(graph, linkedPapers);
     addGraphData(paperId, depth, linkedPapers);
   }
+}
+
+/**
+ * Returns true if depth one lower than new depth is not
+ * equal to current depth. This also means that data of
+ * depth one lower than new depth is not displayed in
+ * current graph.
+ *
+ * @param {int} oldDepth current graph depth
+ * @param {int} depth new graph depth that will be displayed
+ * @returns
+ */
+function lowerDepthNotDisplayed(oldDepth, depth) {
+  return oldDepth < depth && oldDepth != depth - 1;
 }
 
 /**
