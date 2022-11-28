@@ -7,22 +7,25 @@ import { ParserFactory } from "../services/DocumentParser/ParserFactory";
 
 /**
  * This class handles user interaction with internal document references
- * @property {object} pdfDocument
+ * @property {object} pdfDoc
  * @property {object} overEventPosition
  */
 class ReferenceComponent {
   /**
    * @constructor
-   * Subscribes to an event to be notified when links are available in dom
+   * Create a class object and call register events function
    */
   constructor() {
-    this.pdfDoc = null;
     this.overEventPosition = { x: null, y: null };
+    this.#registerEvents();
+  }
+
+  #registerEvents = () => {
     EventHandlerService.subscribe(
       PDFLEvents.onLinkLayerRendered,
       this.#onLinkLayerRendered.bind(this)
     );
-  }
+  };
 
   /**
    * Set the pdf document
@@ -37,7 +40,7 @@ class ReferenceComponent {
    * Get the a tags from the DOM and add the event listener both for click and onMouseOver with delay
    */
   #onLinkLayerRendered = () => {
-    if (this.pdfDoc === null) {
+    if (!this.pdfDoc) {
       throw new Error("PDFDocument object missed");
     }
     const pageHref = document.getElementsByClassName("internalLink");
@@ -51,7 +54,7 @@ class ReferenceComponent {
         aTagElement,
         2000,
         this.#onInternalReferenceOver.bind(this)
-      ); //Delay the over listener
+      );
     }
   };
 
@@ -60,8 +63,7 @@ class ReferenceComponent {
    * Solve the reference and publish and event to require the page change
    * @param event
    */
-  #onInternalReferenceClick = (event) => {
-    const self = this;
+  #onInternalReferenceClick = async (event) => {
     event.preventDefault();
     const target = event.target.closest("a");
     if (!target) return;
@@ -69,17 +71,15 @@ class ReferenceComponent {
       target.getAttribute("href").replace("#", "")
     );
     console.log(reference);
-    self.#solveReference(reference).then((pageNumber) => {
-      EventHandlerService.publish(PDFLEvents.onNewPageRequest, pageNumber);
-    });
+    const pageNumber = await this.#solveReference(reference);
+    EventHandlerService.publish(PDFLEvents.onNewPageRequest, pageNumber);
   };
 
   /**
    * Function for handling the onMouseOver event of a reference
    * @param event
    */
-  #onInternalReferenceOver = (event) => {
-    const self = this;
+  #onInternalReferenceOver = async (event) => {
     event.preventDefault();
     this.overEventPosition.x = event.clientX;
     this.overEventPosition.y = event.clientY;
@@ -88,9 +88,8 @@ class ReferenceComponent {
     const reference = decodeURIComponent(
       target.getAttribute("href").replace("#", "")
     );
-    self.#solveReference(reference).then((pageNumber) => {
-      self.#parseReference(reference, pageNumber);
-    });
+    const pageNumber = await this.#solveReference(reference);
+    this.#parseReference(reference, pageNumber);
   };
 
   /**
@@ -99,7 +98,6 @@ class ReferenceComponent {
    * @returns {Promise<number>}
    */
   #solveReference = async (refId) => {
-    const self = this;
     var destinationObject;
     if (refId.includes("num") && refId.includes("gen")) {
       try {
@@ -108,14 +106,14 @@ class ReferenceComponent {
         destinationObject = null;
       }
     } else {
-      destinationObject = await self.pdfDoc.getDestination(refId);
+      destinationObject = await this.pdfDoc.getDestination(refId);
     }
 
     if (destinationObject == null) {
       throw new Error("Unsupported reference type");
     }
 
-    const pageIndex = await self.pdfDoc.getPageIndex(destinationObject[0]);
+    const pageIndex = await this.pdfDoc.getPageIndex(destinationObject[0]);
     return pageIndex + 1;
   };
 
@@ -125,7 +123,6 @@ class ReferenceComponent {
    * @param pageNumber the solved page number
    */
   #parseReference = (reference, pageNumber) => {
-    //TODO:- If we have the object is it possible to know the ref type?
     const self = this;
     const referenceType = reference.split(".")[0];
     const parseService = ParserFactory(referenceType, {
@@ -134,15 +131,27 @@ class ReferenceComponent {
       reference: reference,
     });
 
-    parseService.getContent().then((result) => {
-      console.log(result);
-      EventHandlerService.publish(
-        PDFLEvents.onPopupContentReady,
-        self.overEventPosition,
-        pageNumber,
-        result
-      );
-    });
+    parseService
+      .getContent()
+      .then((result) => {
+        console.log(result);
+        console.log(this.overEventPosition);
+        EventHandlerService.publish(
+          PDFLEvents.onPopupContentReady,
+          self.overEventPosition,
+          pageNumber,
+          result
+        );
+      })
+      .catch(() => {
+        console.log(pageNumber);
+        EventHandlerService.publish(
+          PDFLEvents.onPopupContentReady,
+          self.overEventPosition,
+          pageNumber,
+          { type: "page", popupDisplayable: false }
+        );
+      });
   };
 }
 
