@@ -305,7 +305,7 @@ input[type="number"]::-webkit-outer-spin-button {
 /* CSS for SideToolBar */
 #sidenav {
   padding: 8px 0px;
-  width: -moz-available;
+  width: 60px;
   position: fixed;
   top: 67px;
   left: 22px;
@@ -601,6 +601,10 @@ input[type="number"]::-webkit-outer-spin-button {
     white-space: pre;
     cursor: text;
     transform-origin: 0% 0%;
+
+    /* this value realize the collision between the span text and
+    avoid jumping selection text between the lines */
+    height: 60px;
   }
   
   /* Only necessary in Google Chrome, see issue 14205, and most unfortunately
@@ -669,6 +673,17 @@ input[type="number"]::-webkit-outer-spin-button {
   
   .textLayer .endOfContent.active {
     top: 0;
+  }
+
+  .textLayer section{
+    position: absolute;
+    cursor: pointer;
+  }
+  
+  .textLayer section a{
+    display: block;
+    width: 100%;
+    height: 25px;
   }
 
   /*Mobile (320px — 480px) and tablet (481px — 768px)*/

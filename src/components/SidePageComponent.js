@@ -1,7 +1,7 @@
 import {
-    EventHandlerService,
-    PDFLEvents,
-  } from "../services/EventHandlerService";
+  EventHandlerService,
+  PDFLEvents,
+} from "../services/EventHandlerService";
 import { KnowledgeGraphComponent } from "./KnowledgeGraphComponent";
 import { SidePageLoaderComponent } from "./SidePageLoaderComponent";
 
@@ -41,7 +41,7 @@ class SidePageComponent {
    */
   #registerEvents = () => {
     EventHandlerService.subscribe(PDFLEvents.onShowKnowledgeGraph, () => {
-        this.#showKnowledgeGraph();
+      this.#showKnowledgeGraph();
     });
     this.components.closeBtn.addEventListener("click", this.hideSidePage);
   };
@@ -73,6 +73,6 @@ class SidePageComponent {
 
   setPDF = (data) => {
     this.knowledgeGraphComponent.setPDF(data);
-  }
+  };
 }
 export { SidePageComponent };

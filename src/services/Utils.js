@@ -13,6 +13,27 @@ function compareSimilarity(string1, string2) {
 }
 
 /**
+ * Attach a mouseOver and mouseOut event to a DOM Object to delay the execution of the callback of a given delay.
+ * in the mouse os moveed out before the timer fires then the execution of the callback is canceled.
+ *
+ * @param {HTMLElement} element
+ * @param {float} delay
+ * @returns {function} callback
+ */
+function mouseOverDelayEvent(element, delay = 2000, callback) {
+  var timeout = null;
+  element.addEventListener("mouseover", function (event) {
+    timeout = setTimeout(function () {
+      callback(event);
+    }, delay);
+  });
+
+  element.addEventListener("mouseout", function () {
+    clearTimeout(timeout);
+  });
+}
+
+/**
  * Sets timeout of given milliseconds.
  * 
  * @param {int} ms milliseconds
@@ -22,4 +43,4 @@ function timeout(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-export { compareSimilarity, timeout };
+export { compareSimilarity, timeout, mouseOverDelayEvent };

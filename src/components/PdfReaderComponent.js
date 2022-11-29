@@ -4,8 +4,10 @@ import {
 } from "../services/EventHandlerService";
 import { SidePageComponent } from "./SidePageComponent";
 import { ToolbarComponent } from "./ToolbarComponent";
+import { ReferenceComponent } from "./ReferenceComponent";
 
 const pdfjsLib = require("pdfjs-dist");
+const pdfjsViewer = require("pdfjs-dist/web/pdf_viewer");
 
 /**
  * Component representing the PDF reader. Displays the content of PDF document and actions
@@ -22,6 +24,8 @@ class PdfReaderComponent {
   components = {
     pdfContainer: document.querySelector("#pdf-container"),
     openNew: document.querySelector("#open-new"),
+    canvas: null,
+    viewport: null,
     loader: document.querySelector("#loader"),
   };
 
@@ -33,7 +37,7 @@ class PdfReaderComponent {
   constructor() {
     this.toolbarComponent = new ToolbarComponent();
     this.sidePageComponent = new SidePageComponent();
-
+    this.referenceComponent = new ReferenceComponent();
     this.#registerEvents();
   }
 
@@ -46,6 +50,8 @@ class PdfReaderComponent {
 
     EventHandlerService.subscribe(PDFLEvents.onRenderPage, () => {
       this.#renderPage();
+      this.#renderText();
+
     });
 
     EventHandlerService.subscribe(PDFLEvents.onResetReader, () => {
@@ -76,9 +82,12 @@ class PdfReaderComponent {
       .getDocument(pdf)
       .promise.then((data) => {
         self.pdfDoc = data;
+        self.referenceComponent.setPdfDoc(data);
         self.toolbarComponent.setPageCount(data.numPages);
         self.sidePageComponent.setPDF(data);
         self.#renderPage();
+        self.#renderText();
+        //self.#renderLink();
       })
       .catch((err) => {
         console.log(err.message); // TODO: handle error in some way
@@ -91,56 +100,83 @@ class PdfReaderComponent {
    * @private
    */
   #renderPage = () => {
-    const self = this;
-    this.pdfDoc.getPage(self.toolbarComponent.getCurrentPage()).then((page) => {
+    const component = this.components;
+    this.pdfDoc.getPage(this.toolbarComponent.getCurrentPage()).then((page) => {
       //Set the HTML properties
-      const canvas = document.createElement("canvas");
-      canvas.setAttribute("class", "canvas__container");
-      const textLayer = document.createElement("div");
-      textLayer.setAttribute("class", "textLayer");
-      const ctx = canvas.getContext("2d");
-      const viewport = page.getViewport({
-        scale: self.toolbarComponent.getZoom(),
+      component.canvas = document.createElement("canvas");
+      component.canvas.setAttribute("class", "canvas__container");
+
+      const ctx = component.canvas.getContext("2d");
+      component.viewport = page.getViewport({
+        scale: this.toolbarComponent.getZoom(),
       });
-      canvas.height = viewport.height;
-      canvas.width = viewport.width;
+      component.canvas.height = component.viewport.height;
+      component.canvas.width = component.viewport.width;
+
       // Render the PDF page into the canvas context.
       const renderCtx = {
         canvasContext: ctx,
-        viewport: viewport,
+        viewport: component.viewport,
       };
-
-      var renderTask = page.render(renderCtx);
-
-      renderTask.promise.then(function () {
-        page.getTextContent().then(function (textContent) {
-          textLayer.style.left = canvas.offsetLeft + "px";
-          textLayer.style.top = canvas.offsetTop + "px";
-          textLayer.style.height = canvas.offsetHeight + "px";
-          textLayer.style.width = canvas.offsetWidth + "px";
-
-          pdfjsLib.renderTextLayer({
-            textContent: textContent,
-            container: textLayer,
-            viewport: viewport,
-            textDivs: [],
-          });
-        });
-      });
 
       page.render(renderCtx);
 
-      if (ctx) {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.beginPath();
-      }
-
       //Scroll is possible but not supported by other navigation functions, clear container before adding the new page
-      self.components.pdfContainer.innerHTML = "";
-      self.components.pdfContainer.appendChild(canvas);
-      self.components.pdfContainer.appendChild(textLayer);
+      component.pdfContainer.innerHTML = "";
+      component.pdfContainer.appendChild(component.canvas);
+      this.toolbarComponent.setCurrentPage();
+    });
+  };
 
-      self.toolbarComponent.setCurrentPage();
+  /**
+   * Private function to render the text
+   */
+  #renderText = () => {
+    const component = this.components;
+    const self = this;
+    this.pdfDoc.getPage(this.toolbarComponent.getCurrentPage()).then((page) => {
+      //Set the HTML properties
+      const textLayer = document.createElement("div");
+      textLayer.setAttribute("class", "textLayer");
+
+      page.getTextContent().then(function (textContent) {
+        textLayer.style.left = component.canvas.offsetLeft + "px";
+        textLayer.style.top = component.canvas.offsetTop + "px";
+        textLayer.style.height = component.canvas.offsetHeight + "px";
+        textLayer.style.width = component.canvas.offsetWidth + "px";
+
+        //Render the text inside the textLayer container
+        pdfjsLib.renderTextLayer({
+          textContent: textContent,
+          container: textLayer,
+          viewport: component.viewport,
+          textDivs: [],
+        });
+      });
+
+      const pdfLinkService = new pdfjsViewer.PDFLinkService();
+
+      page.getAnnotations().then(function (annotationsData) {
+        textLayer.style.left = component.canvas.offsetLeft + "px";
+        textLayer.style.top = component.canvas.offsetTop + "px";
+        textLayer.style.height = component.viewport.offsetHeight + "px";
+        textLayer.style.width = component.viewport.offsetWidth + "px";
+
+        //Render the text inside the textLayer container
+        pdfjsLib.AnnotationLayer.render({
+          div: textLayer,
+          viewport: component.viewport.clone({ dontFlip: true }),
+          annotations: annotationsData,
+          page: page,
+          linkService: pdfLinkService,
+          enableScripting: true,
+          renderInteractiveForms: true,
+        });
+        EventHandlerService.publish(PDFLEvents.onLinkLayerRendered);
+      });
+
+      //Display the container
+      component.pdfContainer.appendChild(textLayer);
     });
   };
 
