@@ -1,6 +1,6 @@
 (self["webpackChunkwebpack_pdf_js_example"] = self["webpackChunkwebpack_pdf_js_example"] || []).push([[1],{
 
-/***/ 42:
+/***/ 49:
 /***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
 
 /* Copyright 2022 Mozilla Foundation
@@ -21,12 +21,12 @@
 (typeof window !== "undefined"
   ? window
   : {}
-).pdfjsWorker = __webpack_require__(43);
+).pdfjsWorker = __webpack_require__(50);
 
 
 /***/ }),
 
-/***/ 43:
+/***/ 50:
 /***/ ((module) => {
 
 /**
@@ -75420,6 +75420,6 @@ const pdfjsBuild = '172ccdbe5';
 },
 /******/ __webpack_require__ => { // webpackRuntimeModules
 /******/ var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-/******/ var __webpack_exports__ = (__webpack_exec__(42));
+/******/ var __webpack_exports__ = (__webpack_exec__(49));
 /******/ }
 ]);
