@@ -19,8 +19,10 @@ const pdfjsViewer = require("pdfjs-dist/web/pdf_viewer");
  * @property {SidePageComponent} sidePageComponent side component within the reader
  * @property {ToolbarComponent} toolbarComponent toolbar component within the reader
  * @property {PDFDocumentProxy} pdfDoc PDF document
+ * @property {RenderTextComponent} renderTextComponent functions to render links and so on
  */
 class PdfReaderComponent {
+
   components = {
     pdfContainer: document.querySelector("#pdf-container"),
     openNew: document.querySelector("#open-new"),
@@ -208,46 +210,6 @@ class PdfReaderComponent {
       });
 
   }
-
-  //TODO: check if we need two different function for the link or not depending on how cover the annotationLayer in HTML
-  /* #renderLink = () => {
-    const component = this.components;
-    this.pdfDoc
-      .getPage(this.paginationComponent.getCurrentPage())
-      .then((page) => {
-
-        //Set the HTML properties
-        const annotationLayer = document.createElement("div");
-        annotationLayer.setAttribute('class', 'annotation-layer');
-
-        const pdfLinkService = new pdfjsViewer.PDFLinkService();
-
-        page.getAnnotations().then(function (annotationsData) {
-
-          annotationLayer.style.left = component.canvas.offsetLeft + 'px';
-          annotationLayer.style.top = component.canvas.offsetTop + 'px';
-          annotationLayer.style.height = component.viewport.offsetHeight + 'px';
-          annotationLayer.style.width = component.viewport.offsetWidth + 'px';
-
-
-          //Render the text inside the textLayer container
-          pdfjsLib.AnnotationLayer.render({
-            div: annotationLayer,
-            viewport: component.viewport.clone({ dontFlip: true }),
-            annotations: annotationsData,
-            page: page,
-            linkService: pdfLinkService,
-            enableScripting: true,
-            renderInteractiveForms: true,
-          });
-
-        });
-
-        //Display the links
-        component.pdfContainer.appendChild(annotationLayer);
-      });
-
-  } */
 
   /**
    * Sets current page of pagination component to 1 and current zoom level
