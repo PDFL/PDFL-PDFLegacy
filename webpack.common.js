@@ -1,6 +1,7 @@
 const path = require("path");
 const Dotenv = require("dotenv-webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
   context: __dirname,
@@ -8,17 +9,20 @@ module.exports = {
     main: "./src/main.js",
     "pdf.worker": "pdfjs-dist/build/pdf.worker.entry",
   },
-  mode: "none",
   output: {
     path: path.join(__dirname, "/dist"),
-    //publicPath: "/public",
     filename: "[name].bundle.js",
   },
+  plugins: [
+    new HtmlWebpackPlugin({ template: "./src/templates/index.html" }),
+    new Dotenv(),
+    new MiniCssExtractPlugin(),
+  ],
   module: {
     rules: [
       {
         test: /\.css$/,
-        use: ["style-loader", "css-loader"],
+        use: [MiniCssExtractPlugin.loader, "css-loader"],
       },
       {
         test: /\.js$/,
@@ -32,17 +36,7 @@ module.exports = {
       },
     ],
   },
-  plugins: [
-    new HtmlWebpackPlugin({ template: "./src/templates/index.html" }),
-    new Dotenv(),
-  ],
-  devtool: "eval-cheap-module-source-map",
   optimization: {
     runtimeChunk: "single",
-  },
-  devServer: {
-    static: path.join(__dirname, "dist"),
-    watchFiles: ["./src/templates/*"],
-    open: true,
   },
 };
