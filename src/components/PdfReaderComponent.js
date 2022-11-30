@@ -1,11 +1,8 @@
-import {
-  EventHandlerService,
-  PDFLEvents,
-} from "../services/EventHandlerService";
+import { EventHandlerService, PDFLEvents } from "../services/EventHandlerService";
 import { SidePageComponent } from "./SidePageComponent";
 import { ToolbarComponent } from "./ToolbarComponent";
 import { ReferenceComponent } from "./ReferenceComponent";
-import { hideLinks } from "../services/TextRenderService";
+import { TextRenderComponent } from "./TextRenderComponent";
 
 const pdfjsLib = require("pdfjs-dist");
 const pdfjsViewer = require("pdfjs-dist/web/pdf_viewer");
@@ -20,8 +17,9 @@ const pdfjsViewer = require("pdfjs-dist/web/pdf_viewer");
  * @property {SidePageComponent} sidePageComponent side component within the reader
  * @property {ToolbarComponent} toolbarComponent toolbar component within the reader
  * @property {PDFDocumentProxy} pdfDoc PDF document
- * @property {RenderTextComponent} renderTextComponent functions to render links and so on
+ * @property {TextRenderComponent} textRenderComponent function to realize text & links
  */
+
 class PdfReaderComponent {
 
   components = {
@@ -40,6 +38,7 @@ class PdfReaderComponent {
     this.toolbarComponent = new ToolbarComponent();
     this.sidePageComponent = new SidePageComponent();
     this.referenceComponent = new ReferenceComponent();
+    this.textRenderComponent = new TextRenderComponent(this);
     this.#registerEvents();
   }
 
@@ -51,11 +50,10 @@ class PdfReaderComponent {
   #registerEvents = () => {
     this.components.openNew.addEventListener('click', this.#onNewFile);
 
-    this.components.pdfContainer.addEventListener('mousemove', hideLinks);
+    this.components.pdfContainer.addEventListener('mousemove', this.textRenderComponent.hideLinks());
 
     EventHandlerService.subscribe(PDFLEvents.onRenderPage, () => {
       this.#renderPage();
-      this.#renderText();
     });
 
     EventHandlerService.subscribe(PDFLEvents.onResetReader, () => {
@@ -89,7 +87,6 @@ class PdfReaderComponent {
       self.toolbarComponent.setPageCount(data.numPages);
       self.sidePageComponent.setPDF(data);
       self.#renderPage();
-      self.#renderText();
     })
       .catch((err) => {
         console.log(err.message); // TODO: handle error in some way
@@ -130,70 +127,11 @@ class PdfReaderComponent {
         component.pdfContainer.innerHTML = "";
         component.pdfContainer.appendChild(component.canvas);
         this.toolbarComponent.setCurrentPage();
+
+        this.textRenderComponent.renderText(this.pdfDoc);
       });
+      
   };
-
-  /**
-     * Private function to render the text 
-     */
-  #renderText = () => {
-    const component = this.components;
-    const self = this;
-    this.pdfDoc
-      .getPage(this.toolbarComponent.getCurrentPage())
-      .then((page) => {
-
-        //Set the HTML properties
-        const textLayer = document.createElement("div");
-        textLayer.setAttribute('class', 'textLayer');
-
-        page.getTextContent().then(function (textContent) {
-
-          textLayer.style.left = component.canvas.offsetLeft + 'px';
-          textLayer.style.top = component.canvas.offsetTop + 'px';
-          textLayer.style.height = component.canvas.offsetHeight + 'px';
-          textLayer.style.width = component.canvas.offsetWidth + 'px';
-
-          //Render the text inside the textLayer container
-          pdfjsLib.renderTextLayer({
-            textContent: textContent,
-            container: textLayer,
-            viewport: component.viewport,
-            textDivs: []
-          });
-
-        });
-
-        const pdfLinkService = new pdfjsViewer.PDFLinkService();
-
-        page.getAnnotations().then(function (annotationsData) {
-
-          textLayer.style.left = component.canvas.offsetLeft + 'px';
-          textLayer.style.top = component.canvas.offsetTop + 'px';
-          textLayer.style.height = component.viewport.offsetHeight + 'px';
-          textLayer.style.width = component.viewport.offsetWidth + 'px';
-
-
-          //Render the text inside the textLayer container
-          pdfjsLib.AnnotationLayer.render({
-            div: textLayer,
-            viewport: component.viewport.clone({ dontFlip: true }),
-            annotations: annotationsData,
-            page: page,
-            linkService: pdfLinkService,
-            enableScripting: true,
-            renderInteractiveForms: true,
-          });
-
-          //for @matteovisotto: --onLinkLayerRendered--
-          EventHandlerService.publish(PDFLEvents.onLinkLayerRendered);
-        });
-
-        //Display the container
-        component.pdfContainer.appendChild(textLayer);
-      });
-
-  }
 
   /**
    * Sets current page of pagination component to 1 and current zoom level
