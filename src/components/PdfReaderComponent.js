@@ -2,7 +2,7 @@ import { EventHandlerService, PDFLEvents } from "../services/EventHandlerService
 import { SidePageComponent } from "./SidePageComponent";
 import { ToolbarComponent } from "./ToolbarComponent";
 import { ReferenceComponent } from "./ReferenceComponent";
-import { TextRenderComponent } from "./TextRenderComponent";
+import { TextRenderComponent, hideLinks } from "./TextRenderComponent";
 
 const pdfjsLib = require("pdfjs-dist");
 const pdfjsViewer = require("pdfjs-dist/web/pdf_viewer");
@@ -42,7 +42,6 @@ class PdfReaderComponent {
     this.#registerEvents();
   }
 
-
   /**
    * Adds event listeners to component and it's elements.
    * @private
@@ -50,7 +49,7 @@ class PdfReaderComponent {
   #registerEvents = () => {
     this.components.openNew.addEventListener('click', this.#onNewFile);
 
-    this.components.pdfContainer.addEventListener('mousemove', this.textRenderComponent.hideLinks());
+    this.components.pdfContainer.addEventListener('mousemove', hideLinks);
 
     EventHandlerService.subscribe(PDFLEvents.onRenderPage, () => {
       this.#renderPage();
@@ -128,6 +127,7 @@ class PdfReaderComponent {
         component.pdfContainer.appendChild(component.canvas);
         this.toolbarComponent.setCurrentPage();
 
+        //function to render the text layer and the relatives links
         this.textRenderComponent.renderText(this.pdfDoc);
       });
       
