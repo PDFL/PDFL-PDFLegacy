@@ -5,6 +5,7 @@ import {
 import { SidePageComponent } from "./SidePageComponent";
 import { ToolbarComponent } from "./ToolbarComponent";
 import { ReferenceComponent } from "./ReferenceComponent";
+import { hideLinks } from "../services/TextRenderService";
 
 const pdfjsLib = require("pdfjs-dist");
 const pdfjsViewer = require("pdfjs-dist/web/pdf_viewer");
@@ -50,7 +51,7 @@ class PdfReaderComponent {
   #registerEvents = () => {
     this.components.openNew.addEventListener('click', this.#onNewFile);
 
-    this.components.pdfContainer.addEventListener('mousemove', this.#hideLinks);
+    this.components.pdfContainer.addEventListener('mousemove', hideLinks);
 
     EventHandlerService.subscribe(PDFLEvents.onRenderPage, () => {
       this.#renderPage();
@@ -74,22 +75,6 @@ class PdfReaderComponent {
     EventHandlerService.publish(PDFLEvents.onShowInputView);
   };
 
-  #hideLinks = () => {
-    var textSel = window.getSelection();
-    var links = document.getElementsByClassName('linkAnnotation');
-
-    if (textSel == 0) {
-      for (let i = 0; i <= links.length - 1; i++) {
-        links[i].style.display = "block";
-
-      }
-    } else {
-      for (let i = 0; i <= links.length - 1; i++) {
-        links[i].style.display = "none";
-      }
-    }
-  }
-
   /**
    * Load and render the first page of the given pdf.
    * @param {Uint8Array} pdf data, filename or url of a PDF document
@@ -105,7 +90,6 @@ class PdfReaderComponent {
       self.sidePageComponent.setPDF(data);
       self.#renderPage();
       self.#renderText();
-      //self.#renderLink();
     })
       .catch((err) => {
         console.log(err.message); // TODO: handle error in some way
