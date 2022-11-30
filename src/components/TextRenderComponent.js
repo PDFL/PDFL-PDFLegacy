@@ -10,24 +10,6 @@ class TextRenderComponent {
     constructor(pdfReaderComponent) {
         this.pdfReaderComponent = pdfReaderComponent;
     }
-
-    /**
-     * Function to hide links during the text selection
-     */
-    hideLinks() {
-        var textSel = window.getSelection();
-        var links = document.getElementsByClassName('linkAnnotation');
-
-        if (textSel == 0) {
-            for (let i = 0; i <= links.length - 1; i++) {
-                links[i].style.display = "block";
-            }
-        } else {
-            for (let i = 0; i <= links.length - 1; i++) {
-                links[i].style.display = "none";
-            }
-        }
-    };
     
     /**
      * Function to render text and links
@@ -93,4 +75,22 @@ class TextRenderComponent {
 
 }
 
-export { TextRenderComponent };
+/**
+ * Function to hide links during the text selection
+ */
+async function hideLinks() {
+    var textSel = window.getSelection();
+    var links = document.getElementsByClassName('linkAnnotation');
+
+    if (textSel == 0) {
+        for (let i = 0; i <= links.length - 1; i++) {
+            links[i].style.display = "block";
+        }
+    } else {
+        for (let i = 0; i <= links.length - 1; i++) {
+            links[i].style.display = "none";
+        }
+    }
+}
+
+export { TextRenderComponent, hideLinks };
