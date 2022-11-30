@@ -7,12 +7,18 @@ const pdfjsViewer = require("pdfjs-dist/web/pdf_viewer");
 
 class TextRenderComponent {
 
+    /**
+   * Creates and initializes new pdf reader component. Creates all components
+   * that can be managed and used for the text layer.
+   * @constructor
+   */
     constructor(pdfReaderComponent) {
         this.pdfReaderComponent = pdfReaderComponent;
     }
     
     /**
-     * Function to render text and links
+     * Function to render text and links.
+     * @param {pdfDoc} pdfDoc PDF document to manage and elaborate
      */
     renderText(pdfDoc) {
         const component = this.pdfReaderComponent.components;
