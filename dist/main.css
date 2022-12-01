@@ -1,5 +1,296 @@
-@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+@import url(https://fonts.googleapis.com/css2?family=Roboto&display=swap);
+*{
+  box-sizing: border-box;
+}
+:root {
+  --color: #119f89 ;
+  --iconColor: #26596b;
+  --font: 'Montserrat'
+}
+#logo{
+  position:absolute;
+  left:15px;
+  top:15px;
+}
+.logo_coffe{
+  position:absolute;
+  cursor: pointer;
+  right:15px;
+  top:15px;
+}
 
+.black-logo{
+  height:25px; 
+  width:30px
+}
+
+#green-logo{
+  height:45px; 
+  width:50px
+}
+
+#main-pic{
+  max-width:500px; 
+  height:500px
+}
+
+#input-page{
+  background: var(--color);
+  height:100vh
+}
+
+.font-header{
+  font-family: opensans-regular-webfont, Arial, sans-serif;
+  font-weight: 900;
+  font-size: xxx-large;
+}
+.better{
+  color: var(--color);
+  margin-top: -10px;
+  font-size: 60px;
+}
+
+.btn-welcome{
+  background: var(--color);
+  color: white;
+  border-radius: 25px;
+  font-size: 15px;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  padding: 15px 80px 15px 25px;
+  margin-top:10px;
+  text-align: left;
+}
+
+.pointer:before {
+   content: "→";
+}
+
+.btn-welcome:before {
+    float: right;
+    font-size: 14px;
+    margin: 0 -4.1em 0 0;
+    pointer-events: none;
+    text-align: center;
+    width: 1em;
+}
+
+.inline{
+  display: inline-grid;
+}
+
+.footer-text{
+  font-size: 10px;
+}
+
+#file-upload-form {
+  display: block;
+  clear: both;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 600px;
+}
+
+#file-drag{
+  height: inherit;
+  background-image: repeating-linear-gradient(0deg, black, black 10px, transparent 10px, transparent 20px, black 20px), repeating-linear-gradient(90deg, black, black 10px, transparent 10px, transparent 20px, black 20px), repeating-linear-gradient(180deg, black, black 10px, transparent 10px, transparent 20px, black 20px), repeating-linear-gradient(270deg, black, black 10px, transparent 10px, transparent 20px, black 20px); background-size: 3px calc(100% + 20px), calc(100% + 20px) 3px, 3px calc(100% + 20px) , calc(100% + 20px) 3px; background-position: 0 0, 0 0, 100% 0, 0 100%; background-repeat: no-repeat; animation: borderAnimation 1s infinite linear; }
+  @keyframes borderAnimation { from { background-position: 0 0, -20px 0, 100% -20px, 0 100%; } to { background-position: 0 -20px, 0 0, 100% 0, -20px 100%; } 
+}
+
+label[id="file-drag"][drop-active=true]{
+  border: 3px solid var(--color);
+  box-shadow: inset 0 0 0 6px #eee;
+}
+
+label[id="file-drag"] {
+  float: left;
+  clear: both;
+  width: 100%;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  background-color: white;
+  border-radius: 7px;
+  border: 3px solid #eee;
+  transition: all .2s ease;
+  user-select: none;
+}
+
+label[id="file-drag"]:hover {
+   border-color: var(--color);
+}
+label[id="file-drag"]:hover {
+  border: 3px solid var(--color);
+  box-shadow: inset 0 0 0 6px #eee;
+}
+
+
+input[type="file"] {
+  display: none;
+}
+
+#uploader-container{
+width: 100%; /* needs to be defined to keep the default block behavior */
+text-align: center;
+margin: 0; /* again, for perfect center */
+font-family: var(--font);
+position: absolute;
+color:black;
+}
+
+
+#uploader-container-input{
+top: 50%; /* moved down by 50% of the screen height */
+transform: translateY(-50%); /* moved back up (Y axis) by half of its height to achieve the perfect center */
+width: 100%; /* needs to be defined to keep the default block behavior */
+text-align: center;
+margin: 0; /* again, for perfect center */
+font-family: var(--font);
+position: absolute;
+}
+
+
+
+@media (min-width: 568px){
+#layout {
+    display: block;
+}
+#text{
+  float: unset;
+  margin-bottom: 25px;
+}
+#media-text{
+  display: block;
+}
+#uploader-container{
+  transform: none;
+  top: unset; 
+}
+}
+
+
+@media (min-width: 1200px){
+#layout {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 8em;
+}
+#text{
+  text-align: left;
+}
+#media-text{
+  display: flex;
+  margin-top: -20px;
+}
+#uploader-container{
+  top: 50%; /* moved down by 50% of the screen height */
+  transform: translateY(-50%); /* moved back up (Y axis) by half of its height to achieve the perfect center */
+}
+}
+/* NAVBAR STYLING STARTS */
+#navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 60px;
+    background-color: white;
+    z-index: 999;
+}
+#nav-links a {
+    color: var(--iconColor);
+    font-size:20px;
+}
+/* LOGO */
+#logo {
+    font-size: 32px;
+}
+/* NAVBAR MENU */
+#menu {
+    display: flex;
+    font-size: 18px;
+    overflow: hidden;
+    cursor: pointer;
+    z-index: 2;
+}
+#menu li:hover {
+    transform: scale(1.25, 1.25);
+    transition: 0.3s ease;
+}
+#menu li {
+    padding: 5px 14px;
+    align-content: center;
+    display:grid
+}
+a {
+    text-decoration: none;
+}
+li {
+    list-style: none;
+}
+
+#padding{
+    margin-left: 15px;
+    padding-right: 13px;
+    border-right: 3px solid black;
+}
+
+#open-new{
+    border:none;
+    color:white;
+    font-size:15px;
+    padding:10px 30px 10px 30px;
+    background: linear-gradient(to right, #2f4858,#27596b,#166a7a,#007c84,#008e89,#119f89);
+    border-radius: 15px;
+}
+
+
+
+/*RESPONSIVE NAVBAR MENU STARTS*/
+/* CHECKBOX HACK */
+input[type=checkbox]{
+    display: none;
+} 
+/*HAMBURGER MENU*/
+.hamburger {
+    display: none;
+    font-size: 24px;
+    user-select: none;
+}
+/* APPLYING MEDIA QUERIES */
+@media (max-width: 768px) {
+    #menu { 
+        display:none;
+        position: absolute;
+        background-color: white;
+        right: 0;
+        left: 0;
+        text-align: center;
+        padding: 16px 0;
+    }
+    #menu li:hover {
+        display: inline-block;
+        background-color:white;
+        transition: 0.3s ease;
+    }
+    #menu li + li {
+        margin-top: 12px;
+    }
+    input[type=checkbox]:checked ~ #menu{
+        display: block;
+    }
+    .hamburger {
+        display: block;
+        margin-right: 10px;
+    }
+    .dropdown {
+        left: 50%;
+        top: 30px;
+        transform: translateX(35%);
+    }
+    .dropdown li:hover {
+        background-color: white;
+    }
+}
 * {
     box-sizing: border-box;
 }

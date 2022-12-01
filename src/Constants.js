@@ -4,6 +4,10 @@ const MAX_GRAPH_DEPTH = 2;
 const MAX_CITATION = 1;
 const MAX_REFERENCES = 1;
 
+const TEN_MILLISECONDS = 10;
+
+const MAX_POPUP_TEXT_LENGTH = 500;
+
 const FIELD_OF_STUDY_COLOR = {
   "Computer Science": "rgba(255, 0, 0, 0.8)",
   Medicine: "rgba(43, 213, 20, 0.8)",
@@ -37,5 +41,7 @@ export {
   MAX_GRAPH_DEPTH,
   MAX_CITATION,
   MAX_REFERENCES,
+  TEN_MILLISECONDS,
+  MAX_POPUP_TEXT_LENGTH,
   FIELD_OF_STUDY_COLOR,
 };

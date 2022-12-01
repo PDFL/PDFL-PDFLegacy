@@ -1,14 +1,14 @@
 import {
-    EventHandlerService,
-    PDFLEvents,
-  } from "../services/EventHandlerService";
+  EventHandlerService,
+  PDFLEvents,
+} from "../services/EventHandlerService";
 import { PaginationComponent } from "./PaginationComponent";
 import { ZoomComponent } from "./ZoomComponent";
 
 /**
  * Component that serves as a placehodler for all elements in a toolbar. Manages functionality of it's
  * elements, as well as linking components to their methods.
- * 
+ *
  * @property {Object} components object that holds all DOM elements within this component
  * @property {HTMLElement} components.fullScreen full screen button
  * @property {HTMLElement} components.graphMakerBtn button that generates knowledge graph
@@ -20,7 +20,7 @@ class ToolbarComponent {
   components = {
     fullScreen: document.querySelector("#full-screen"),
     graphMakerBtn: document.querySelector("#graph-maker"),
-    body: document.querySelector("body")
+    body: document.querySelector("body"),
   };
 
   /**
@@ -40,7 +40,10 @@ class ToolbarComponent {
    * @private
    */
   #registerEvents = () => {
-    this.components.graphMakerBtn.addEventListener("click", this.#showKnowledgeGraph);
+    this.components.graphMakerBtn.addEventListener(
+      "click",
+      this.#showKnowledgeGraph
+    );
     this.components.fullScreen.addEventListener("click", this.#showFullScreen);
   };
 
@@ -50,7 +53,7 @@ class ToolbarComponent {
    */
   #showKnowledgeGraph = () => {
     EventHandlerService.publish(PDFLEvents.onShowKnowledgeGraph);
-  }
+  };
 
   /**
    * Callback for showing pdf reader view in full screen when button clicked.

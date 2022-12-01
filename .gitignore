@@ -110,7 +110,9 @@ public/webpack
 dist/index.html
 dist/main.bundle.js
 dist/pdf.worker.bundle.js
+dist/runtime.bundle.js
 *.map
 
 .vscode/
 .vscode
+/dist/runtime.bundle.js

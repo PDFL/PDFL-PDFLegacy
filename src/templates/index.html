@@ -152,14 +152,14 @@
             <div id="pdf-container" class="full-width"></div>
 
             <div id="side-page" class="no-width">
-                <div id="background-loader-2">
-                    <div id="loader-2">
+                <div id="side-page-loader">
+                    <div id="loader-bubbles">
                         <div class="bubble"></div>
                         <div class="bubble"></div>
                         <div class="bubble"></div>
                         <div class="bubble"></div>
                     </div>
-                    <div id="error-message-div">
+                    <div id="error-message-div" class="hidden">
                         <img src="assets/logo_broken.png" alt="heart broken" id="logo-broken" />
                         <p id="error-message">Ops :'( you broke our heart. <br><br> You can try later, but don't ask
                             us,
@@ -169,6 +169,12 @@
                     </div>
                 </div>
                 <a id="close-btn" class="closebtn">&times;</a>
+                <label for="graph-depth">Graph depth:</label>
+                <select name="graph-depth" id="graph-depth">
+                    <option value="1" selected>1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                </select>                   
                 <div id="knowledge-graph"></div>
             </div>
         </div>

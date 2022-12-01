@@ -20,6 +20,14 @@ jobs:
       - name: Checkout 🛎️
         uses: actions/checkout@v2.3.1
 
+      - name: Setup .env file
+        uses: SpicyPizza/create-envfile@v1.3
+        with:
+          envkey_SEMANTIC_SCHOLAR_API_KEY: ${{ secrets.SEMANTIC_SCHOLAR_API_KEY }}
+          directory: ./
+          file_name: .env
+          fail_on_empty: true
+
       - name: Install and Build 🔧
         run: |
           npm install
