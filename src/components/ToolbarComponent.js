@@ -50,8 +50,6 @@ class ToolbarComponent {
       (functionalKeys, key) => {
         if (functionalKeys.alt && key === 76) {
           this.#showFullScreen();
-        } else if (functionalKeys.ctrl && key === 71) {
-          this.#showKnowledgeGraph();
         }
       }
     );
