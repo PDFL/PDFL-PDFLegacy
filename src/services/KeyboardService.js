@@ -46,22 +46,11 @@ class KeyboardService {
    * @param event the event of the callback
    */
   #onKeyUp = (event) => {
-    const key = event.which || event.keyCode;
-    const functionalKeys = this.#buildFunctionalKeysObject(event);
-    PreventOnKeyUp.forEach((prevent) => {
-      if (
-        functionalKeys.ctrl === prevent.ctrl &&
-        functionalKeys.alt === prevent.alt &&
-        functionalKeys.shift === prevent.shift &&
-        key === prevent.key
-      ) {
-        event.preventDefault();
-      }
-    });
+    this.#preventDefault(PreventOnKeyUp, event);
     EventHandlerService.publish(
       PDFLEvents.onKeyboardKeyUp,
-      functionalKeys,
-      key
+      this.#buildFunctionalKeysObject(event),
+      event.which || event.keyCode
     );
   };
   /**
@@ -72,21 +61,11 @@ class KeyboardService {
    */
   #onKeyDown = (event) => {
     const key = event.which || event.keyCode;
-    const functionalKeys = this.#buildFunctionalKeysObject(event);
-    PreventOnKeyDown.forEach((prevent) => {
-      if (
-        functionalKeys.ctrl === prevent.ctrl &&
-        functionalKeys.alt === prevent.alt &&
-        functionalKeys.shift === prevent.shift &&
-        key === prevent.key
-      ) {
-        event.preventDefault();
-      }
-    });
+    this.#preventDefault(PreventOnKeyDown, event);
     EventHandlerService.publish(
       PDFLEvents.onKeyboardKeyDown,
-      functionalKeys,
-      key
+      this.#buildFunctionalKeysObject(event),
+      event.which || event.keyCode
     );
   };
   /**
@@ -99,26 +78,16 @@ class KeyboardService {
     if (event.altKey || event.ctrlKey || event.shiftKey || event.metaKey) {
       return;
     }
-    const key = event.which || event.keyCode;
-    const functionalKeys = this.#buildFunctionalKeysObject(event);
-    PreventOnKeyPress.forEach((prevent) => {
-      if (
-        functionalKeys.ctrl === prevent.ctrl &&
-        functionalKeys.alt === prevent.alt &&
-        functionalKeys.shift === prevent.shift &&
-        key === prevent.key
-      ) {
-        event.preventDefault();
-      }
-    });
+    this.#preventDefault(PreventOnKeyPress, event);
     EventHandlerService.publish(
       PDFLEvents.onKeyboardKeyPress,
-      functionalKeys,
-      key
+      this.#buildFunctionalKeysObject(event),
+      event.which || event.keyCode
     );
   };
 
   /**
+   * @private
    * Helper function to build the functional key state object
    * @param event the keyboard event
    * @returns {{ctrl: boolean, shift: boolean, alt: boolean}} the representation of the state of the functional keys
@@ -129,6 +98,25 @@ class KeyboardService {
       alt: event.altKey,
       shift: event.shiftKey,
     };
+  };
+
+  /**
+   * @provate
+   * @param actionToPrevent an array of action to prevent
+   * @param event the actual event
+   */
+  #preventDefault = (actionToPrevent, event) => {
+    const functionalKeys = this.#buildFunctionalKeysObject(event);
+    actionToPrevent.forEach((prevent) => {
+      if (
+        functionalKeys.ctrl === prevent.ctrl &&
+        functionalKeys.alt === prevent.alt &&
+        functionalKeys.shift === prevent.shift &&
+        (event.which || event.keyCode) === prevent.key
+      ) {
+        event.preventDefault();
+      }
+    });
   };
 }
 
