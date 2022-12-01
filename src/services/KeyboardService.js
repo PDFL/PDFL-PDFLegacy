@@ -1,4 +1,5 @@
 import { EventHandlerService, PDFLEvents } from "./EventHandlerService";
+import {PreventOnKeyDown, PreventOnKeyPress, PreventOnKeyUp} from "../DisabledDefaultKeyboardShortcuts";
 
 /**
  * This Service is used to add a global document listener on keyboards events.
@@ -39,6 +40,11 @@ class KeyboardService {
       alt: event.altKey,
       shift: event.shiftKey,
     };
+    PreventOnKeyUp.forEach(prevent => {
+      if(functionalKeys.ctrl === prevent.ctrl && functionalKeys.alt === prevent.alt && functionalKeys.shift === prevent.shift && key === prevent.key){
+        event.preventDefault();
+      }
+    });
     EventHandlerService.publish(
       PDFLEvents.onKeyboardKeyUp,
       functionalKeys,
@@ -58,9 +64,11 @@ class KeyboardService {
       alt: event.altKey,
       shift: event.shiftKey,
     };
-    if(functionalKeys.ctrl && (key === 187|| key === 189)){
-      event.preventDefault();
-    }
+    PreventOnKeyDown.forEach(prevent => {
+      if(functionalKeys.ctrl === prevent.ctrl && functionalKeys.alt === prevent.alt && functionalKeys.shift === prevent.shift && key === prevent.key){
+        event.preventDefault();
+      }
+    });
     EventHandlerService.publish(
       PDFLEvents.onKeyboardKeyDown,
       functionalKeys,
@@ -83,6 +91,11 @@ class KeyboardService {
       alt: event.altKey,
       shift: event.shiftKey,
     };
+    PreventOnKeyPress.forEach(prevent => {
+      if(functionalKeys.ctrl === prevent.ctrl && functionalKeys.alt === prevent.alt && functionalKeys.shift === prevent.shift && key === prevent.key){
+        event.preventDefault();
+      }
+    });
     EventHandlerService.publish(
       PDFLEvents.onKeyboardKeyPress,
       functionalKeys,
