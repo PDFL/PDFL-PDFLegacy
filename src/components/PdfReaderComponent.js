@@ -39,7 +39,7 @@ class PdfReaderComponent {
     this.toolbarComponent = new ToolbarComponent();
     this.sidePageComponent = new SidePageComponent();
     this.referenceComponent = new ReferenceComponent();
-    this.PopupComponent = new PopupComponent();
+    this.popupComponent = new PopupComponent();
     this.#registerEvents();
   }
 
@@ -87,6 +87,7 @@ class PdfReaderComponent {
         self.referenceComponent.setPdfDoc(data);
         self.toolbarComponent.setPageCount(data.numPages);
         self.sidePageComponent.setPDF(data);
+        self.popupComponent.setPdfDoc(data);
         self.#renderPage();
         self.#renderText();
         //self.#renderLink();
