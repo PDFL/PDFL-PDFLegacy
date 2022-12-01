@@ -5,7 +5,7 @@ import {
 import { SidePageComponent } from "./SidePageComponent";
 import { ToolbarComponent } from "./ToolbarComponent";
 import { ReferenceComponent } from "./ReferenceComponent";
-import {KeyboardService} from "../services/KeyboardService";
+import { KeyboardService } from "../services/KeyboardService";
 
 const pdfjsLib = require("pdfjs-dist");
 const pdfjsViewer = require("pdfjs-dist/web/pdf_viewer");
@@ -54,7 +54,6 @@ class PdfReaderComponent {
     EventHandlerService.subscribe(PDFLEvents.onRenderPage, () => {
       this.#renderPage();
       this.#renderText();
-
     });
 
     EventHandlerService.subscribe(PDFLEvents.onResetReader, () => {
