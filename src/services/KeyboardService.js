@@ -101,7 +101,8 @@ class KeyboardService {
   };
 
   /**
-   * @provate
+   * @private
+   * This function check that for a given event and a given array of combination to be prevented there is a match. If so the default event is prevented
    * @param actionToPrevent an array of action to prevent
    * @param event the actual event
    */
