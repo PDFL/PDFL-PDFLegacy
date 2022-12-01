@@ -42,6 +42,11 @@ class PdfReaderComponent {
     this.sidePageComponent = new SidePageComponent();
     this.referenceComponent = new ReferenceComponent();
     this.#registerEvents();
+
+    EventHandlerService.subscribe(PDFLEvents.onKeyboardKeyUp, function (f, k) {
+      console.log(f);
+      console.log(k);
+    });
   }
 
   /**
@@ -63,6 +68,18 @@ class PdfReaderComponent {
     EventHandlerService.subscribe(PDFLEvents.onReadNewFile, (pdf) => {
       this.loadPdf(pdf);
     });
+
+    EventHandlerService.subscribe(
+      PDFLEvents.onKeyboardKeyUp,
+      (functionalKeys, key) => {
+        if (!functionalKeys.ctrl) {
+          return;
+        }
+        if (key === 78) {
+          this.#onNewFile();
+        }
+      }
+    );
   };
 
   /**
