@@ -35,7 +35,7 @@ class KeyboardService {
   #onKeyUp = (event) => {
     const key = event.which || event.keyCode;
     const functionalKeys = {
-      ctrl: event.ctrlKey,
+      ctrl: this.isMac ? event.metaKey : event.ctrlKey,
       alt: event.altKey,
       shift: event.shiftKey,
     };
@@ -54,10 +54,13 @@ class KeyboardService {
   #onKeyDown = (event) => {
     const key = event.which || event.keyCode;
     const functionalKeys = {
-      ctrl: event.ctrlKey,
+      ctrl: this.isMac ? event.metaKey : event.ctrlKey,
       alt: event.altKey,
       shift: event.shiftKey,
     };
+    if(functionalKeys.ctrl && (key === 187|| key === 189)){
+      event.preventDefault();
+    }
     EventHandlerService.publish(
       PDFLEvents.onKeyboardKeyDown,
       functionalKeys,
@@ -71,9 +74,12 @@ class KeyboardService {
    * @param event the event of the callback
    */
   #onKeyPress = (event) => {
+    if (event.altKey || event.ctrlKey || event.shiftKey || event.metaKey) {
+      return;
+    }
     const key = event.which || event.keyCode;
     const functionalKeys = {
-      ctrl: event.ctrlKey,
+      ctrl: this.isMac ? event.metaKey : event.ctrlKey,
       alt: event.altKey,
       shift: event.shiftKey,
     };
