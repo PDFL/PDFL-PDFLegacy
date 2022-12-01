@@ -57,7 +57,21 @@ class PaginationComponent {
         EventHandlerService.publish(PDFLEvents.onRenderPage);
       }
     );
+    EventHandlerService.subscribe(PDFLEvents.onKeyboardKeyUp, this.#handleKeyboardKeyPressAction.bind(this));
   };
+  /**
+   * Callback for global keyboard keyUp event
+   * On left arrow previews page, right arrow nex page
+   * @param functionalKey, object {ctrl: bool, alt: bool, shift: bool} indicates if one or more of this keys are pressed
+   * @param key the actual key which triggers the event
+   */
+  #handleKeyboardKeyPressAction = (functionalKey, key) => {
+    if(key===39){
+      this.#showNextPage();
+    } else if(key===37){
+      this.#showPrevPage();
+    }
+  }
 
   /**
    * Callback for the previous page event. Render the previous page of the current one if available

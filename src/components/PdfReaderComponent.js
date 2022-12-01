@@ -5,6 +5,7 @@ import {
 import { SidePageComponent } from "./SidePageComponent";
 import { ToolbarComponent } from "./ToolbarComponent";
 import { ReferenceComponent } from "./ReferenceComponent";
+import {KeyboardService} from "../services/KeyboardService";
 
 const pdfjsLib = require("pdfjs-dist");
 const pdfjsViewer = require("pdfjs-dist/web/pdf_viewer");
@@ -35,6 +36,7 @@ class PdfReaderComponent {
    * @constructor
    */
   constructor() {
+    this.keyboardService = new KeyboardService();
     this.toolbarComponent = new ToolbarComponent();
     this.sidePageComponent = new SidePageComponent();
     this.referenceComponent = new ReferenceComponent();
