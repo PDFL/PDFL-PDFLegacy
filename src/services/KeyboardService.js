@@ -2,7 +2,7 @@ import { EventHandlerService, PDFLEvents } from "./EventHandlerService";
 
 /**
  * This Service is used to add a global document listener on keyboards events.
- *
+ * @property {boolean} isMac true if the running system is macOS. used to bind cmd instead of ctrl
  */
 class KeyboardService {
   /**
@@ -10,6 +10,10 @@ class KeyboardService {
    */
   constructor() {
     this.#registerEvents();
+    this.isMac =
+      (navigator?.userAgentData?.platform || navigator?.platform)
+        .toLowerCase()
+        .indexOf("mac") === 0;
   }
 
   /**
