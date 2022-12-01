@@ -15,6 +15,7 @@ import { SidePageLoaderComponent } from "./SidePageLoaderComponent";
  * @property {HTMLElement} components.pdfContainer sibling component of this component that displays PDF reader
  * @property {KnowledgeGraphComponent} knowledgeGraphComponent knowledge graph component
  * @property {SidePageLoaderComponent} loader component that displays loader in this page
+ * @property {boolean} isKnowledgeGraphOpen true if the knowledge graph is open
  */
 class SidePageComponent {
   components = {
@@ -31,7 +32,7 @@ class SidePageComponent {
   constructor() {
     this.knowledgeGraphComponent = new KnowledgeGraphComponent();
     this.loader = new SidePageLoaderComponent();
-
+    this.isKnowledgeGraphOpen = false;
     this.#registerEvents();
   }
 
@@ -44,6 +45,20 @@ class SidePageComponent {
       this.#showKnowledgeGraph();
     });
     this.components.closeBtn.addEventListener("click", this.hideSidePage);
+    EventHandlerService.subscribe(
+      PDFLEvents.onKeyboardKeyDown,
+      (functionalKeys, key) => {
+        if (functionalKeys.ctrl && key === 71) {
+          if (this.isKnowledgeGraphOpen) {
+            this.hideSidePage();
+            this.isKnowledgeGraphOpen = false;
+          } else {
+            this.#showKnowledgeGraph();
+            this.isKnowledgeGraphOpen = true;
+          }
+        }
+      }
+    );
   };
 
   /**
