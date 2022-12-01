@@ -20,6 +20,7 @@ const pdfjsViewer = require("pdfjs-dist/web/pdf_viewer");
  * @property {SidePageComponent} sidePageComponent side component within the reader
  * @property {ToolbarComponent} toolbarComponent toolbar component within the reader
  * @property {PDFDocumentProxy} pdfDoc PDF document
+ * @property {KeyboardService} keyboardService keyboard service
  */
 class PdfReaderComponent {
   components = {
