@@ -3,6 +3,8 @@ import {
   PDFLEvents,
 } from "../services/EventHandlerService";
 
+import { MOUSE_LEFT_HOVER } from "../Constants";
+
 /**
  * Component representing pop up for every reference and display dynamically the content of it
  *
@@ -14,7 +16,6 @@ import {
  * @property {HTMLElement} components.content the content of the reference img/table/text/pdf
  * @property {HTMLElement} components.sidePageReferenceBtn button that open the two page layout view
  */
-
 class PopupComponent {
   components = {
     popupDiv: document.createElement("div"),
@@ -25,7 +26,7 @@ class PopupComponent {
   };
 
   /**
-   * Creates the endler service for manage the reference object
+   * Creates the endler service for managing the reference object
    * @constructor
    */
   constructor() {
@@ -64,7 +65,7 @@ class PopupComponent {
     this.components.contentDiv.appendChild(
       this.components.sidePageReferenceBtn
     );
-    setTimeout(this.hidePopup, 4000); //after 4 second the popup disappears
+    setTimeout(this.hidePopup, MOUSE_LEFT_HOVER);
   };
 
   hidePopup = () => {
