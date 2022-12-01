@@ -3,6 +3,8 @@ import {
   PDFLEvents,
 } from "../services/EventHandlerService";
 
+const pdfjsLib = require("pdfjs-dist");
+
 /**
  * Component representing pop up for every reference and display dynamically the content of it
  *
@@ -130,16 +132,17 @@ class PopupComponent {
   };
 
   /**
-   * Call back to renders the reference page.
+   * Call back to renders the reference page with textLayout
    * @private
    */
   #renderPdfReference = () => {
-    this.components.sideNav.className = "no-width";
-    this.components.sidePageReferenceContainer.setAttribute(
+    const component = this.components;
+    component.sideNav.className = "no-width";
+    component.sidePageReferenceContainer.setAttribute(
       "id",
       "side-page-reference-container"
     );
-    this.components.sidePageReferenceContainer.setAttribute(
+    component.sidePageReferenceContainer.setAttribute(
       "class",
       "canvas__container"
     );
@@ -151,21 +154,43 @@ class PopupComponent {
       .getPage(this.components.pdfPageNumber)
       .then((page) => {
         const ctxReference =
-          this.components.sidePageReferenceContainer.getContext("2d");
-        this.components.viewport = page.getViewport({
+          component.sidePageReferenceContainer.getContext("2d");
+        component.viewport = page.getViewport({
           scale: 1,
         });
 
-        this.components.sidePageReferenceContainer.height =
-          this.components.viewport.height;
-        this.components.sidePageReferenceContainer.width =
-          this.components.viewport.width;
+        component.sidePageReferenceContainer.height = component.viewport.height;
+        component.sidePageReferenceContainer.width = component.viewport.width;
 
         const renderCtx = {
           canvasContext: ctxReference,
-          viewport: this.components.viewport,
+          viewport: component.viewport,
         };
         page.render(renderCtx);
+        /* Text Layer Implementation */
+        const textLayer = document.createElement("div");
+        textLayer.setAttribute("class", "textLayer");
+        textLayer.setAttribute("id", "text-layer-reference");
+
+        page.getTextContent().then(function (textContent) {
+          textLayer.style.left =
+            component.sidePageReferenceContainer.offsetLeft + "px";
+          textLayer.style.top =
+            component.sidePageReferenceContainer.offsetTop + "px";
+          textLayer.style.height =
+            component.sidePageReferenceContainer.offsetHeight + "px";
+          textLayer.style.width =
+            component.sidePageReferenceContainer.offsetWidth + "px";
+
+          //Render the text inside the textLayer container
+          pdfjsLib.renderTextLayer({
+            textContent: textContent,
+            container: textLayer,
+            viewport: component.viewport,
+            textDivs: [],
+          });
+        });
+        component.main.appendChild(textLayer);
       })
       .catch((err) => {
         console.log(err.message); // TODO: handle error in some way
