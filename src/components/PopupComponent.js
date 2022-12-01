@@ -15,8 +15,9 @@ const pdfjsLib = require("pdfjs-dist");
  * @property {HTMLElement} components.contentDiv div containing the content of the reference img/table/text/pdf
  * @property {HTMLElement} components.content the content of the reference img/table/text/pdf
  * @property {HTMLElement} components.sidePageReferenceBtn button that open the two page layout view
+ * @property {HTMLElement} components.sidePageReferenceDiv div for the refrence
  * @property {HTMLElement} components.sidePageReferenceContainer canvas for the pdf reference
- * @property {HTMLElement} components.main button that open the two page layout view
+ * @property {HTMLElement} components.main button that oipen the two page layout view
  * @property {HTMLElement} components.pdfDoc pdf of the user
  * @property {HTMLElement} components.pdfPageNumber number of the page of the reference
  * @property {HTMLElement} components.viewport handle the viewport
@@ -33,6 +34,7 @@ class PopupComponent {
     contentDiv: document.createElement("div"),
     content: document.createElement("p"),
     sidePageReferenceBtn: document.createElement("button"),
+    sidePageReferenceDiv: document.createElement("div"),
     sidePageReferenceContainer: document.createElement("canvas"),
     main: document.querySelector("#main"),
     pdfDoc: null,
@@ -88,6 +90,11 @@ class PopupComponent {
    * @private
    */
   #displayPdfReference = () => {
+    this.components.sidePageReferenceDiv.setAttribute(
+      "id",
+      "side-page-reference-div"
+    );
+    this.components.main.appendChild(this.components.sidePageReferenceDiv);
     this.#renderPdfReference();
     this.#showPdfReference();
   };
@@ -97,8 +104,10 @@ class PopupComponent {
    * @private
    */
   #hidePdfReferenceToShowGraph = () => {
-    this.components.sidePageReferenceContainer.className = "no-width";
-    this.components.main.removeChild(this.components.closeBtnReference);
+    this.components.sidePageReferenceDiv.className = "no-width";
+    this.components.sidePageReferenceDiv.removeChild(
+      this.components.closeBtnReference
+    );
   };
 
   /**
@@ -107,9 +116,11 @@ class PopupComponent {
    * @private
    */
   #hidePdfReference = () => {
-    this.components.sidePageReferenceContainer.className = "no-width";
+    this.components.sidePageReferenceDiv.className = "no-width";
     this.components.pdfContainer.className = "full-width";
-    this.components.main.removeChild(this.components.closeBtnReference);
+    this.components.sidePageReferenceDiv.removeChild(
+      this.components.closeBtnReference
+    );
   };
 
   /**
@@ -117,16 +128,18 @@ class PopupComponent {
    * @private
    */
   #showPdfReference = () => {
-    this.components.pdfContainer.className = "half-width";
+    this.components.sidePageReferenceDiv.className = "half-width";
     this.components.closeBtnReference.setAttribute("id", "close-btn-reference");
     this.components.closeBtnReference.innerHTML = "<a>&times;</a>";
     this.components.contentDiv.removeChild(
       this.components.sidePageReferenceBtn
     );
-    this.components.main.appendChild(
+    this.components.sidePageReferenceDiv.appendChild(
       this.components.sidePageReferenceContainer
     );
-    this.components.main.appendChild(this.components.closeBtnReference);
+    this.components.sidePageReferenceDiv.appendChild(
+      this.components.closeBtnReference
+    );
     this.components.closeBtnReference.className += " moveIn";
     this.components.sidePageReferenceContainer.className += " moveIn";
   };
@@ -182,6 +195,8 @@ class PopupComponent {
           textLayer.style.width =
             component.sidePageReferenceContainer.offsetWidth + "px";
 
+          // idea principale mettere tutto dentro renderCTX
+
           //Render the text inside the textLayer container
           pdfjsLib.renderTextLayer({
             textContent: textContent,
@@ -190,7 +205,7 @@ class PopupComponent {
             textDivs: [],
           });
         });
-        component.main.appendChild(textLayer);
+        component.sidePageReferenceDiv.appendChild(textLayer);
       })
       .catch((err) => {
         console.log(err.message); // TODO: handle error in some way

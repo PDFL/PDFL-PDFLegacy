@@ -626,6 +626,10 @@ input[type="number"]::-webkit-outer-spin-button {
   }
 
   /* Css for Reference */
+  #side-page-reference-div{
+    display: flex;
+  }
+
   #pop-up{
     position: absolute;
     width: auto;
@@ -675,6 +679,10 @@ input[type="number"]::-webkit-outer-spin-button {
     width: 595px;
   }
 
+  #side-page-reference-container{
+    margin-right: 10rem;
+  }
+
   #side-page-reference-container.moveIn{
     animation: fadeIn 20s;
     animation-fill-mode: forwards;
@@ -693,8 +701,9 @@ input[type="number"]::-webkit-outer-spin-button {
 
   #close-btn-reference{
     position: absolute;
+    justify-content: left;
+    align-items: left;
     margin-top: 2rem;
-    right: 46rem;
     font-size: 40px;
     z-index: 999;
     color: black;
