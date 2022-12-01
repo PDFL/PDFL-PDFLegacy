@@ -58,7 +58,7 @@ class PaginationComponent {
       }
     );
     EventHandlerService.subscribe(
-      PDFLEvents.onKeyboardKeyUp,
+      PDFLEvents.onKeyboardKeyDown,
       this.#handleKeyboardKeyPressAction.bind(this)
     );
   };
