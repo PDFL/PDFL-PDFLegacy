@@ -1,6 +1,6 @@
-import { PdfReaderComponent } from "./PdfReaderComponent"
-import { ToolbarComponent } from "./ToolbarComponent";
-import { EventHandlerService, PDFLEvents } from "../services/EventHandlerService";
+import { PdfReaderComponent } from "../components/PdfReaderComponent"
+import { ToolbarComponent } from "../components/ToolbarComponent";
+import { EventHandlerService, PDFLEvents } from "./EventHandlerService";
 
 /**
  * Declaration of library that contains the method to render text and annotations
@@ -13,7 +13,7 @@ const pdfjsViewer = require("pdfjs-dist/web/pdf_viewer");
  * Component representing the text and annotation of the PDF.
  * It realizes the under layer composed by text and relative annotations.
  */
-class TextRenderComponent {
+class TextRenderService {
 
     /**
    * Initialize by reference the pdf reader component. To use all components
@@ -106,4 +106,4 @@ async function hideLinks() {
     }
 }
 
-export { TextRenderComponent, hideLinks };
+export { TextRenderService, hideLinks };

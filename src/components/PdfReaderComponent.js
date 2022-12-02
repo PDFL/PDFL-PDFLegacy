@@ -2,7 +2,7 @@ import { EventHandlerService, PDFLEvents } from "../services/EventHandlerService
 import { SidePageComponent } from "./SidePageComponent";
 import { ToolbarComponent } from "./ToolbarComponent";
 import { ReferenceComponent } from "./ReferenceComponent";
-import { TextRenderComponent, hideLinks } from "./TextRenderComponent";
+import { TextRenderService, hideLinks } from "../services/TextRenderService";
 
 /**
  * Declaration of library that contains methods to get pdf's info.
@@ -41,7 +41,7 @@ class PdfReaderComponent {
     this.toolbarComponent = new ToolbarComponent();
     this.sidePageComponent = new SidePageComponent();
     this.referenceComponent = new ReferenceComponent();
-    this.textRenderComponent = new TextRenderComponent(this);
+    this.textRenderService = new TextRenderService(this);
     this.#registerEvents();
   }
 
@@ -131,7 +131,7 @@ class PdfReaderComponent {
         this.toolbarComponent.setCurrentPage();
 
         // Function to render the text layer and the relatives links
-        this.textRenderComponent.renderText(this.pdfDoc);
+        this.textRenderService.renderText(this.pdfDoc);
       });
       
   };
