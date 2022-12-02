@@ -1,5 +1,7 @@
+import { FIELD_OF_STUDY_COLOR } from "../src/Constants";
 import { fetchPaperInfo } from "../src/services/Api";
 import {
+  fieldsOfStudyToColor,
   getCitations,
   getReferences,
 } from "../src/services/KnowledgeGraphService";
@@ -41,4 +43,27 @@ test("Tests KnowledgeGraphService.getReferences", async () => {
   let references = await getReferences(PAPER_ID);
 
   expect(references.length).toBe(74);
+});
+
+test("Tests KnowledgeGraphService.fieldsOfStudyToColor", () => {
+  let FIELDS_OF_STUDY = ["Medicine", "Business", "Mathematics"];
+  let EXPECTED_COLOR = "rgba(110, 163, 42.666666666666664, 0.8000000000000002)";
+
+  expect(fieldsOfStudyToColor(FIELDS_OF_STUDY)).toBe(EXPECTED_COLOR);
+});
+
+test("Tests KnowledgeGraphService.fieldsOfStudyToColor one color", () => {
+  let FIELDS_OF_STUDY = ["Medicine"];
+
+  expect(fieldsOfStudyToColor(FIELDS_OF_STUDY)).toBe(
+    FIELD_OF_STUDY_COLOR[FIELDS_OF_STUDY[0]]
+  );
+});
+
+test("Tests KnowledgeGraphService.fieldsOfStudyToColor no colors", () => {
+  let FIELDS_OF_STUDY = [];
+
+  expect(fieldsOfStudyToColor(FIELDS_OF_STUDY)).toBe(
+    FIELD_OF_STUDY_COLOR["MISSING_COLOR"]
+  );
 });

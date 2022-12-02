@@ -35,7 +35,7 @@ function mouseOverDelayEvent(element, delay = 2000, callback) {
 
 /**
  * Sets timeout of given milliseconds.
- * 
+ *
  * @param {int} ms milliseconds
  * @returns {Promise} empty promise
  */
@@ -43,4 +43,31 @@ function timeout(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-export { compareSimilarity, timeout, mouseOverDelayEvent };
+/**
+ * Takes an array of colors by string and merges them into
+ * one color. Averages out the r,g and b components.
+ *
+ * @param {String[]} colors (i.e. 'rgba(255, 46, 46, 0.8)')
+ * @returns {String} averaged color
+ */
+function mergeColors(colors) {
+  let totalRComponent = 0;
+  let totalGComponent = 0;
+  let totalBComponent = 0;
+  let totalAComponent = 0;
+  for (let color of colors) {
+    let fourParts = color.split(" ");
+    totalRComponent += parseInt(fourParts[0].substring(5));
+    totalGComponent += parseInt(fourParts[1]);
+    totalBComponent += parseInt(fourParts[2]);
+    totalAComponent += parseFloat(fourParts[3]);
+  }
+  let r = totalRComponent / colors.length;
+  let g = totalGComponent / colors.length;
+  let b = totalBComponent / colors.length;
+  let a = totalAComponent / colors.length;
+
+  return `rgba(${r}, ${g}, ${b}, ${a})`;
+}
+
+export { compareSimilarity, timeout, mouseOverDelayEvent, mergeColors };

@@ -1,6 +1,6 @@
 import { FIELD_OF_STUDY_COLOR } from "../Constants";
 import { fetchCitations, fetchPaperInfo, fetchReferences } from "./Api";
-import { compareSimilarity, timeout } from "./Utils";
+import { compareSimilarity, mergeColors, timeout } from "./Utils";
 import {
   setGraphData,
   hasGraphData,
@@ -379,9 +379,15 @@ function addToGraph(graph, linkedNodes) {
  * @returns {String} color
  */
 function fieldsOfStudyToColor(fieldsOfStudy) {
-  if (!fieldsOfStudy) return FIELD_OF_STUDY_COLOR.MISSING_COLOR;
+  if (!fieldsOfStudy || fieldsOfStudy.length == 0) {
+    return FIELD_OF_STUDY_COLOR["MISSING_COLOR"];
+  }
 
-  return FIELD_OF_STUDY_COLOR[fieldsOfStudy[0]];
+  let colors = fieldsOfStudy.map(
+    (fieldOfStudy) => FIELD_OF_STUDY_COLOR[fieldOfStudy]
+  );
+
+  return mergeColors(colors);
 }
 
 export {

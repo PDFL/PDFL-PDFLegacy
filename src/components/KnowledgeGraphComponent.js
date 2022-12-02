@@ -28,7 +28,7 @@ class KnowledgeGraphComponent {
    *
    * @constructor
    */
-   constructor() {
+  constructor() {
     this.depth = 1;
 
     this.#registerEvents();
@@ -71,7 +71,7 @@ class KnowledgeGraphComponent {
     }
 
     this.depth = selectedDepth;
-  };
+  }
 
   /**
    * Setter for PDF document from which knowledge graph will be generated.
@@ -109,7 +109,7 @@ class KnowledgeGraphComponent {
             (n) => n + fontSize * 0.6
           );
 
-          ctx.fillStyle = "#489c8a";
+          ctx.fillStyle = fieldsOfStudyToColor(node.fieldsOfStudy);
           ctx.fillRect(
             node.x - bckgDimensions[0] / 2,
             node.y - bckgDimensions[1] / 2,
@@ -122,16 +122,12 @@ class KnowledgeGraphComponent {
           ctx.fillStyle = "white";
           ctx.fillText(label, node.x, node.y);
 
-<<<<<<< HEAD
-            ctx.fillStyle = fieldsOfStudyToColor(node.fieldsOfStudy);
-=======
           node.__bckgDimensions = bckgDimensions; // to re-use in nodePointerAreaPaint
         })
         .nodePointerAreaPaint((node, color, ctx) => {
           ctx.fillStyle = color;
           const bckgDimensions = node.__bckgDimensions;
           bckgDimensions &&
->>>>>>> main
             ctx.fillRect(
               node.x - bckgDimensions[0] / 2,
               node.y - bckgDimensions[1] / 2,
@@ -149,8 +145,8 @@ class KnowledgeGraphComponent {
         .d3Force("center", null)
         .onEngineStop(() => graph.zoomToFit(500));
 
-        EventHandlerService.publish(PDFLEvents.onHideSidePageLoader);
-        this.graph = graph;
+      EventHandlerService.publish(PDFLEvents.onHideSidePageLoader);
+      this.graph = graph;
     });
   };
 }
