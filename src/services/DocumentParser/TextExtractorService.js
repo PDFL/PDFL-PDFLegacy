@@ -13,10 +13,9 @@ class TextExtractorService extends DocumentParser {
    * @returns {Promise<{popupDisplayable: boolean, text: (string|*), type: string, title: string}>}
    */
   getContent = async () => {
-    const self = this;
     const page = await this.pdfDocument.getPage(this.targetPage);
-    const reference = self.#parseReference();
-    const text = await self.#getText(page, reference);
+    const reference = this.#parseReference();
+    const text = await this.#getText(page, reference);
     return {
       type: "text",
       popupDisplayable: true,
@@ -26,22 +25,24 @@ class TextExtractorService extends DocumentParser {
   };
 
   /**
+   * @private
    * Return the section number of the given references (for example if ref is section.1.5.3 return 1.5.3)
    * @returns {string}
    */
   #parseReference = () => {
-    var ref = [];
+    var referenceComponents = [];
     const splitted = this.targetElement.split(".");
     splitted.forEach((strComponent) => {
       if (!isNaN(strComponent) && !isNaN(parseInt(strComponent))) {
-        ref.push(strComponent);
+        referenceComponents.push(strComponent);
       }
     });
-    return ref.join(".");
+    return referenceComponents.join(".");
   };
 
   /**
    * @async
+   * @private
    * This function align the start index to the reference starting point and then return the text of the rest on the page with the reference title
    * @param page pdf page object
    * @param reference parsed reference string
@@ -77,6 +78,7 @@ class TextExtractorService extends DocumentParser {
   };
 
   /**
+   * @private
    * This function cuts a given string using the length defined in the constant MAX_POPUP_TEXT_LENGTH
    * If the input string is shorter return the whole string.
    * @param text A string
@@ -92,6 +94,7 @@ class TextExtractorService extends DocumentParser {
   };
 
   /**
+   * @private
    * This function remove the reference component from the array to start the string with the paragraph instead of the title
    * @param text PDF Text object
    * @param index The reference index of the array
