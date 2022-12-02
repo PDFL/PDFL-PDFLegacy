@@ -57,7 +57,7 @@ class KeyboardService {
   /**
    * @private
    * Callback function for the keyDown event
-   * Looks at the key which has been released and dispatch the event on the EventHandler
+   * Looks at the key which has been pressed and dispatch the event on the EventHandler
    * @param event the event of the callback
    */
   #onKeyDown = (event) => {
@@ -72,7 +72,7 @@ class KeyboardService {
   /**
    * @private
    * Callback function for the keyPress event
-   * Looks at the key which has been released and dispatch the event on the EventHandler
+   * Looks at the key which has been pressed and dispatch the event on the EventHandler
    * @param event the event of the callback
    */
   #onKeyPress = (event) => {
