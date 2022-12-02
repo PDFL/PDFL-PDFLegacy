@@ -4,8 +4,11 @@ import { ToolbarComponent } from "./ToolbarComponent";
 import { ReferenceComponent } from "./ReferenceComponent";
 import { TextRenderComponent, hideLinks } from "./TextRenderComponent";
 
+/**
+ * Declaration of library that contains methods to get pdf's info.
+ * @constant
+ */
 const pdfjsLib = require("pdfjs-dist");
-const pdfjsViewer = require("pdfjs-dist/web/pdf_viewer");
 
 /**
  * Component representing the PDF reader. Displays the content of PDF document and actions 
@@ -122,12 +125,12 @@ class PdfReaderComponent {
 
         page.render(renderCtx);
 
-        //Scroll is possible but not supported by other navigation functions, clear container before adding the new page
+        // Scroll is possible but not supported by other navigation functions, clear container before adding the new page
         component.pdfContainer.innerHTML = "";
         component.pdfContainer.appendChild(component.canvas);
         this.toolbarComponent.setCurrentPage();
 
-        //function to render the text layer and the relatives links
+        // Function to render the text layer and the relatives links
         this.textRenderComponent.renderText(this.pdfDoc);
       });
       

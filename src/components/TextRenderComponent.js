@@ -2,14 +2,22 @@ import { PdfReaderComponent } from "./PdfReaderComponent"
 import { ToolbarComponent } from "./ToolbarComponent";
 import { EventHandlerService, PDFLEvents } from "../services/EventHandlerService";
 
+/**
+ * Declaration of library that contains the method to render text and annotations
+ * @constant
+ */
 const pdfjsLib = require("pdfjs-dist");
 const pdfjsViewer = require("pdfjs-dist/web/pdf_viewer");
 
+/**
+ * Component representing the text and annotation of the PDF.
+ * It realizes the under layer composed by text and relative annotations.
+ */
 class TextRenderComponent {
 
     /**
-   * Creates and initializes new pdf reader component. Creates all components
-   * that can be managed and used for the text layer.
+   * Initialize by reference the pdf reader component. To use all components
+   * that are helpful to create the text layer and the annotation layer.
    * @constructor
    */
     constructor(pdfReaderComponent) {
@@ -17,8 +25,8 @@ class TextRenderComponent {
     }
     
     /**
-     * Function to render text and links.
-     * @param {pdfDoc} pdfDoc PDF document to manage and elaborate
+     * Function to create the layer for text and links.
+     * @param {pdfDoc} pdfDoc PDF document
      */
     renderText(pdfDoc) {
         const component = this.pdfReaderComponent.components;
@@ -69,7 +77,6 @@ class TextRenderComponent {
                         renderInteractiveForms: true,
                     });
 
-                    //for @matteovisotto: --onLinkLayerRendered--
                     EventHandlerService.publish(PDFLEvents.onLinkLayerRendered);
                 });
 

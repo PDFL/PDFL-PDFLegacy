@@ -58,8 +58,6 @@ class SidePageComponent {
   #showSidePage = () => {
     this.components.sideNav.className = "half-width";
     this.components.pdfContainer.className = "half-width";
-
-    //EventHandlerService.publish(PDFLEvents.onRenderPage);
   };
 
   /**
@@ -68,8 +66,6 @@ class SidePageComponent {
   hideSidePage = () => {
     this.components.sideNav.className = "no-width";
     this.components.pdfContainer.className = "full-width";
-
-    //EventHandlerService.publish(PDFLEvents.onRenderPage);
   };
 
   setPDF = (data) => {
