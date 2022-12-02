@@ -22959,20 +22959,19 @@ var TextExtractorService = /*#__PURE__*/function (_DocumentParser) {
     }
     _this = _super.call.apply(_super, [this].concat(args));
     _defineProperty(_assertThisInitialized(_this), "getContent", /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-      var self, page, reference, text;
+      var page, reference, text;
       return _regeneratorRuntime().wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              self = _assertThisInitialized(_this);
-              _context.next = 3;
+              _context.next = 2;
               return _this.pdfDocument.getPage(_this.targetPage);
-            case 3:
+            case 2:
               page = _context.sent;
-              reference = _classPrivateFieldGet(self, _parseReference).call(self);
-              _context.next = 7;
-              return _classPrivateFieldGet(self, _getText).call(self, page, reference);
-            case 7:
+              reference = _classPrivateFieldGet(_assertThisInitialized(_this), _parseReference).call(_assertThisInitialized(_this));
+              _context.next = 6;
+              return _classPrivateFieldGet(_assertThisInitialized(_this), _getText).call(_assertThisInitialized(_this), page, reference);
+            case 6:
               text = _context.sent;
               return _context.abrupt("return", {
                 type: "text",
@@ -22980,7 +22979,7 @@ var TextExtractorService = /*#__PURE__*/function (_DocumentParser) {
                 title: text.title,
                 text: _classPrivateFieldGet(_assertThisInitialized(_this), _cutText).call(_assertThisInitialized(_this), text.text)
               });
-            case 9:
+            case 8:
             case "end":
               return _context.stop();
           }
@@ -22990,14 +22989,14 @@ var TextExtractorService = /*#__PURE__*/function (_DocumentParser) {
     _classPrivateFieldInitSpec(_assertThisInitialized(_this), _parseReference, {
       writable: true,
       value: function value() {
-        var ref = [];
+        var referenceComponents = [];
         var splitted = _this.targetElement.split(".");
         splitted.forEach(function (strComponent) {
           if (!isNaN(strComponent) && !isNaN(parseInt(strComponent))) {
-            ref.push(strComponent);
+            referenceComponents.push(strComponent);
           }
         });
-        return ref.join(".");
+        return referenceComponents.join(".");
       }
     });
     _classPrivateFieldInitSpec(_assertThisInitialized(_this), _getText, {
