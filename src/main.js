@@ -1,7 +1,7 @@
 import { App } from "./components/AppComponent/App";
 
-import fileUploadCss from "./styles/fileUpload.css";
-import navbarCss from "./styles/navbar.css";
-import pdflCss from "./styles/pdfl.css";
+import "./styles/fileUpload.css";
+import "./styles/navbar.css";
+import "./styles/pdfl.css";
 
 App.start();
