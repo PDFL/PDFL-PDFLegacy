@@ -50,7 +50,8 @@ class KeyboardService {
     EventHandlerService.publish(
       PDFLEvents.onKeyboardKeyUp,
       this.#buildFunctionalKeysObject(event),
-      event.which || event.keyCode
+      event.key,
+      event.code
     );
   };
   /**
@@ -60,12 +61,12 @@ class KeyboardService {
    * @param event the event of the callback
    */
   #onKeyDown = (event) => {
-    const key = event.which || event.keyCode;
     this.#preventDefault(PreventOnKeyDown, event);
     EventHandlerService.publish(
       PDFLEvents.onKeyboardKeyDown,
       this.#buildFunctionalKeysObject(event),
-      event.which || event.keyCode
+      event.key,
+      event.code
     );
   };
   /**
@@ -82,7 +83,8 @@ class KeyboardService {
     EventHandlerService.publish(
       PDFLEvents.onKeyboardKeyPress,
       this.#buildFunctionalKeysObject(event),
-      event.which || event.keyCode
+      event.key,
+      event.code
     );
   };
 
@@ -113,7 +115,7 @@ class KeyboardService {
         functionalKeys.ctrl === prevent.ctrl &&
         functionalKeys.alt === prevent.alt &&
         functionalKeys.shift === prevent.shift &&
-        (event.which || event.keyCode) === prevent.key
+        event.key.toLowerCase() === prevent.key
       ) {
         event.preventDefault();
       }

@@ -68,10 +68,10 @@ class PaginationComponent {
    * @param functionalKey, object {ctrl: bool, alt: bool, shift: bool} indicates if one or more of this keys are pressed
    * @param key the actual key which triggers the event
    */
-  #handleKeyboardKeyPressAction = (functionalKey, key) => {
-    if (key === 39) {
+  #handleKeyboardKeyPressAction = (functionalKey, key, code) => {
+    if (key === "ArrowRight" || key === "Right") {
       this.#showNextPage();
-    } else if (key === 37) {
+    } else if (key === "ArrowLeft" || key === "Left") {
       this.#showPrevPage();
     }
   };
