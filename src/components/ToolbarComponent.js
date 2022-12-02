@@ -47,8 +47,8 @@ class ToolbarComponent {
     this.components.fullScreen.addEventListener("click", this.#showFullScreen);
     EventHandlerService.subscribe(
       PDFLEvents.onKeyboardKeyDown,
-      (functionalKeys, key) => {
-        if (functionalKeys.alt && key === 76) {
+      (functionalKeys, key, code) => {
+        if (functionalKeys.alt && code === "KeyL") {
           this.#showFullScreen();
         }
       }

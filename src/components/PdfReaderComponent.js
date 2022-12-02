@@ -70,7 +70,7 @@ class PdfReaderComponent {
         if (!functionalKeys.ctrl) {
           return;
         }
-        if (key === 85) {
+        if (key === "u") {
           this.#onNewFile();
         }
       }

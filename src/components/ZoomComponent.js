@@ -79,13 +79,13 @@ class ZoomComponent {
    * @param functionalKeys, object {ctrl: bool, alt: bool, shift: bool} indicates if one or more of this keys are pressed
    * @param key the actual key which triggers the event
    */
-  #onKeyboardKeyDown = (functionalKeys, key) => {
+  #onKeyboardKeyDown = (functionalKeys, key, code) => {
     if (!functionalKeys.ctrl) {
       return;
     }
-    if (key === 187) {
+    if (key === "+") {
       this.#zoomIn();
-    } else if (key === 189) {
+    } else if (key === "-") {
       this.#zoomOut();
     }
   };

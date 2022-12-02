@@ -47,8 +47,8 @@ class SidePageComponent {
     this.components.closeBtn.addEventListener("click", this.hideSidePage);
     EventHandlerService.subscribe(
       PDFLEvents.onKeyboardKeyDown,
-      (functionalKeys, key) => {
-        if (functionalKeys.ctrl && key === 71) {
+      (functionalKeys, key, code) => {
+        if (functionalKeys.ctrl && key === "g") {
           if (this.isKnowledgeGraphOpen) {
             this.hideSidePage();
             this.isKnowledgeGraphOpen = false;
