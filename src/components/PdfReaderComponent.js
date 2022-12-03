@@ -51,7 +51,6 @@ class PdfReaderComponent {
     EventHandlerService.subscribe(PDFLEvents.onRenderPage, () => {
       this.#renderPage();
       this.#renderText();
-
     });
 
     EventHandlerService.subscribe(PDFLEvents.onResetReader, () => {
@@ -132,19 +131,21 @@ class PdfReaderComponent {
    * Private function to render the text
    */
   #renderText = () => {
-    const component = this.components;
     const self = this;
+    const component = this.components;
+
     this.pdfDoc.getPage(this.toolbarComponent.getCurrentPage()).then((page) => {
-      //Set the HTML properties
       const textLayer = document.createElement("div");
       textLayer.setAttribute("class", "textLayer");
 
-      page.getTextContent().then(function (textContent) {
-        textLayer.style.left = component.canvas.offsetLeft + "px";
-        textLayer.style.top = component.canvas.offsetTop + "px";
-        textLayer.style.height = component.canvas.offsetHeight + "px";
-        textLayer.style.width = component.canvas.offsetWidth + "px";
+      // Position the text layer when viewport changes sides.
+      window.onresize = () => {
+        page.getTextContent().then(function () {
+          self.#positionTextLayer(textLayer);
+        });
+      };
 
+      page.getTextContent().then(function (textContent) {
         //Render the text inside the textLayer container
         pdfjsLib.renderTextLayer({
           textContent: textContent,
@@ -157,10 +158,7 @@ class PdfReaderComponent {
       const pdfLinkService = new pdfjsViewer.PDFLinkService();
 
       page.getAnnotations().then(function (annotationsData) {
-        textLayer.style.left = component.canvas.offsetLeft + "px";
-        textLayer.style.top = component.canvas.offsetTop + "px";
-        textLayer.style.height = component.viewport.offsetHeight + "px";
-        textLayer.style.width = component.viewport.offsetWidth + "px";
+        self.#positionTextLayer(textLayer);
 
         //Render the text inside the textLayer container
         pdfjsLib.AnnotationLayer.render({
@@ -179,6 +177,19 @@ class PdfReaderComponent {
       component.pdfContainer.appendChild(textLayer);
     });
   };
+
+  /**
+   * Positions the textLayer DOM element to the correct location
+   * to fix the displayed text of the pdf.
+   *
+   * @param {HTMLElement} textLayer
+   */
+  #positionTextLayer(textLayer) {
+    textLayer.style.left = this.components.canvas.offsetLeft + "px";
+    textLayer.style.top = this.components.canvas.offsetTop + "px";
+    textLayer.style.height = this.components.viewport.offsetHeight + "px";
+    textLayer.style.width = this.components.viewport.offsetWidth + "px";
+  }
 
   /**
    * Sets current page of pagination component to 1 and current zoom level
