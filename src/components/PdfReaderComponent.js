@@ -140,9 +140,7 @@ class PdfReaderComponent {
 
       // Position the text layer when viewport changes sides.
       window.onresize = () => {
-        page.getTextContent().then(function () {
-          self.#positionTextLayer(textLayer);
-        });
+        self.#positionTextLayer(textLayer);
       };
 
       page.getTextContent().then(function (textContent) {
