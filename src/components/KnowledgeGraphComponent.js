@@ -89,36 +89,18 @@ class KnowledgeGraphComponent {
       EventHandlerService.publish(PDFLEvents.onShowOpaqueSidePageLoader);
     }
 
-    getLinkedPapers(this.pdfDocument, depth).then((linkedPapers) => {
-      if (!linkedPapers || linkedPapers.length == 0)
+    getLinkedPapers(this.pdfDocument, depth).then((linkedPapers_tmp) => {
+      if (!linkedPapers_tmp || linkedPapers_tmp.length == 0)
         return EventHandlerService.publish(PDFLEvents.onShowSidePageError);
 
       // cross-link node objects
-      linkedPapers.links.forEach(link => {
-        let index_a = linkedPapers.nodes.findIndex(object => {
-          return object.id === link.source;
-        });
-        let index_b = linkedPapers.nodes.findIndex(object => {
-          return object.id === link.target;
-        });
-        const a = linkedPapers.nodes[index_a];
-        const b = linkedPapers.nodes[index_b];
-        !a.neighbors && (a.neighbors = []);
-        !b.neighbors && (b.neighbors = []);
-        a.neighbors.push(b);
-        b.neighbors.push(a);
-
-        !a.links && (a.links = []);
-        !b.links && (b.links = []);
-        a.links.push(link);
-        b.links.push(link);
-      });
+      let linkedPapers = this.#findNeighbours(linkedPapers_tmp)
 
       const highlightNodes = new Set();
       const highlightLinks = new Set();
       let hoverNode = null;
 
-      const NODE_R = 4;
+      const HOVERED_NODE_RADIUS = 4;
 
 
       EventHandlerService.publish(PDFLEvents.onShowTransparentSidePageLoader);
@@ -159,17 +141,44 @@ class KnowledgeGraphComponent {
         .nodeCanvasObject((node, ctx) => {
           // add ring just for highlighted nodes
           ctx.beginPath();
-          ctx.arc(node.x, node.y, NODE_R * 1.4, 0, 2 * Math.PI, false);
+          ctx.arc(node.x, node.y, HOVERED_NODE_RADIUS * 1.4, 0, 2 * Math.PI, false);
           ctx.fillStyle = node === hoverNode ? 'red' : 'orange';
           ctx.fill();
         })
         .cooldownTime(300)
         .d3Force("center", null)
-        .onEngineStop(() => graph.zoomToFit(500));
 
         EventHandlerService.publish(PDFLEvents.onHideSidePageLoader);
         this.graph = graph;
     });
+  };
+
+
+  /**
+   * Adds neighbours for each node.
+   * @private
+   */
+  #findNeighbours = (linkedPapers) => {
+    linkedPapers.links.forEach(link => {
+      let index_a = linkedPapers.nodes.findIndex(object => {
+        return object.id === link.source;
+      });
+      let index_b = linkedPapers.nodes.findIndex(object => {
+        return object.id === link.target;
+      });
+      const a = linkedPapers.nodes[index_a];
+      const b = linkedPapers.nodes[index_b];
+      !a.neighbors && (a.neighbors = []);
+      !b.neighbors && (b.neighbors = []);
+      a.neighbors.push(b);
+      b.neighbors.push(a);
+
+      !a.links && (a.links = []);
+      !b.links && (b.links = []);
+      a.links.push(link);
+      b.links.push(link);
+    });
+    return linkedPapers;
   };
 }
 
