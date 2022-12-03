@@ -1,11 +1,13 @@
 import {
   buildGraphProcedure,
+  expandNode,
   getLinkedPapers,
 } from "../services/KnowledgeGraphService";
 import {
   EventHandlerService,
   PDFLEvents,
 } from "../services/EventHandlerService";
+import ForceGraph from "force-graph";
 
 /**
  * Component responsible for displaying the knowledge graph.
@@ -27,7 +29,7 @@ class KnowledgeGraphComponent {
    *
    * @constructor
    */
-   constructor() {
+  constructor() {
     this.depth = 1;
 
     this.#registerEvents();
@@ -70,7 +72,7 @@ class KnowledgeGraphComponent {
     }
 
     this.depth = selectedDepth;
-  };
+  }
 
   /**
    * Setter for PDF document from which knowledge graph will be generated.
@@ -133,6 +135,9 @@ class KnowledgeGraphComponent {
               ...bckgDimensions
             );
         })
+        .onNodeClick((node) => {
+          expandNode(node, graph);
+        })
         .linkCurvature(0.06)
         .linkDirectionalArrowLength(7)
         .linkDirectionalArrowRelPos(0.5)
@@ -141,11 +146,12 @@ class KnowledgeGraphComponent {
         .linkDirectionalParticleColor(["#2980b9"])
         .linkDirectionalArrowColor(["#2980b9"])
         .cooldownTime(300)
-        .d3Force("center", null)
-        .onEngineStop(() => graph.zoomToFit(500));
+        .d3Force("center", null);
 
-        EventHandlerService.publish(PDFLEvents.onHideSidePageLoader);
-        this.graph = graph;
+      setTimeout(() => graph.zoomToFit(1000), 500);
+
+      EventHandlerService.publish(PDFLEvents.onHideSidePageLoader);
+      this.graph = graph;
     });
   };
 }
