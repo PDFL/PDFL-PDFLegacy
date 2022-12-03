@@ -117,8 +117,10 @@ class KnowledgeGraphComponent {
           highlightLinks.clear();
           if (node) {
             highlightNodes.add(node);
-            node.neighbors.forEach(neighbor => highlightNodes.add(neighbor));
-            node.links.forEach(link => highlightLinks.add(link));
+            if(node.neighbors){
+              node.neighbors.forEach(neighbor => highlightNodes.add(neighbor));
+              node.links.forEach(link => highlightLinks.add(link));
+            }
           }
   
           hoverNode = node || null;
