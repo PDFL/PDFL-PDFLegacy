@@ -65,7 +65,7 @@ class PopupComponent {
     this.components.contentDiv.appendChild(
       this.components.sidePageReferenceBtn
     );
-    setTimeout(this.hidePopup, MOUSE_LEFT_HOVER);
+    setTimeout(this.hidePopup, POPUP_DISAPPEAR_TIMEOUT);
   };
 
   hidePopup = () => {
