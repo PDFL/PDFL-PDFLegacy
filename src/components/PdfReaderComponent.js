@@ -2,7 +2,7 @@ import { EventHandlerService, PDFLEvents } from "../services/EventHandlerService
 import { SidePageComponent } from "./SidePageComponent";
 import { ToolbarComponent } from "./ToolbarComponent";
 import { ReferenceComponent } from "./ReferenceComponent";
-import { TextRenderService, hideLinks } from "../services/TextRenderService";
+import * as textRenderModule from "../modules/TextRenderModule"
 
 /**
  * Declaration of library that contains methods to get pdf's info.
@@ -41,7 +41,6 @@ class PdfReaderComponent {
     this.toolbarComponent = new ToolbarComponent();
     this.sidePageComponent = new SidePageComponent();
     this.referenceComponent = new ReferenceComponent();
-    this.textRenderService = new TextRenderService(this);
     this.#registerEvents();
   }
 
@@ -52,10 +51,10 @@ class PdfReaderComponent {
   #registerEvents = () => {
     this.components.openNew.addEventListener('click', this.#onNewFile);
 
-    this.components.pdfContainer.addEventListener('mousemove', hideLinks);
+    this.components.pdfContainer.addEventListener('mousemove', textRenderModule.hideLinks);
 
     EventHandlerService.subscribe(PDFLEvents.onRenderPage, () => {
-      this.#renderPage();
+      textRenderModule.renderPage(this.pdfDoc, this.components, this.toolbarComponent);
     });
 
     EventHandlerService.subscribe(PDFLEvents.onResetReader, () => {
@@ -88,52 +87,12 @@ class PdfReaderComponent {
       self.referenceComponent.setPdfDoc(data);
       self.toolbarComponent.setPageCount(data.numPages);
       self.sidePageComponent.setPDF(data);
-      self.#renderPage();
+      textRenderModule.renderPage(this.pdfDoc, this.components, this.toolbarComponent);
     })
       .catch((err) => {
         console.log(err.message); // TODO: handle error in some way
       });
     loader.className += " hidden";
-  };
-
-  /**
-   * Renders the page.
-   * @private
-   */
-  #renderPage = () => {
-    const component = this.components;
-    this.pdfDoc
-      .getPage(this.toolbarComponent.getCurrentPage())
-      .then((page) => {
-
-        //Set the HTML properties
-        component.canvas = document.createElement("canvas");
-        component.canvas.setAttribute("class", "canvas__container");
-
-        const ctx = component.canvas.getContext("2d");
-        component.viewport = page.getViewport({
-          scale: this.toolbarComponent.getZoom(),
-        });
-        component.canvas.height = component.viewport.height;
-        component.canvas.width = component.viewport.width;
-
-        // Render the PDF page into the canvas context.
-        const renderCtx = {
-          canvasContext: ctx,
-          viewport: component.viewport,
-        };
-
-        page.render(renderCtx);
-
-        // Scroll is possible but not supported by other navigation functions, clear container before adding the new page
-        component.pdfContainer.innerHTML = "";
-        component.pdfContainer.appendChild(component.canvas);
-        this.toolbarComponent.setCurrentPage();
-
-        // Function to render the text layer and the relatives links
-        this.textRenderService.renderText(this.pdfDoc);
-      });
-      
   };
 
   /**
