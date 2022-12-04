@@ -3,7 +3,7 @@ import {
   PDFLEvents,
 } from "../services/EventHandlerService";
 
-import { MOUSE_LEFT_HOVER } from "../Constants";
+import { POPUP_DISAPPEAR_TIMEOUT } from "../Constants";
 
 /**
  * Component representing pop up for every reference and display dynamically the content of it
@@ -26,7 +26,7 @@ class PopupComponent {
   };
 
   /**
-   * Creates the endler service for managing the reference object
+   * Creates the handler service for managing the reference object
    * @constructor
    */
   constructor() {
