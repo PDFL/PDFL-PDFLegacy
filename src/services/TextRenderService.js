@@ -1,4 +1,4 @@
-import { EventHandlerService, PDFLEvents } from "../services/EventHandlerService";
+import { EventHandlerService, PDFLEvents } from "./EventHandlerService";
 import { ToolbarComponent } from "../components/ToolbarComponent";
 /**
  * Declaration of library that contains the method to render text and annotations

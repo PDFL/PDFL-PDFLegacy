@@ -2,7 +2,7 @@ import { EventHandlerService, PDFLEvents } from "../services/EventHandlerService
 import { SidePageComponent } from "./SidePageComponent";
 import { ToolbarComponent } from "./ToolbarComponent";
 import { ReferenceComponent } from "./ReferenceComponent";
-import * as textRenderModule from "../modules/TextRenderModule"
+import * as textRenderService from "../services/TextRenderService"
 
 /**
  * Declaration of library that contains methods to get pdf's info.
@@ -51,10 +51,10 @@ class PdfReaderComponent {
   #registerEvents = () => {
     this.components.openNew.addEventListener('click', this.#onNewFile);
 
-    this.components.pdfContainer.addEventListener('mousemove', textRenderModule.hideLinks);
+    this.components.pdfContainer.addEventListener('mousemove', textRenderService.hideLinks);
 
     EventHandlerService.subscribe(PDFLEvents.onRenderPage, () => {
-      textRenderModule.renderPage(this.pdfDoc, this.components, this.toolbarComponent);
+      textRenderService.renderPage(this.pdfDoc, this.components, this.toolbarComponent);
     });
 
     EventHandlerService.subscribe(PDFLEvents.onResetReader, () => {
@@ -87,7 +87,7 @@ class PdfReaderComponent {
       self.referenceComponent.setPdfDoc(data);
       self.toolbarComponent.setPageCount(data.numPages);
       self.sidePageComponent.setPDF(data);
-      textRenderModule.renderPage(this.pdfDoc, this.components, this.toolbarComponent);
+      textRenderService.renderPage(this.pdfDoc, this.components, this.toolbarComponent);
     })
       .catch((err) => {
         console.log(err.message); // TODO: handle error in some way
