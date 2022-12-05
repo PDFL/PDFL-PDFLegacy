@@ -89,12 +89,12 @@ class KnowledgeGraphComponent {
       EventHandlerService.publish(PDFLEvents.onShowOpaqueSidePageLoader);
     }
 
-    getLinkedPapers(this.pdfDocument, depth).then((linkedPapers_tmp) => {
-      if (!linkedPapers_tmp || linkedPapers_tmp.length == 0)
+    getLinkedPapers(this.pdfDocument, depth).then((linkedPapersTmp) => {
+      if (!linkedPapersTmp || linkedPapersTmp.length == 0)
         return EventHandlerService.publish(PDFLEvents.onShowSidePageError);
 
       // cross-link node objects
-      let linkedPapers = this.#findNeighbours(linkedPapers_tmp)
+      let linkedPapers = this.#findNeighbours(linkedPapersTmp)
 
       const highlightNodes = new Set();
       const highlightLinks = new Set();
@@ -158,6 +158,8 @@ class KnowledgeGraphComponent {
 
   /**
    * Adds neighbours for each node.
+   * @param {Node[]} linkedPapers linked papers without neighbours for each node
+   * @returns {Node[]}
    * @private
    */
   #findNeighbours = (linkedPapers) => {
