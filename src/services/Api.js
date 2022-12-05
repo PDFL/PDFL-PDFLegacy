@@ -1,10 +1,19 @@
-import { MAX_CITATION, MAX_REFERENCES } from "../Constants";
-
 const KEYWORD_API = "https://api.semanticscholar.org/graph/v1/paper/search?";
 const CITATIONS_API =
   "https://api.semanticscholar.org/graph/v1/paper/{paper_id}/citations?";
 const REFERENCES_API =
   "https://api.semanticscholar.org/graph/v1/paper/{paper_id}/references?";
+
+const HEADERS = new Headers({
+  "X-Api-Key": process.env.SEMANTIC_SCHOLAR_API_KEY,
+});
+
+const FETCH_OPTIONS = process.env.SEMANTIC_SCHOLAR_API_KEY
+  ? {
+      mode: "cors",
+      headers: HEADERS,
+    }
+  : undefined;
 
 const FIELDS_TO_FETCH_FOR_PAPER =
   "title,citationCount,influentialCitationCount";
@@ -29,7 +38,9 @@ const FIELDS_TO_FETCH_FOR_PAPER =
  */
 async function fetchPaperInfo(titleQuery) {
   let queryParams = new URLSearchParams({ query: titleQuery, limit: 1 });
-  let paper = (await (await fetch(KEYWORD_API + queryParams)).json()).data[0];
+  let paper = (
+    await (await fetch(KEYWORD_API + queryParams, FETCH_OPTIONS)).json()
+  ).data[0];
   return paper;
 }
 
@@ -42,12 +53,14 @@ async function fetchPaperInfo(titleQuery) {
  */
 async function fetchCitations(paperID) {
   let queryParams = new URLSearchParams({
-    fields: FIELDS_TO_FETCH_FOR_PAPER,
-    limit: MAX_CITATION,
+    fields: FIELDS_TO_FETCH_FOR_PAPER
   });
   let data = (
     await (
-      await fetch(CITATIONS_API.replace("{paper_id}", paperID) + queryParams)
+      await fetch(
+        CITATIONS_API.replace("{paper_id}", paperID) + queryParams,
+        FETCH_OPTIONS
+      )
     ).json()
   ).data;
   return data;
@@ -62,12 +75,14 @@ async function fetchCitations(paperID) {
  */
 async function fetchReferences(paperID) {
   let queryParams = new URLSearchParams({
-    fields: FIELDS_TO_FETCH_FOR_PAPER,
-    limit: MAX_REFERENCES,
+    fields: FIELDS_TO_FETCH_FOR_PAPER
   });
   let data = (
     await (
-      await fetch(REFERENCES_API.replace("{paper_id}", paperID) + queryParams)
+      await fetch(
+        REFERENCES_API.replace("{paper_id}", paperID) + queryParams,
+        FETCH_OPTIONS
+      )
     ).json()
   ).data;
   return data;

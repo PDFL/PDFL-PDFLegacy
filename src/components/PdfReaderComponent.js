@@ -1,43 +1,45 @@
-import { EventHandlerService, PDFLEvents } from "../services/EventHandlerService";
+import {
+  EventHandlerService,
+  PDFLEvents,
+} from "../services/EventHandlerService";
 import { SidePageComponent } from "./SidePageComponent";
 import { ToolbarComponent } from "./ToolbarComponent";
 import { ReferenceComponent } from "./ReferenceComponent";
+import { KeyboardService } from "../services/KeyboardService";
 import * as textRenderService from "../services/TextRenderService"
 
-/**
- * Declaration of library that contains methods to get pdf's info.
- * @constant
- */
+
 const pdfjsLib = require("pdfjs-dist");
 
 /**
- * Component representing the PDF reader. Displays the content of PDF document and actions 
+ * Component representing the PDF reader. Displays the content of PDF document and actions
  * that can be applied to the document in the reader.
- * 
+ *
  * @property {Object} components object that holds DOM elements that are within component
  * @property {HTMLElement} components.pdfContainer element containing the PDF reader
  * @property {HTMLElement} components.openNew button that takes user to input view page
  * @property {SidePageComponent} sidePageComponent side component within the reader
  * @property {ToolbarComponent} toolbarComponent toolbar component within the reader
  * @property {PDFDocumentProxy} pdfDoc PDF document
+ * @property {KeyboardService} keyboardService keyboard service
  * @property {TextRenderComponent} textRenderComponent function to realize text & links
- */
-
+*/
 class PdfReaderComponent {
-
   components = {
     pdfContainer: document.querySelector("#pdf-container"),
     openNew: document.querySelector("#open-new"),
     canvas: null,
     viewport: null,
+    loader: document.querySelector("#loader"),
   };
 
   /**
-   * Creates and initializes new zoom component. Creates new ToolbarComponent and 
+   * Creates and initializes new zoom component. Creates new ToolbarComponent and
    * SidePageComponent objects.
    * @constructor
    */
   constructor() {
+    this.keyboardService = new KeyboardService();
     this.toolbarComponent = new ToolbarComponent();
     this.sidePageComponent = new SidePageComponent();
     this.referenceComponent = new ReferenceComponent();
@@ -49,7 +51,7 @@ class PdfReaderComponent {
    * @private
    */
   #registerEvents = () => {
-    this.components.openNew.addEventListener('click', this.#onNewFile);
+    this.components.openNew.addEventListener("click", this.#onNewFile);
 
     this.components.pdfContainer.addEventListener('mousemove', textRenderService.hideLinks);
 
@@ -64,7 +66,19 @@ class PdfReaderComponent {
     EventHandlerService.subscribe(PDFLEvents.onReadNewFile, (pdf) => {
       this.loadPdf(pdf);
     });
-  }
+
+    EventHandlerService.subscribe(
+      PDFLEvents.onKeyboardKeyDown,
+      (functionalKeys, key) => {
+        if (!functionalKeys.ctrl) {
+          return;
+        }
+        if (key === "u") {
+          this.#onNewFile();
+        }
+      }
+    );
+  };
 
   /**
    * Cretes event triggered when application view changed from reader view to input view.
@@ -80,19 +94,20 @@ class PdfReaderComponent {
    */
   loadPdf = (pdf) => {
     const self = this;
-    const loader = document.querySelector("#loader");
     pdfjsLib.GlobalWorkerOptions.workerSrc = "webpack/pdf.worker.bundle.js";
-    pdfjsLib.getDocument(pdf).promise.then((data) => {
-      self.pdfDoc = data;
-      self.referenceComponent.setPdfDoc(data);
-      self.toolbarComponent.setPageCount(data.numPages);
-      self.sidePageComponent.setPDF(data);
-      textRenderService.renderPage(this.pdfDoc, this.components, this.toolbarComponent);
-    })
+    pdfjsLib
+      .getDocument(pdf)
+      .promise.then((data) => {
+        self.pdfDoc = data;
+        self.referenceComponent.setPdfDoc(data);
+        self.toolbarComponent.setPageCount(data.numPages);
+        self.sidePageComponent.setPDF(data);
+        textRenderService.renderPage(this.pdfDoc, this.components, this.toolbarComponent)
+      })
       .catch((err) => {
         console.log(err.message); // TODO: handle error in some way
       });
-    loader.className += " hidden";
+    this.components.loader.className += " hidden";
   };
 
   /**
