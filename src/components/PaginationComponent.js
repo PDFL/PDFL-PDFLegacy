@@ -3,6 +3,8 @@ import {
   PDFLEvents,
 } from "../services/EventHandlerService";
 
+import { PAGE_INPUT_VALIDATION_REGEX } from "../Constants";
+
 /**
  * Component that paginates the PDF document that is being read. It calculates next/previous page number
  * and stores current and maximum page number of PDF document. This component displays labels for current
@@ -105,7 +107,6 @@ class PaginationComponent {
    */
   #currentPageKeypress = (event) => {
     const keycode = event.keyCode ? event.keyCode : event.which;
-
     if (keycode === 13) {
       // Get the new page number and render it.
       let desiredPage = this.components.currentPage.valueAsNumber;
@@ -113,6 +114,10 @@ class PaginationComponent {
 
       this.components.pageNum.textContent = this.currentPage;
       this.#currentPageChanged();
+    } else {
+      if (!PAGE_INPUT_VALIDATION_REGEX.test(event.key)) {
+        event.preventDefault();
+      }
     }
   };
 
