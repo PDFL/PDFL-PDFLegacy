@@ -56,7 +56,7 @@ class PaginationComponent {
       PDFLEvents.onNewPageRequest,
       function (pageNumber) {
         self.setCurrentPage(pageNumber);
-        EventHandlerService.publish(PDFLEvents.onRenderPage);
+        self.#currentPageChanged();
       }
     );
     EventHandlerService.subscribe(
@@ -127,8 +127,20 @@ class PaginationComponent {
    */
   #currentPageChanged = () => {
     this.components.currentPage.value = this.currentPage;
+    this.#updateButtonStatus();
     EventHandlerService.publish(PDFLEvents.onRenderPage);
   };
+
+  /**
+   * @private
+   * Disable or enable previous and next page buttons based on the current page number
+   */
+  #updateButtonStatus = () => {
+    this.components.previousPage.parentElement.style.pointerEvents = this.currentPage===1 ? 'none' : 'auto';
+    this.components.previousPage.parentElement.style.color = this.currentPage===1 ? '#C7C7C7' : '';
+    this.components.nextPage.parentElement.style.pointerEvents = this.currentPage === this.pageCount ? 'none' : 'auto';
+    this.components.nextPage.parentElement.style.color = this.currentPage === this.pageCount ? '#C7C7C7' : '';
+  }
 
   /**
    * Sets and displays new maximum page number.
@@ -148,6 +160,7 @@ class PaginationComponent {
     this.currentPage = pageNumber;
     this.components.pageNum.textContent = pageNumber;
     this.components.currentPage.value = pageNumber;
+    this.#updateButtonStatus()
   };
 
   /**
