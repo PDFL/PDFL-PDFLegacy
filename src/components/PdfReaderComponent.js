@@ -5,9 +5,9 @@ import {
 import { SidePageComponent } from "./SidePageComponent";
 import { ToolbarComponent } from "./ToolbarComponent";
 import { ReferenceComponent } from "./ReferenceComponent";
+import { PopupComponent } from "./PopupComponent";
 import { KeyboardService } from "../services/KeyboardService";
 import * as textRenderService from "../services/TextRenderService"
-
 
 const pdfjsLib = require("pdfjs-dist");
 
@@ -20,6 +20,7 @@ const pdfjsLib = require("pdfjs-dist");
  * @property {HTMLElement} components.openNew button that takes user to input view page
  * @property {SidePageComponent} sidePageComponent side component within the reader
  * @property {ToolbarComponent} toolbarComponent toolbar component within the reader
+ * @property {PopupComponent} popupComponent popup component within the reader
  * @property {PDFDocumentProxy} pdfDoc PDF document
  * @property {KeyboardService} keyboardService keyboard service
  * @property {TextRenderComponent} textRenderComponent function to realize text & links
@@ -43,6 +44,7 @@ class PdfReaderComponent {
     this.toolbarComponent = new ToolbarComponent();
     this.sidePageComponent = new SidePageComponent();
     this.referenceComponent = new ReferenceComponent();
+    this.PopupComponent = new PopupComponent();
     this.#registerEvents();
   }
 
