@@ -708,7 +708,7 @@ input[type="number"]::-webkit-outer-spin-button {
   }
 
   #close-btn-reference.moveIn{
-    animation: fadeIn 100s;
+    animation: fadeIn 60s;
     animation-fill-mode: forwards;
   }
 

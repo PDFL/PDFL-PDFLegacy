@@ -51,11 +51,7 @@ class ReferenceComponent {
         "click",
         this.#onInternalReferenceClick.bind(this)
       );
-      mouseOverDelayEvent(
-        aElem,
-        2000,
-        this.#onInternalReferenceOver.bind(this)
-      ); //Delay the over listener
+      mouseOverDelayEvent(aElem, 500, this.#onInternalReferenceOver.bind(this)); //Delay the over listener
     }
   };
 

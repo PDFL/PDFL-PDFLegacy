@@ -6,6 +6,7 @@ import { SidePageComponent } from "./SidePageComponent";
 import { ToolbarComponent } from "./ToolbarComponent";
 import { ReferenceComponent } from "./ReferenceComponent";
 import { PopupComponent } from "./PopupComponent";
+import { ReferenceViewComponent } from "./ReferenceViewComponent";
 
 const pdfjsLib = require("pdfjs-dist");
 const pdfjsViewer = require("pdfjs-dist/web/pdf_viewer");
@@ -40,6 +41,7 @@ class PdfReaderComponent {
     this.sidePageComponent = new SidePageComponent();
     this.referenceComponent = new ReferenceComponent();
     this.popupComponent = new PopupComponent();
+    this.referenceViewComponent = new ReferenceViewComponent();
     this.#registerEvents();
   }
 
@@ -87,7 +89,7 @@ class PdfReaderComponent {
         self.referenceComponent.setPdfDoc(data);
         self.toolbarComponent.setPageCount(data.numPages);
         self.sidePageComponent.setPDF(data);
-        self.popupComponent.setPdfDoc(data);
+        self.referenceViewComponent.setPdfDoc(data);
         self.#renderPage();
         self.#renderText();
         //self.#renderLink();

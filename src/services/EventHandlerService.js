@@ -47,6 +47,7 @@ const PDFLEvents = {
   onLinkLayerRendered: "onLinkLayerRendered",
   onNewPageRequest: "onNewPageRequest",
   onPopupContentReady: "onPopupContentReady",
+  onReferencePdfOpen: "onReferencePdfOpen",
 };
 
 export { PDFLEvents, EventHandlerService };
