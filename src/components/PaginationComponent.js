@@ -107,7 +107,7 @@ class PaginationComponent {
    */
   #currentPageKeypress = (event) => {
     const keycode = event.keyCode ? event.keyCode : event.which;
-    if (keycode === 13) {
+    if (keycode === 13 && !isNaN(this.components.currentPage.valueAsNumber)) {
       // Get the new page number and render it.
       let desiredPage = this.components.currentPage.valueAsNumber;
       this.currentPage = Math.min(Math.max(desiredPage, 1), this.pageCount);
