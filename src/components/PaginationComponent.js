@@ -136,11 +136,17 @@ class PaginationComponent {
    * Disable or enable previous and next page buttons based on the current page number
    */
   #updateButtonStatus = () => {
-    this.components.previousPage.parentElement.style.pointerEvents = this.currentPage===1 ? 'none' : 'auto';
-    this.components.previousPage.parentElement.style.color = this.currentPage===1 ? '#C7C7C7' : '';
-    this.components.nextPage.parentElement.style.pointerEvents = this.currentPage === this.pageCount ? 'none' : 'auto';
-    this.components.nextPage.parentElement.style.color = this.currentPage === this.pageCount ? '#C7C7C7' : '';
-  }
+    if (this.currentPage === 1) {
+      this.components.previousPage.parentElement.classList.add("disabled");
+    } else {
+      this.components.previousPage.parentElement.classList.remove("disabled");
+    }
+    if (this.currentPage === this.pageCount) {
+      this.components.nextPage.parentElement.classList.add("disabled");
+    } else {
+      this.components.nextPage.parentElement.classList.remove("disabled");
+    }
+  };
 
   /**
    * Sets and displays new maximum page number.
@@ -160,7 +166,7 @@ class PaginationComponent {
     this.currentPage = pageNumber;
     this.components.pageNum.textContent = pageNumber;
     this.components.currentPage.value = pageNumber;
-    this.#updateButtonStatus()
+    this.#updateButtonStatus();
   };
 
   /**
