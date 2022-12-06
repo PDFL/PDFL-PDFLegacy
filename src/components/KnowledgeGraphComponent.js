@@ -1,6 +1,7 @@
 import {
   buildGraphProcedure,
   getLinkedPapers,
+  Node, Link, GraphData
 } from "../services/KnowledgeGraphService";
 import {
   EventHandlerService,
@@ -27,7 +28,7 @@ class KnowledgeGraphComponent {
    *
    * @constructor
    */
-   constructor() {
+  constructor() {
     this.depth = 1;
 
     this.#registerEvents();
@@ -70,7 +71,7 @@ class KnowledgeGraphComponent {
     }
 
     this.depth = selectedDepth;
-  };
+  }
 
   /**
    * Setter for PDF document from which knowledge graph will be generated.
@@ -83,107 +84,200 @@ class KnowledgeGraphComponent {
   /**
    * Displays knowledge graph.
    */
-  displayGraph = (depth) => {
-    if (!depth) {
-      depth = 1;
-      EventHandlerService.publish(PDFLEvents.onShowOpaqueSidePageLoader);
-    }
+  displayGraph = (depth = 1) => {
+    EventHandlerService.publish(PDFLEvents.onShowOpaqueSidePageLoader);
 
-    getLinkedPapers(this.pdfDocument, depth).then((linkedPapersTmp) => {
-      if (!linkedPapersTmp || linkedPapersTmp.length == 0)
+    getLinkedPapers(this.pdfDocument, depth).then((linkedPapers) => {
+      if (!linkedPapers || linkedPapers.length == 0)
         return EventHandlerService.publish(PDFLEvents.onShowSidePageError);
-
-      // cross-link node objects
-      let linkedPapers = this.#findNeighbours(linkedPapersTmp)
+      EventHandlerService.publish(PDFLEvents.onShowTransparentSidePageLoader);
 
       const highlightNodes = new Set();
       const highlightLinks = new Set();
-      let hoverNode = null;
-
-      const HOVERED_NODE_RADIUS = 4;
-
-
-      EventHandlerService.publish(PDFLEvents.onShowTransparentSidePageLoader);
+      let hoveredNode = null;
 
       let graph = ForceGraph()(this.components.knowledgeGraph)
         .graphData(linkedPapers)
         .nodeId("id")
         .nodeAutoColorBy("label")
-        .nodeLabel(node => `${node.label}`)
-        .linkColor(() => 'rgba(255,255,255,0.2)')
+        .nodeLabel((node) => `${node.label}`)
+        .linkColor(() => "rgba(255,255,255,0.2)")
         .autoPauseRedraw(false) // keep redrawing after engine has stopped
-        .onNodeHover(node => {
-          highlightNodes.clear();
-          highlightLinks.clear();
-          if (node) {
-            highlightNodes.add(node);
-            if(node.neighbors){
-              node.neighbors.forEach(neighbor => highlightNodes.add(neighbor));
-              node.links.forEach(link => highlightLinks.add(link));
-            }
-          }
-  
-          hoverNode = node || null;
-        })
-        .onLinkHover(link => {
-          highlightNodes.clear();
-          highlightLinks.clear();
-  
-          if (link) {
-            highlightLinks.add(link);
-            highlightNodes.add(link.source);
-            highlightNodes.add(link.target);
-          }
-        })
-        .linkWidth(link => highlightLinks.has(link) ? 5 : 1)
+        .onNodeHover(
+          this.#highlightConnectedNodes(
+            highlightNodes,
+            highlightLinks,
+            hoveredNode
+          )
+        )
+        .onLinkHover(this.#highlightLink(highlightNodes, highlightLinks))
+        .linkWidth(this.#setLinkWidth(highlightLinks))
         .linkDirectionalParticles(4)
-        .linkDirectionalArrowLength(link => highlightLinks.has(link) ? 16 : 8)
-        .linkDirectionalParticleWidth(link => highlightLinks.has(link) ? 4 : 2)
-        .nodeCanvasObjectMode(node => highlightNodes.has(node) ? 'before' : undefined)
-        .nodeCanvasObject((node, ctx) => {
-          // add ring just for highlighted nodes
-          ctx.beginPath();
-          ctx.arc(node.x, node.y, HOVERED_NODE_RADIUS * 1.4, 0, 2 * Math.PI, false);
-          ctx.fillStyle = node === hoverNode ? 'red' : 'orange';
-          ctx.fill();
-        })
+        .linkDirectionalArrowLength(this.#setArrowWidth(highlightLinks))
+        .linkDirectionalParticleWidth(this.#setParticleWidth(highlightLinks))
+        .nodeCanvasObjectMode(this.#setNodeMode(highlightNodes))
+        .nodeCanvasObject(this.#displayHighlightedNodes(hoveredNode))
         .cooldownTime(300)
-        .d3Force("center", null)
+        .d3Force("center", null);
 
-        EventHandlerService.publish(PDFLEvents.onHideSidePageLoader);
-        this.graph = graph;
+      EventHandlerService.publish(PDFLEvents.onHideSidePageLoader);
+      this.graph = graph;
     });
   };
-
 
   /**
-   * Adds neighbours for each node.
-   * @param {Node[]} linkedPapers linked papers without neighbours for each node
-   * @returns {Node[]}
-   * @private
+   * Highlights newly hovered node and all of it's links and nodes
+   * that are connected to that node over links. Clears old
+   * highlighted nodes and links sets and finds new links and nodes
+   * connected to newly hovered node. Sets new hovered node to
+   * node currently being hovered over.
+   * 
+   * @param {Set<Node>} highlightNodes currently highlighted nodes
+   * @param {Set<Link>} highlightLinks currently highlighted links
+   * @param {Node} hoveredNode last hovered over node
+   * @returns 
    */
-  #findNeighbours = (linkedPapers) => {
-    linkedPapers.links.forEach(link => {
-      let index_a = linkedPapers.nodes.findIndex(object => {
-        return object.id === link.source;
-      });
-      let index_b = linkedPapers.nodes.findIndex(object => {
-        return object.id === link.target;
-      });
-      const a = linkedPapers.nodes[index_a];
-      const b = linkedPapers.nodes[index_b];
-      !a.neighbors && (a.neighbors = []);
-      !b.neighbors && (b.neighbors = []);
-      a.neighbors.push(b);
-      b.neighbors.push(a);
+  #highlightConnectedNodes(highlightNodes, highlightLinks, hoveredNode) {
+    return (node) => {
+      highlightNodes.clear();
+      highlightLinks.clear();
+      if (node) {
+        let graphData = this.graph.graphData();
 
-      !a.links && (a.links = []);
-      !b.links && (b.links = []);
-      a.links.push(link);
-      b.links.push(link);
+        let nodeLinks = this.#findNodesLinks(graphData, node, highlightLinks);
+        nodeLinks.forEach((l) => highlightLinks.add(l));
+
+        let connectedNodes = this.#findHighlightedNodes(nodeLinks, node, graphData, highlightNodes);
+        connectedNodes.push(node);
+        connectedNodes.forEach((n) => highlightNodes.add(n));
+      }
+      hoveredNode = node || null;
+    };
+  }
+
+  /**
+   * Returns array of nodes that are connected to given node
+   * over links of that node. For every link it's source/target
+   * is checked and if source/target of that link is current link
+   * then that link's target/source node if found in current graph
+   * data and finally all such nodes are returned in array.
+   * 
+   * @param {Array<Link>} nodeLinks all links connected to hovered node
+   * @param {Node} node node that is being hovered over
+   * @param {GraphData} graphData current graph data
+   * @returns {Array<Node>}
+   */
+  #findHighlightedNodes(nodeLinks, node, graphData) {
+    return nodeLinks.map((l) => {
+      if (l.source.id == node.id)
+        return graphData.nodes.find((n) => n.id == l.target.id);
+      return graphData.nodes.find((n) => n.id == l.source.id);
     });
-    return linkedPapers;
-  };
+  }
+
+  /**
+   * Returns array of  links that are connected to given node.
+   * Link is connected to node if link's target or source id is
+   * equal to node id.
+   * 
+   * @param {GraphData} graphData current graph data
+   * @param {Node} node node that is being hovered over
+   * @returns {Array<Link>}
+   */
+  #findNodesLinks(graphData, node) {
+    return graphData.links.filter(
+      (l) => l.source.id == node.id || l.target.id == node.id
+    );
+  }
+
+  /**
+   * Highlights a link. Adds link to highlighted links set and nodes
+   * it connects to highlighted nodes set.
+   * 
+   * @param {Set<Node>} highlightNodes  set of highlighted nodes
+   * @param {Set<Link>} highlightLinks set of highlighted links
+   * @returns {Link} styled ForceGraph's link
+   */
+  #highlightLink(highlightNodes, highlightLinks) {
+    return (link) => {
+      highlightNodes.clear();
+      highlightLinks.clear();
+
+      if (link) {
+        highlightLinks.add(link);
+        highlightNodes.add(link.source);
+        highlightNodes.add(link.target);
+      }
+    };
+  }
+  
+  /**
+   * Sets link width depending if link is highlighted.
+   * 
+   * @param {Set<Link>} highlightLinks set of highlighted links
+   * @returns {Link} styled ForceGraph's link
+   */
+  #setLinkWidth(highlightLinks) {
+    return (link) => (this.#isLinkHighlighted(highlightLinks, link) ? 5 : 1);
+  }
+
+  /**
+   * Sets width of directional arrow depending if link is highlighted.
+   * 
+   * @param {Set<Link>} highlightLinks set of highlighted links
+   * @returns {Link} styled ForceGraph's link
+   */
+  #setArrowWidth(highlightLinks) {
+    return (link) => (this.#isLinkHighlighted(highlightLinks, link) ? 16 : 8);
+  }
+
+  /**
+   * Sets width of directional particle depending if link is highlighted.
+   * 
+   * @param {Set<Link>} highlightLinks set of highlighted links
+   * @returns {Link} styled ForceGraph's link
+   */
+  #setParticleWidth(highlightLinks) {
+    return (link) => (this.#isLinkHighlighted(highlightLinks, link) ? 4 : 2);
+  }
+
+  /**
+   * Returns true if link is in highlighted links.
+   * 
+   * @param {Set<Link>} highlightLinks set of highlighted links
+   * @param {Link} link link in graph
+   * @returns {boolean}
+   */
+  #isLinkHighlighted(highlightLinks, link) {
+    return highlightLinks.has(link);
+  }
+
+  /**
+   * Sets node mode depending if highlighted.
+   * 
+   * @param {Set<Node>} highlightNodes set of highlighted nodes
+   * @returns {Node} styled ForceGraph's node
+   */
+  #setNodeMode(highlightNodes) {
+    return (node) => (highlightNodes.has(node) ? "before" : undefined);
+  }
+
+  /**
+   * Sets style of ring around node depending if node is highlighted or not.
+   *
+   * @param {Node} hoveredNode
+   * @returns {Object} ForceGraph's styled node and context
+   */
+  #displayHighlightedNodes(hoveredNode) {
+    const nodeRadius = 4;
+    return (node, ctx) => {
+      // add ring just for highlighted nodes
+      ctx.beginPath();
+      ctx.arc(node.x, node.y, nodeRadius * 1.4, 0, 2 * Math.PI, false);
+      ctx.fillStyle = node === hoveredNode ? "red" : "orange";
+      ctx.fill();
+    };
+  }
 }
 
 export { KnowledgeGraphComponent };
