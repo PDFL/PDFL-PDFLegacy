@@ -5,9 +5,11 @@ import {
 import { SidePageComponent } from "./SidePageComponent";
 import { ToolbarComponent } from "./ToolbarComponent";
 import { ReferenceComponent } from "./ReferenceComponent";
+import { PopupComponent } from "./PopupComponent";
+import { KeyboardService } from "../services/KeyboardService";
+import * as textRenderService from "../services/TextRenderService";
 
 const pdfjsLib = require("pdfjs-dist");
-const pdfjsViewer = require("pdfjs-dist/web/pdf_viewer");
 
 /**
  * Component representing the PDF reader. Displays the content of PDF document and actions
@@ -18,7 +20,10 @@ const pdfjsViewer = require("pdfjs-dist/web/pdf_viewer");
  * @property {HTMLElement} components.openNew button that takes user to input view page
  * @property {SidePageComponent} sidePageComponent side component within the reader
  * @property {ToolbarComponent} toolbarComponent toolbar component within the reader
+ * @property {PopupComponent} popupComponent popup component within the reader
  * @property {PDFDocumentProxy} pdfDoc PDF document
+ * @property {KeyboardService} keyboardService keyboard service
+ * @property {TextRenderComponent} textRenderComponent function to realize text & links
  */
 class PdfReaderComponent {
   components = {
@@ -35,9 +40,11 @@ class PdfReaderComponent {
    * @constructor
    */
   constructor() {
+    this.keyboardService = new KeyboardService();
     this.toolbarComponent = new ToolbarComponent();
     this.sidePageComponent = new SidePageComponent();
     this.referenceComponent = new ReferenceComponent();
+    this.PopupComponent = new PopupComponent();
     this.#registerEvents();
   }
 
@@ -48,9 +55,17 @@ class PdfReaderComponent {
   #registerEvents = () => {
     this.components.openNew.addEventListener("click", this.#onNewFile);
 
+    this.components.pdfContainer.addEventListener(
+      "mousemove",
+      textRenderService.hideLinks
+    );
+
     EventHandlerService.subscribe(PDFLEvents.onRenderPage, () => {
-      this.#renderPage();
-      this.#renderText();
+      textRenderService.renderPage(
+        this.pdfDoc,
+        this.components,
+        this.toolbarComponent
+      );
     });
 
     EventHandlerService.subscribe(PDFLEvents.onResetReader, () => {
@@ -60,6 +75,18 @@ class PdfReaderComponent {
     EventHandlerService.subscribe(PDFLEvents.onReadNewFile, (pdf) => {
       this.loadPdf(pdf);
     });
+
+    EventHandlerService.subscribe(
+      PDFLEvents.onKeyboardKeyDown,
+      (functionalKeys, key) => {
+        if (!functionalKeys.ctrl) {
+          return;
+        }
+        if (key === "u") {
+          this.#onNewFile();
+        }
+      }
+    );
   };
 
   /**
@@ -84,47 +111,16 @@ class PdfReaderComponent {
         self.referenceComponent.setPdfDoc(data);
         self.toolbarComponent.setPageCount(data.numPages);
         self.sidePageComponent.setPDF(data);
-        self.#renderPage();
-        self.#renderText();
-        //self.#renderLink();
+        textRenderService.renderPage(
+          this.pdfDoc,
+          this.components,
+          this.toolbarComponent
+        );
       })
       .catch((err) => {
         console.log(err.message); // TODO: handle error in some way
       });
     this.components.loader.className += " hidden";
-  };
-
-  /**
-   * Renders the page.
-   * @private
-   */
-  #renderPage = () => {
-    const component = this.components;
-    this.pdfDoc.getPage(this.toolbarComponent.getCurrentPage()).then((page) => {
-      //Set the HTML properties
-      component.canvas = document.createElement("canvas");
-      component.canvas.setAttribute("class", "canvas__container");
-
-      const ctx = component.canvas.getContext("2d");
-      component.viewport = page.getViewport({
-        scale: this.toolbarComponent.getZoom(),
-      });
-      component.canvas.height = component.viewport.height;
-      component.canvas.width = component.viewport.width;
-
-      // Render the PDF page into the canvas context.
-      const renderCtx = {
-        canvasContext: ctx,
-        viewport: component.viewport,
-      };
-
-      page.render(renderCtx);
-
-      //Scroll is possible but not supported by other navigation functions, clear container before adding the new page
-      component.pdfContainer.innerHTML = "";
-      component.pdfContainer.appendChild(component.canvas);
-      this.toolbarComponent.setCurrentPage();
-    });
   };
 
   /**

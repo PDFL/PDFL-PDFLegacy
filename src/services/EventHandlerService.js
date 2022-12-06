@@ -39,7 +39,6 @@ class EventHandlerService {
  * onHideSidePageLoader: string, onShowSidePageError: string}}
  */
 const PDFLEvents = {
-
   onShowWelcomeView: "onShowWelcomeView",
   onShowInputView: "onShowInputView",
   onShowReaderView: "onShowReaderView",
@@ -50,10 +49,13 @@ const PDFLEvents = {
   onLinkLayerRendered: "onLinkLayerRendered",
   onNewPageRequest: "onNewPageRequest",
   onPopupContentReady: "onPopupContentReady",
-   onShowTransparentSidePageLoader: 'onShowTransparentSidePageLoader',
-    onShowOpaqueSidePageLoader: 'onShowOpaqueSidePageLoader',
-    onHideSidePageLoader: 'onHideSidePageLoader',
-    onShowSidePageError: 'onShowSidePageError',
+  onShowTransparentSidePageLoader: "onShowTransparentSidePageLoader",
+  onShowOpaqueSidePageLoader: "onShowOpaqueSidePageLoader",
+  onHideSidePageLoader: "onHideSidePageLoader",
+  onShowSidePageError: "onShowSidePageError",
+  onKeyboardKeyUp: "onKeyboardKeyUp",
+  onKeyboardKeyDown: "onKeyboardKeyDown",
+  onKeyboardKeyPress: "onKeyboardKeyPress",
 };
 
 export { PDFLEvents, EventHandlerService };
