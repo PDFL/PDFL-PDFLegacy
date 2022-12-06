@@ -425,6 +425,11 @@ input[type="number"]::-webkit-outer-spin-button {
     margin: 0;
 }
 
+.disabled {
+    color: #C7C7C7 !important;
+    pointer-events: none;
+}
+
 .print-button {
     border: none;
     color: var(--color);;
