@@ -23,7 +23,6 @@ const pdfjsLib = require("pdfjs-dist");
  * @property {PopupComponent} popupComponent popup component within the reader
  * @property {PDFDocumentProxy} pdfDoc PDF document
  * @property {KeyboardService} keyboardService keyboard service
- * @property {TextRenderComponent} textRenderComponent function to realize text & links
  */
 class PdfReaderComponent {
   components = {
@@ -31,6 +30,7 @@ class PdfReaderComponent {
     openNew: document.querySelector("#open-new"),
     canvas: null,
     viewport: null,
+    textLayer: null,
     loader: document.querySelector("#loader"),
   };
 
@@ -45,6 +45,8 @@ class PdfReaderComponent {
     this.sidePageComponent = new SidePageComponent();
     this.referenceComponent = new ReferenceComponent();
     this.PopupComponent = new PopupComponent();
+    this.textLayer = document.createElement("div");
+    this.textLayer.setAttribute("class", "textLayer");
     this.#registerEvents();
   }
 
@@ -60,11 +62,16 @@ class PdfReaderComponent {
       textRenderService.hideLinks
     );
 
+    new ResizeObserver(() => {
+      textRenderService.positionTextLayer(this.textLayer, this.components);
+    }).observe(this.components.pdfContainer);
+
     EventHandlerService.subscribe(PDFLEvents.onRenderPage, () => {
       textRenderService.renderPage(
         this.pdfDoc,
         this.components,
-        this.toolbarComponent
+        this.toolbarComponent,
+        this.textLayer
       );
     });
 
@@ -103,7 +110,7 @@ class PdfReaderComponent {
    */
   loadPdf = (pdf) => {
     const self = this;
-    pdfjsLib.GlobalWorkerOptions.workerSrc = "webpack/pdf.worker.bundle.js";
+    pdfjsLib.GlobalWorkerOptions.workerSrc = "/pdf.worker.bundle.js";
     pdfjsLib
       .getDocument(pdf)
       .promise.then((data) => {
@@ -112,9 +119,10 @@ class PdfReaderComponent {
         self.toolbarComponent.setPageCount(data.numPages);
         self.sidePageComponent.setPDF(data);
         textRenderService.renderPage(
-          this.pdfDoc,
-          this.components,
-          this.toolbarComponent
+          self.pdfDoc,
+          self.components,
+          self.toolbarComponent,
+          self.textLayer
         );
       })
       .catch((err) => {
@@ -122,68 +130,6 @@ class PdfReaderComponent {
       });
     this.components.loader.className += " hidden";
   };
-
-  /**
-   * Private function to render the text
-   */
-  #renderText = () => {
-    const self = this;
-    const component = this.components;
-
-    this.pdfDoc.getPage(this.toolbarComponent.getCurrentPage()).then((page) => {
-      const textLayer = document.createElement("div");
-      textLayer.setAttribute("class", "textLayer");
-
-      // Position the text layer when viewport changes sides.
-      window.onresize = () => {
-        self.#positionTextLayer(textLayer);
-      };
-
-      page.getTextContent().then(function (textContent) {
-        //Render the text inside the textLayer container
-        pdfjsLib.renderTextLayer({
-          textContent: textContent,
-          container: textLayer,
-          viewport: component.viewport,
-          textDivs: [],
-        });
-      });
-
-      const pdfLinkService = new pdfjsViewer.PDFLinkService();
-
-      page.getAnnotations().then(function (annotationsData) {
-        self.#positionTextLayer(textLayer);
-
-        //Render the text inside the textLayer container
-        pdfjsLib.AnnotationLayer.render({
-          div: textLayer,
-          viewport: component.viewport.clone({ dontFlip: true }),
-          annotations: annotationsData,
-          page: page,
-          linkService: pdfLinkService,
-          enableScripting: true,
-          renderInteractiveForms: true,
-        });
-        EventHandlerService.publish(PDFLEvents.onLinkLayerRendered);
-      });
-
-      //Display the container
-      component.pdfContainer.appendChild(textLayer);
-    });
-  };
-
-  /**
-   * Positions the textLayer DOM element to the correct location
-   * to fix the displayed text of the pdf.
-   *
-   * @param {HTMLElement} textLayer
-   */
-  #positionTextLayer(textLayer) {
-    textLayer.style.left = this.components.canvas.offsetLeft + "px";
-    textLayer.style.top = this.components.canvas.offsetTop + "px";
-    textLayer.style.height = this.components.viewport.offsetHeight + "px";
-    textLayer.style.width = this.components.viewport.offsetWidth + "px";
-  }
 
   /**
    * Sets current page of pagination component to 1 and current zoom level
