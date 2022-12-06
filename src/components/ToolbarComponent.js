@@ -45,6 +45,14 @@ class ToolbarComponent {
       this.#showKnowledgeGraph
     );
     this.components.fullScreen.addEventListener("click", this.#showFullScreen);
+    EventHandlerService.subscribe(
+      PDFLEvents.onKeyboardKeyDown,
+      (functionalKeys, key, code) => {
+        if (functionalKeys.alt && code === "KeyL") {
+          this.#showFullScreen();
+        }
+      }
+    );
   };
 
   /**

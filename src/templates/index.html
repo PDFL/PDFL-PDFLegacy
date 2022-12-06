@@ -10,7 +10,11 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
-    <script src="https://www.unpkg.com/force-graph"></script> <!--TODO: webpack-->
+    <script src="https://www.unpkg.com/force-graph"></script>
+    <script src="https://unpkg.com/d3-quadtree"></script>
+    <script src="https://unpkg.com/d3-force"></script>
+    <link rel="shortcut icon" type="image/png" href="assets/logo.png" />
+    <!--TODO: webpack-->
 
 </head>
 
@@ -42,7 +46,7 @@
                         </button>
                     </div>
                 </div>
-                <img src="../assets/pic.png" id="main-pic" />
+                <img src="assets/pic.png" id="main-pic" />
             </div>
             <footer>
                 <div class="footer-text">
@@ -59,7 +63,7 @@
             </footer>
         </div>
         <div id="logo">
-            <img src="../assets/logo.png" class="black-logo" />
+            <img src="assets/logo.png" class="black-logo" />
         </div>
     </div>
     <!--INPUT PAGE-->
@@ -76,7 +80,7 @@
             </form>
         </div>
         <div class="logo">
-            <img src="../assets/green_logo.png" id="green-logo" />
+            <img src="assets/green_logo.png" id="green-logo" />
         </div>
     </div>
     <!--PDF READER-->
@@ -95,7 +99,8 @@
                 <p id="num-pages">
                     <span id="page-num"></span>/
                     <span id="page-count"></span>
-                    <span class="tooltiptext">Page <input type="number" value="1" id="current-page"/> of <span id="page-count"></span></span>
+                    <span class="tooltiptext">Page <input type="number" value="1" id="current-page" /> of <span
+                            id="page-count"></span></span>
                 </p>
                 <a>
                     <i class="material-icons" id="next-page">chevron_right</i>
@@ -122,7 +127,7 @@
         <nav id="navbar">
             <!-- LOGO -->
             <div id="padding">
-                <img src="../assets/logo.png" class="black-logo" />
+                <img src="assets/logo.png" class="black-logo" />
             </div>
             <!-- NAVIGATION MENU -->
             <ul id="nav-links">
@@ -142,10 +147,34 @@
         <div id="loader">
             <img src="assets/logo_white.png" alt="loading..." id="logo-loader" />
         </div>
+
         <div id="main">
             <div id="pdf-container" class="full-width"></div>
+
             <div id="side-page" class="no-width">
+                <div id="side-page-loader">
+                    <div id="loader-bubbles">
+                        <div class="bubble"></div>
+                        <div class="bubble"></div>
+                        <div class="bubble"></div>
+                        <div class="bubble"></div>
+                    </div>
+                    <div id="error-message-div" class="hidden">
+                        <img src="assets/logo_broken.png" alt="heart broken" id="logo-broken" />
+                        <p id="error-message">Ops :'( you broke our heart. <br><br> You can try later, but don't ask
+                            us,
+                            <br>
+                            because we don't trust you anymore
+                        </p>
+                    </div>
+                </div>
                 <a id="close-btn" class="closebtn">&times;</a>
+                <label for="graph-depth">Graph depth:</label>
+                <select name="graph-depth" id="graph-depth">
+                    <option value="1" selected>1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                </select>                   
                 <div id="knowledge-graph"></div>
             </div>
         </div>

@@ -34,7 +34,9 @@ class EventHandlerService {
 
 /**
  * Enum of possible event type (to avoid typos)
- * @type {{onShowInputView: string, onShowReaderView: string, onRenderPage: string, onShowKnowledgeGraph: string}}
+ * @type {{onShowInputView: string, onShowReaderView: string, onRenderPage: string, onShowKnowledgeGraph: string,
+ * onResetReader: string, onReadNewFile: string, onShowTransparentSidePageLoader: string, onShowOpaqueSidePageLoader: string,
+ * onHideSidePageLoader: string, onShowSidePageError: string}}
  */
 const PDFLEvents = {
   onShowWelcomeView: "onShowWelcomeView",
@@ -47,6 +49,13 @@ const PDFLEvents = {
   onLinkLayerRendered: "onLinkLayerRendered",
   onNewPageRequest: "onNewPageRequest",
   onPopupContentReady: "onPopupContentReady",
+  onShowTransparentSidePageLoader: "onShowTransparentSidePageLoader",
+  onShowOpaqueSidePageLoader: "onShowOpaqueSidePageLoader",
+  onHideSidePageLoader: "onHideSidePageLoader",
+  onShowSidePageError: "onShowSidePageError",
+  onKeyboardKeyUp: "onKeyboardKeyUp",
+  onKeyboardKeyDown: "onKeyboardKeyDown",
+  onKeyboardKeyPress: "onKeyboardKeyPress",
 };
 
 export { PDFLEvents, EventHandlerService };
