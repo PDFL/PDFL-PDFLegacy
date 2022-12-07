@@ -30,7 +30,6 @@ class PdfReaderComponent {
     openNew: document.querySelector("#open-new"),
     canvas: null,
     viewport: null,
-    textLayer: null,
     loader: document.querySelector("#loader"),
   };
 
@@ -45,8 +44,6 @@ class PdfReaderComponent {
     this.sidePageComponent = new SidePageComponent();
     this.referenceComponent = new ReferenceComponent();
     this.PopupComponent = new PopupComponent();
-    this.textLayer = document.createElement("div");
-    this.textLayer.setAttribute("class", "textLayer");
     this.#registerEvents();
   }
 
@@ -63,15 +60,14 @@ class PdfReaderComponent {
     );
 
     new ResizeObserver(() => {
-      textRenderService.positionTextLayer(this.textLayer, this.components);
+      textRenderService.positionTextLayer(this.components);
     }).observe(this.components.pdfContainer);
 
     EventHandlerService.subscribe(PDFLEvents.onRenderPage, () => {
       textRenderService.renderPage(
         this.pdfDoc,
         this.components,
-        this.toolbarComponent,
-        this.textLayer
+        this.toolbarComponent
       );
     });
 
@@ -121,8 +117,7 @@ class PdfReaderComponent {
         textRenderService.renderPage(
           self.pdfDoc,
           self.components,
-          self.toolbarComponent,
-          self.textLayer
+          self.toolbarComponent
         );
       })
       .catch((err) => {

@@ -1,6 +1,5 @@
 import { EventHandlerService, PDFLEvents } from "./EventHandlerService";
 import { ToolbarComponent } from "../components/ToolbarComponent";
-import { PdfReaderComponent } from "../components/PdfReaderComponent";
 /**
  * Declaration of library that contains the method to render text and annotations
  * @constant
@@ -13,9 +12,8 @@ const pdfjsViewer = require("pdfjs-dist/web/pdf_viewer");
  * @param {pdfDoc} pdfDoc PDF document
  * @param {Object} component object that holds DOM elements that are within component
  * @param {ToolbarComponent} toolbar toolbar component within the reader
- * @param {HTMLElement} textLayer text layer DOM element
  */
-export function renderPage(pdfDoc, component, toolbar, textLayer) {
+export function renderPage(pdfDoc, component, toolbar) {
   pdfDoc.getPage(toolbar.getCurrentPage()).then((page) => {
     //Set the HTML properties
     component.canvas = document.createElement("canvas");
@@ -42,7 +40,7 @@ export function renderPage(pdfDoc, component, toolbar, textLayer) {
     toolbar.setCurrentPage();
 
     // Function to render the text layer and the relatives links
-    renderText(pdfDoc, component, toolbar, textLayer);
+    renderText(pdfDoc, component, toolbar);
   });
 }
 
@@ -51,12 +49,22 @@ export function renderPage(pdfDoc, component, toolbar, textLayer) {
  * @param {pdfDoc} pdfDoc PDF document
  * @param {Object} component object that holds DOM elements that are within component
  * @param {ToolbarComponent} toolbar toolbar component within the reader
- * @param {HTMLElement} textLayer text layer DOM element
  */
-export function renderText(pdfDoc, component, toolbar, textLayer) {
+export function renderText(pdfDoc, component, toolbar) {
+  // Create text layer if it does not exist
+  let textLayer = document.querySelector("#text-layer");
+  if (textLayer) {
+    textLayer.innerHTML = "";
+  } else {
+    textLayer = document.createElement("div");
+    textLayer.setAttribute("id", "text-layer");
+    textLayer.setAttribute("class", "textLayer");
+  }
+
   pdfDoc.getPage(toolbar.getCurrentPage()).then((page) => {
     page.getTextContent().then(function (textContent) {
       //Render the text inside the textLayer container
+      textLayer.innerHTML = "";
       pdfjsLib.renderTextLayer({
         textContent: textContent,
         container: textLayer,
@@ -68,7 +76,7 @@ export function renderText(pdfDoc, component, toolbar, textLayer) {
     const pdfLinkService = new pdfjsViewer.PDFLinkService();
 
     page.getAnnotations().then(function (annotationsData) {
-      positionTextLayer(textLayer, component);
+      positionTextLayer(component);
 
       //Render the text inside the textLayer container
       pdfjsLib.AnnotationLayer.render({
@@ -111,10 +119,11 @@ export function hideLinks() {
  * Positions the textLayer DOM element to the correct location
  * to fix the displayed text of the pdf.
  *
- * @param {Object} components object that holds DOM elements that are within component
- * @param {HTMLElement} textLayer
+ * @param {Object} components which holds viewport and DOM nodes
  */
-export function positionTextLayer(textLayer, components) {
+export function positionTextLayer(components) {
+  if (!components.canvas) return;
+  let textLayer = document.querySelector("#text-layer");
   textLayer.style.left = components.canvas.offsetLeft + "px";
   textLayer.style.top = components.canvas.offsetTop + "px";
   textLayer.style.height = components.viewport.offsetHeight + "px";
