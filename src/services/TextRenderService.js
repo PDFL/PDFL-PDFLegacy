@@ -51,45 +51,34 @@ export function renderPage(pdfDoc, component, toolbar) {
  * @param {ToolbarComponent} toolbar toolbar component within the reader
  */
 export function renderText(pdfDoc, component, toolbar) {
-  // Create text layer if it does not exist
-  let textLayer = document.querySelector("#text-layer");
-  if (textLayer) {
-    textLayer.innerHTML = "";
-  } else {
-    textLayer = document.createElement("div");
-    textLayer.setAttribute("id", "text-layer");
-    textLayer.setAttribute("class", "textLayer");
-  }
-
   pdfDoc.getPage(toolbar.getCurrentPage()).then((page) => {
+    const textLayer = createTextLayerDOMIfNotExist();
+
     page.getTextContent().then(function (textContent) {
       //Render the text inside the textLayer container
-      textLayer.innerHTML = "";
+      positionTextLayer(component);
       pdfjsLib.renderTextLayer({
         textContent: textContent,
         container: textLayer,
         viewport: component.viewport,
         textDivs: [],
       });
-    });
 
-    const pdfLinkService = new pdfjsViewer.PDFLinkService();
+      // Render links
+      const pdfLinkService = new pdfjsViewer.PDFLinkService();
+      page.getAnnotations().then(function (annotationsData) {
+        pdfjsLib.AnnotationLayer.render({
+          div: textLayer,
+          viewport: component.viewport.clone({ dontFlip: true }),
+          annotations: annotationsData,
+          page: page,
+          linkService: pdfLinkService,
+          enableScripting: true,
+          renderInteractiveForms: true,
+        });
 
-    page.getAnnotations().then(function (annotationsData) {
-      positionTextLayer(component);
-
-      //Render the text inside the textLayer container
-      pdfjsLib.AnnotationLayer.render({
-        div: textLayer,
-        viewport: component.viewport.clone({ dontFlip: true }),
-        annotations: annotationsData,
-        page: page,
-        linkService: pdfLinkService,
-        enableScripting: true,
-        renderInteractiveForms: true,
+        EventHandlerService.publish(PDFLEvents.onLinkLayerRendered);
       });
-
-      EventHandlerService.publish(PDFLEvents.onLinkLayerRendered);
     });
 
     //Display the container
@@ -122,10 +111,25 @@ export function hideLinks() {
  * @param {Object} components which holds viewport and DOM nodes
  */
 export function positionTextLayer(components) {
-  if (!components.canvas) return;
   let textLayer = document.querySelector("#text-layer");
   textLayer.style.left = components.canvas.offsetLeft + "px";
   textLayer.style.top = components.canvas.offsetTop + "px";
   textLayer.style.height = components.viewport.offsetHeight + "px";
   textLayer.style.width = components.viewport.offsetWidth + "px";
+}
+
+/**
+ * Creates the text layer DOM node if it does not already exist.
+ * Id of the element will be 'text-layer'.
+ */
+function createTextLayerDOMIfNotExist() {
+  let textLayer = document.querySelector("#text-layer");
+  if (textLayer) {
+    textLayer.innerHTML = "";
+  } else {
+    textLayer = document.createElement("div");
+    textLayer.setAttribute("id", "text-layer");
+    textLayer.setAttribute("class", "textLayer");
+  }
+  return textLayer;
 }
