@@ -169,12 +169,17 @@
                     </div>
                 </div>
                 <a id="close-btn" class="closebtn">&times;</a>
-                <label for="graph-depth">Graph depth:</label>
-                <select name="graph-depth" id="graph-depth">
-                    <option value="1" selected>1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                </select>                   
+                <div id="slider-graph-depth">
+                    <div id="slider">
+                        <label for="graph-depth">Graph depth</label><br>
+                        <input type="range" name="graph-depth" min="1" max="2" value="1" id="graph-depth" step="1"
+                            list="depth-settings">
+                        <datalist id="depth-settings">
+                            <option>1</option>
+                            <option>2</option>
+                        </datalist>
+                    </div>
+                </div>
                 <div id="knowledge-graph"></div>
             </div>
         </div>
