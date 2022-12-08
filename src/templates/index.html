@@ -171,13 +171,15 @@
                 <a id="close-btn" class="closebtn">&times;</a>
                 <div id="slider-graph-depth">
                     <div id="slider">
-                        <label for="graph-depth">Graph depth</label><br>
+                        <label for="graph-depth">Graph depth: </label>
+                        <p id="range">1</p>
                         <input type="range" name="graph-depth" min="1" max="2" value="1" id="graph-depth" step="1"
-                            list="depth-settings">
+                            list="depth-settings" oninput="range.innerText = this.value">
                         <datalist id="depth-settings">
-                            <option>1</option>
-                            <option>2</option>
+                            <option></option>
+                            <option></option>
                         </datalist>
+
                     </div>
                 </div>
                 <div id="knowledge-graph"></div>
