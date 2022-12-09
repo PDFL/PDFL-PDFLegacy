@@ -779,4 +779,48 @@ input[type="number"]::-webkit-outer-spin-button {
     margin-top: 13px;
   }
 
- 
+ /* CSS for Graph Depth Slider */
+ #slider-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2%;
+ }
+ #labels-slider{
+  margin-top: 4%;
+  color: var(--color);
+  font-size: 15px;
+  font-weight: 900;
+  display: flex;
+  justify-content: space-between;
+  margin-right: 10px;
+  margin-left: 10px;
+ }
+ #graph-depth {
+  -webkit-appearance: none;
+  height: 5px;
+  border-radius: 5px;  
+  background: grey;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+#graph-depth::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%; 
+  background: var(--color);
+  cursor: pointer;
+}
+
+#graph-depth::-moz-range-thumb {
+  width: 25px;
+  height: 2px;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+}
