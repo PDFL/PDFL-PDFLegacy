@@ -780,42 +780,45 @@ input[type="number"]::-webkit-outer-spin-button {
   }
 
   /* CSS for Graph depht selection */
-#slider-graph-depth{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transform: scale(0.6);
-  }
-
-#slider {
-  padding: 20px;
-  background-color: #ffffff;
-  border: solid #ffffff;
-  border-radius: 15px;
-  cursor:default;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.15);
-  display: flex;
-  align-items: center;
-  height: 30px;
-  }
-  #slider label {
-    font-size: 24px;
-    font-weight: 900;
-    padding-left: 10px;
-    color: var(--iconColor);
-  }
-  #slider input[type="range"] {
-    cursor: pointer;
-    width: 200px;
-    height: 1px;
-    background: black;
-    border: none;
-    outline: none;
-  }
-  #range{
-    font-size: 24px;
-    color: var(--iconColor);
-    padding-right: 20px;
-    padding-left: 10px;
-    font-weight: 900;
-  }
+  .slider {
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    width:500px;
+    height:60px;
+    padding:30px;
+    padding-left: 40px;
+    background:#fcfcfc;
+    border-radius:20px;
+    display:flex;
+    align-items:center;
+    box-shadow:0px 15px 40px #7E6D5766;
+   }
+   .slider p {
+    font-size:26px;
+    font-weight:600;
+    font-family: Open Sans;
+    padding-left:30px;
+    color:#7E6D57;
+   }
+   .slider input[type=”range”] {
+    -webkit-appearance:none !important;
+    width:420px;
+    height:2px;
+    background:#7E6D57;
+    border:none;
+    outline:none;
+   }
+   .slider input[type=”range”]::-webkit-slider-thumb {
+    -webkit-appearance:none !important;
+    width:30px;
+    height:30px;
+    background:#fcfcfc;
+    border:2px solid #7E6D57;
+    border-radius:50%;
+    cursor:pointer;
+   }
+   .slider input[type=”range”]::-webkit-slider-thumb:hover {
+    background:#7E6D57;
+   }
