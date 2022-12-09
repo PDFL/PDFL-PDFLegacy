@@ -121,6 +121,7 @@ class KnowledgeGraphComponent {
       .linkColor(() => TRANSPARENT_WHITE)
       .autoPauseRedraw(false) // keep redrawing after engine has stopped
       .onNodeHover((node) => this.#highlightConnectedNodes(highlightNodes, highlightLinks, hoveredNode, node))
+      .onNodeClick((node) =>  node.color = "red")
       .onLinkHover((link) => this.#highlightLink(highlightNodes, highlightLinks, link))
       .linkWidth((link) => this.#getLinkWidth(highlightLinks, link))
       .linkDirectionalParticles(4)
