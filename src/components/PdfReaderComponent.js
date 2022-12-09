@@ -18,6 +18,8 @@ const pdfjsLib = require("pdfjs-dist");
  * @property {Object} components object that holds DOM elements that are within component
  * @property {HTMLElement} components.pdfContainer element containing the PDF reader
  * @property {HTMLElement} components.openNew button that takes user to input view page
+ * @property {HTMLElement} components.canvas canvas DOM element for pdf.js page
+ * @property {import("pdfjs-dist").PageViewport} components.viewport target page viewport for the text layer
  * @property {SidePageComponent} sidePageComponent side component within the reader
  * @property {ToolbarComponent} toolbarComponent toolbar component within the reader
  * @property {PopupComponent} popupComponent popup component within the reader
@@ -60,7 +62,10 @@ class PdfReaderComponent {
     );
 
     new ResizeObserver(() => {
-      textRenderService.positionTextLayer(this.components);
+      textRenderService.positionTextLayer(
+        this.components.canvas,
+        this.components.viewport
+      );
     }).observe(this.components.pdfContainer);
 
     EventHandlerService.subscribe(PDFLEvents.onRenderPage, () => {

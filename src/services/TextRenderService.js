@@ -56,7 +56,7 @@ export function renderText(pdfDoc, component, toolbar) {
 
     page.getTextContent().then(function (textContent) {
       //Render the text inside the textLayer container
-      positionTextLayer(component);
+      positionTextLayer(component.canvas, component.viewport);
       pdfjsLib.renderTextLayer({
         textContent: textContent,
         container: textLayer,
@@ -108,14 +108,15 @@ export function hideLinks() {
  * Positions the textLayer DOM element to the correct location
  * to fix the displayed text of the pdf.
  *
- * @param {Object} components which holds viewport and DOM nodes
+ * @param {HTMLElement} canvas canvas of the pdf.js page
+ * @param {import("pdfjs-dist").PageViewport} viewport target viewport of the text layer
  */
-export function positionTextLayer(components) {
+export function positionTextLayer(canvas, viewport) {
   let textLayer = document.querySelector("#text-layer");
-  textLayer.style.left = components.canvas.offsetLeft + "px";
-  textLayer.style.top = components.canvas.offsetTop + "px";
-  textLayer.style.height = components.viewport.offsetHeight + "px";
-  textLayer.style.width = components.viewport.offsetWidth + "px";
+  textLayer.style.left = canvas.offsetLeft + "px";
+  textLayer.style.top = canvas.offsetTop + "px";
+  textLayer.style.height = viewport.offsetHeight + "px";
+  textLayer.style.width = viewport.offsetWidth + "px";
 }
 
 /**
