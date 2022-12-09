@@ -10,6 +10,7 @@ import {
   PDFLEvents,
 } from "../services/EventHandlerService";
 import { TRANSPARENT_WHITE } from "../Constants";
+import { PaperInfoComponent } from "./PaperInfoComponent";
 
 /**
  * Component responsible for displaying the knowledge graph.
@@ -18,6 +19,7 @@ import { TRANSPARENT_WHITE } from "../Constants";
  * @property {HTMLElement} components.knowledgeGraph element in which knowledge graph will be displayed
  * @property {HTMLElement} components.graphDepth input element for depth selection
  * @property {int} depth depth of knowledge graph
+ * @property {PaperInfoComponent} paperInfoWindow window in which paper data on node click will be displayed
  */
 class KnowledgeGraphComponent {
   components = {
@@ -33,7 +35,7 @@ class KnowledgeGraphComponent {
    */
   constructor() {
     this.depth = 1;
-
+    this.paperInfoWindow = new PaperInfoComponent(); 
     this.#registerEvents();
   }
 
@@ -121,6 +123,7 @@ class KnowledgeGraphComponent {
       .linkColor(() => TRANSPARENT_WHITE)
       .autoPauseRedraw(false) // keep redrawing after engine has stopped
       .onNodeHover((node) => { hoveredNode = this.#highlightConnectedNodes(highlightNodes, highlightLinks, node)})
+      .onNodeClick((node) => this.paperInfoWindow.displayPaperInfo(this.graph, node))
       .onLinkHover((link) => this.#highlightLink(highlightNodes, highlightLinks, link))
       .linkWidth((link) => this.#getLinkWidth(highlightLinks, link))
       .linkDirectionalParticles(4)

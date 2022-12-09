@@ -728,3 +728,18 @@ input[type="number"]::-webkit-outer-spin-button {
   .closebtn:hover{
     color: red;
   }
+
+  #paper-info{
+    width: 50%; 
+    background-color: lightgray;
+    z-index: 1;
+    position: absolute;
+  }
+
+  #expand-node-btn, #info-close-btn{
+    float: right;
+  }
+
+  .hidden{
+    display: none;
+  }
