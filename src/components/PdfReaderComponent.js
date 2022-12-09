@@ -7,7 +7,7 @@ import { ToolbarComponent } from "./ToolbarComponent";
 import { ReferenceComponent } from "./ReferenceComponent";
 import { PopupComponent } from "./PopupComponent";
 import { KeyboardService } from "../services/KeyboardService";
-import * as textRenderService from "../services/TextRenderService"
+import * as textRenderService from "../services/TextRenderService";
 
 const pdfjsLib = require("pdfjs-dist");
 
@@ -18,13 +18,14 @@ const pdfjsLib = require("pdfjs-dist");
  * @property {Object} components object that holds DOM elements that are within component
  * @property {HTMLElement} components.pdfContainer element containing the PDF reader
  * @property {HTMLElement} components.openNew button that takes user to input view page
+ * @property {HTMLElement} components.canvas canvas DOM element for pdf.js page
+ * @property {import("pdfjs-dist").PageViewport} components.viewport target page viewport for the text layer
  * @property {SidePageComponent} sidePageComponent side component within the reader
  * @property {ToolbarComponent} toolbarComponent toolbar component within the reader
  * @property {PopupComponent} popupComponent popup component within the reader
  * @property {PDFDocumentProxy} pdfDoc PDF document
  * @property {KeyboardService} keyboardService keyboard service
- * @property {TextRenderComponent} textRenderComponent function to realize text & links
-*/
+ */
 class PdfReaderComponent {
   components = {
     pdfContainer: document.querySelector("#pdf-container"),
@@ -55,10 +56,24 @@ class PdfReaderComponent {
   #registerEvents = () => {
     this.components.openNew.addEventListener("click", this.#onNewFile);
 
-    this.components.pdfContainer.addEventListener('mousemove', textRenderService.hideLinks);
+    this.components.pdfContainer.addEventListener(
+      "mousemove",
+      textRenderService.hideLinks
+    );
+
+    new ResizeObserver(() => {
+      textRenderService.positionTextLayer(
+        this.components.canvas,
+        this.components.viewport
+      );
+    }).observe(this.components.pdfContainer);
 
     EventHandlerService.subscribe(PDFLEvents.onRenderPage, () => {
-      textRenderService.renderPage(this.pdfDoc, this.components, this.toolbarComponent);
+      textRenderService.renderPage(
+        this.pdfDoc,
+        this.components,
+        this.toolbarComponent
+      );
     });
 
     EventHandlerService.subscribe(PDFLEvents.onResetReader, () => {
@@ -96,7 +111,7 @@ class PdfReaderComponent {
    */
   loadPdf = (pdf) => {
     const self = this;
-    pdfjsLib.GlobalWorkerOptions.workerSrc = "webpack/pdf.worker.bundle.js";
+    pdfjsLib.GlobalWorkerOptions.workerSrc = "/pdf.worker.bundle.js";
     pdfjsLib
       .getDocument(pdf)
       .promise.then((data) => {
@@ -104,7 +119,11 @@ class PdfReaderComponent {
         self.referenceComponent.setPdfDoc(data);
         self.toolbarComponent.setPageCount(data.numPages);
         self.sidePageComponent.setPDF(data);
-        textRenderService.renderPage(this.pdfDoc, this.components, this.toolbarComponent)
+        textRenderService.renderPage(
+          self.pdfDoc,
+          self.components,
+          self.toolbarComponent
+        );
       })
       .catch((err) => {
         console.log(err.message); // TODO: handle error in some way
