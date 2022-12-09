@@ -234,6 +234,7 @@ function buildSecondDepth(graph, paperId) {
  * now ten. When data is fetched its added to current graph and
  * cached.
  *
+ * @async
  * @param {ForceGraph} graph
  * @param {string} paperId
  * @param {int} depth
