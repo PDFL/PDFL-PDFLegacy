@@ -1,7 +1,9 @@
 import {
   buildGraphProcedure,
   getLinkedPapers,
-  Node, Link, GraphData
+  Node,
+  Link,
+  GraphData,
 } from "../services/KnowledgeGraphService";
 import {
   EventHandlerService,
@@ -90,40 +92,44 @@ class KnowledgeGraphComponent {
     getLinkedPapers(this.pdfDocument, depth).then((linkedPapers) => {
       if (!linkedPapers || linkedPapers.length == 0)
         return EventHandlerService.publish(PDFLEvents.onShowSidePageError);
+
       EventHandlerService.publish(PDFLEvents.onShowTransparentSidePageLoader);
 
-      const highlightNodes = new Set();
-      const highlightLinks = new Set();
-      let hoveredNode = null;
-
-      let graph = ForceGraph()(this.components.knowledgeGraph)
-        .graphData(linkedPapers)
-        .nodeId("id")
-        .nodeAutoColorBy("label")
-        .nodeLabel((node) => `${node.label}`)
-        .linkColor(() => "rgba(255,255,255,0.2)")
-        .autoPauseRedraw(false) // keep redrawing after engine has stopped
-        .onNodeHover(
-          this.#highlightConnectedNodes(
-            highlightNodes,
-            highlightLinks,
-            hoveredNode
-          )
-        )
-        .onLinkHover(this.#highlightLink(highlightNodes, highlightLinks))
-        .linkWidth(this.#setLinkWidth(highlightLinks))
-        .linkDirectionalParticles(4)
-        .linkDirectionalArrowLength(this.#setArrowWidth(highlightLinks))
-        .linkDirectionalParticleWidth(this.#setParticleWidth(highlightLinks))
-        .nodeCanvasObjectMode(this.#setNodeMode(highlightNodes))
-        .nodeCanvasObject(this.#displayHighlightedNodes(hoveredNode))
-        .cooldownTime(300)
-        .d3Force("center", null);
+      this.graph = this.#createForceGraph(linkedPapers);
 
       EventHandlerService.publish(PDFLEvents.onHideSidePageLoader);
-      this.graph = graph;
     });
   };
+
+  /**
+   * Creates and returns custom styled force graph.
+   * 
+   * @param {GraphData} linkedPapers nodes and links in graph
+   * @returns {ForceGraph}
+   */
+  #createForceGraph(linkedPapers) {
+    const highlightNodes = new Set();
+    const highlightLinks = new Set();
+    let hoveredNode;
+
+    return ForceGraph()(this.components.knowledgeGraph)
+      .graphData(linkedPapers)
+      .nodeId("id")
+      .nodeAutoColorBy("label")
+      .nodeLabel((node) => `${node.label}`)
+      .linkColor(() => "rgba(255,255,255,0.2)")
+      .autoPauseRedraw(false) // keep redrawing after engine has stopped
+      .onNodeHover((node) => this.#highlightConnectedNodes(highlightNodes, highlightLinks, hoveredNode, node))
+      .onLinkHover((link) => this.#highlightLink(highlightNodes, highlightLinks, link))
+      .linkWidth((link) => this.#getLinkWidth(highlightLinks, link))
+      .linkDirectionalParticles(4)
+      .linkDirectionalArrowLength((link) => this.#getArrowLength(highlightLinks, link))
+      .linkDirectionalParticleWidth((link) => this.#getParticleWidth(highlightLinks, link))
+      .nodeCanvasObjectMode((node) => this.#getNodeMode(highlightNodes, node))
+      .nodeCanvasObject((node, ctx) => this.#displayHighlightedNode(hoveredNode, node, ctx))
+      .cooldownTime(300)
+      .d3Force("center", null);
+  }
 
   /**
    * Highlights newly hovered node and all of it's links and nodes
@@ -131,28 +137,35 @@ class KnowledgeGraphComponent {
    * highlighted nodes and links sets and finds new links and nodes
    * connected to newly hovered node. Sets new hovered node to
    * node currently being hovered over.
-   * 
+   *
    * @param {Set<Node>} highlightNodes currently highlighted nodes
    * @param {Set<Link>} highlightLinks currently highlighted links
    * @param {Node} hoveredNode last hovered over node
-   * @returns 
+   * @param {Node} node node currently being hovered
+   * @returns {Node} styled ForceGraph's node
    */
-  #highlightConnectedNodes(highlightNodes, highlightLinks, hoveredNode) {
-    return (node) => {
-      highlightNodes.clear();
-      highlightLinks.clear();
-      if (node) {
-        let graphData = this.graph.graphData();
+  #highlightConnectedNodes(highlightNodes, highlightLinks, hoveredNode, node) {
+    highlightNodes.clear();
+    highlightLinks.clear();
 
-        let nodeLinks = this.#findNodesLinks(graphData, node, highlightLinks);
-        nodeLinks.forEach((l) => highlightLinks.add(l));
+    if (node) {
+      let graphData = this.graph.graphData();
 
-        let connectedNodes = this.#findHighlightedNodes(nodeLinks, node, graphData, highlightNodes);
-        connectedNodes.push(node);
-        connectedNodes.forEach((n) => highlightNodes.add(n));
-      }
-      hoveredNode = node || null;
-    };
+      let nodeLinks = this.#findNodesLinks(graphData, node, highlightLinks);
+      nodeLinks.forEach((l) => highlightLinks.add(l));
+
+      let connectedNodes = this.#findHighlightedNodes(
+        nodeLinks,
+        node,
+        graphData,
+        highlightNodes
+      );
+      connectedNodes.push(node);
+      connectedNodes.forEach((n) => highlightNodes.add(n));
+    }
+    hoveredNode = node || null;
+
+    return node;
   }
 
   /**
@@ -161,11 +174,11 @@ class KnowledgeGraphComponent {
    * is checked and if source/target of that link is current link
    * then that link's target/source node if found in current graph
    * data and finally all such nodes are returned in array.
-   * 
+   *
    * @param {Array<Link>} nodeLinks all links connected to hovered node
    * @param {Node} node node that is being hovered over
    * @param {GraphData} graphData current graph data
-   * @returns {Array<Node>}
+   * @returns {Array<Node>} nodes connected to node over links
    */
   #findHighlightedNodes(nodeLinks, node, graphData) {
     return nodeLinks.map((l) => {
@@ -179,10 +192,10 @@ class KnowledgeGraphComponent {
    * Returns array of  links that are connected to given node.
    * Link is connected to node if link's target or source id is
    * equal to node id.
-   * 
+   *
    * @param {GraphData} graphData current graph data
    * @param {Node} node node that is being hovered over
-   * @returns {Array<Link>}
+   * @returns {Array<Link>} links connected to node
    */
   #findNodesLinks(graphData, node) {
     return graphData.links.filter(
@@ -193,57 +206,64 @@ class KnowledgeGraphComponent {
   /**
    * Highlights a link. Adds link to highlighted links set and nodes
    * it connects to highlighted nodes set.
-   * 
+   *
    * @param {Set<Node>} highlightNodes  set of highlighted nodes
    * @param {Set<Link>} highlightLinks set of highlighted links
+   * @param {Link} link link being hovered over
    * @returns {Link} styled ForceGraph's link
    */
-  #highlightLink(highlightNodes, highlightLinks) {
-    return (link) => {
-      highlightNodes.clear();
-      highlightLinks.clear();
+  #highlightLink(highlightNodes, highlightLinks, link) {
+    highlightNodes.clear();
+    highlightLinks.clear();
 
-      if (link) {
-        highlightLinks.add(link);
-        highlightNodes.add(link.source);
-        highlightNodes.add(link.target);
-      }
-    };
-  }
-  
-  /**
-   * Sets link width depending if link is highlighted.
-   * 
-   * @param {Set<Link>} highlightLinks set of highlighted links
-   * @returns {Link} styled ForceGraph's link
-   */
-  #setLinkWidth(highlightLinks) {
-    return (link) => (this.#isLinkHighlighted(highlightLinks, link) ? 5 : 1);
+    if (link) {
+      highlightLinks.add(link);
+      highlightNodes.add(link.source);
+      highlightNodes.add(link.target);
+    }
+
+    return link;
   }
 
   /**
-   * Sets width of directional arrow depending if link is highlighted.
-   * 
+   * Returns link width depending if link is highlighted. If it is
+   * highlighted returns 5 and 1 otherwise.
+   *
    * @param {Set<Link>} highlightLinks set of highlighted links
-   * @returns {Link} styled ForceGraph's link
+   * @param {Link} link link being processed
+   * @returns {int} link width
    */
-  #setArrowWidth(highlightLinks) {
-    return (link) => (this.#isLinkHighlighted(highlightLinks, link) ? 16 : 8);
+  #getLinkWidth(highlightLinks, link) {
+    return this.#isLinkHighlighted(highlightLinks, link) ? 5 : 1;
   }
 
   /**
-   * Sets width of directional particle depending if link is highlighted.
-   * 
+   * Returns length of directional arrow depending if link is highlighted.
+   * If link is hovered returns 16 and 8 otherwise.
+   *
    * @param {Set<Link>} highlightLinks set of highlighted links
-   * @returns {Link} styled ForceGraph's link
+   * @param {Link} link link being processed
+   * @returns {int} directional arrow length
    */
-  #setParticleWidth(highlightLinks) {
-    return (link) => (this.#isLinkHighlighted(highlightLinks, link) ? 4 : 2);
+  #getArrowLength(highlightLinks, link) {
+    return this.#isLinkHighlighted(highlightLinks, link) ? 16 : 8;
+  }
+
+  /**
+   * Returns width of directional particle depending if link is highlighted.
+   * If link is hovered returns 4 and 2 otherwise.
+   *
+   * @param {Set<Link>} highlightLinks set of highlighted links
+   * @param {Link} link link being processed
+   * @returns {int} directional particle width
+   */
+  #getParticleWidth(highlightLinks, link) {
+    return this.#isLinkHighlighted(highlightLinks, link) ? 4 : 2;
   }
 
   /**
    * Returns true if link is in highlighted links.
-   * 
+   *
    * @param {Set<Link>} highlightLinks set of highlighted links
    * @param {Link} link link in graph
    * @returns {boolean}
@@ -253,30 +273,33 @@ class KnowledgeGraphComponent {
   }
 
   /**
-   * Sets node mode depending if highlighted.
-   * 
+   * Returns node mode depending if highlighted. If node is
+   * highlighted returns "before" and undefined otherwise.
+   *
    * @param {Set<Node>} highlightNodes set of highlighted nodes
-   * @returns {Node} styled ForceGraph's node
+   * @param {Node} node node being processed
+   * @returns {string} node mode
    */
-  #setNodeMode(highlightNodes) {
-    return (node) => (highlightNodes.has(node) ? "before" : undefined);
+  #getNodeMode(highlightNodes, node) {
+    return highlightNodes.has(node) ? "before" : undefined;
   }
 
   /**
    * Sets style of ring around node depending if node is highlighted or not.
    *
-   * @param {Node} hoveredNode
-   * @returns {Object} ForceGraph's styled node and context
+   * @param {Node} hoveredNode last hovered node
+   * @param {Node} node node being processed
+   * @param {Object} ctx canvas context of node
+   * @returns {(Node, Object)} ForceGraph's styled node and context
    */
-  #displayHighlightedNodes(hoveredNode) {
+  #displayHighlightedNode(hoveredNode, node, ctx) {
     const nodeRadius = 4;
-    return (node, ctx) => {
-      // add ring just for highlighted nodes
-      ctx.beginPath();
-      ctx.arc(node.x, node.y, nodeRadius * 1.4, 0, 2 * Math.PI, false);
-      ctx.fillStyle = node === hoveredNode ? "red" : "orange";
-      ctx.fill();
-    };
+    // add ring just for highlighted nodes
+    ctx.beginPath();
+    ctx.arc(node.x, node.y, nodeRadius * 1.4, 0, 2 * Math.PI, false);
+    ctx.fillStyle = node === hoveredNode ? "red" : "orange";
+    ctx.fill();
+    return node, ctx;
   }
 }
 
