@@ -120,7 +120,7 @@ class KnowledgeGraphComponent {
       .nodeLabel((node) => `${node.label}`)
       .linkColor(() => TRANSPARENT_WHITE)
       .autoPauseRedraw(false) // keep redrawing after engine has stopped
-      .onNodeHover((node) => this.#highlightConnectedNodes(highlightNodes, highlightLinks, hoveredNode, node))
+      .onNodeHover((node) => { hoveredNode = this.#highlightConnectedNodes(highlightNodes, highlightLinks, node)})
       .onLinkHover((link) => this.#highlightLink(highlightNodes, highlightLinks, link))
       .linkWidth((link) => this.#getLinkWidth(highlightLinks, link))
       .linkDirectionalParticles(4)
@@ -136,16 +136,14 @@ class KnowledgeGraphComponent {
    * Highlights newly hovered node and all of it's links and nodes
    * that are connected to that node over links. Clears old
    * highlighted nodes and links sets and finds new links and nodes
-   * connected to newly hovered node. Sets new hovered node to
-   * node currently being hovered over.
+   * connected to newly hovered node.
    *
    * @param {Set<Node>} highlightNodes currently highlighted nodes
    * @param {Set<Link>} highlightLinks currently highlighted links
-   * @param {Node} hoveredNode last hovered over node
    * @param {Node} node node currently being hovered
-   * @returns {Node} styled ForceGraph's node
+   * @returns {Node} styled ForceGraph's node that is being hovered
    */
-  #highlightConnectedNodes(highlightNodes, highlightLinks, hoveredNode, node) {
+  #highlightConnectedNodes(highlightNodes, highlightLinks, node) {
     highlightNodes.clear();
     highlightLinks.clear();
 
@@ -164,8 +162,6 @@ class KnowledgeGraphComponent {
       connectedNodes.push(node);
       connectedNodes.forEach((n) => highlightNodes.add(n));
     }
-    hoveredNode = node || null;
-
     return node;
   }
 
@@ -298,7 +294,7 @@ class KnowledgeGraphComponent {
     // add ring just for highlighted nodes
     ctx.beginPath();
     ctx.arc(node.x, node.y, nodeRadius * 1.4, 0, 2 * Math.PI, false);
-    ctx.fillStyle = node === hoveredNode ? "red" : "orange";
+    ctx.fillStyle = hoveredNode && node.id === hoveredNode.id ? "red" : "orange";
     ctx.fill();
     return node, ctx;
   }
