@@ -9,6 +9,7 @@ import {
   EventHandlerService,
   PDFLEvents,
 } from "../services/EventHandlerService";
+import { TRANSPARENT_WHITE } from "../Constants";
 
 /**
  * Component responsible for displaying the knowledge graph.
@@ -117,7 +118,7 @@ class KnowledgeGraphComponent {
       .nodeId("id")
       .nodeAutoColorBy("label")
       .nodeLabel((node) => `${node.label}`)
-      .linkColor(() => "rgba(255,255,255,0.2)")
+      .linkColor(() => TRANSPARENT_WHITE)
       .autoPauseRedraw(false) // keep redrawing after engine has stopped
       .onNodeHover((node) => this.#highlightConnectedNodes(highlightNodes, highlightLinks, hoveredNode, node))
       .onLinkHover((link) => this.#highlightLink(highlightNodes, highlightLinks, link))
