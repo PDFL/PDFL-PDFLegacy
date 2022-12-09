@@ -73,7 +73,7 @@ class ReferenceViewComponent {
   };
 
   /**
-   * Cretes event triggered when two page layout button is clicked
+   * Creates event triggered when two page layout button is clicked
    * @private
    */
   #displayPdfReference = (pageNumber) => {
@@ -91,7 +91,7 @@ class ReferenceViewComponent {
   };
 
   /**
-   * Cretes event triggered when graoh maker button is clicked to hide the reference pdf and show the
+   * Creates event triggered when graoh maker button is clicked to hide the reference pdf and show the
    * main pdf in full width
    * @private
    */
