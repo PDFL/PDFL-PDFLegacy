@@ -111,8 +111,8 @@ dist/index.html
 dist/main.bundle.js
 dist/pdf.worker.bundle.js
 dist/runtime.bundle.js
-dist/main.bundle.js.LICENCE.txt
-dist/pdf.worker.bundle.js.LICENCE.txt
+dist/main.bundle.js.LICENSE.txt
+dist/pdf.worker.bundle.js.LICENSE.txt
 dist/main.css
 dist/favicon.ico
 *.map
