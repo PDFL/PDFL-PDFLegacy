@@ -47,7 +47,10 @@ class ZoomComponent {
    * @private
    */
   #registerEvents = () => {
-    this.components.zoomIn.addEventListener("click", this.#zoomIn);
+    this.components.zoomIn.addEventListener("click", (e) => {
+      e.preventDefault();
+      this.#zoomIn();
+    });
     this.components.zoomOut.addEventListener("click", this.#zoomOut);
     EventHandlerService.subscribe(
       PDFLEvents.onKeyboardKeyDown,
@@ -61,7 +64,7 @@ class ZoomComponent {
    */
   #zoomIn = () => {
     this.zoom *= 4 / 3;
-    EventHandlerService.publish(PDFLEvents.onRenderPage);
+    EventHandlerService.publish(PDFLEvents.onZoomChange);
   };
 
   /**
@@ -70,7 +73,7 @@ class ZoomComponent {
    */
   #zoomOut = () => {
     this.zoom *= 2 / 3;
-    EventHandlerService.publish(PDFLEvents.onRenderPage);
+    EventHandlerService.publish(PDFLEvents.onZoomChange);
   };
 
   /**

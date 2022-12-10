@@ -36,7 +36,8 @@ body{
 #pdf-container{
   background-color: #f5f5f5;
   transition: 0.5s;
-  display: flex;
+  display: grid;
+  grid-template-columns: var(--columns, "1fr");
 }
 
 

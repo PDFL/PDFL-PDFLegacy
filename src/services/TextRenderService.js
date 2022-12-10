@@ -134,3 +134,54 @@ function createTextLayerDOMIfNotExist() {
   }
   return textLayer;
 }
+
+/**
+ * Function to render the page.
+ * @param {pdfDoc} pdfDoc PDF document
+ */
+export function renderPage2(pdfDoc, pageNum, zoomScale) {
+  pdfDoc.getPage(pageNum).then((page) => {
+    //Set the HTML properties
+    let canvas = document.querySelector(`#canvas-${pageNum}`);
+
+    const ctx = canvas.getContext("2d");
+    let viewport = page.getViewport({
+      scale: zoomScale,
+    });
+    canvas.height = viewport.height;
+    canvas.width = viewport.width;
+
+    // Render the PDF page into the canvas context.
+    const renderCtx = {
+      canvasContext: ctx,
+      viewport: viewport,
+    };
+
+    page.render(renderCtx);
+
+    // Function to render the text layer and the relatives links
+    // renderText(pdfDoc, component, toolbar);
+  });
+}
+
+export function renderAround(pdfDoc, pageNum, zoomScale) {
+  clearCanvases(pdfDoc);
+  if (pageNum != 1) renderPage2(pdfDoc, pageNum - 1, zoomScale);
+  renderPage2(pdfDoc, pageNum, zoomScale);
+  renderPage2(pdfDoc, pageNum + 1, zoomScale);
+}
+
+export function clearCanvases(pdfDoc) {
+  for (let i = 0; i < pdfDoc.numPages; ++i) {
+    let canvas = document.querySelector(`#canvas-${i + 1}`);
+    const ctx = canvas.getContext("2d");
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  }
+}
+
+export async function getPageSize(pdfDoc, zoomScale) {
+  let page = await pdfDoc.getPage(1);
+  let viewport = await page.getViewport({ scale: zoomScale });
+
+  return [viewport.width, viewport.height];
+}

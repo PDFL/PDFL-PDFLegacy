@@ -1,5 +1,5 @@
 var { compareTwoStrings } = require("string-similarity");
-import { SIMILARITY_THRESHOLD } from "../Constants";
+import { SIMILARITY_THRESHOLD, VISIBILITY_THRESHOLD } from "../Constants";
 
 /**
  * Compares 2 string based on similarity.
@@ -70,4 +70,51 @@ function mergeColors(colors) {
   return `rgba(${r}, ${g}, ${b}, ${a})`;
 }
 
-export { compareSimilarity, timeout, mouseOverDelayEvent, mergeColors };
+/**
+ * Triggers callback when the element enters or exits the viewport.
+ *
+ * @param {HTMLElement} element
+ * @param {CallableFunction} callback
+ */
+function respondToVisibility(element, callback) {
+  var options = {
+    threshold: [0],
+  };
+
+  var observer = new IntersectionObserver((entries, observer) => {
+    entries.forEach((entry) => {
+      callback(entry.intersectionRatio > 0);
+    });
+  }, options);
+
+  observer.observe(element);
+}
+
+function median(values) {
+  if (values.length === 0) throw new Error("No inputs");
+
+  values.sort(function (a, b) {
+    return a - b;
+  });
+
+  var half = Math.floor(values.length / 2);
+
+  return values[half];
+}
+
+function findMiddleCanvas(canvasIds) {
+  let canvasPages = canvasIds.map((canvasId) => {
+    return parseInt(canvasId.replace("canvas-", ""));
+  });
+
+  return median(canvasPages);
+}
+
+export {
+  compareSimilarity,
+  timeout,
+  mouseOverDelayEvent,
+  mergeColors,
+  respondToVisibility,
+  findMiddleCanvas,
+};

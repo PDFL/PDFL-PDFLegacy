@@ -16,6 +16,12 @@ const MAX_REFERENCES = 1;
 
 const TEN_MILLISECONDS = 10;
 
+/**
+ * How much of a HTML element needs to be visible (in %) to
+ * trigger the callback for visibility.
+ */
+const VISIBILITY_THRESHOLD = 0.3;
+
 const FIELD_OF_STUDY_COLOR = {
   Medicine: "rgba(43, 213, 20, 0.8)",
   Chemistry: "rgba(37, 152, 170, 0.8)",
@@ -40,11 +46,12 @@ const FIELD_OF_STUDY_COLOR = {
   Law: "rgba(53, 99, 255, 0.8)",
   Linguistics: "rgba(245, 40, 145, 0.8)",
   "Missing Color": "rgba(255, 255, 255, 0.6)",
-  "Agricultural": "rgba(3, 184, 58, 0.8)",
+  Agricultural: "rgba(3, 184, 58, 0.8)",
 };
 
 export {
   SIMILARITY_THRESHOLD,
+  VISIBILITY_THRESHOLD,
   MAX_POPUP_TEXT_LENGTH,
   PAGE_INPUT_VALIDATION_REGEX,
   POPUP_DISAPPEAR_TIMEOUT,
@@ -53,5 +60,5 @@ export {
   MAX_CITATION,
   MAX_REFERENCES,
   TEN_MILLISECONDS,
-  FIELD_OF_STUDY_COLOR
+  FIELD_OF_STUDY_COLOR,
 };
