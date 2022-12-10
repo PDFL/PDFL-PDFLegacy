@@ -28,7 +28,7 @@ class KnowledgeGraphComponent {
    *
    * @constructor
    */
-  constructor() {
+   constructor() {
     this.depth = 1;
 
     this.#registerEvents();
@@ -71,7 +71,7 @@ class KnowledgeGraphComponent {
     }
 
     this.depth = selectedDepth;
-  }
+  };
 
   /**
    * Setter for PDF document from which knowledge graph will be generated.
@@ -94,61 +94,81 @@ class KnowledgeGraphComponent {
       if (!linkedPapers || linkedPapers.length == 0)
         return EventHandlerService.publish(PDFLEvents.onShowSidePageError);
 
+      // cross-link node objects
+      const highlightNodes = new Set();
+      const highlightLinks = new Set();
+      let hoverNode = null;
+
+      const HOVERED_NODE_RADIUS = 4;
+
+      console.log(linkedPapers)
+
+
       EventHandlerService.publish(PDFLEvents.onShowTransparentSidePageLoader);
 
       let graph = ForceGraph()(this.components.knowledgeGraph)
         .graphData(linkedPapers)
         .nodeId("id")
-        .nodeAutoColorBy("group")
-        .nodeCanvasObject((node, ctx, globalScale) => {
-          const label = node.label.substring(0, 4);
-          const fontSize = 14 / globalScale;
-          ctx.font = `${fontSize}px Sans-Serif`;
-          const textWidth = ctx.measureText(label).width;
-          const bckgDimensions = [textWidth, fontSize].map(
-            (n) => n + fontSize * 0.6
-          );
-
-          ctx.fillStyle = fieldsOfStudyToColor(node.fieldsOfStudy);
-          ctx.fillRect(
-            node.x - bckgDimensions[0] / 2,
-            node.y - bckgDimensions[1] / 2,
-            ...bckgDimensions
-          );
-
-          ctx.textAlign = "center";
-          ctx.textBaseline = "middle";
-          ctx.textWidth = "900";
-          ctx.fillStyle = "white";
-          ctx.fillText(label, node.x, node.y);
-
-          node.__bckgDimensions = bckgDimensions; // to re-use in nodePointerAreaPaint
+        .nodeColor((node) => fieldsOfStudyToColor(node.fieldsOfStudy))
+        .nodeLabel(node => `${node.label}`)
+        .linkColor(() => 'rgba(255,255,255,0.2)')
+        .autoPauseRedraw(false) // keep redrawing after engine has stopped
+        .onNodeHover(node => {
+          highlightNodes.clear();
+          highlightLinks.clear();
+          if (node) {
+            let graphData = graph.graphData(); //extracts current graph data
+            let nodeLinks = graphData.links.filter(l => l.source.id == node.id || l.target.id == node.id); //links connected to node
+            let connectedNodes = nodeLinks.map(l =>{
+              if(l.source.id == node.id)
+                return graphData.nodes.find(n=>n.id == l.target.id);
+                return graphData.nodes.find(n=>n.id == l.source.id);
+            }) //nodes connected to the node
+            nodeLinks.forEach(l=>highlightLinks.add(l));
+            connectedNodes.push(node);
+            connectedNodes.forEach(n=> highlightNodes.add(n));
+          }
+          hoverNode = node || null;
         })
-        .nodePointerAreaPaint((node, color, ctx) => {
-          ctx.fillStyle = color;
-          const bckgDimensions = node.__bckgDimensions;
-          bckgDimensions &&
-            ctx.fillRect(
-              node.x - bckgDimensions[0] / 2,
-              node.y - bckgDimensions[1] / 2,
-              ...bckgDimensions
-            );
+        .onLinkHover(link => {
+          highlightNodes.clear();
+          highlightLinks.clear();
+  
+          if (link) {
+            highlightLinks.add(link);
+            highlightNodes.add(link.source);
+            highlightNodes.add(link.target);
+          }
         })
-        .linkCurvature(0.06)
-        .linkDirectionalArrowLength(7)
-        .linkDirectionalArrowRelPos(0.5)
-        .linkDirectionalParticles(1)
-        .linkDirectionalParticleWidth(5)
-        .linkDirectionalParticleColor(["#2980b9"])
-        .linkDirectionalArrowColor(["#2980b9"])
+        .linkWidth(link => highlightLinks.has(link) ? 5 : 1)
+        .linkDirectionalParticles(4)
+        .linkDirectionalArrowLength(link => highlightLinks.has(link) ? 16 : 8)
+        .linkDirectionalParticleWidth(link => highlightLinks.has(link) ? 4 : 2)
+        .nodeCanvasObjectMode(node => highlightNodes.has(node) ? 'before' : undefined)
+        .nodeCanvasObject((node, ctx) => {
+          // add ring just for highlighted nodes
+          ctx.beginPath();
+          ctx.arc(node.x, node.y, HOVERED_NODE_RADIUS * 1.4, 0, 2 * Math.PI, false);
+          ctx.fillStyle = node === hoverNode ? 'red' : 'orange';
+          ctx.fill();
+        })
         .cooldownTime(300)
         .d3Force("center", null)
         .onEngineStop(() => graph.zoomToFit(500));
 
-      EventHandlerService.publish(PDFLEvents.onHideSidePageLoader);
-      this.graph = graph;
+        EventHandlerService.publish(PDFLEvents.onHideSidePageLoader);
+        this.graph = graph;
     });
   };
+
+
+  /**
+   * Adds neighbours for each node.
+   * @param {Node[]} linkedPapers linked papers without neighbours for each node
+   * @returns {Node[]}
+   * @private
+   */
+
 }
 
 export { KnowledgeGraphComponent };

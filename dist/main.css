@@ -363,10 +363,6 @@ body{
     color: black;
 }
 
-.next {
-    background-color: var(--color);;
-    color: white;
-}
 
 .round {
     border-radius: 50%;
