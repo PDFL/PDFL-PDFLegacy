@@ -737,17 +737,12 @@ input[type="number"]::-webkit-outer-spin-button {
   /* Css for Reference */
   #pop-up{
     position: absolute;
-    width: auto;
-    height: 50px;
-    background-color: transparent;
-    border-radius: 25px;
-  }
-
-  #pop-up-title{
-    color: white;
-    text-align: center;
-    font-weight: 500;
-    font-size: 12px;
+    width: 250px;
+    height: auto;
+    background-color: white;
+    box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px;
+    justify-content: center;
+    align-items: center;
   }
 
   #content-reference-div{
@@ -755,12 +750,25 @@ input[type="number"]::-webkit-outer-spin-button {
   }
 
   #pop-up-content{
-    color: white;
+    color: black;
     text-align: justify;
-    font-weight: 100;
+    font-weight: 200;
     margin-left: 15px;
     margin-right: 15px;
-    font-size: 12px;
+    font-size: 9px;
+  }
+
+  #pop-up-title{
+    margin-left: 20px;
+    font-size: 13px;
+    font-weight: 900;
+    align-items: left;
+  }
+
+  #hr-pop-up{
+    color: black;
+    width: 90%;
+    margin-top: -5px;
   }
 
   #side-page-reference-btn{
@@ -769,9 +777,10 @@ input[type="number"]::-webkit-outer-spin-button {
     width: auto;
     height: auto;
     font-size: 9px;
-    margin-top: -40px;
     border-radius: 20px;
-    background-color: #045;
+    background-color: var(--iconColor);
+    margin-top: -10px;
+    margin-bottom: -25px;
     transform: scale(0.8);
   }
 

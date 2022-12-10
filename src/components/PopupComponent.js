@@ -18,8 +18,10 @@ import { POPUP_DISAPPEAR_TIMEOUT } from "../Constants";
  */
 class PopupComponent {
   components = {
-    popupDiv: document.createElement("div"),
     pdfContainer: document.querySelector("#pdf-container"),
+    popupDiv: document.createElement("div"),
+    title: document.createElement("p"),
+    hr: document.createElement("hr"),
     contentDiv: document.createElement("div"),
     content: document.createElement("p"),
     sidePageReferenceBtn: document.createElement("button"),
@@ -45,26 +47,45 @@ class PopupComponent {
    * @private
    */
   #onPopupContentReady = (position, pageNumber, contentObject) => {
-    this.components.popupDiv.setAttribute("id", "pop-up");
-    this.components.contentDiv.setAttribute("id", "content-reference-div");
-    this.components.content.setAttribute("id", "pop-up-content");
-    this.components.sidePageReferenceBtn.setAttribute("class", "btn");
-    this.components.sidePageReferenceBtn.setAttribute(
-      "id",
-      "side-page-reference-btn"
-    );
+    console.log(contentObject.type);
 
-    this.components.popupDiv.style.top = position.y + "px";
-    this.components.popupDiv.style.left = position.x + 10 + "px";
-    this.components.sidePageReferenceBtn.innerHTML =
-      '<a><i class="material-icons" id="open-in-the-side-icon">open_in_new</i></a>';
+    switch (contentObject.type) {
+      case "text":
+        this.components.title.setAttribute("id", "pop-up-title");
+        this.components.popupDiv.setAttribute("id", "pop-up");
+        this.components.contentDiv.setAttribute("id", "content-reference-div");
+        this.components.content.setAttribute("id", "pop-up-content");
+        this.components.sidePageReferenceBtn.setAttribute("class", "btn");
+        this.components.sidePageReferenceBtn.setAttribute(
+          "id",
+          "side-page-reference-btn"
+        );
+        this.components.hr.setAttribute("id", "hr-pop-up");
 
-    this.components.pdfContainer.appendChild(this.components.popupDiv);
-    this.components.popupDiv.appendChild(this.components.contentDiv);
-    this.components.contentDiv.appendChild(this.components.content);
-    this.components.contentDiv.appendChild(
-      this.components.sidePageReferenceBtn
-    );
+        this.components.content.innerHTML = contentObject.text;
+        this.components.title.innerHTML = contentObject.title;
+
+        this.components.popupDiv.style.top = position.y + "px";
+        this.components.popupDiv.style.left = position.x + "px";
+        this.components.sidePageReferenceBtn.innerHTML =
+          '<a><i class="material-icons" id="open-in-the-side-icon">open_in_new</i></a>';
+
+        this.components.pdfContainer.appendChild(this.components.popupDiv);
+        this.components.popupDiv.appendChild(this.components.title);
+        this.components.contentDiv.appendChild(this.components.hr);
+        this.components.popupDiv.appendChild(this.components.contentDiv);
+        this.components.contentDiv.appendChild(this.components.content);
+        this.components.popupDiv.appendChild(
+          this.components.sidePageReferenceBtn
+        );
+        break;
+      case "image":
+        break;
+      case "page":
+        break;
+      default:
+    }
+
     setTimeout(this.hidePopup, POPUP_DISAPPEAR_TIMEOUT);
   };
 
