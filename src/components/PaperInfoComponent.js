@@ -56,7 +56,7 @@ class PaperInfoComponent {
     const window = this.components.infoWindow;
 
     window.querySelector("#title-info").textContent = node.label;
-    window.querySelector("#author-info").textContent = node.author.map(a => a.name).toString();
+    window.querySelector("#author-info").textContent = node.author.map(a => a.name).join(', ');
     window.querySelector("#field-info").textContent = node.field;
 
     window.classList.remove("hidden");
