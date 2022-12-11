@@ -7,6 +7,7 @@ import {
   EventHandlerService,
   PDFLEvents,
 } from "../services/EventHandlerService";
+import { ColorLegenedComponent } from "./ColorLegenedComponent";
 
 /**
  * Component responsible for displaying the knowledge graph.
@@ -15,6 +16,7 @@ import {
  * @property {HTMLElement} components.knowledgeGraph element in which knowledge graph will be displayed
  * @property {HTMLElement} components.graphDepth input element for depth selection
  * @property {int} depth depth of knowledge graph
+ * @property {ColorLegenedComponent} colorLegend component which displays a color legened for fields of study
  */
 class KnowledgeGraphComponent {
   components = {
@@ -30,6 +32,7 @@ class KnowledgeGraphComponent {
    */
    constructor() {
     this.depth = 1;
+    this.colorLegend = new ColorLegenedComponent();
 
     this.#registerEvents();
   }
