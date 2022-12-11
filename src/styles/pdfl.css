@@ -398,12 +398,12 @@ input[type="number"]::-webkit-outer-spin-button {
   position: absolute;
   width: 100%;
   height: 100%;
-  background-color: #28323b;
+  background-color: #143552;
   z-index: 999;
 }
 
 #side-page-loader.transparent{
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: #143552;;
 }
 
 #side-page-loader.hidden{
@@ -712,7 +712,7 @@ input[type="number"]::-webkit-outer-spin-button {
   /* CSS for SidePage */
   #side-page {
     transition: 0.5s;
-    background: rgba(40, 50, 59, 0.90);
+    background: #143552;
     position: relative;
     right: 0;
     overflow-x: hidden;

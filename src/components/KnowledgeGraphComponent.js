@@ -123,7 +123,7 @@ class KnowledgeGraphComponent {
       .linkColor(() => TRANSPARENT_WHITE)
       .autoPauseRedraw(false) // keep redrawing after engine has stopped
       .onNodeClick((node) => {
-        expandNode(node, graph);
+        expandNode(node, this.graph);
       })
       .onNodeHover((node) => { hoveredNode = this.#highlightConnectedNodes(highlightNodes, highlightLinks, node)})
       .onLinkHover((link) => this.#highlightLink(highlightNodes, highlightLinks, link))
@@ -134,6 +134,7 @@ class KnowledgeGraphComponent {
       .nodeCanvasObjectMode((node) => this.#getNodeMode(highlightNodes, node))
       .nodeCanvasObject((node, ctx) => this.#displayHighlightedNode(hoveredNode, node, ctx))
       .cooldownTime(300)
+      .onEngineStop(() => this.graph.zoomToFit(500))
       .d3Force("center", null);
   }
 
