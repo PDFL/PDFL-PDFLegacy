@@ -1,6 +1,7 @@
 import {
   buildGraphProcedure,
   getLinkedPapers,
+  expandNode,
   Node,
   Link,
   GraphData,
@@ -120,6 +121,9 @@ class KnowledgeGraphComponent {
       .nodeLabel((node) => `${node.label}`)
       .linkColor(() => TRANSPARENT_WHITE)
       .autoPauseRedraw(false) // keep redrawing after engine has stopped
+      .onNodeClick((node) => {
+        expandNode(node, graph);
+      })
       .onNodeHover((node) => { hoveredNode = this.#highlightConnectedNodes(highlightNodes, highlightLinks, node)})
       .onLinkHover((link) => this.#highlightLink(highlightNodes, highlightLinks, link))
       .linkWidth((link) => this.#getLinkWidth(highlightLinks, link))

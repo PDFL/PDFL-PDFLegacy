@@ -3,6 +3,8 @@ import {
   PDFLEvents,
 } from "../services/EventHandlerService";
 
+import { PAGE_INPUT_VALIDATION_REGEX } from "../Constants";
+
 /**
  * Component that paginates the PDF document that is being read. It calculates next/previous page number
  * and stores current and maximum page number of PDF document. This component displays labels for current
@@ -54,9 +56,26 @@ class PaginationComponent {
       PDFLEvents.onNewPageRequest,
       function (pageNumber) {
         self.setCurrentPage(pageNumber);
-        EventHandlerService.publish(PDFLEvents.onRenderPage);
+        self.#currentPageChanged();
       }
     );
+    EventHandlerService.subscribe(
+      PDFLEvents.onKeyboardKeyDown,
+      this.#handleKeyboardKeyPressAction.bind(this)
+    );
+  };
+  /**
+   * Callback for global keyboard keyUp event
+   * On left arrow previews page, right arrow nex page
+   * @param functionalKey, object {ctrl: bool, alt: bool, shift: bool} indicates if one or more of this keys are pressed
+   * @param key the actual key which triggers the event
+   */
+  #handleKeyboardKeyPressAction = (functionalKey, key, code) => {
+    if (key === "ArrowRight" || key === "Right") {
+      this.#showNextPage();
+    } else if (key === "ArrowLeft" || key === "Left") {
+      this.#showPrevPage();
+    }
   };
 
   /**
@@ -88,14 +107,17 @@ class PaginationComponent {
    */
   #currentPageKeypress = (event) => {
     const keycode = event.keyCode ? event.keyCode : event.which;
-
-    if (keycode === 13) {
+    if (keycode === 13 && !isNaN(this.components.currentPage.valueAsNumber)) {
       // Get the new page number and render it.
       let desiredPage = this.components.currentPage.valueAsNumber;
       this.currentPage = Math.min(Math.max(desiredPage, 1), this.pageCount);
 
       this.components.pageNum.textContent = this.currentPage;
       this.#currentPageChanged();
+    } else {
+      if (!PAGE_INPUT_VALIDATION_REGEX.test(event.key)) {
+        event.preventDefault();
+      }
     }
   };
 
@@ -105,7 +127,25 @@ class PaginationComponent {
    */
   #currentPageChanged = () => {
     this.components.currentPage.value = this.currentPage;
+    this.#updateButtonStatus();
     EventHandlerService.publish(PDFLEvents.onRenderPage);
+  };
+
+  /**
+   * @private
+   * Disable or enable previous and next page buttons based on the current page number
+   */
+  #updateButtonStatus = () => {
+    if (this.currentPage === 1) {
+      this.components.previousPage.parentElement.classList.add("disabled");
+    } else {
+      this.components.previousPage.parentElement.classList.remove("disabled");
+    }
+    if (this.currentPage === this.pageCount) {
+      this.components.nextPage.parentElement.classList.add("disabled");
+    } else {
+      this.components.nextPage.parentElement.classList.remove("disabled");
+    }
   };
 
   /**
@@ -126,6 +166,7 @@ class PaginationComponent {
     this.currentPage = pageNumber;
     this.components.pageNum.textContent = pageNumber;
     this.components.currentPage.value = pageNumber;
+    this.#updateButtonStatus();
   };
 
   /**
