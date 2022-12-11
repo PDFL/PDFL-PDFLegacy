@@ -131,6 +131,7 @@ class KnowledgeGraphComponent {
       .linkDirectionalParticles(4)
       .linkDirectionalArrowLength((link) => this.#getArrowLength(highlightLinks, link))
       .linkDirectionalParticleWidth((link) => this.#getParticleWidth(highlightLinks, link))
+      .linkDirectionalParticleSpeed(0.001)
       .nodeCanvasObjectMode((node) => this.#getNodeMode(highlightNodes, node))
       .nodeCanvasObject((node, ctx) => this.#displayHighlightedNode(hoveredNode, node, ctx))
       .cooldownTime(300)
