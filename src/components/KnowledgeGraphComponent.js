@@ -122,8 +122,10 @@ class KnowledgeGraphComponent {
       .nodeLabel((node) => `${node.label}`)
       .linkColor(() => TRANSPARENT_WHITE)
       .autoPauseRedraw(false) // keep redrawing after engine has stopped
-      .onNodeHover((node) => { hoveredNode = this.#highlightConnectedNodes(highlightNodes, highlightLinks, node)})
-      .onNodeClick((node) => this.paperInfoWindow.displayPaperInfo(this.graph, node))
+      .onNodeHover((node) => { 
+        this.paperInfoWindow.displayPaperInfo(node);
+        hoveredNode = this.#highlightConnectedNodes(highlightNodes, highlightLinks, node)
+      })
       .onLinkHover((link) => this.#highlightLink(highlightNodes, highlightLinks, link))
       .linkWidth((link) => this.#getLinkWidth(highlightLinks, link))
       .linkDirectionalParticles(4)
