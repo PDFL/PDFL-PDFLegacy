@@ -11,6 +11,7 @@ import {
   PDFLEvents,
 } from "../services/EventHandlerService";
 import { TRANSPARENT_WHITE } from "../Constants";
+import ForceGraph from "force-graph";
 
 /**
  * Component responsible for displaying the knowledge graph.
