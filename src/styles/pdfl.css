@@ -785,7 +785,14 @@ input[type="number"]::-webkit-outer-spin-button {
   justify-content: center;
   align-items: center;
   margin-top: 2%;
+  transform: scale(0.7);
  }
+
+ #slider{
+  -webkit-appearance: none; 
+  appearance: none;
+ }
+
  #labels-slider{
   margin-top: 4%;
   color: var(--color);
@@ -819,8 +826,8 @@ input[type="number"]::-webkit-outer-spin-button {
 
 #graph-depth::-moz-range-thumb {
   width: 25px;
-  height: 2px;
+  height: 25px;
   border-radius: 50%;
-  background: transparent;
+  background: var(--color);
   cursor: pointer;
 }
