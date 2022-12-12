@@ -3,6 +3,7 @@
 ### Setup and start locally
 
 ```shell
+cp .env.example .env
 npm install
 npm run serve
 ```
