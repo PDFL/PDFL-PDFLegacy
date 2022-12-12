@@ -166,11 +166,14 @@
                     </div>
                 </div>
                 <a id="close-btn" class="closebtn">&times;</a>
-                <label for="graph-depth">Graph depth:</label>
-                <select name="graph-depth" id="graph-depth">
-                    <option value="1" selected>1</option>
-                    <option value="2">2</option>
-                </select>                   
+                <div id="slider-container">
+                    <div id="slider">
+                        <input type="range" min="1" max="2" value="1" name="graph-depth" id="graph-depth" step="1">
+                        <div id="labels-slider">
+                            <span>1</span><span>2</span>
+                        </div>
+                    </div>
+                </div>
                 <div id="knowledge-graph"></div>
             </div>
         </div>
