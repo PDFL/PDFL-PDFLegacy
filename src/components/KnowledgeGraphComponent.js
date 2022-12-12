@@ -69,7 +69,7 @@ class KnowledgeGraphComponent {
   async #changeDepth(selectedDepth) {
     try {
       EventHandlerService.publish(PDFLEvents.onShowTransparentSidePageLoader);
-      await buildGraphProcedure(this.graph, selectedDepth, this.depth);
+      await buildGraphProcedure(this.graph, selectedDepth);
       EventHandlerService.publish(PDFLEvents.onHideSidePageLoader);
     } catch (error) {
       EventHandlerService.publish(PDFLEvents.onShowSidePageError);
