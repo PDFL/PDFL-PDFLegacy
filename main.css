@@ -364,10 +364,6 @@ body{
     color: black;
 }
 
-.next {
-    background-color: var(--color);;
-    color: white;
-}
 
 .round {
     border-radius: 50%;
@@ -1024,7 +1020,120 @@ input[type="number"]::-webkit-outer-spin-button {
   .closebtn:hover{
     color: red;
   }
+  
+  /*tooltip for question mark */
+  #question-mark {
+    position: absolute; 
+    bottom:5%;
+    right: 5%;
+    color:white;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+  }
+  
+  #question-mark .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: #f5f5f5c4;
+    color: #fff;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 150%;
+    left: 50%;
+    margin-left: -60px;
+    height: 185px;
+    transition: .25s all ease;
+  	transition-delay: .25s;
+  }
+  
+  #question-mark .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #f5f5f5c4 transparent transparent transparent;
+  }
+  
+  #question-mark:hover .tooltiptext {
+    visibility: visible;
+  }
 
+  #rect{
+    font-family: initial;
+    font-size: 14px;
+    padding: 4px;
+  }
+
+  .css-slider {
+    height: 100%;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    color: black;
+    text-align: initial;
+  }
+  label {
+    cursor: pointer;
+    display: inline-block;
+    background:inherit;
+  }
+  .slide {
+    height: 100%;
+    width: 100%;
+    max-width: 1920px;
+    position: absolute;
+    top: 0;
+    left: 100%;
+    z-index: 10;
+    background-color: #c6cace;
+  }
+  [id^="slide"]:checked + .slide {
+    left: 0;
+    z-index: 100;
+    -webkit-transition: left .65s ease-out;
+    transition: left .65s ease-out;
+  }
+  
+  
+  nav{
+    background: inherit;
+    display: flex;
+    justify-content: center;
+    color: #143552;
+  }
+
+  .tooltip-margin{
+    margin: 5px;
+    height: 100%;
+  }
+
+  header {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: 900;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+  header label {
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    width: 10px;
+    height: 10px;
+    margin: 20px 5px;
+  }
+  header label:hover { background: #2e353b; }
+
+  input#slide-1:checked ~ header label#slide-1, input#slide-2:checked ~ header label#slide-2, input#slide-3:checked ~ header label#slide-3, input#slide-4:checked ~ header label#slide-4 {
+    background: #2e353b;
+  }
+  
   #paper-info{
     width: 50%; 
     z-index: 1;
