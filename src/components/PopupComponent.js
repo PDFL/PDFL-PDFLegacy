@@ -23,6 +23,7 @@ class PopupComponent {
     contentDiv: document.createElement("div"),
     content: document.createElement("p"),
     sidePageReferenceBtn: document.createElement("button"),
+    pageNumber: null,
   };
 
   /**
@@ -38,6 +39,20 @@ class PopupComponent {
       PDFLEvents.onPopupContentReady,
       this.#onPopupContentReady.bind(this)
     );
+
+    this.components.sidePageReferenceBtn.addEventListener(
+      "click",
+      this.#openPdfReference.bind(this)
+    );
+  };
+
+  #openPdfReference = (event) => {
+    this.components.contentDiv.removeChild(
+      this.components.sidePageReferenceBtn
+    );
+    event.preventDefault();
+    const pageNumber = this.components.pageNumber;
+    EventHandlerService.publish(PDFLEvents.onReferencePdfOpen, pageNumber);
   };
 
   /**
@@ -45,6 +60,8 @@ class PopupComponent {
    * @private
    */
   #onPopupContentReady = (position, pageNumber, contentObject) => {
+    this.components.pageNumber = pageNumber;
+    console.log(pageNumber);
     this.components.popupDiv.setAttribute("id", "pop-up");
     this.components.contentDiv.setAttribute("id", "content-reference-div");
     this.components.content.setAttribute("id", "pop-up-content");

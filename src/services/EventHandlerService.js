@@ -49,6 +49,7 @@ const PDFLEvents = {
   onLinkLayerRendered: "onLinkLayerRendered",
   onNewPageRequest: "onNewPageRequest",
   onPopupContentReady: "onPopupContentReady",
+  onReferencePdfOpen: "onReferencePdfOpen",
   onShowTransparentSidePageLoader: "onShowTransparentSidePageLoader",
   onShowOpaqueSidePageLoader: "onShowOpaqueSidePageLoader",
   onHideSidePageLoader: "onHideSidePageLoader",
