@@ -4,6 +4,7 @@ import {
 } from "../services/EventHandlerService";
 
 const pdfjsLib = require("pdfjs-dist");
+import { POPUP_DISAPPEAR_TIMEOUT } from "../Constants";
 
 /**
  * Component representing pop up for every reference and display dynamically the content of it
@@ -26,7 +27,6 @@ const pdfjsLib = require("pdfjs-dist");
  * @property {HTMLElement} components.sideNav div that contain the graph
  * @property {HTMLElement} components.closeBtnReference button for close the reference page
  */
-
 class PopupComponent {
   components = {
     popupDiv: document.createElement("div"),
@@ -46,7 +46,7 @@ class PopupComponent {
   };
 
   /**
-   * Creates the endler service for manage the reference object
+   * Creates the handler service for managing the reference object
    * @constructor
    */
   constructor() {

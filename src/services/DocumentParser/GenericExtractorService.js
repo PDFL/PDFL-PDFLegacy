@@ -1,18 +1,22 @@
 import { DocumentParser } from "./DocumentParser";
 
+/**
+ * @extends DocumentParser
+ * The generic extractor service is a subclass of DocumentParser and it is responsible to give a response back when no other parser are able to.
+ * In detail, it returns an answare saying the content is a page and that cannot be rendered on the PopUp
+ */
 class GenericExtractorService extends DocumentParser {
-  //TODO:- Given the reference as [{num: , gen:},{name: }, X, Y, Z] is it possible to know which is the element using operation list?
+
+  /**
+   * @override
+   * @see{DocumentParser}
+   * @returns {Promise<{popupDisplayable: boolean, type: string}>}
+   */
   getContent = async () => {
     return {
       type: "page",
       popupDisplayable: false,
     };
-  };
-
-  #getDestinationElement = async () => {};
-
-  #getTargetPage = async () => {
-    const page = await this.pdfDocument.getPage(this.targetPage);
   };
 }
 

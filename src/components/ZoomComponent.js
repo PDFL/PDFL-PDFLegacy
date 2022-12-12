@@ -49,6 +49,10 @@ class ZoomComponent {
   #registerEvents = () => {
     this.components.zoomIn.addEventListener("click", this.#zoomIn);
     this.components.zoomOut.addEventListener("click", this.#zoomOut);
+    EventHandlerService.subscribe(
+      PDFLEvents.onKeyboardKeyDown,
+      this.#onKeyboardKeyDown.bind(this)
+    );
   };
 
   /**
@@ -67,6 +71,23 @@ class ZoomComponent {
   #zoomOut = () => {
     this.zoom *= 2 / 3;
     EventHandlerService.publish(PDFLEvents.onRenderPage);
+  };
+
+  /**
+   * Callback for global keyboard keyUp event
+   * CTRL + ZoomIn - CTRL - ZoomOut
+   * @param functionalKeys, object {ctrl: bool, alt: bool, shift: bool} indicates if one or more of this keys are pressed
+   * @param key the actual key which triggers the event
+   */
+  #onKeyboardKeyDown = (functionalKeys, key, code) => {
+    if (!functionalKeys.ctrl) {
+      return;
+    }
+    if (key === "+") {
+      this.#zoomIn();
+    } else if (key === "-") {
+      this.#zoomOut();
+    }
   };
 }
 
