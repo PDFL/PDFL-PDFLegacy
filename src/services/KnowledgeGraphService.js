@@ -362,4 +362,26 @@ function addToGraph(graph, linkedNodes) {
   };
 }
 
-export { getLinkedPapers, getCitations, getReferences, buildGraphProcedure };
+/**
+ * Takes a node that belongs to a ForceGraph, gets it's linked
+ * papers and adds them to the graph.
+ *
+ * @async
+ * @param {Node} node
+ * @param {ForceGraph} graph graph to add the new nodes
+ */
+async function expandNode(node, graph) {
+  let expandedNodes = await getLinkedNodesByPaper({
+    paperId: node.id,
+    title: node.label,
+  });
+  addToGraph(graph, expandedNodes);
+}
+
+export {
+  getLinkedPapers,
+  getCitations,
+  getReferences,
+  buildGraphProcedure,
+  expandNode,
+};
