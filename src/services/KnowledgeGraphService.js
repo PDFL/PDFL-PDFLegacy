@@ -313,8 +313,9 @@ function fieldsOfStudyToColor(fieldsOfStudy) {
   );
 
   return mergeColors(colors);
+};
 
- * Takes a node that belongs to a ForceGraph, gets it's linked
+ /* Takes a node that belongs to a ForceGraph, gets it's linked
  * papers and adds them to the graph.
  *
  * @async
