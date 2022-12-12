@@ -734,6 +734,61 @@ input[type="number"]::-webkit-outer-spin-button {
     color: red;
   }
 
+  #paper-info{
+    width: 50%; 
+    z-index: 1;
+    position: absolute;
+    padding: 10px;
+    color: white;
+    box-shadow: rgb(34, 34, 34) 1px 1px 1px 1px;
+    transition: all 500ms ease-out 0ms;
+  }
+
+  #expand-node-btn, #info-close-btn{
+    float: right;
+  }
+
+  .hidden{
+    display: none;
+  }
+
+  .info-label{
+    font-weight: bold;
+    float: left;
+    width: 40%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: default;
+    padding: 8px 15px 9px 0;
+  }
+
+  .info-display{
+    margin: 0 0 10px;
+    display: flex;
+    align-items: center;
+  }
+
+  .info-display::before {
+    display: table;
+    content: "";
+    line-height: 0;
+  }
+
+  .info-display::after {
+    clear: both;
+  }
+
+  .info-text{
+    float: right;
+    width: 60%;
+    margin: 0;
+  }
+
+  .info-title{
+    border-bottom: 1px solid white;
+    padding-bottom: 5px;
+
   /* Css for Reference */
   #pop-up{
     position: absolute;

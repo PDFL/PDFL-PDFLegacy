@@ -16,7 +16,7 @@ const FETCH_OPTIONS = process.env.SEMANTIC_SCHOLAR_API_KEY
   : undefined;
 
 const FIELDS_TO_FETCH_FOR_PAPER =
-  "title,citationCount,influentialCitationCount";
+  "title,citationCount,influentialCitationCount,authors,fieldsOfStudy";
 
 /**
  * @typedef {Object} CitedPaper
@@ -37,7 +37,7 @@ const FIELDS_TO_FETCH_FOR_PAPER =
  * @returns {Promise<import("./KnowledgeGraphService").PaperInfo>}
  */
 async function fetchPaperInfo(titleQuery) {
-  let queryParams = new URLSearchParams({ query: titleQuery, limit: 1 });
+  let queryParams = new URLSearchParams({ query: titleQuery, limit: 1, fields: FIELDS_TO_FETCH_FOR_PAPER});
   let paper = (
     await (await fetch(KEYWORD_API + queryParams, FETCH_OPTIONS)).json()
   ).data[0];

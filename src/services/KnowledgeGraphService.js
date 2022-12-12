@@ -29,7 +29,7 @@ import {
  * @param {Pdfjs Document} pdfDoc
  * @returns {GraphData} linked papers of 'pdfDoc'
  */
-async function getLinkedPapers(pdfDoc, depth) {
+async function getLinkedPapers(pdfDoc) {
   let metadata = await pdfDoc.getMetadata();
 
   // TODO: check if some useful ID is in the metadata
@@ -87,8 +87,7 @@ async function getLinkedNodesByPaper(paperInfo) {
   if (!references) return;
 
   return getGraphStructure(
-    paperInfo.paperId,
-    paperInfo.title,
+    paperInfo,
     references,
     citations
   );
@@ -155,15 +154,16 @@ async function getReferences(paperID) {
  * @param {PaperInfo[]} citations papers that are citing the paper
  * @returns {GraphData}
  */
-function getGraphStructure(paperId, paperTitle, references, citations) {
+function getGraphStructure(paperInfo, references, citations) {
   let nodes = new Array();
   let links = new Array();
 
-  nodes.push({ id: paperId, label: paperTitle });
+  let paperId = paperInfo.paperId;
+  nodes.push({ id: paperId, label: paperInfo.title, field: paperInfo.fieldsOfStudy, author: paperInfo.authors});
 
   for (let reference of references) {
     if (reference.paperId && reference.paperId != "") {
-      nodes.push({ id: reference.paperId, label: reference.title });
+      nodes.push({ id: reference.paperId, label: reference.title, field: reference.fieldsOfStudy, author: reference.authors });
       links.push({
         id: reference.paperId + paperId,
         source: paperId,
@@ -174,7 +174,7 @@ function getGraphStructure(paperId, paperTitle, references, citations) {
 
   for (let citation of citations) {
     if (citation.paperId && citation.paperId != "") {
-      nodes.push({ id: citation.paperId, label: citation.title });
+      nodes.push({ id: citation.paperId, label: citation.title, field: citation.fieldsOfStudy, author: citation.authors  });
       links.push({
         id: citation.paperId + paperId,
         source: citation.paperId,

@@ -11,7 +11,8 @@ import {
   PDFLEvents,
 } from "../services/EventHandlerService";
 import { TRANSPARENT_WHITE } from "../Constants";
-import ForceGraph from "force-graph";
+import { PaperInfoComponent } from "./PaperInfoComponent";
+//import ForceGraph from "force-graph";
 
 /**
  * Component responsible for displaying the knowledge graph.
@@ -20,6 +21,7 @@ import ForceGraph from "force-graph";
  * @property {HTMLElement} components.knowledgeGraph element in which knowledge graph will be displayed
  * @property {HTMLElement} components.graphDepth input element for depth selection
  * @property {int} depth depth of knowledge graph
+ * @property {PaperInfoComponent} paperInfoWindow window in which paper data on node click will be displayed
  */
 class KnowledgeGraphComponent {
   components = {
@@ -35,7 +37,7 @@ class KnowledgeGraphComponent {
    */
   constructor() {
     this.depth = 1;
-
+    this.paperInfoWindow = new PaperInfoComponent(); 
     this.#registerEvents();
   }
 
@@ -122,10 +124,11 @@ class KnowledgeGraphComponent {
       .nodeLabel((node) => `${node.label}`)
       .linkColor(() => TRANSPARENT_WHITE)
       .autoPauseRedraw(false) // keep redrawing after engine has stopped
-      .onNodeClick((node) => {
-        expandNode(node, this.graph);
+      .onNodeHover((node) => { 
+        this.paperInfoWindow.displayPaperInfo(node);
+        hoveredNode = this.#highlightConnectedNodes(highlightNodes, highlightLinks, node)
       })
-      .onNodeHover((node) => { hoveredNode = this.#highlightConnectedNodes(highlightNodes, highlightLinks, node)})
+
       .onLinkHover((link) => this.#highlightLink(highlightNodes, highlightLinks, link))
       .linkWidth((link) => this.#getLinkWidth(highlightLinks, link))
       .linkDirectionalParticles(4)
