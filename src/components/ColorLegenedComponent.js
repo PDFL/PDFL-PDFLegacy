@@ -1,4 +1,4 @@
-import { FIELD_OF_STUDY_COLOR, MISSING_COLOR } from "../Constants";
+import { FIELD_OF_STUDY_COLOR } from "../Constants";
 
 /**
  * Component within knowledge graph responsible for creating a color legend. Color legend
@@ -49,9 +49,7 @@ class ColorLegenedComponent {
    * @returns {Array.<string[]>}
    */
   #getFieldOfStudyColors = () => {
-    return Object.entries(FIELD_OF_STUDY_COLOR).filter(
-      (f) => f[0] != MISSING_COLOR
-    );
+    return Object.entries(FIELD_OF_STUDY_COLOR);
   };
 
   /**

@@ -380,7 +380,7 @@ function addToGraph(graph, linkedNodes) {
  */
 function fieldsOfStudyToColor(fieldsOfStudy) {
   if (!fieldsOfStudy || fieldsOfStudy.length == 0) {
-    return FIELD_OF_STUDY_COLOR["MISSING_COLOR"];
+    return FIELD_OF_STUDY_COLOR["Missing Color"];
   }
 
   let colors = fieldsOfStudy.map(

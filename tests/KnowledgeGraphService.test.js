@@ -64,6 +64,6 @@ test("Tests KnowledgeGraphService.fieldsOfStudyToColor no colors", () => {
   let FIELDS_OF_STUDY = [];
 
   expect(fieldsOfStudyToColor(FIELDS_OF_STUDY)).toBe(
-    FIELD_OF_STUDY_COLOR["MISSING_COLOR"]
+    FIELD_OF_STUDY_COLOR["Missing Color"]
   );
 });
