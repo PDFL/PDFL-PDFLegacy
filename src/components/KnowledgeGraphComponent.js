@@ -12,7 +12,7 @@ import {
 } from "../services/EventHandlerService";
 import { TRANSPARENT_WHITE } from "../Constants";
 import { PaperInfoComponent } from "./PaperInfoComponent";
-//import ForceGraph from "force-graph";
+import ForceGraph from "force-graph";
 
 /**
  * Component responsible for displaying the knowledge graph.
