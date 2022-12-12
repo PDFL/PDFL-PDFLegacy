@@ -6,6 +6,7 @@ import { SidePageComponent } from "./SidePageComponent";
 import { ToolbarComponent } from "./ToolbarComponent";
 import { ReferenceComponent } from "./ReferenceComponent";
 import { PopupComponent } from "./PopupComponent";
+import { ReferenceViewComponent } from "./ReferenceViewComponent";
 import { KeyboardService } from "../services/KeyboardService";
 import * as textRenderService from "../services/TextRenderService";
 
@@ -45,7 +46,8 @@ class PdfReaderComponent {
     this.toolbarComponent = new ToolbarComponent();
     this.sidePageComponent = new SidePageComponent();
     this.referenceComponent = new ReferenceComponent();
-    this.PopupComponent = new PopupComponent();
+    this.popupComponent = new PopupComponent();
+    this.referenceViewComponent = new ReferenceViewComponent();
     this.#registerEvents();
   }
 
@@ -119,6 +121,9 @@ class PdfReaderComponent {
         self.referenceComponent.setPdfDoc(data);
         self.toolbarComponent.setPageCount(data.numPages);
         self.sidePageComponent.setPDF(data);
+
+        self.referenceViewComponent.setPdfDoc(data);
+       
         textRenderService.renderPage(
           self.pdfDoc,
           self.components,
