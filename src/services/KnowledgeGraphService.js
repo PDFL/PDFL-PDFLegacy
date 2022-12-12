@@ -1,5 +1,6 @@
+import { FIELD_OF_STUDY_COLOR } from "../Constants";
 import { fetchCitations, fetchPaperInfo, fetchReferences } from "./Api";
-import { compareSimilarity, timeout } from "./Utils";
+import { compareSimilarity, mergeColors, timeout } from "./Utils";
 import {
   setGraphData,
   hasGraphData,
@@ -86,6 +87,7 @@ async function getLinkedNodesByPaper(paperInfo) {
   if (!citations) return;
   if (!references) return;
 
+
   return getGraphStructure(
     paperInfo,
     references,
@@ -129,6 +131,7 @@ async function getReferences(paperID) {
  * @typedef {Object} Node
  * @property {string} id
  * @property {string} label
+ * @property {string[]} fieldsOfStudy
  */
 
 /**
@@ -148,8 +151,7 @@ async function getReferences(paperID) {
  * Returns object structure of paper's references and citations
  * that graph generatior takes in.
  *
- * @param {string} paperId paper id
- * @param {string} paperTitle paper title
+ * @param {PaperInfo} paperInfo
  * @param {PaperInfo[]} references papers that paper is referencing
  * @param {PaperInfo[]} citations papers that are citing the paper
  * @returns {GraphData}
@@ -157,16 +159,15 @@ async function getReferences(paperID) {
 function getGraphStructure(paperInfo, references, citations) {
   let nodes = new Array();
   let links = new Array();
-
   let paperId = paperInfo.paperId;
-  nodes.push({ id: paperId, label: paperInfo.title, field: paperInfo.fieldsOfStudy, author: paperInfo.authors});
+  nodes.push({ id: paperId, label: paperInfo.title, field: paperInfo.fieldsOfStudy, author: paperInfo.authors, fieldsOfStudy: paperInfo.fieldsOfStudy,});
 
   for (let reference of references) {
     if (reference.paperId && reference.paperId != "") {
-      nodes.push({ id: reference.paperId, label: reference.title, field: reference.fieldsOfStudy, author: reference.authors });
+      nodes.push({ id: reference.paperId, label: reference.title, field: reference.fieldsOfStudy, author: reference.authors, fieldsOfStudy: reference.fieldsOfStudy, });
       links.push({
-        id: reference.paperId + paperId,
-        source: paperId,
+        id: reference.paperId + paperInfo.paperId,
+        source: paperInfo.paperId,
         target: reference.paperId,
       });
     }
@@ -174,11 +175,11 @@ function getGraphStructure(paperInfo, references, citations) {
 
   for (let citation of citations) {
     if (citation.paperId && citation.paperId != "") {
-      nodes.push({ id: citation.paperId, label: citation.title, field: citation.fieldsOfStudy, author: citation.authors  });
+      nodes.push({ id: citation.paperId, label: citation.title, field: citation.fieldsOfStudy, author: citation.authors, fieldsOfStudy: citation.fieldsOfStudy,  });
       links.push({
-        id: citation.paperId + paperId,
+        id: citation.paperId + paperInfo.paperId,
         source: citation.paperId,
-        target: paperId,
+        target: paperInfo.paperId,
       });
     }
   }
@@ -295,7 +296,26 @@ function addToGraph(graph, linkedNodes) {
 }
 
 /**
- * Takes a node that belongs to a ForceGraph, gets it's linked
+ * Takes fiedlsOfStudy array that is retrieved as a paper attribute
+ * from semantic scholar and returns a color which should symbolize
+ * that field of study or studies.
+ *
+ * @param {String[]} fieldsOfStudy arrays of fields of studies
+ * @returns {String} color
+ */
+function fieldsOfStudyToColor(fieldsOfStudy) {
+  if (!fieldsOfStudy || fieldsOfStudy.length == 0) {
+    return FIELD_OF_STUDY_COLOR["Missing Color"];
+  }
+
+  let colors = fieldsOfStudy.map(
+    (fieldOfStudy) => FIELD_OF_STUDY_COLOR[fieldOfStudy]
+  );
+
+  return mergeColors(colors);
+};
+
+ /* Takes a node that belongs to a ForceGraph, gets it's linked
  * papers and adds them to the graph.
  *
  * @async
@@ -315,5 +335,6 @@ export {
   getCitations,
   getReferences,
   buildGraphProcedure,
+  fieldsOfStudyToColor,
   expandNode,
 };

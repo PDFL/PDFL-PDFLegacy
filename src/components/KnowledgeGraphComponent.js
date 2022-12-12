@@ -1,5 +1,6 @@
 import {
   buildGraphProcedure,
+  fieldsOfStudyToColor,
   getLinkedPapers,
   expandNode,
   Node,
@@ -10,6 +11,7 @@ import {
   EventHandlerService,
   PDFLEvents,
 } from "../services/EventHandlerService";
+import { ColorLegenedComponent } from "./ColorLegenedComponent";
 import { TRANSPARENT_WHITE } from "../Constants";
 import { PaperInfoComponent } from "./PaperInfoComponent";
 import ForceGraph from "force-graph";
@@ -21,7 +23,9 @@ import ForceGraph from "force-graph";
  * @property {HTMLElement} components.knowledgeGraph element in which knowledge graph will be displayed
  * @property {HTMLElement} components.graphDepth input element for depth selection
  * @property {int} depth depth of knowledge graph
+ * @property {ColorLegenedComponent} colorLegend component which displays a color legened for fields of study
  * @property {PaperInfoComponent} paperInfoWindow window in which paper data on node click will be displayed
+ 
  */
 class KnowledgeGraphComponent {
   components = {
@@ -37,6 +41,7 @@ class KnowledgeGraphComponent {
    */
   constructor() {
     this.depth = 1;
+    this.colorLegend = new ColorLegenedComponent();
     this.paperInfoWindow = new PaperInfoComponent(); 
     this.#registerEvents();
   }
@@ -98,6 +103,16 @@ class KnowledgeGraphComponent {
       if (!linkedPapers || linkedPapers.length == 0)
         return EventHandlerService.publish(PDFLEvents.onShowSidePageError);
 
+      // cross-link node objects
+      const highlightNodes = new Set();
+      const highlightLinks = new Set();
+      let hoverNode = null;
+
+      const HOVERED_NODE_RADIUS = 4;
+
+      console.log(linkedPapers)
+
+
       EventHandlerService.publish(PDFLEvents.onShowTransparentSidePageLoader);
 
       this.graph = this.#createForceGraph(linkedPapers);
@@ -120,7 +135,7 @@ class KnowledgeGraphComponent {
     return ForceGraph()(this.components.knowledgeGraph)
       .graphData(linkedPapers)
       .nodeId("id")
-      .nodeAutoColorBy("label")
+      .nodeColor((node) => fieldsOfStudyToColor(node.fieldsOfStudy))
       .nodeLabel((node) => `${node.label}`)
       .linkColor(() => TRANSPARENT_WHITE)
       .autoPauseRedraw(false) // keep redrawing after engine has stopped

@@ -17,7 +17,6 @@ const FETCH_OPTIONS = process.env.SEMANTIC_SCHOLAR_API_KEY
 
 const FIELDS_TO_FETCH_FOR_PAPER =
   "title,citationCount,influentialCitationCount,authors,fieldsOfStudy";
-
 /**
  * @typedef {Object} CitedPaper
  * @property {import("./KnowledgeGraphService").PaperInfo} citedPaper
@@ -53,7 +52,7 @@ async function fetchPaperInfo(titleQuery) {
  */
 async function fetchCitations(paperID) {
   let queryParams = new URLSearchParams({
-    fields: FIELDS_TO_FETCH_FOR_PAPER
+    fields: FIELDS_TO_FETCH_FOR_PAPER,
   });
   let data = (
     await (
@@ -75,7 +74,7 @@ async function fetchCitations(paperID) {
  */
 async function fetchReferences(paperID) {
   let queryParams = new URLSearchParams({
-    fields: FIELDS_TO_FETCH_FOR_PAPER
+    fields: FIELDS_TO_FETCH_FOR_PAPER,
   });
   let data = (
     await (
