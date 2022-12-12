@@ -788,4 +788,12 @@ input[type="number"]::-webkit-outer-spin-button {
     margin-top: 13px;
   }
 
- 
+ #image-pop-up{
+  width: 250px;
+  height: 250px;
+ }
+
+ #no-width{
+  width: 0;
+  height: 0;
+ }

@@ -24,6 +24,7 @@ class PopupComponent {
     hr: document.createElement("hr"),
     contentDiv: document.createElement("div"),
     content: document.createElement("p"),
+    image: document.createElement("img"),
     sidePageReferenceBtn: document.createElement("button"),
   };
 
@@ -47,10 +48,11 @@ class PopupComponent {
    * @private
    */
   #onPopupContentReady = (position, pageNumber, contentObject) => {
-    console.log(contentObject.type);
+    console.log(contentObject);
 
     switch (contentObject.type) {
       case "text":
+        this.components.image.setAttribute("id", "no-width");
         this.components.title.setAttribute("id", "pop-up-title");
         this.components.popupDiv.setAttribute("id", "pop-up");
         this.components.contentDiv.setAttribute("id", "content-reference-div");
@@ -66,7 +68,7 @@ class PopupComponent {
         this.components.title.innerHTML = contentObject.title;
 
         this.components.popupDiv.style.top = position.y + "px";
-        this.components.popupDiv.style.left = position.x + "px";
+        this.components.popupDiv.style.left = position.x + 10 + "px";
         this.components.sidePageReferenceBtn.innerHTML =
           '<a><i class="material-icons" id="open-in-the-side-icon">open_in_new</i></a>';
 
@@ -80,6 +82,33 @@ class PopupComponent {
         );
         break;
       case "image":
+        this.components.title.setAttribute("id", "no-width");
+        this.components.content.innerHTML = null;
+        this.components.title.innerHTML = null;
+        this.components.hr.setAttribute("id", "no-width");
+        this.components.content.setAttribute("id", "no-width");
+        this.components.popupDiv.setAttribute("id", "pop-up");
+        this.components.contentDiv.setAttribute("id", "content-reference-div");
+        this.components.sidePageReferenceBtn.setAttribute("class", "btn");
+        this.components.sidePageReferenceBtn.setAttribute(
+          "id",
+          "side-page-reference-btn"
+        );
+        this.components.hr.setAttribute("class", "no-width");
+        this.components.image.setAttribute("id", "image-pop-up");
+        this.components.image.src = contentObject.src;
+        this.components.popupDiv.style.top = position.y + "px";
+        this.components.popupDiv.style.left = position.x + 10 + "px";
+        this.components.sidePageReferenceBtn.innerHTML =
+          '<a><i class="material-icons" id="open-in-the-side-icon">open_in_new</i></a>';
+
+        this.components.pdfContainer.appendChild(this.components.popupDiv);
+        this.components.contentDiv.appendChild(this.components.image);
+        this.components.popupDiv.appendChild(this.components.contentDiv);
+        this.components.contentDiv.appendChild(this.components.content);
+        this.components.popupDiv.appendChild(
+          this.components.sidePageReferenceBtn
+        );
         break;
       case "page":
         break;
