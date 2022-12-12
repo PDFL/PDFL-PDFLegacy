@@ -1,6 +1,7 @@
 import {
   buildGraphProcedure,
   getLinkedPapers,
+  expandNode,
   Node,
   Link,
   GraphData,
@@ -11,6 +12,7 @@ import {
 } from "../services/EventHandlerService";
 import { TRANSPARENT_WHITE } from "../Constants";
 import { PaperInfoComponent } from "./PaperInfoComponent";
+//import ForceGraph from "force-graph";
 
 /**
  * Component responsible for displaying the knowledge graph.
@@ -69,7 +71,7 @@ class KnowledgeGraphComponent {
   async #changeDepth(selectedDepth) {
     try {
       EventHandlerService.publish(PDFLEvents.onShowTransparentSidePageLoader);
-      await buildGraphProcedure(this.graph, selectedDepth, this.depth);
+      await buildGraphProcedure(this.graph, selectedDepth);
       EventHandlerService.publish(PDFLEvents.onHideSidePageLoader);
     } catch (error) {
       EventHandlerService.publish(PDFLEvents.onShowSidePageError);
@@ -126,14 +128,17 @@ class KnowledgeGraphComponent {
         this.paperInfoWindow.displayPaperInfo(node);
         hoveredNode = this.#highlightConnectedNodes(highlightNodes, highlightLinks, node)
       })
+
       .onLinkHover((link) => this.#highlightLink(highlightNodes, highlightLinks, link))
       .linkWidth((link) => this.#getLinkWidth(highlightLinks, link))
       .linkDirectionalParticles(4)
       .linkDirectionalArrowLength((link) => this.#getArrowLength(highlightLinks, link))
       .linkDirectionalParticleWidth((link) => this.#getParticleWidth(highlightLinks, link))
+      .linkDirectionalParticleSpeed(0.001)
       .nodeCanvasObjectMode((node) => this.#getNodeMode(highlightNodes, node))
       .nodeCanvasObject((node, ctx) => this.#displayHighlightedNode(hoveredNode, node, ctx))
       .cooldownTime(300)
+      .onEngineStop(() => this.graph.zoomToFit(500))
       .d3Force("center", null);
   }
 

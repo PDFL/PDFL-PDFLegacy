@@ -25,7 +25,10 @@ module.exports = {
     filename: "[name].bundle.js",
   },
   plugins: [
-    new HtmlWebpackPlugin({ template: "./src/templates/index.html" }),
+    new HtmlWebpackPlugin({
+      template: "./src/templates/index.html",
+      favicon: "./src/assets/favicon.ico",
+    }),
     new Dotenv(),
     new MiniCssExtractPlugin(),
   ],

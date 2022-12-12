@@ -36,6 +36,7 @@ body{
 #pdf-container{
   background-color: #f5f5f5;
   transition: 0.5s;
+  display: flex;
 }
 
 
@@ -132,6 +133,11 @@ input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
+}
+
+.disabled {
+    color: #C7C7C7 !important;
+    pointer-events: none;
 }
 
 .print-button {
@@ -393,7 +399,7 @@ input[type="number"]::-webkit-outer-spin-button {
   position: absolute;
   width: 100%;
   height: 100%;
-  background-color: #28323b;
+  background-color: #143552ed;
   z-index: 999;
 }
 
@@ -518,7 +524,6 @@ input[type="number"]::-webkit-outer-spin-button {
   transition: margin-right .5s;
   display: flex;
   justify-content: space-between;
-  width: 100%;
   position: inherit;
 }
 
@@ -707,7 +712,7 @@ input[type="number"]::-webkit-outer-spin-button {
   /* CSS for SidePage */
   #side-page {
     transition: 0.5s;
-    background: rgba(40, 50, 59, 0.90);
+    background: #143552ed;
     position: relative;
     right: 0;
     overflow-x: hidden;
@@ -783,4 +788,144 @@ input[type="number"]::-webkit-outer-spin-button {
   .info-title{
     border-bottom: 1px solid white;
     padding-bottom: 5px;
+
+  /* Css for Reference */
+  #pop-up{
+    position: absolute;
+    width: auto;
+    height: 50px;
+    background-color: transparent;
+    border-radius: 25px;
+  }
+
+  #pop-up-title{
+    color: white;
+    text-align: center;
+    font-weight: 500;
+    font-size: 12px;
+  }
+
+  #content-reference-div{
+    width: auto;
+  }
+
+  #pop-up-content{
+    color: white;
+    text-align: justify;
+    font-weight: 100;
+    margin-left: 15px;
+    margin-right: 15px;
+    font-size: 12px;
+  }
+
+  #side-page-reference-btn{
+    position: relative;
+    float: right;
+    width: auto;
+    height: auto;
+    font-size: 9px;
+    margin-top: -40px;
+    border-radius: 20px;
+    background-color: #045;
+    transform: scale(0.8);
+  }
+
+  #open-in-the-side-icon{
+    margin-top: 13px;
+  }
+
+
+ /* CSS for Graph Depth Slider */
+ #slider-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2%;
+  transform: scale(0.7);
+ }
+
+ #slider{
+  -webkit-appearance: none; 
+  appearance: none;
+ }
+
+ #labels-slider{
+  margin-top: 4%;
+  color: #f5f5f5;
+  font-size: 15px;
+  font-weight: 900;
+  display: flex;
+  justify-content: space-between;
+  margin-right: 10px;
+  margin-left: 10px;
+ }
+ #graph-depth {
+  -webkit-appearance: none;
+  height: 5px;
+  border-radius: 5px;  
+  background: #f5f5f5;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+#graph-depth::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%; 
+  background: var(--color);
+  cursor: pointer;
+}
+
+#graph-depth::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: var(--color);
+  cursor: pointer;
+}
+
+  #pdf-reference{
+    height: 841px;
+    width: 595px;
+  }
+
+  #side-page-reference-container.moveIn{
+    animation: fadeIn 20s;
+    animation-fill-mode: forwards;
+  }
+
+
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 100;
+      visibility: inherit;
+    }
+  }
+
+  #close-btn-reference{
+    position: absolute;
+    margin-top: 2rem;
+    right: 46rem;
+    font-size: 40px;
+    z-index: 999;
+    color: black;
+    cursor: pointer;
+    border: none;
+    background-color: transparent;
+  }
+
+  #close-btn-reference:hover{
+    color: red;
+  }
+
+  #close-btn-reference.moveIn{
+    animation: fadeIn 60s;
+    animation-fill-mode: forwards;
   }
