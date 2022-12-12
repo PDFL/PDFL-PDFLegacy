@@ -111,6 +111,27 @@ class PopupComponent {
         );
         break;
       case "page":
+        this.components.title.setAttribute("id", "pop-up-title");
+        this.components.content.innerHTML = null;
+        this.components.title.innerHTML = "Page: " + pageNumber;
+        this.components.hr.setAttribute("id", "no-width");
+        this.components.content.setAttribute("id", "no-width");
+        this.components.image.setAttribute("id", "no-width");
+        this.components.popupDiv.setAttribute("id", "pop-up");
+        this.components.sidePageReferenceBtn.setAttribute("class", "btn");
+        this.components.sidePageReferenceBtn.setAttribute(
+          "id",
+          "side-page-reference-btn"
+        );
+        this.components.popupDiv.style.top = position.y + "px";
+        this.components.popupDiv.style.left = position.x + 10 + "px";
+        this.components.sidePageReferenceBtn.innerHTML =
+          '<a><i class="material-icons" id="open-in-the-side-icon">open_in_new</i></a>';
+        this.components.pdfContainer.appendChild(this.components.popupDiv);
+        this.components.popupDiv.appendChild(this.components.title);
+        this.components.popupDiv.appendChild(
+          this.components.sidePageReferenceBtn
+        );
         break;
       default:
     }

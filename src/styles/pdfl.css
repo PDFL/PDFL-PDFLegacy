@@ -745,6 +745,7 @@ input[type="number"]::-webkit-outer-spin-button {
     align-items: center;
   }
 
+
   #content-reference-div{
     width: auto;
   }
@@ -797,3 +798,4 @@ input[type="number"]::-webkit-outer-spin-button {
   width: 0;
   height: 0;
  }
+ 
