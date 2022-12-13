@@ -85,7 +85,7 @@ class ReferenceViewComponent {
    * @private
    */
   #hidePdfReferenceToShowGraph = () => {
-    this.components.canvas.className = "no-width";
+    this.components.sidePageReferenceContainer.className = "no-width";
     this.components.main.removeChild(this.components.closeBtnReference);
   };
 
@@ -95,7 +95,7 @@ class ReferenceViewComponent {
    * @private
    */
   #hidePdfReference = () => {
-    this.components.canvas.className = "no-width";
+    this.components.sidePageReferenceContainer.className = "no-width";
     this.components.pdfContainer.className = "full-width";
     this.components.main.removeChild(this.components.closeBtnReference);
   };
