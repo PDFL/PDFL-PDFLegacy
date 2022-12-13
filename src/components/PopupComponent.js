@@ -61,7 +61,6 @@ class PopupComponent {
    */
   #onPopupContentReady = (position, pageNumber, contentObject) => {
     this.components.pageNumber = pageNumber;
-    console.log(pageNumber);
     this.components.popupDiv.setAttribute("id", "pop-up");
     this.components.contentDiv.setAttribute("id", "content-reference-div");
     this.components.content.setAttribute("id", "pop-up-content");
