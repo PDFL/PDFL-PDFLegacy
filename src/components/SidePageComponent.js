@@ -54,7 +54,6 @@ class SidePageComponent {
             this.isKnowledgeGraphOpen = false;
           } else {
             this.#showKnowledgeGraph();
-            this.isKnowledgeGraphOpen = true;
           }
         }
       }
@@ -67,6 +66,7 @@ class SidePageComponent {
   #showKnowledgeGraph = () => {
     this.#showSidePage();
     this.knowledgeGraphComponent.displayGraph();
+    this.isKnowledgeGraphOpen = true;
   };
 
   /**
