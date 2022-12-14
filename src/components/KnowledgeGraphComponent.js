@@ -143,13 +143,16 @@ class KnowledgeGraphComponent {
         this.paperInfoWindow.displayPaperInfo(node);
         hoveredNode = this.#highlightConnectedNodes(highlightNodes, highlightLinks, node)
       })
-
+      .onNodeClick((node) => {
+        expandNode(node, this.graph);
+      })
       .onLinkHover((link) => this.#highlightLink(highlightNodes, highlightLinks, link))
       .linkWidth((link) => this.#getLinkWidth(highlightLinks, link))
       .linkDirectionalParticles(4)
       .linkDirectionalArrowLength((link) => this.#getArrowLength(highlightLinks, link))
       .linkDirectionalParticleWidth((link) => this.#getParticleWidth(highlightLinks, link))
       .linkDirectionalParticleSpeed(0.001)
+      .enableNodeDrag("false")
       .nodeCanvasObjectMode((node) => this.#getNodeMode(highlightNodes, node))
       .nodeCanvasObject((node, ctx) => this.#displayHighlightedNode(hoveredNode, node, ctx))
       .cooldownTime(300)
