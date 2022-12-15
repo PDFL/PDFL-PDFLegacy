@@ -17,7 +17,7 @@ import { POPUP_DISAPPEAR_TIMEOUT } from "../Constants";
  * @property {HTMLElement} components.title title of the reference selected
  * @property {HTMLElement} components.hr hr to separate title from text
  * @property {HTMLElement} components.text the text of the reference
- * @property {HTMLElement} components.pageNumber parser for the number of the page of the reference
+ * @property {int} components.pageNumber parser for the number of the page of the reference
  */
 class PopupComponent {
   components = {
@@ -61,6 +61,9 @@ class PopupComponent {
   /**
    * Call back to show the pop up and its elements
    * @private
+   * @param {int} position position of the reference x,y
+   * @param {int} pageNumber number of the page of the reference
+   * @param {Object} contentObject object of the reference containing type and text/image of it
    */
   #onPopupContentReady = (position, pageNumber, contentObject) => {
     let component = this.components;
