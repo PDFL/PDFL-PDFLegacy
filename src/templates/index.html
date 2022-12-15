@@ -147,6 +147,15 @@
 
         <div id="main">
             <div id="pdf-container" class="full-width"></div>
+            <div id="pop-up" class="hidden">
+                <div id="content-reference-div">
+                    <p id="pop-up-title" class="hidden"></p>
+                    <hr id="hr-pop-up" class="hidden">
+                    <div id="pop-up-text" class="hidden"></div>
+                </div>
+                <button id="side-page-reference-btn">
+                    <a><i class="material-icons" id="open-in-the-side-icon">open_in_new</i></a></button>
+            </div>
 
             <div id="side-page" class="no-width">
                 <div id="side-page-loader">
@@ -180,7 +189,7 @@
                         <span class="info-label">Field of study: </span>
                         <span class="info-text" id="field-info">Test 3</span>
                     </div>
-                </div>              
+                </div>
                 <div id="slider-container">
                     <div id="slider">
                         <input type="range" min="1" max="2" value="1" name="graph-depth" id="graph-depth" step="1">
