@@ -87,6 +87,7 @@
             <div class="sidetoolbar">
                 <a>
                     <i class="material-icons" id="search">search</i>
+                    <span class="tooltip-text" id="right">Search words in the paper</span>
                 </a>
             </div>
             <div class="sidetoolbar">
@@ -113,11 +114,20 @@
             <div class="sidetoolbar">
                 <a>
                     <i class="material-icons" id="graph-maker">schema</i>
+                    <span class="tooltip-text" id="right">Make the knowledge graph</span>
+                </a>
+
+            </div>
+            <div class="sidetoolbar">
+                <a>
+                    <i class="material-icons" id="summary-maker">summarize</i>
+                    <span class="tooltip-text" id="right">Summarize your paper</span>
                 </a>
             </div>
             <div class="sidetoolbar">
                 <a>
                     <i class="material-icons" id="full-screen">fullscreen</i>
+                    <span class="tooltip-text" id="right">Open full screen view</span>
                 </a>
             </div>
         </div>
@@ -180,7 +190,7 @@
                         <span class="info-label">Field of study: </span>
                         <span class="info-text" id="field-info">Test 3</span>
                     </div>
-                </div>              
+                </div>
                 <div id="slider-container">
                     <div id="slider">
                         <input type="range" min="1" max="2" value="1" name="graph-depth" id="graph-depth" step="1">
