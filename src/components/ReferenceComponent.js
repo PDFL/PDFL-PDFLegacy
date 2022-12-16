@@ -50,10 +50,10 @@ class ReferenceComponent {
         "click",
         this.#onInternalReferenceClick.bind(this)
       );
-      
+
       mouseOverDelayEvent(
         aTagElement,
-        2000,
+        1500,
         this.#onInternalReferenceOver.bind(this)
       );
     }

@@ -6,7 +6,7 @@ const TRANSPARENT_WHITE = "rgba(255,255,255,0.2)";
 
 const PAGE_INPUT_VALIDATION_REGEX = /[0-9]+/;
 
-const POPUP_DISAPPEAR_TIMEOUT = 4000;
+const POPUP_DISAPPEAR_TIMEOUT = 1500;
 
 const MAX_GRAPH_DEPTH = 2;
 
@@ -40,7 +40,7 @@ const FIELD_OF_STUDY_COLOR = {
   Law: "rgba(53, 99, 255, 0.8)",
   Linguistics: "rgba(245, 40, 145, 0.8)",
   "Missing Color": "rgba(255, 255, 255, 0.6)",
-  "Agricultural": "rgba(3, 184, 58, 0.8)",
+  Agricultural: "rgba(3, 184, 58, 0.8)",
 };
 
 export {
@@ -53,5 +53,5 @@ export {
   MAX_CITATION,
   MAX_REFERENCES,
   TEN_MILLISECONDS,
-  FIELD_OF_STUDY_COLOR
+  FIELD_OF_STUDY_COLOR,
 };

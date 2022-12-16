@@ -902,7 +902,7 @@ input[type="number"]::-webkit-outer-spin-button {
   /* Css for Reference */
   #pop-up{
     position: absolute;
-    width: 250px;
+    width: auto;
     height: auto;
     background-color: white;
     box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px;
@@ -913,7 +913,7 @@ input[type="number"]::-webkit-outer-spin-button {
   }
 
   #content-reference-div{
-    width: auto;
+    width: 250px;
     background-color: white;
     border-radius: 10px;
     z-index: 999;
@@ -940,6 +940,12 @@ input[type="number"]::-webkit-outer-spin-button {
     margin-left: 15px;
     margin-right: 15px;
     font-size: 9px;
+    z-index: 999;
+  }
+
+  #image-pop-up{
+    width: 250px;
+    height: auto;
   }
 
   #side-page-reference-btn{
