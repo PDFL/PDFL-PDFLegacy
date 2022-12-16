@@ -1162,4 +1162,14 @@ input[type="number"]::-webkit-outer-spin-button {
   content: "\25b2"; 
 }
 
+#close-btn-summary{
+  position: absolute;
+  top: 4rem;
+  right: 440px;
+  background-color: #143552ed;
+  padding: 5px;
+  border-radius: 5px;
+  z-index: 0;
+}
+
   
