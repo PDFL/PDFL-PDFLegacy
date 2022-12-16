@@ -10,19 +10,24 @@ import { POPUP_DISAPPEAR_TIMEOUT } from "../Constants";
  *
  *
  * @property {Object} components object that holds DOM elements that represent this component, as well as component's context
- * @property {HTMLElement} components.popupDiv div that contain the reference
  * @property {HTMLElement} components.pdfContainer element containing the PDF reader
- * @property {HTMLElement} components.contentDiv div containing the content of the reference img/table/text/pdf
- * @property {HTMLElement} components.content the content of the reference img/table/text/pdf
+ * @property {HTMLElement} components.popupDiv div that contain the reference
  * @property {HTMLElement} components.sidePageReferenceBtn button that open the two page layout view
+ * @property {HTMLElement} components.contentDiv div containing the content of the reference img/table/text/pdf
+ * @property {HTMLElement} components.title title of the reference selected
+ * @property {HTMLElement} components.hr hr to separate title from text
+ * @property {HTMLElement} components.text the text of the reference
+ * @property {int} components.pageNumber parser for the number of the page of the reference
  */
 class PopupComponent {
   components = {
-    popupDiv: document.createElement("div"),
     pdfContainer: document.querySelector("#pdf-container"),
-    contentDiv: document.createElement("div"),
-    content: document.createElement("p"),
-    sidePageReferenceBtn: document.createElement("button"),
+    popupDiv: document.querySelector("#pop-up"),
+    sidePageReferenceBtn: document.querySelector("#side-page-reference-btn"),
+    contentDiv: document.querySelector("#content-reference-div"),
+    title: document.querySelector("#pop-up-title"),
+    hr: document.querySelector("#hr-pop-up"),
+    text: document.querySelector("#pop-up-text"),
     pageNumber: null,
   };
 
@@ -47,9 +52,7 @@ class PopupComponent {
   };
 
   #openPdfReference = (event) => {
-    this.components.contentDiv.removeChild(
-      this.components.sidePageReferenceBtn
-    );
+    this.hidePopup();
     event.preventDefault();
     const pageNumber = this.components.pageNumber;
     EventHandlerService.publish(PDFLEvents.onReferencePdfOpen, pageNumber);
@@ -58,35 +61,37 @@ class PopupComponent {
   /**
    * Call back to show the pop up and its elements
    * @private
+   * @param {int} position position of the reference x,y
+   * @param {int} pageNumber number of the page of the reference
+   * @param {Object} contentObject object of the reference containing type and text/image of it
    */
   #onPopupContentReady = (position, pageNumber, contentObject) => {
-    this.components.pageNumber = pageNumber;
-    console.log(pageNumber);
-    this.components.popupDiv.setAttribute("id", "pop-up");
-    this.components.contentDiv.setAttribute("id", "content-reference-div");
-    this.components.content.setAttribute("id", "pop-up-content");
-    this.components.sidePageReferenceBtn.setAttribute("class", "btn");
-    this.components.sidePageReferenceBtn.setAttribute(
-      "id",
-      "side-page-reference-btn"
-    );
+    let component = this.components;
+    component.popupDiv.classList.remove("hidden");
+    component.pageNumber = pageNumber;
 
-    this.components.popupDiv.style.top = position.y + "px";
-    this.components.popupDiv.style.left = position.x + 10 + "px";
-    this.components.sidePageReferenceBtn.innerHTML =
-      '<a><i class="material-icons" id="open-in-the-side-icon">open_in_new</i></a>';
+    component.popupDiv.style.top = position.y + "px";
+    component.popupDiv.style.left = position.x + 10 + "px";
 
-    this.components.pdfContainer.appendChild(this.components.popupDiv);
-    this.components.popupDiv.appendChild(this.components.contentDiv);
-    this.components.contentDiv.appendChild(this.components.content);
-    this.components.contentDiv.appendChild(
-      this.components.sidePageReferenceBtn
-    );
+    /* Switch element to display according to reference type*/
+    switch (contentObject.type) {
+      case "text":
+        component.title.classList.remove("hidden");
+        component.text.classList.remove("hidden");
+        component.hr.classList.remove("hidden");
+        component.title.innerHTML = contentObject.title;
+        component.text.innerHTML = contentObject.text;
+        break;
+      default:
+        component.popupDiv.classList.add("hidden");
+        component.pdfContainer.style.cursor = "default";
+    }
+
     setTimeout(this.hidePopup, POPUP_DISAPPEAR_TIMEOUT);
   };
 
   hidePopup = () => {
-    this.components.pdfContainer.removeChild(this.components.popupDiv);
+    this.components.popupDiv.classList.add("hidden");
   };
 }
 
