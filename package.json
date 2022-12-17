@@ -31,6 +31,7 @@
         "@emotion/react": "^11.10.5",
         "@emotion/styled": "^11.10.5",
         "force-graph": "^1.42.16",
+        "node-summarizer": "^1.0.7",
         "string-similarity": "^4.0.4"
     }
 }
