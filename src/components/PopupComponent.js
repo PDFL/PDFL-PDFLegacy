@@ -70,15 +70,14 @@ class PopupComponent {
   #onPopupContentReady = (position, pageNumber, contentObject) => {
     let component = this.components;
     component.popupDiv.classList.remove("hidden");
+    component.contentDiv.classList.remove("hidden");
     component.pageNumber = pageNumber;
-
     component.popupDiv.style.top = position.y + "px";
     component.popupDiv.style.left = position.x + 20 + "px";
 
     /* Switch element to display according to reference type*/
     switch (contentObject.type) {
       case "text":
-        component.contentDiv.classList.remove("hidden");
         component.image.classList.add("hidden");
         component.title.classList.remove("hidden");
         component.text.classList.remove("hidden");
@@ -87,7 +86,6 @@ class PopupComponent {
         component.text.innerHTML = contentObject.text;
         break;
       case "image":
-        component.contentDiv.classList.remove("hidden");
         component.title.classList.add("hidden");
         component.text.classList.add("hidden");
         component.hr.classList.add("hidden");
@@ -102,18 +100,33 @@ class PopupComponent {
         component.popupDiv.classList.add("hidden");
         component.pdfContainer.style.cursor = "default";
     }
-    component.popupDiv.addEventListener(
-      "mouseleave",
-      (event) => {
+
+    const hidePopupTimeout = setTimeout(() => {
+      this.hidePopup();
+    }, POPUP_DISAPPEAR_TIMEOUT);
+    component.popupDiv.addEventListener("mouseenter", (event) => {
+      event.preventDefault();
+      this.components.popupDiv.classList.remove("hidden");
+      clearTimeout(hidePopupTimeout);
+    });
+    component.popupDiv.addEventListener("mouseleave", (event) => {
+      event.preventDefault();
+      setTimeout(() => {
+        this.hidePopup();
+      }, POPUP_DISAPPEAR_TIMEOUT);
+    });
+    document
+      .querySelector("#pdf-container")
+      .addEventListener("mouseleave", (event) => {
         event.preventDefault();
-        setTimeout(() => {
-          this.hidePopup();
-        }, POPUP_DISAPPEAR_TIMEOUT);
-      },
-      false
-    );
+        this.hidePopup();
+      });
   };
 
+  /**
+   * Handler to hides the popup
+   * @private
+   */
   hidePopup = () => {
     this.components.popupDiv.classList.add("hidden");
   };

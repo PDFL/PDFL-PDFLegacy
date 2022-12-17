@@ -5,6 +5,8 @@ import {
 import { mouseOverDelayEvent } from "../services/Utils";
 import { ParserFactory } from "../services/DocumentParser/ParserFactory";
 
+import { POPUP_APPEAR_TIMEOUT } from "../Constants";
+
 /**
  * This class handles user interaction with internal document references
  * @property {object} pdfDoc
@@ -53,7 +55,7 @@ class ReferenceComponent {
 
       mouseOverDelayEvent(
         aTagElement,
-        1500,
+        POPUP_APPEAR_TIMEOUT,
         this.#onInternalReferenceOver.bind(this)
       );
     }
