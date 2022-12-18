@@ -1,90 +1,73 @@
-import { SummarizerManager } from "node-summarizer";
+import {SUMMARIZER_STOP_LIST} from "../Constants";
 
 /**
- * Service to create a summary of a given text and of a given number of sentences
- * @param {SummarizerManager} summarizer instance of summarizer manager object from node-summarizer library
+ * Given a text this class provided the summarized version by extracting n sentences based on word frequency
+ * @param text {string} text to be summarized
+ * @param sentenceNumber {int} number of sentences in the summary
  */
-class TextSummarizer {
+class LocalTextSummarizer {
+
   /**
    * @constructor
-   * Initialize the service with the text and the desired length
    * @param text {string} text to be summarized
-   * @param numberOfSentences {int} number of sentences for the resulting summary
+   * @param sentenceNumber {int} number of sentences in the summary
    */
-  constructor(text, numberOfSentences) {
-    this.summarizer = new SummarizerManager(text, numberOfSentences);
-  }
-
-  /**
-   * Get a summary using library frequency method.
-   * It returns an object with the requested summary and the reduction percentage
-   * @returns {{summary: string, reductionPercentage: string}}
-   */
-  getSummaryByFrequency = () => {
-    return {
-      summary: this.summarizer.getSummaryByFrequency().summary,
-      reductionPercentage: this.summarizer.getFrequencyReduction().reduction,
-    };
-  };
-
-  /**
-   * @async
-   * Get a summary using library rank method.
-   * It returns an object with the requested summary and the reduction percentage
-   * @returns {{summary: string, reductionPercentage: string}}
-   */
-  getSummaryByRank = async () => {
-    let summaryObject = await this.summarizer.getSummaryByRank();
-    let reductionPercentage = await this.summarizer.getRankReduction();
-    return {
-      summary: summaryObject.summary,
-      reductionPercentage: reductionPercentage.reduction,
-    };
-  };
-}
-
-export { TextSummarizer };
-
-/*Other version below*/
-
-const SummaryTool = require("node-summary");
-
-/**
- * Service to create a summary of a given text and of a given number of sentences
- * @param {SummarizerManager} summarizer instance of summarizer manager object from node-summarizer library
- */
-class TextSummary {
-  /**
-   * @constructor
-   * Initialize the service with the text and the desired length
-   * @param title {string} the title of content to be summarized
-   * @param text {string} text to be summarized
-   */
-  constructor(title, text) {
-    this.title = title;
+  constructor(text, sentenceNumber) {
     this.text = text;
+    this.sentenceNumber = sentenceNumber;
   }
 
   /**
-   * Summarize the text given in the constructor
-   * @returns {Promise<{summary: string, summaryRation: float}>}
+   * Calculate and return the summary.
+   * In the given number of sentences are less or equal the number of sentences contain in text the summarized version is returned, else, the original text is returned
+   * @returns {string} summarized text
    */
-  getSummary = async () => {
-    const self = this;
-    return new Promise((resolve) => {
-      SummaryTool.summarize(self.title, self.text, function (error, summary) {
-        if (error) {
-          throw new Error("Unable to create summary");
-        }
-        resolve({
-          summary: summary,
-          summaryRatio:
-            100 -
-            100 * (summary.length / (self.title.length + self.text.length)),
-        });
+  getSummary = () => {
+    var documentParts = [];
+    var sentences = this.text
+      .replace(/\.+/g, ".|")
+      .replace(/\?/g, "?|")
+      .replace(/\!/g, "!|")
+      .split("|");
+    sentences.pop();
+    sentences.forEach(function (sentence) {
+      const wordArray = sentence.split(" ").filter(function (word) {
+        return SUMMARIZER_STOP_LIST.indexOf(word) === -1;
+      });
+      documentParts.push({
+        sentence: sentence,
+        words: wordArray,
+        score: 0,
       });
     });
+    documentParts.forEach(function (part) {
+      var count = 0;
+      part.words.forEach(function (word) {
+        const match = word;
+        documentParts.forEach(function (part2) {
+          part2.words.forEach(function (word2) {
+            if (word2 === match) count++;
+          });
+        });
+      });
+      count = count / part.words.length;
+      part.frequency = count;
+    });
+
+    documentParts.sort(function (a, b) {
+      return b.frequency - a.frequency;
+    });
+
+    if (documentParts.length >= this.sentenceNumber) {
+      var result = "";
+      for(var i=0; i<this.sentenceNumber; i++){
+        result = result + documentParts[i].sentence;
+      }
+      return result;
+    } else {
+      return this.text;
+    }
   };
 }
 
-export { TextSummary };
+export { LocalTextSummarizer };
