@@ -31,11 +31,15 @@
                         <h1 class="font-header better"> BETTER </h1>
                     </span>
                     <div class="inline">
-                        <button class="btn-welcome pointer" id="button-file">
-                            <div>Read your pdf
-                                <span aria-hidden="true" data-icon="+" />
-                            </div>
-                        </button>
+                        <div id="uploader-container-input">
+                            <form id="file-upload-form">
+                                <input type="file" name="file-upload" accept="application/pdf" id="file-open" />
+                                <label for="file-open" id="file-drag">
+                                    <i class="fa fa-download" aria-hidden="true"></i>
+                                    <div>Select a file or drag here</div>
+                                </label>
+                            </form>
+                        </div>
                         <button class="btn-welcome pointer">
                             <div>About Us
                                 <span aria-hidden="true" data-icon="+" />
@@ -45,19 +49,6 @@
                 </div>
                 <img src="assets/pic.png" id="main-pic" />
             </div>
-            <footer>
-                <div class="footer-text">
-                    <div>Site made with by our team <span>&#9829; </span> example :
-                        <a href="https://twitter.com/veksenn">@teammember1</a> &amp;
-                        <a href="https://twitter.com/ZTHall">@teammember2</a>...
-                    </div>
-                    <p>Maintained by the
-                        <a href="https://github.com/orgs/lodash/people">core team</a>
-                        with help from
-                        <a href="https://github.com/lodash/lodash/graphs/contributors">our contributors</a>.
-                    </p>
-                </div>
-            </footer>
         </div>
         <div id="logo">
             <img src="assets/logo.png" class="black-logo" />
