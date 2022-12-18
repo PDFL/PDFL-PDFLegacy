@@ -48,8 +48,8 @@ class SummaryKeyComponent {
    */
   #showSidePageSummary = () => {
     let component = this.components;
-    console.log(component.numberOfClick);
-    if (component.numberOfClick % 2 == 0) {
+    document.querySelector("#side-page").className = "hidden";
+    if (component.numberOfClick % 2 === 0) {
       component.sidePageSummary.className = "one-third-width";
       component.closeBtn.className = "closebtn";
       for (var i = 0; i < component.accordionItem.length; i++) {
@@ -64,15 +64,19 @@ class SummaryKeyComponent {
         });
       }
     } else {
-      component.sidePageSummary.className = "no-width";
+      component.sidePageSummary.className = "hidden";
       component.closeBtn.className = "hidden";
     }
     component.numberOfClick++;
   };
 
+  /**
+   * Callback for making a component not visible.
+   * @private
+   */
   #hideSidePageSummary = () => {
     this.components.numberOfClick = 0;
-    this.components.sidePageSummary.className = "no-width";
+    this.components.sidePageSummary.className = "hidden";
     this.components.closeBtn.className = "hidden";
   };
 }

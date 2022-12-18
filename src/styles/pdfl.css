@@ -1114,12 +1114,18 @@ input[type="number"]::-webkit-outer-spin-button {
 
 #side-page-summary{
   transition: 0.5s;
-  background: #143552ed;
   position: relative;
   right: 0;
   overflow-x: hidden;
   z-index: 2;
-  height: 901px
+  width: 600px;
+}
+
+#accordion-container{
+  width: 90%;
+  float: right;
+  background: #143552ed;
+  height: 100%;
 }
 
 .accordion {
@@ -1164,12 +1170,16 @@ input[type="number"]::-webkit-outer-spin-button {
 
 #close-btn-summary{
   position: absolute;
-  top: 4rem;
-  right: 440px;
-  background-color: #143552ed;
+  top: 0;
+  left: 0;
+  width: 60px;
   padding: 5px;
   border-radius: 5px;
   z-index: 0;
+  color: #000;
+}
+#close-btn-summary:hover{
+  color: red;
 }
 
   
