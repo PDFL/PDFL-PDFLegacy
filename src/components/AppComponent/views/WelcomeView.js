@@ -20,6 +20,7 @@ class WelcomeView extends AppView {
     buttonFile: document.getElementById("button-file"),
     dropArea: document.getElementById("file-drag"),
     fileOpen: document.getElementById("file-open"),
+    errorMessage: document.getElementById("message-wrong-type-fileupload"),
   };
 
   /**
@@ -96,17 +97,21 @@ class WelcomeView extends AppView {
    * @param {File} file uploaded PDF file
    */
   #readFile = (file) => {
-    EventHandlerService.publish(PDFLEvents.onResetReader);
+    if (file.type === "application/pdf") {
+      EventHandlerService.publish(PDFLEvents.onResetReader);
 
-    const fileReader = new FileReader();
-    fileReader.onload = function () {
-      EventHandlerService.publish(
-        PDFLEvents.onReadNewFile,
-        new Uint8Array(this.result)
-      );
-      EventHandlerService.publish(PDFLEvents.onShowReaderView);
-    };
-    fileReader.readAsArrayBuffer(file);
+      const fileReader = new FileReader();
+      fileReader.onload = function () {
+        EventHandlerService.publish(
+          PDFLEvents.onReadNewFile,
+          new Uint8Array(this.result)
+        );
+        EventHandlerService.publish(PDFLEvents.onShowReaderView);
+      };
+      fileReader.readAsArrayBuffer(file);
+    } else {
+      this.components.errorMessage.classList.remove("hidden");
+    }
   };
 }
 

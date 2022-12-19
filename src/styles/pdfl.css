@@ -24,6 +24,19 @@ body{
   font-size:15px;
 }
 
+#message-wrong-type-fileupload{
+  background-color: rgba(253, 63, 63, 0.925);
+  color: white;
+  text-align: center;
+  border-radius: 5px;
+  margin: auto;
+  margin-top: 2rem;
+  width: 30%;
+  padding: 5px;
+  font-size: 10px;
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
 #pdf-viewer{
   margin: 0;
   padding: 0;
