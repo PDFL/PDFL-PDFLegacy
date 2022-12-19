@@ -16,12 +16,6 @@ const MAX_REFERENCES = 1;
 
 const TEN_MILLISECONDS = 10;
 
-/**
- * How much of a HTML element needs to be visible (in %) to
- * trigger the callback for visibility.
- */
-const VISIBILITY_THRESHOLD = 0.3;
-
 const FIELD_OF_STUDY_COLOR = {
   Medicine: "rgba(43, 213, 20, 0.8)",
   Chemistry: "rgba(37, 152, 170, 0.8)",
@@ -51,7 +45,6 @@ const FIELD_OF_STUDY_COLOR = {
 
 export {
   SIMILARITY_THRESHOLD,
-  VISIBILITY_THRESHOLD,
   MAX_POPUP_TEXT_LENGTH,
   PAGE_INPUT_VALIDATION_REGEX,
   POPUP_DISAPPEAR_TIMEOUT,

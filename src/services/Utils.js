@@ -1,5 +1,5 @@
 var { compareTwoStrings } = require("string-similarity");
-import { SIMILARITY_THRESHOLD, VISIBILITY_THRESHOLD } from "../Constants";
+import { SIMILARITY_THRESHOLD } from "../Constants";
 
 /**
  * Compares 2 string based on similarity.
