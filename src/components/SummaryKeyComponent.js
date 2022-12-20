@@ -40,6 +40,18 @@ class SummaryKeyComponent {
       "click",
       this.#hideSidePageSummary
     );
+
+    Array.from(this.components.accordionItem).forEach((accordion) => {
+      accordion.addEventListener("click", function () {
+        this.classList.toggle("active");
+        var panel = this.nextElementSibling;
+        if (panel.style.maxHeight) {
+          panel.style.maxHeight = null;
+        } else {
+          panel.style.maxHeight = panel.scrollHeight + "px";
+        }
+      });
+    });
   };
 
   /**
@@ -52,17 +64,6 @@ class SummaryKeyComponent {
     if (component.numberOfClick % 2 === 0) {
       component.sidePageSummary.className = "one-third-width";
       component.closeBtn.className = "closebtn";
-      for (var i = 0; i < component.accordionItem.length; i++) {
-        component.accordionItem[i].addEventListener("click", function () {
-          this.classList.toggle("active");
-          var panel = this.nextElementSibling;
-          if (panel.style.maxHeight) {
-            panel.style.maxHeight = null;
-          } else {
-            panel.style.maxHeight = panel.scrollHeight + "px";
-          }
-        });
-      }
     } else {
       component.sidePageSummary.className = "hidden";
       component.closeBtn.className = "hidden";
