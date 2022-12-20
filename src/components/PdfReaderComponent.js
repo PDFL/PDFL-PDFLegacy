@@ -9,6 +9,7 @@ import { PopupComponent } from "./PopupComponent";
 import { ReferenceViewComponent } from "./ReferenceViewComponent";
 import { KeyboardService } from "../services/KeyboardService";
 import * as textRenderService from "../services/TextRenderService";
+import { FileUploadComponent } from "./FileUploadComponent";
 
 const pdfjsLib = require("pdfjs-dist");
 
@@ -30,7 +31,6 @@ const pdfjsLib = require("pdfjs-dist");
 class PdfReaderComponent {
   components = {
     pdfContainer: document.querySelector("#pdf-container"),
-    openNew: document.querySelector("#open-new"),
     canvas: null,
     viewport: null,
     loader: document.querySelector("#loader"),
@@ -48,6 +48,7 @@ class PdfReaderComponent {
     this.referenceComponent = new ReferenceComponent();
     this.popupComponent = new PopupComponent();
     this.referenceViewComponent = new ReferenceViewComponent();
+    this.pdfUploadComponent = new FileUploadComponent();
     this.#registerEvents();
   }
 
@@ -56,8 +57,6 @@ class PdfReaderComponent {
    * @private
    */
   #registerEvents = () => {
-    this.components.openNew.addEventListener("click", this.#onNewFile);
-
     this.components.pdfContainer.addEventListener(
       "mousemove",
       textRenderService.hideLinks
@@ -85,26 +84,6 @@ class PdfReaderComponent {
     EventHandlerService.subscribe(PDFLEvents.onReadNewFile, (pdf) => {
       this.loadPdf(pdf);
     });
-
-    EventHandlerService.subscribe(
-      PDFLEvents.onKeyboardKeyDown,
-      (functionalKeys, key) => {
-        if (!functionalKeys.ctrl) {
-          return;
-        }
-        if (key === "u") {
-          this.#onNewFile();
-        }
-      }
-    );
-  };
-
-  /**
-   * Cretes event triggered when application view changed from reader view to input view.
-   * @private
-   */
-  #onNewFile = () => {
-    EventHandlerService.publish(PDFLEvents.onShowInputView);
   };
 
   /**
@@ -123,7 +102,7 @@ class PdfReaderComponent {
         self.sidePageComponent.setPDF(data);
 
         self.referenceViewComponent.setPdfDoc(data);
-       
+
         textRenderService.renderPage(
           self.pdfDoc,
           self.components,
@@ -133,7 +112,7 @@ class PdfReaderComponent {
       .catch((err) => {
         console.log(err.message); // TODO: handle error in some way
       });
-    this.components.loader.className += " hidden";
+    this.components.loader.classList.add("hidden");
   };
 
   /**

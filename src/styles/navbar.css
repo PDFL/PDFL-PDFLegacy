@@ -1,11 +1,13 @@
 /* NAVBAR STYLING STARTS */
 #navbar {
-    display: flex;
-    justify-content: space-between;
     align-items: center;
     height: 60px;
-    background-color: white;
+    background-color: var(--iconColor);
     z-index: 999;
+    width: 100%;
+    margin-top: 0;
+    display: flex;
+    justify-content: space-between;
 }
 #nav-links a {
     color: var(--iconColor);
@@ -20,7 +22,6 @@
     display: flex;
     font-size: 18px;
     overflow: hidden;
-    cursor: pointer;
     z-index: 2;
 }
 #menu li:hover {
@@ -29,9 +30,8 @@
 }
 #menu li {
     padding: 5px 14px;
-    align-content: center;
-    display:grid
 }
+
 a {
     text-decoration: none;
 }
@@ -45,13 +45,22 @@ li {
     border-right: 3px solid black;
 }
 
-#open-new{
+#logo-navbar-pdf-viewer{
+  margin-left: 15px;
+}
+
+#nav-links{
+    float: right;
+}
+
+.navbar-btn{
     border:none;
     color:white;
     font-size:15px;
     padding:10px 30px 10px 30px;
-    background: linear-gradient(to right, #2f4858,#27596b,#166a7a,#007c84,#008e89,#119f89);
+    background: var(--iconColor);
     border-radius: 15px;
+    cursor: pointer;
 }
 
 

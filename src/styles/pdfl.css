@@ -37,6 +37,23 @@ body{
   font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+#message-wrong-type-fileupload-reader{
+  background-color: rgba(253, 63, 63, 0.925);
+  color: white;
+  text-align: center;
+  border-radius: 5px;
+  margin: auto;
+  margin-top: 2rem;
+  width: 30%;
+  padding: 5px;
+  font-size: 10px;
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  position: absolute;
+  bottom: 2rem;
+  left: 35%;
+  z-index: 999;
+}
+
 #pdf-viewer{
   margin: 0;
   padding: 0;
@@ -395,8 +412,9 @@ input[type="number"]::-webkit-outer-spin-button {
 
 #logo-loader{
   width: 50%;
-  animation: myAnim 600ms ease 0s 80 normal forwards, fadeOut 1s;
+  animation: myAnim 600ms ease 0s 80 normal forwards;
   animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
 }
 
 #loader > img {
@@ -750,17 +768,17 @@ input[type="number"]::-webkit-outer-spin-button {
   /*tooltip for question mark */
   #question-mark {
     position: absolute; 
-    bottom:5%;
-    right: 5%;
+    bottom: 2%;
+    left: 9%;
     color:white;
     display: inline-block;
-    border-bottom: 1px dotted black;
+    cursor: pointer;
   }
   
   #question-mark .tooltiptext {
     visibility: hidden;
     width: 120px;
-    background-color: #f5f5f5c4;
+    background-color: var(--iconColor);
     color: #fff;
     border-radius: 6px;
     padding: 5px 0;
@@ -768,10 +786,11 @@ input[type="number"]::-webkit-outer-spin-button {
     z-index: 1;
     bottom: 150%;
     left: 50%;
-    margin-left: -60px;
+    margin-left: -90px;
     height: 185px;
     transition: .25s all ease;
   	transition-delay: .25s;
+    width: 180px;
   }
   
   #question-mark .tooltiptext::after {
@@ -782,7 +801,7 @@ input[type="number"]::-webkit-outer-spin-button {
     margin-left: -5px;
     border-width: 5px;
     border-style: solid;
-    border-color: #f5f5f5c4 transparent transparent transparent;
+    border-color: var(--iconColor) transparent transparent transparent;
   }
   
   #question-mark:hover .tooltiptext {
@@ -790,9 +809,17 @@ input[type="number"]::-webkit-outer-spin-button {
   }
 
   #rect{
-    font-family: initial;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     font-size: 14px;
-    padding: 4px;
+    align-items: center;
+    justify-content: center;
+    padding: auto;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+    color: white;
+    border: 1px white;
   }
 
   .css-slider {
@@ -802,6 +829,7 @@ input[type="number"]::-webkit-outer-spin-button {
     overflow: hidden;
     color: black;
     text-align: initial;
+    align-items: center;
   }
   label {
     cursor: pointer;
@@ -816,7 +844,8 @@ input[type="number"]::-webkit-outer-spin-button {
     top: 0;
     left: 100%;
     z-index: 10;
-    background-color: #c6cace;
+    background-color: var(--iconColor);
+    cursor: default;
   }
   [id^="slide"]:checked + .slide {
     left: 0;
@@ -848,26 +877,28 @@ input[type="number"]::-webkit-outer-spin-button {
     justify-content: center;
   }
   header label {
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: white;
     border-radius: 50%;
     width: 10px;
     height: 10px;
     margin: 20px 5px;
   }
-  header label:hover { background: #2e353b; }
+  header label:hover { background-color: var(--color); }
 
   input#slide-1:checked ~ header label#slide-1, input#slide-2:checked ~ header label#slide-2, input#slide-3:checked ~ header label#slide-3, input#slide-4:checked ~ header label#slide-4 {
-    background: #2e353b;
+    background-color: var(--color);
   }
   
   #paper-info{
     width: 50%; 
-    z-index: 1;
+    z-index: 999;
     position: absolute;
     padding: 10px;
     color: white;
-    box-shadow: rgb(34, 34, 34) 1px 1px 1px 1px;
+    background-color: var(--color);
     transition: all 500ms ease-out 0ms;
+    right: 0;
+    height: auto;
   }
 
   #expand-node-btn, #info-close-btn{
@@ -886,11 +917,10 @@ input[type="number"]::-webkit-outer-spin-button {
     text-overflow: ellipsis;
     white-space: nowrap;
     cursor: default;
-    padding: 8px 15px 9px 0;
   }
 
   .info-display{
-    margin: 0 0 10px;
+    margin: 0 0 5px;
     display: flex;
     align-items: center;
   }
@@ -986,11 +1016,13 @@ input[type="number"]::-webkit-outer-spin-button {
 
  /* CSS for Graph Depth Slider */
  #slider-container{
+  position: absolute;
   display: flex;
   justify-content: center;
   align-items: center;
   margin-top: 2%;
   transform: scale(0.7);
+  z-index: 998;
  }
 
  #slider{

@@ -1,3 +1,4 @@
+import { POPUP_DISAPPEAR_TIMEOUT } from "../Constants";
 import {
   EventHandlerService,
   PDFLEvents,
@@ -11,7 +12,13 @@ import {
  * @property {HTMLElement} components.fileOpen input element used for PDF file upload
  */
 class FileUploadComponent {
-  components = {};
+  components = {
+    openNew: document.getElementById("open-another"),
+    loader: document.querySelector("#loader"),
+    errorMessage: document.getElementById(
+      "message-wrong-type-fileupload-reader"
+    ),
+  };
 
   /**
    * Creates and initializes new file upload component.
@@ -25,7 +32,54 @@ class FileUploadComponent {
    * Adds event listeners to component's elements.
    * @private
    */
-  #registerEvents = () => {};
+  #registerEvents = () => {
+    this.components.openNew.addEventListener("input", this.#onNewFile);
+
+    EventHandlerService.subscribe(
+      PDFLEvents.onKeyboardKeyDown,
+      (functionalKeys, key) => {
+        if (!functionalKeys.ctrl) {
+          return;
+        }
+        if (key === "u") {
+          this.#onNewFile();
+        }
+      }
+    );
+  };
+
+  /**
+   * Cretes event triggered when application view changed from reader view to input view.
+   * @private
+   */
+  #onNewFile = (event) => {
+    if (event.target.files[0].type === "application/pdf") {
+      this.components.loader.classList.remove("hidden");
+      this.components.errorMessage.classList.add("hidden");
+      EventHandlerService.publish(PDFLEvents.onResetReader);
+
+      const fileReader = new FileReader();
+      fileReader.onload = function () {
+        EventHandlerService.publish(
+          PDFLEvents.onReadNewFile,
+          new Uint8Array(this.result)
+        );
+        EventHandlerService.publish(PDFLEvents.onShowReaderView);
+        document.querySelector("#loader").classList.add("hidden");
+      };
+      fileReader.readAsArrayBuffer(event.target.files[0]);
+    } else {
+      clearTimeout(messageErrorTimeOut);
+      this.components.errorMessage.classList.remove("hidden");
+      var messageErrorTimeOut = setTimeout(() => {
+        this.hideErrorMessage();
+      }, POPUP_DISAPPEAR_TIMEOUT);
+    }
+  };
+
+  hideErrorMessage = () => {
+    this.components.errorMessage.classList.add("hidden");
+  };
 }
 
 export { FileUploadComponent };
