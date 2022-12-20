@@ -139,13 +139,13 @@ color:black;
 
 
 #uploader-container-input{
+position: relative;
 top: 50%; /* moved down by 50% of the screen height */
 transform: translateY(-50%); /* moved back up (Y axis) by half of its height to achieve the perfect center */
 width: 100%; /* needs to be defined to keep the default block behavior */
 text-align: center;
 margin: 0; /* again, for perfect center */
 font-family: var(--font);
-position: absolute;
 }
 
 

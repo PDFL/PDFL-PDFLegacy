@@ -13,6 +13,7 @@ import { SidePageLoaderComponent } from "./SidePageLoaderComponent";
  * @property {HTMLElement} components.closeBtn button that closes side page
  * @property {HTMLElement} components.sideNav placeholder of this component
  * @property {HTMLElement} components.pdfContainer sibling component of this component that displays PDF reader
+ * @property {HTMLElement} components.slider input element for depth selection
  * @property {KnowledgeGraphComponent} knowledgeGraphComponent knowledge graph component
  * @property {SidePageLoaderComponent} loader component that displays loader in this page
  * @property {boolean} isKnowledgeGraphOpen true if the knowledge graph is open
@@ -22,6 +23,7 @@ class SidePageComponent {
     closeBtn: document.querySelector("#close-btn"),
     sideNav: document.querySelector("#side-page"),
     pdfContainer: document.querySelector("#pdf-container"),
+    slider: document.querySelector("#graph-depth"),
   };
 
   /**
@@ -82,6 +84,8 @@ class SidePageComponent {
    * Callback for making a component not visible.
    */
   hideSidePage = () => {
+    this.components.slider.value = 1;
+    this.knowledgeGraphComponent.depth = 1;
     this.components.sideNav.className = "no-width";
     this.components.pdfContainer.className = "full-width";
   };

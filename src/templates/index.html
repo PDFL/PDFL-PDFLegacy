@@ -19,6 +19,9 @@
 <body>
     <!--WELCOME PAGE-->
     <div id="welcome-page" class="app-view">
+        <div id="message-wrong-type-fileupload" class="hidden">
+            <h2>The uploaded file is not a pdf</h2>
+        </div>
         <div id="uploader-container">
             <div id="layout">
                 <div id="text">
@@ -31,11 +34,15 @@
                         <h1 class="font-header better"> BETTER </h1>
                     </span>
                     <div class="inline">
-                        <button class="btn-welcome pointer" id="button-file">
-                            <div>Read your pdf
-                                <span aria-hidden="true" data-icon="+" />
-                            </div>
-                        </button>
+                        <div id="uploader-container-input">
+                            <form id="file-upload-form">
+                                <input type="file" name="file-upload" accept="application/pdf" id="file-open" />
+                                <label for="file-open" id="file-drag">
+                                    <i class="fa fa-download" aria-hidden="true"></i>
+                                    <div>Select a file or drag here</div>
+                                </label>
+                            </form>
+                        </div>
                         <button class="btn-welcome pointer">
                             <div>About Us
                                 <span aria-hidden="true" data-icon="+" />
@@ -45,19 +52,6 @@
                 </div>
                 <img src="assets/pic.png" id="main-pic" />
             </div>
-            <footer>
-                <div class="footer-text">
-                    <div>Site made with by our team <span>&#9829; </span> example :
-                        <a href="https://twitter.com/veksenn">@teammember1</a> &amp;
-                        <a href="https://twitter.com/ZTHall">@teammember2</a>...
-                    </div>
-                    <p>Maintained by the
-                        <a href="https://github.com/orgs/lodash/people">core team</a>
-                        with help from
-                        <a href="https://github.com/lodash/lodash/graphs/contributors">our contributors</a>.
-                    </p>
-                </div>
-            </footer>
         </div>
         <div id="logo">
             <img src="assets/logo.png" class="black-logo" />
@@ -157,6 +151,16 @@
 
         <div id="main">
             <div id="pdf-container" class="full-width"></div>
+            <div id="pop-up" class="hidden">
+                <div id="content-reference-div">
+                    <p id="pop-up-title" class="hidden"></p>
+                    <hr id="hr-pop-up" class="hidden">
+                    <div id="pop-up-text" class="hidden"></div>
+                    <div id="pop-up-image" class="hidden"></div>
+                </div>
+                <button id="side-page-reference-btn">
+                    <a><i class="material-icons" id="open-in-the-side-icon">open_in_new</i></a></button>
+            </div>
 
             <div id="side-page" class="no-width">
                 <div id="side-page-loader">
@@ -168,10 +172,7 @@
                     </div>
                     <div id="error-message-div" class="hidden">
                         <img src="assets/logo_broken.png" alt="heart broken" id="logo-broken" />
-                        <p id="error-message">Ops :'( you broke our heart. <br><br> You can try later, but don't ask
-                            us,
-                            <br>
-                            because we don't trust you anymore
+                        <p id="error-message">Ops, <br> the knowledge graph could not be generated for this pdf :(
                         </p>
                     </div>
                 </div>

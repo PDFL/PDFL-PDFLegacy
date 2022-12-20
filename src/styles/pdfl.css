@@ -24,6 +24,19 @@ body{
   font-size:15px;
 }
 
+#message-wrong-type-fileupload{
+  background-color: rgba(253, 63, 63, 0.925);
+  color: white;
+  text-align: center;
+  border-radius: 5px;
+  margin: auto;
+  margin-top: 2rem;
+  width: 30%;
+  padding: 5px;
+  font-size: 10px;
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
 #pdf-viewer{
   margin: 0;
   padding: 0;
@@ -911,45 +924,67 @@ input[type="number"]::-webkit-outer-spin-button {
   #pop-up{
     position: absolute;
     width: auto;
-    height: 50px;
-    background-color: transparent;
-    border-radius: 25px;
-  }
-
-  #pop-up-title{
-    color: white;
-    text-align: center;
-    font-weight: 500;
-    font-size: 12px;
+    height: auto;
+    background-color: white;
+    box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+    border-radius: 10px;
   }
 
   #content-reference-div{
-    width: auto;
+    width: 250px;
+    background-color: white;
+    border-radius: 10px;
+    z-index: 999;
   }
 
-  #pop-up-content{
-    color: white;
+  #pop-up-title{
+    color: black;
+    margin-left: 20px;
+    font-size: 13px;
+    font-weight: 900;
+    align-items: left;
+  }
+
+  #hr-pop-up{
+    color: black;
+    width: 90%;
+    margin-top: -5px;
+  }
+
+  #pop-up-text{
+    color: black;
     text-align: justify;
-    font-weight: 100;
+    font-weight: 200;
     margin-left: 15px;
     margin-right: 15px;
-    font-size: 12px;
+    font-size: 9px;
+    z-index: 999;
+  }
+
+  #image-pop-up{
+    width: 250px;
+    height: auto;
   }
 
   #side-page-reference-btn{
     position: relative;
     float: right;
-    width: auto;
-    height: auto;
-    font-size: 9px;
-    margin-top: -40px;
-    border-radius: 20px;
-    background-color: #045;
-    transform: scale(0.8);
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
+    border-color: var(--iconColor);
+    background-color: var(--iconColor);
+    margin-bottom: -20px;
+    margin-left: -20px;
   }
 
   #open-in-the-side-icon{
-    margin-top: 13px;
+    color: white;
+    cursor: pointer;
+    transform: scale(0.8);
   }
 
 
