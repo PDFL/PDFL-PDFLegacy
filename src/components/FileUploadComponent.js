@@ -54,31 +54,51 @@ class FileUploadComponent {
    */
   #onNewFile = (event) => {
     if (event.target.files[0].type === "application/pdf") {
-      this.components.loader.classList.remove("hidden");
-      this.components.errorMessage.classList.add("hidden");
+      this.showLoader();
+      this.hideErrorMessage();
       EventHandlerService.publish(PDFLEvents.onResetReader);
-
-      const fileReader = new FileReader();
-      fileReader.onload = function () {
-        EventHandlerService.publish(
-          PDFLEvents.onReadNewFile,
-          new Uint8Array(this.result)
-        );
-        EventHandlerService.publish(PDFLEvents.onShowReaderView);
-        document.querySelector("#loader").classList.add("hidden");
-      };
-      fileReader.readAsArrayBuffer(event.target.files[0]);
+      this.#readNewPdf(event.target.files[0]);
     } else {
-      clearTimeout(messageErrorTimeOut);
-      this.components.errorMessage.classList.remove("hidden");
-      var messageErrorTimeOut = setTimeout(() => {
-        this.hideErrorMessage();
-      }, POPUP_DISAPPEAR_TIMEOUT);
+      this.showErrorMessage();
     }
   };
 
+  #readNewPdf = (newPdf) => {
+    const fileReader = new FileReader();
+    fileReader.onload = function () {
+      EventHandlerService.publish(
+        PDFLEvents.onReadNewFile,
+        new Uint8Array(this.result)
+      );
+      EventHandlerService.publish(PDFLEvents.onShowReaderView);
+      document.querySelector("#loader").classList.add("hidden");
+    };
+    fileReader.readAsArrayBuffer(newPdf);
+  };
+
+  /**
+   * Callback for making a component not visible.
+   */
   hideErrorMessage = () => {
     this.components.errorMessage.classList.add("hidden");
+  };
+
+  /**
+   * Callback for making a component visible.
+   */
+  showErrorMessage = () => {
+    clearTimeout(messageErrorTimeOut);
+    this.components.errorMessage.classList.remove("hidden");
+    var messageErrorTimeOut = setTimeout(() => {
+      this.hideErrorMessage();
+    }, POPUP_DISAPPEAR_TIMEOUT);
+  };
+
+  /**
+   * Callback for making a component visible.
+   */
+  showLoader = () => {
+    this.components.loader.classList.remove("hidden");
   };
 }
 
