@@ -1,3 +1,7 @@
+import {
+  EventHandlerService,
+  PDFLEvents,
+} from "../services/EventHandlerService";
 import { ToolbarComponent } from "./ToolbarComponent";
 import { PopupComponent } from "./PopupComponent";
 
@@ -21,11 +25,13 @@ class SummaryKeyComponent {
 
   /**
    * Creates and initializes new Summary Key Component
+   * Set number of click to zero for handle the number of click on the summaryKeyBtn
    *
    * @constructor
    */
   constructor() {
     this.numberOfClick = 0;
+    this.open = false;
     this.toolbarComponent = new ToolbarComponent();
     this.popupComponent = new PopupComponent();
     this.#registerEvents();
@@ -65,6 +71,21 @@ class SummaryKeyComponent {
         }
       });
     });
+
+    EventHandlerService.subscribe(
+      PDFLEvents.onKeyboardKeyDown,
+      (functionalKeys, key, code) => {
+        if (functionalKeys.ctrl && key === "y") {
+          if (!this.open) {
+            this.#showSidePageSummary();
+            this.open = true;
+          } else {
+            this.#hideSidePageSummary();
+            this.open = false;
+          }
+        }
+      }
+    );
   };
 
   /**
@@ -73,6 +94,7 @@ class SummaryKeyComponent {
    */
   #showSidePageSummary = () => {
     let component = this.components;
+    this.open = true;
     document.querySelector("#side-page").className = "hidden";
     if (this.numberOfClick % 2 === 0) {
       component.sidePageSummary.className = "one-third-width";
@@ -89,6 +111,7 @@ class SummaryKeyComponent {
    * @private
    */
   #hideSidePageSummary = () => {
+    this.open = false;
     this.numberOfClick = 0;
     this.components.sidePageSummary.className = "hidden";
     this.components.closeBtn.className = "hidden";
