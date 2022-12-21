@@ -1,5 +1,13 @@
+import { ToolbarComponent } from "./ToolbarComponent";
+import { PopupComponent } from "./PopupComponent";
+
 /**
  * Component responsible for displaying the sidebar for summaries/key
+ *
+ * @property {Object} components object that holds DOM elements that represent this component, as well as component's context
+ * @property {HTMLElement} components.summaryKeyBtn button that open and close the sidepage
+ * @property {HTMLElement} components.accordionItem accordion item
+ * @property {HTMLElement} components.closeBtn button that closes sidepage
  *
  */
 
@@ -9,9 +17,6 @@ class SummaryKeyComponent {
     sidePageSummary: document.querySelector("#side-page-summary"),
     accordionItem: document.getElementsByClassName("accordion"),
     closeBtn: document.querySelector("#close-btn-summary"),
-    graphMakerBtn: document.querySelector("#graph-maker"),
-    referenceOpenBtn: document.querySelector("#side-page-reference-btn"),
-    numberOfClick: 0,
   };
 
   /**
@@ -20,6 +25,9 @@ class SummaryKeyComponent {
    * @constructor
    */
   constructor() {
+    this.numberOfClick = 0;
+    this.toolbarComponent = new ToolbarComponent();
+    this.popupComponent = new PopupComponent();
     this.#registerEvents();
   }
 
@@ -32,11 +40,16 @@ class SummaryKeyComponent {
       "click",
       this.#showSidePageSummary
     );
+
     this.components.closeBtn.addEventListener(
       "click",
       this.#hideSidePageSummary
     );
-    this.components.graphMakerBtn.addEventListener(
+    this.toolbarComponent.components.graphMakerBtn.addEventListener(
+      "click",
+      this.#hideSidePageSummary
+    );
+    this.popupComponent.components.sidePageReferenceBtn.addEventListener(
       "click",
       this.#hideSidePageSummary
     );
@@ -61,14 +74,14 @@ class SummaryKeyComponent {
   #showSidePageSummary = () => {
     let component = this.components;
     document.querySelector("#side-page").className = "hidden";
-    if (component.numberOfClick % 2 === 0) {
+    if (this.numberOfClick % 2 === 0) {
       component.sidePageSummary.className = "one-third-width";
       component.closeBtn.className = "closebtn";
     } else {
       component.sidePageSummary.className = "hidden";
       component.closeBtn.className = "hidden";
     }
-    component.numberOfClick++;
+    this.numberOfClick++;
   };
 
   /**
@@ -76,7 +89,7 @@ class SummaryKeyComponent {
    * @private
    */
   #hideSidePageSummary = () => {
-    this.components.numberOfClick = 0;
+    this.numberOfClick = 0;
     this.components.sidePageSummary.className = "hidden";
     this.components.closeBtn.className = "hidden";
   };
