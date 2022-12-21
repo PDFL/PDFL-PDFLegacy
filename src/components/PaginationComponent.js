@@ -128,7 +128,7 @@ class PaginationComponent {
   #currentPageChanged = () => {
     this.components.currentPage.value = this.currentPage;
     this.#updateButtonStatus();
-    EventHandlerService.publish(PDFLEvents.onRenderPage);
+    EventHandlerService.publish(PDFLEvents.onRenderPage, this.currentPage);
   };
 
   /**

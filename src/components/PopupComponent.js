@@ -73,6 +73,8 @@ class PopupComponent {
     component.popupDiv.style.top = position.y + "px";
     component.popupDiv.style.left = position.x + 10 + "px";
 
+    console.log("test");
+
     /* Switch element to display according to reference type*/
     switch (contentObject.type) {
       case "text":

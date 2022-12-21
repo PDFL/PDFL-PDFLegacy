@@ -9,7 +9,8 @@ import { PopupComponent } from "./PopupComponent";
 import { ReferenceViewComponent } from "./ReferenceViewComponent";
 import { KeyboardService } from "../services/KeyboardService";
 import * as textRenderService from "../services/TextRenderService";
-import { findMiddleCanvas, respondToVisibility } from "../services/Utils";
+import { Page } from "./Page";
+import { respondToVisibility } from "../services/Utils";
 
 const pdfjsLib = require("pdfjs-dist");
 
@@ -27,6 +28,7 @@ const pdfjsLib = require("pdfjs-dist");
  * @property {PopupComponent} popupComponent popup component within the reader
  * @property {PDFDocumentProxy} pdfDoc PDF document
  * @property {KeyboardService} keyboardService keyboard service
+ * @property {Page[]} pages
  */
 class PdfReaderComponent {
   components = {
@@ -48,8 +50,8 @@ class PdfReaderComponent {
     this.popupComponent = new PopupComponent();
     this.referenceViewComponent = new ReferenceViewComponent();
     this.visibleCanvases = [];
-    this.pageWidth = null;
-    this.pageHeight = null;
+    this.pages = [];
+    this.visiblePage = null;
     this.#registerEvents();
   }
 
@@ -72,17 +74,19 @@ class PdfReaderComponent {
     //   );
     // }).observe(this.components.pdfContainer);
 
-    EventHandlerService.subscribe(PDFLEvents.onRenderPage, () => {
-      this.#renderPages();
+    EventHandlerService.subscribe(PDFLEvents.onRenderPage, (page) => {
+      this.pages[page - 1].getCanvas().scrollIntoView();
+      this.visibleCanvases = [page];
+      this.#setVisiblePage(page);
     });
 
-    EventHandlerService.subscribe(PDFLEvents.onZoomChange, () => {
-      let zoomScale = this.toolbarComponent.getZoom();
+    EventHandlerService.subscribe(PDFLEvents.onZoomChange, (zoomScale) => {
       textRenderService
         .getPageSize(this.pdfDoc, zoomScale)
         .then(([width, height]) => {
           this.#setCanvasSize(width, height);
-          this.#renderPages();
+          let visiblePageNum = Math.min(...this.visibleCanvases);
+          this.#setVisiblePage(visiblePageNum, true);
         });
     });
 
@@ -135,6 +139,8 @@ class PdfReaderComponent {
   reset = () => {
     this.sidePageComponent.hideSidePage();
     this.toolbarComponent.reset();
+    this.pages = [];
+    this.visiblePage = null;
   };
 
   /**
@@ -142,49 +148,69 @@ class PdfReaderComponent {
    */
   #createCanvases = () => {
     this.components.pdfContainer.innerHTML = "";
+
     for (let i = 0; i < this.pdfDoc.numPages; ++i) {
-      let canvas = document.createElement("canvas");
-      canvas.setAttribute("id", `canvas-${i + 1}`);
-      canvas.setAttribute("class", "canvas__container");
-
-      respondToVisibility(canvas, (visible) => {
-        let canvasId = canvas.id;
-        if (visible) {
-          this.visibleCanvases.push(canvasId);
-
-          let visiblePageNum = this.#renderPages();
-          this.toolbarComponent.setCurrentPage(visiblePageNum);
-        } else {
-          let index = this.visibleCanvases.indexOf(canvasId);
-          if (index != -1) {
-            this.visibleCanvases.splice(index, 1);
-          }
-        }
-      });
+      let page = new Page(i + 1, this.pdfDoc);
+      let canvas = page.getCanvas();
+      this.pages.push(page);
 
       this.components.pdfContainer.appendChild(canvas);
+    }
+
+    textRenderService.getPageSize(this.pdfDoc, 1).then(([width, height]) => {
+      this.#setCanvasSize(width, height);
+
+      for (let i = 0; i < this.pdfDoc.numPages; ++i) {
+        let page = this.pages[i];
+        let canvas = page.getCanvas();
+
+        respondToVisibility(canvas, (visible) => {
+          if (visible) {
+            this.visibleCanvases.push(i + 1);
+
+            let visiblePageNum = Math.min(...this.visibleCanvases);
+            this.#setVisiblePage(visiblePageNum);
+          } else {
+            let index = this.visibleCanvases.indexOf(i + 1);
+            if (index != -1) {
+              this.visibleCanvases.splice(index, 1);
+            }
+            this.visiblePageNum = Math.min(...this.visibleCanvases);
+            this.toolbarComponent.setCurrentPage(this.visiblePageNum);
+          }
+        });
+      }
+    });
+  };
+
+  #renderPages = (pageNum, force) => {
+    const NUMBER = 1;
+    let zoom = this.toolbarComponent.getZoom();
+
+    for (let i = pageNum - NUMBER; i <= pageNum + NUMBER; ++i) {
+      let page = this.pages[i];
+      if (page) {
+        page.render(zoom, force);
+      }
     }
   };
 
   #setCanvasSize(width, height) {
-    for (let i = 0; i < this.pdfDoc.numPages; ++i) {
-      let canvas = document.querySelector(`#canvas-${i + 1}`);
-
-      canvas.width = width;
-      canvas.height = height;
-    }
+    this.pages.forEach((page) => page.setCanvasSize(width, height));
   }
 
-  #renderPages = () => {
-    let visiblePageNum = findMiddleCanvas(this.visibleCanvases);
+  #setVisiblePage(pageNum, reRender = false) {
+    if (pageNum == this.visiblePage && !reRender) {
+      console.log("SAME PAGE SKIP");
+      return;
+    }
+    this.visiblePage = pageNum;
 
-    textRenderService.renderAround(
-      this.pdfDoc,
-      visiblePageNum,
-      this.toolbarComponent.getZoom()
-    );
-    return visiblePageNum;
-  };
+    // TODO page change event
+    this.#renderPages(pageNum, reRender);
+
+    this.toolbarComponent.setCurrentPage(pageNum);
+  }
 }
 
 export { PdfReaderComponent };

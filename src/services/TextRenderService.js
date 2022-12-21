@@ -111,8 +111,7 @@ export function hideLinks() {
  * @param {HTMLElement} canvas canvas of the pdf.js page
  * @param {import("pdfjs-dist").PageViewport} viewport target viewport of the text layer
  */
-export function positionTextLayer(canvas, viewport) {
-  let textLayer = document.querySelector("#text-layer");
+export function positionTextLayer(textLayer, canvas, viewport) {
   textLayer.style.left = canvas.offsetLeft + "px";
   textLayer.style.top = canvas.offsetTop + "px";
   textLayer.style.height = viewport.offsetHeight + "px";
@@ -123,13 +122,13 @@ export function positionTextLayer(canvas, viewport) {
  * Creates the text layer DOM node if it does not already exist.
  * Id of the element will be 'text-layer'.
  */
-function createTextLayerDOMIfNotExist() {
-  let textLayer = document.querySelector("#text-layer");
+function createTextLayerDOMIfNotExist(pageNum) {
+  let textLayer = document.querySelector(`#text-layer-${pageNum}`);
   if (textLayer) {
     textLayer.innerHTML = "";
   } else {
     textLayer = document.createElement("div");
-    textLayer.setAttribute("id", "text-layer");
+    textLayer.setAttribute("id", `text-layer-${pageNum}`);
     textLayer.setAttribute("class", "textLayer");
   }
   return textLayer;
@@ -160,23 +159,44 @@ export function renderPage2(pdfDoc, pageNum, zoomScale) {
     page.render(renderCtx);
 
     // Function to render the text layer and the relatives links
-    // renderText(pdfDoc, component, toolbar);
+    renderText2(pdfDoc, page, viewport);
   });
 }
 
-export function renderAround(pdfDoc, pageNum, zoomScale) {
-  clearCanvases(pdfDoc);
-  if (pageNum != 1) renderPage2(pdfDoc, pageNum - 1, zoomScale);
-  renderPage2(pdfDoc, pageNum, zoomScale);
-  renderPage2(pdfDoc, pageNum + 1, zoomScale);
-}
+export function renderText2(pdfDoc, page, pageNum, canvas, viewport) {
+  const textLayer = createTextLayerDOMIfNotExist(pageNum);
 
-export function clearCanvases(pdfDoc) {
-  for (let i = 0; i < pdfDoc.numPages; ++i) {
-    let canvas = document.querySelector(`#canvas-${i + 1}`);
-    const ctx = canvas.getContext("2d");
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-  }
+  page.getTextContent().then(function (textContent) {
+    //Render the text inside the textLayer container
+    positionTextLayer(textLayer, canvas, viewport);
+    pdfjsLib.renderTextLayer({
+      textContent: textContent,
+      container: textLayer,
+      viewport: viewport,
+      textDivs: [],
+    });
+
+    console.log("Rendered text for page", pageNum);
+
+    // Render links
+    const pdfLinkService = new pdfjsViewer.PDFLinkService();
+    page.getAnnotations().then(function (annotationsData) {
+      pdfjsLib.AnnotationLayer.render({
+        div: textLayer,
+        viewport: viewport.clone({ dontFlip: true }),
+        annotations: annotationsData,
+        page: page,
+        linkService: pdfLinkService,
+        enableScripting: true,
+        renderInteractiveForms: true,
+      });
+
+      EventHandlerService.publish(PDFLEvents.onLinkLayerRendered);
+    });
+  });
+
+  //Display the container
+  document.querySelector("#pdf-container").appendChild(textLayer);
 }
 
 export async function getPageSize(pdfDoc, zoomScale) {

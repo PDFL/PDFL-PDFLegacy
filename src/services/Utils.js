@@ -117,4 +117,5 @@ export {
   mergeColors,
   respondToVisibility,
   findMiddleCanvas,
+  median,
 };
