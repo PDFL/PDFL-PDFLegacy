@@ -364,21 +364,10 @@ input[type="number"]::-webkit-outer-spin-button {
   border-radius: 15px;
 }
 
-#graph-maker{
+#graph-maker, #summary-maker, #full-screen, #search, #pages-sidebar{
     padding-top: 6px;
 }
 
-#summary-maker{
-  padding-top: 6px;
-}
-
-#full-screen{
-  padding-top: 6px;
-}
-
-#search{
-  padding-top: 6px;
-}
 /* CSS for Loader */
 #loader{
   position: fixed;
@@ -1141,3 +1130,39 @@ input[type="number"]::-webkit-outer-spin-button {
     left: -2%;
   }
   
+  #thumbnail{
+    position: absolute;
+    overflow-y: scroll;
+    max-height: calc(100% - 60px);
+    margin-top: 60px;
+    background-color: gainsboro;
+  }
+
+  .thumbnail-page{
+    padding-inline: 20px;
+    padding-bottom: 10px;
+  }
+
+  .thumbnail-page-num{
+    text-align: center;
+  }
+
+  .thumbnail-page-canvas {
+    cursor: pointer;
+  }
+
+  .thumbnail-page-canvas:hover{
+    opacity: 1;
+  }
+
+  .blue-border{
+    border: #2980b9 5px solid;
+  }
+
+  .half-opacity{
+    opacity: 0.5;
+  }
+
+  .full-opacity{
+    opacity: 1;
+  }

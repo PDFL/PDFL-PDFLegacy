@@ -129,11 +129,21 @@ class PdfReaderComponent {
           self.components,
           self.toolbarComponent
         );
+
+        self.#createThumbnail();
       })
       .catch((err) => {
         console.log(err.message); // TODO: handle error in some way
       });
     this.components.loader.className += " hidden";
+  };
+
+  /**
+   * Creates event which triggers the creation of thumbnail.
+   * @private
+   */
+  #createThumbnail = () => {
+    EventHandlerService.publish(PDFLEvents.onCreateThumbnail, this.pdfDoc);
   };
 
   /**

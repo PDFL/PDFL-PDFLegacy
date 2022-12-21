@@ -36,7 +36,7 @@ class EventHandlerService {
  * Enum of possible event type (to avoid typos)
  * @type {{onShowInputView: string, onShowReaderView: string, onRenderPage: string, onShowKnowledgeGraph: string,
  * onResetReader: string, onReadNewFile: string, onShowTransparentSidePageLoader: string, onShowOpaqueSidePageLoader: string,
- * onHideSidePageLoader: string, onShowSidePageError: string}}
+ * onHideSidePageLoader: string, onShowSidePageError: string, onCreateThumbnail: string, onToggleThumbnail:string}}
  */
 const PDFLEvents = {
   onShowWelcomeView: "onShowWelcomeView",
@@ -57,6 +57,8 @@ const PDFLEvents = {
   onKeyboardKeyUp: "onKeyboardKeyUp",
   onKeyboardKeyDown: "onKeyboardKeyDown",
   onKeyboardKeyPress: "onKeyboardKeyPress",
+  onCreateThumbnail: "onCreateThumbnail",
+  onToggleThumbnail: "onToggleThumbnail"
 };
 
 export { PDFLEvents, EventHandlerService };

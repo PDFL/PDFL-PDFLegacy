@@ -13,6 +13,7 @@ import { ZoomComponent } from "./ZoomComponent";
  * @property {HTMLElement} components.fullScreen full screen button
  * @property {HTMLElement} components.graphMakerBtn button that generates knowledge graph
  * @property {HTMLElement} components.body body of HTML document
+ * @property {HTMLElement} components.thumbnailBtn button that opens the thumbnail
  * @property {PaginationComponent} paginationComponent pagination component
  * @property {ZoomComponent} zoomComponent zoom component
  */
@@ -21,6 +22,7 @@ class ToolbarComponent {
     fullScreen: document.querySelector("#full-screen"),
     graphMakerBtn: document.querySelector("#graph-maker"),
     body: document.querySelector("body"),
+    thumbnailBtn: document.querySelector("#pages-sidebar"),
   };
 
   /**
@@ -45,6 +47,12 @@ class ToolbarComponent {
       this.#showKnowledgeGraph
     );
     this.components.fullScreen.addEventListener("click", this.#showFullScreen);
+
+    this.components.thumbnailBtn.addEventListener(
+      "click",
+      this.#toggleThumbnail
+    );
+
     EventHandlerService.subscribe(
       PDFLEvents.onKeyboardKeyDown,
       (functionalKeys, key, code) => {
@@ -77,6 +85,14 @@ class ToolbarComponent {
       /* IE11 */
       this.components.body.msRequestFullscreen();
     }
+  };
+
+  /**
+   * Creates event which opens/closes the thumbnail.
+   * @private
+   */
+  #toggleThumbnail = () => {
+    EventHandlerService.publish(PDFLEvents.onToggleThumbnail);
   };
 
   /**
