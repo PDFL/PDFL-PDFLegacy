@@ -768,8 +768,8 @@ input[type="number"]::-webkit-outer-spin-button {
   /*tooltip for question mark */
   #question-mark {
     position: absolute; 
-    bottom: 2%;
-    left: 9%;
+    bottom: 80px;
+    left: 100px;
     color:white;
     display: inline-block;
     cursor: pointer;
@@ -777,7 +777,6 @@ input[type="number"]::-webkit-outer-spin-button {
   
   #question-mark .tooltiptext {
     visibility: hidden;
-    width: 120px;
     background-color: var(--iconColor);
     color: #fff;
     border-radius: 6px;
