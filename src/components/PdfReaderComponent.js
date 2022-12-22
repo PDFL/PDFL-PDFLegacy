@@ -28,7 +28,9 @@ const pdfjsLib = require("pdfjs-dist");
  * @property {PopupComponent} popupComponent popup component within the reader
  * @property {PDFDocumentProxy} pdfDoc PDF document
  * @property {KeyboardService} keyboardService keyboard service
- * @property {Page[]} pages
+ * @property {Page[]} pages array of the pages objects
+ * @property {int[]} visiblePages array of the visible pages by page number
+ * @property {int} visiblePage currently visible page
  */
 class PdfReaderComponent {
   components = {
@@ -49,8 +51,8 @@ class PdfReaderComponent {
     this.referenceComponent = new ReferenceComponent();
     this.popupComponent = new PopupComponent();
     this.referenceViewComponent = new ReferenceViewComponent();
-    this.visibleCanvases = [];
     this.pages = [];
+    this.visiblePages = [];
     this.visiblePage = null;
     this.#registerEvents();
   }
@@ -76,7 +78,7 @@ class PdfReaderComponent {
 
     EventHandlerService.subscribe(PDFLEvents.onRenderPage, (page) => {
       this.pages[page - 1].getCanvas().scrollIntoView();
-      this.visibleCanvases = [page];
+      this.visiblePages = [page];
       this.#setVisiblePage(page);
     });
 
@@ -85,7 +87,7 @@ class PdfReaderComponent {
         .getPageSize(this.pdfDoc, zoomScale)
         .then(([width, height]) => {
           this.#setCanvasSize(width, height);
-          let visiblePageNum = Math.min(...this.visibleCanvases);
+          let visiblePageNum = Math.min(...this.visiblePages);
           this.#setVisiblePage(visiblePageNum, true);
         });
     });
@@ -95,12 +97,13 @@ class PdfReaderComponent {
     });
 
     EventHandlerService.subscribe(PDFLEvents.onReadNewFile, (pdf) => {
+      this.components.pdfContainer.innerHTML = "";
       this.loadPdf(pdf);
     });
   };
 
   /**
-   * Cretes event triggered when application view changed from reader view to input view.
+   * Creates event triggered when application view changed from reader view to input view.
    * @private
    */
   #onNewFile = () => {
@@ -124,7 +127,7 @@ class PdfReaderComponent {
 
         self.referenceViewComponent.setPdfDoc(data);
 
-        this.#createCanvases();
+        this.#createPages();
       })
       .catch((err) => {
         console.log(err.message); // TODO: handle error in some way
@@ -134,7 +137,7 @@ class PdfReaderComponent {
 
   /**
    * Sets current page of pagination component to 1 and current zoom level
-   * of zoom component to 1.
+   * of zoom component to 1. Clears pages array.
    */
   reset = () => {
     this.sidePageComponent.hideSidePage();
@@ -144,11 +147,13 @@ class PdfReaderComponent {
   };
 
   /**
-   * TODO: move repondToVisibility somewhere else
+   * Creates Pages objects, sets their size and adds a listener for
+   * their canvases that will calculate and set the currently visible
+   * page based on canvas visibility.
+   *
+   * Should only be called once after the pdf is loaded.
    */
-  #createCanvases = () => {
-    this.components.pdfContainer.innerHTML = "";
-
+  #createPages = () => {
     for (let i = 0; i < this.pdfDoc.numPages; ++i) {
       let page = new Page(i + 1, this.pdfDoc);
       let canvas = page.getCanvas();
@@ -166,16 +171,16 @@ class PdfReaderComponent {
 
         respondToVisibility(canvas, (visible) => {
           if (visible) {
-            this.visibleCanvases.push(i + 1);
+            this.visiblePages.push(i + 1);
 
-            let visiblePageNum = Math.min(...this.visibleCanvases);
+            let visiblePageNum = Math.min(...this.visiblePages);
             this.#setVisiblePage(visiblePageNum);
           } else {
-            let index = this.visibleCanvases.indexOf(i + 1);
+            let index = this.visiblePages.indexOf(i + 1);
             if (index != -1) {
-              this.visibleCanvases.splice(index, 1);
+              this.visiblePages.splice(index, 1);
             }
-            this.visiblePageNum = Math.min(...this.visibleCanvases);
+            this.visiblePageNum = Math.min(...this.visiblePages);
             this.toolbarComponent.setCurrentPage(this.visiblePageNum);
           }
         });
@@ -183,34 +188,59 @@ class PdfReaderComponent {
     });
   };
 
-  #renderPages = (pageNum, force) => {
+  /**
+   * Set the canvas sizes for the pages.
+   * Used at the beginning or when zoom changes to set the sizes of
+   * unrendered pages so scroll position and size stays the same.
+   *
+   * @param {int} width
+   * @param {int} height
+   */
+  #setCanvasSize(width, height) {
+    this.pages.forEach((page) => page.setCanvasSize(width, height));
+  }
+
+  /**
+   * Sets the visible page and if that page is different from the current page
+   * render the pages around that page.
+   *
+   * If forceReRender is set, then ignore if the page is the same. (used when changing zoom)
+   *
+   * @param {int} pageNum
+   * @param {bool} forceReRender
+   */
+  #setVisiblePage(pageNum, forceReRender = false) {
+    if (pageNum == this.visiblePage && !forceReRender) {
+      return;
+    }
+    this.visiblePage = pageNum;
+
+    this.#renderPages(pageNum, forceReRender);
+
+    this.toolbarComponent.setCurrentPage(pageNum);
+  }
+
+  /**
+   * Renders the page numberered 'pageNum' and the pages before and after that page
+   * set by the constant.
+   *
+   * If forceReRender is set, it will always render the page, even if it was already
+   * rendered. (used when zoom changes)
+   *
+   * @param {int} pageNum
+   * @param {bool} forceReRender
+   */
+  #renderPages = (pageNum, forceReRender) => {
     const NUMBER = 1;
     let zoom = this.toolbarComponent.getZoom();
 
     for (let i = pageNum - NUMBER; i <= pageNum + NUMBER; ++i) {
       let page = this.pages[i];
       if (page) {
-        page.render(zoom, force);
+        page.render(zoom, forceReRender);
       }
     }
   };
-
-  #setCanvasSize(width, height) {
-    this.pages.forEach((page) => page.setCanvasSize(width, height));
-  }
-
-  #setVisiblePage(pageNum, reRender = false) {
-    if (pageNum == this.visiblePage && !reRender) {
-      console.log("SAME PAGE SKIP");
-      return;
-    }
-    this.visiblePage = pageNum;
-
-    // TODO page change event
-    this.#renderPages(pageNum, reRender);
-
-    this.toolbarComponent.setCurrentPage(pageNum);
-  }
 }
 
 export { PdfReaderComponent };

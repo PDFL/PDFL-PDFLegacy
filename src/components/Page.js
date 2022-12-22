@@ -7,13 +7,12 @@ class Page {
   constructor(pageNum, pdfDoc) {
     this.pageNum = pageNum;
     this.pdfDoc = pdfDoc;
+    this.isRendering = false;
+    this.isRendered = false;
+    this.resizeObserver = null;
     this.canvas = document.createElement("canvas");
     this.canvas.setAttribute("id", `canvas-${pageNum}`);
     this.canvas.setAttribute("class", "canvas__container");
-    this.isRendering = false;
-    this.isRendered = false;
-    this.zoomFactor = null;
-    this.resizeObserver = null;
 
     this.#registerEvents();
   }
