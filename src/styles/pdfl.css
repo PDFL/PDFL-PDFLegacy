@@ -356,6 +356,10 @@ input[type="number"]::-webkit-outer-spin-button {
     padding-top: 6px;
 }
 
+#summary-maker{
+  padding-top: 6px;
+}
+
 #full-screen{
   padding-top: 6px;
 }
@@ -1056,3 +1060,66 @@ input[type="number"]::-webkit-outer-spin-button {
     animation: fadeIn 60s;
     animation-fill-mode: forwards;
   }
+
+  /* CSS for tooltip */
+
+  .tooltip-text {
+    visibility: hidden;
+    position: absolute;
+    z-index: 2;
+    width: 150px;
+    color: white;
+    font-size: 12px;
+    background-color: rgba(85, 85, 85, 0.5);
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  
+  .sidetoolbar:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+  }
+  
+  #top {
+    top: -40px;
+    left: -50%;
+  }
+  
+  #top::before {
+    top: 80%;
+    left: 45%;
+  }
+  
+  #bottom {
+    top: 25px;
+    left: -50%;
+  }
+  
+  #bottom::before {
+    top: -5%;
+    left: 45%;
+  }
+  
+  #left {
+    top: -8px;
+    right: 120%;
+  }
+  
+  #left::before {
+    top: 35%;
+    left: 94%;
+  }
+  
+  #right {
+    top: 15px;
+    left: 120%;
+  }
+  
+  #right::before {
+    top: 35%;
+    left: -2%;
+  }
+  
