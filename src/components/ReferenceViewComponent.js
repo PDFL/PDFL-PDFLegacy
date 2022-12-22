@@ -123,7 +123,6 @@ class ReferenceViewComponent {
    */
   #renderPdfReference = (pageNumber) => {
     this.components.pdfPageNumber = pageNumber;
-    console.log(this.components.pdfPageNumber);
     this.components.sideNav.className = "no-width";
     this.components.sidePageReferenceContainer.setAttribute(
       "id",
