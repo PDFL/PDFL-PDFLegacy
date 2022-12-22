@@ -11,6 +11,7 @@ import { KeyboardService } from "../services/KeyboardService";
 import * as textRenderService from "../services/TextRenderService";
 import { Page } from "./Page";
 import { respondToVisibility } from "../services/Utils";
+import { EXTRA_PAGES_TO_RENDER } from "../Constants";
 
 const pdfjsLib = require("pdfjs-dist");
 
@@ -64,17 +65,20 @@ class PdfReaderComponent {
   #registerEvents = () => {
     this.components.openNew.addEventListener("click", this.#onNewFile);
 
-    // this.components.pdfContainer.addEventListener(
-    //   "mousemove",
-    //   textRenderService.hideLinks
-    // );
+    this.components.pdfContainer.addEventListener(
+      "mousedown",
+      textRenderService.hideLinks
+    );
+    this.components.pdfContainer.addEventListener(
+      "mouseup",
+      textRenderService.hideLinks
+    );
 
-    // new ResizeObserver(() => {
-    //   textRenderService.positionTextLayer(
-    //     this.components.canvas,
-    //     this.components.viewport
-    //   );
-    // }).observe(this.components.pdfContainer);
+    new ResizeObserver(() => {
+      this.visiblePages.forEach((pageNum) => {
+        this.pages[pageNum - 1].positionTextLayer();
+      });
+    }).observe(this.components.pdfContainer);
 
     EventHandlerService.subscribe(PDFLEvents.onRenderPage, (page) => {
       this.pages[page - 1].getCanvas().scrollIntoView();
@@ -231,10 +235,13 @@ class PdfReaderComponent {
    * @param {bool} forceReRender
    */
   #renderPages = (pageNum, forceReRender) => {
-    const NUMBER = 1;
     let zoom = this.toolbarComponent.getZoom();
 
-    for (let i = pageNum - NUMBER; i <= pageNum + NUMBER; ++i) {
+    for (
+      let i = pageNum - EXTRA_PAGES_TO_RENDER;
+      i <= pageNum + EXTRA_PAGES_TO_RENDER;
+      ++i
+    ) {
       let page = this.pages[i];
       if (page) {
         page.render(zoom, forceReRender);
