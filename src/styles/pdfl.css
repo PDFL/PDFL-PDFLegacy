@@ -1140,7 +1140,7 @@ input[type="number"]::-webkit-outer-spin-button {
 
   .thumbnail-page{
     padding-inline: 20px;
-    padding-bottom: 10px;
+    padding-top: 10px;
   }
 
   .thumbnail-page-num{
@@ -1156,7 +1156,7 @@ input[type="number"]::-webkit-outer-spin-button {
   }
 
   .blue-border{
-    border: #2980b9 5px solid;
+    border: var(--iconColor) 5px solid;
   }
 
   .half-opacity{
