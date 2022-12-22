@@ -90,32 +90,10 @@ function respondToVisibility(element, callback) {
   observer.observe(element);
 }
 
-function median(values) {
-  if (values.length === 0) throw new Error("No inputs");
-
-  values.sort(function (a, b) {
-    return a - b;
-  });
-
-  var half = Math.floor(values.length / 2);
-
-  return values[half];
-}
-
-function findMiddleCanvas(canvasIds) {
-  let canvasPages = canvasIds.map((canvasId) => {
-    return parseInt(canvasId.replace("canvas-", ""));
-  });
-
-  return median(canvasPages);
-}
-
 export {
   compareSimilarity,
   timeout,
   mouseOverDelayEvent,
   mergeColors,
   respondToVisibility,
-  findMiddleCanvas,
-  median,
 };

@@ -191,7 +191,7 @@ export function renderText2(pdfDoc, page, pageNum, canvas, viewport) {
         renderInteractiveForms: true,
       });
 
-      EventHandlerService.publish(PDFLEvents.onLinkLayerRendered);
+      EventHandlerService.publish(PDFLEvents.onLinkLayerRendered, textLayer);
     });
   });
 
