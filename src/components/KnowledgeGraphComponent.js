@@ -141,7 +141,7 @@ class KnowledgeGraphComponent {
       .linkDirectionalParticleSpeed(0.001)
       .enableNodeDrag(false)
       .nodeCanvasObjectMode((node) => this.#getNodeMode(highlightNodes, node))
-      .nodeCanvasObject((node, ctx) => this.#displayHighlightedNode(hoveredNode, node, ctx))
+      .nodeCanvasObject((node, ctx) => this.#displayHighlightedNode(hoveredNode, currentPaperId, node, ctx))
       .cooldownTime(300)
       .onEngineStop(() => this.graph.zoomToFit(500))
       .d3Force("center", null);
@@ -156,7 +156,7 @@ class KnowledgeGraphComponent {
    * @returns {int} node size
    */
   getNodeSize(node, currentPaperId) {
-    return Math.pow(node.id === currentPaperId ? 2 : 1, 3);
+    return Math.pow(node.id === currentPaperId ? 2 : 1, 2);
   }
 
   /**
@@ -331,11 +331,11 @@ class KnowledgeGraphComponent {
    * @param {Object} ctx canvas context of node
    * @returns {(Node, Object)} ForceGraph's styled node and context
    */
-  #displayHighlightedNode(hoveredNode, node, ctx) {
+  #displayHighlightedNode(hoveredNode, currentPaperId, node, ctx) {
     const nodeRadius = 4;
     // add ring just for highlighted nodes
     ctx.beginPath();
-    ctx.arc(node.x, node.y, nodeRadius * 1.4, 0, 2 * Math.PI, false);
+    node.id === currentPaperId ? (ctx.arc(node.x, node.y, nodeRadius * 2.4, 0, 2 * Math.PI, false)) : (ctx.arc(node.x, node.y, nodeRadius * 1.4, 0, 2 * Math.PI, false));
     ctx.fillStyle = hoveredNode && node.id === hoveredNode.id ? "red" : "orange";
     ctx.fill();
     return node, ctx;
