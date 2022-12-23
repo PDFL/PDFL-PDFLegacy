@@ -103,16 +103,6 @@ class KnowledgeGraphComponent {
       if (!linkedPapers || linkedPapers.length == 0)
         return EventHandlerService.publish(PDFLEvents.onShowSidePageError);
 
-      // cross-link node objects
-      const highlightNodes = new Set();
-      const highlightLinks = new Set();
-      let hoverNode = null;
-
-      const HOVERED_NODE_RADIUS = 4;
-
-      console.log(linkedPapers)
-
-
       EventHandlerService.publish(PDFLEvents.onShowTransparentSidePageLoader);
 
       this.graph = this.#createForceGraph(linkedPapers);
@@ -128,6 +118,7 @@ class KnowledgeGraphComponent {
    * @returns {ForceGraph}
    */
   #createForceGraph(linkedPapers) {
+    const currentPaperId = linkedPapers.nodes[0].id;
     const highlightNodes = new Set();
     const highlightLinks = new Set();
     let hoveredNode;
@@ -137,15 +128,11 @@ class KnowledgeGraphComponent {
       .nodeId("id")
       .nodeColor((node) => fieldsOfStudyToColor(node.fieldsOfStudy))
       .nodeLabel((node) => `${node.label}`)
+      .nodeVal(node => this.getNodeSize(node, currentPaperId))
       .linkColor(() => TRANSPARENT_WHITE)
-      .autoPauseRedraw(false) // keep redrawing after engine has stopped
-      .onNodeHover((node) => { 
-        this.paperInfoWindow.displayPaperInfo(node);
-        hoveredNode = this.#highlightConnectedNodes(highlightNodes, highlightLinks, node)
-      })
-      .onNodeClick((node) => {
-        expandNode(node, this.graph);
-      })
+      .autoPauseRedraw(false)
+      .onNodeHover((node) => hoveredNode = this.displayHoveredNode(node, highlightNodes, highlightLinks))
+      .onNodeClick((node) => expandNode(node, this.graph))
       .onLinkHover((link) => this.#highlightLink(highlightNodes, highlightLinks, link))
       .linkWidth((link) => this.#getLinkWidth(highlightLinks, link))
       .linkDirectionalParticles(4)
@@ -158,6 +145,33 @@ class KnowledgeGraphComponent {
       .cooldownTime(300)
       .onEngineStop(() => this.graph.zoomToFit(500))
       .d3Force("center", null);
+  }
+  /**
+   * Returns the size of node. If node's id is equal to 
+   * current paper id that node will be bigger than the rest
+   * of nodes.
+   * 
+   * @param {Node} node node being processed
+   * @param {string} currentPaperId id of paper being read
+   * @returns {int} node size
+   */
+  getNodeSize(node, currentPaperId) {
+    return Math.pow(node.id === currentPaperId ? 2 : 1, 3);
+  }
+
+  /**
+   * Displays node that is being hovered. When node is hovered it is
+   * highlighted, as well as it's connected nodes and links. Paper
+   * information popup is displayed also for hovered node.
+   * 
+   * @param {Node} node node being processed
+   * @param {Set<Node>} highlightNodes currently highlighted nodes
+   * @param {Set<Link>} highlightLinks currently highlighted links
+   * @returns {Node} styled ForceGraph's node that is being hovered
+   */
+  displayHoveredNode(node, highlightNodes, highlightLinks) {
+    this.paperInfoWindow.displayPaperInfo(node);
+    return this.#highlightConnectedNodes(highlightNodes, highlightLinks, node);
   }
 
   /**
