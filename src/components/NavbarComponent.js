@@ -8,8 +8,9 @@ import {
  * Component that takes in the PDF file that user uploads and processes it.
  *
  * @property {Object} components object that holds DOM elements that are within component
- * @property {HTMLElement} components.dropArea rectangle in which PDF file can be dropped to and uploaded
- * @property {HTMLElement} components.fileOpen input element used for PDF file upload
+ * @property {HTMLElement} components.openNew button to click for upload a new pdf from the reader component
+ * @property {HTMLElement} components.loader loader for showing the pdf uploaded
+ * @property {HTMLElement} components.errorMessage error message for a wrong pdf uploaded from the pdf reader component
  */
 class NavbarComponent {
   components = {
@@ -21,7 +22,7 @@ class NavbarComponent {
   };
 
   /**
-   * Creates and initializes new file upload component.
+   * Creates and initializes navbar component.
    * @constructor
    */
   constructor() {
@@ -29,7 +30,7 @@ class NavbarComponent {
   }
 
   /**
-   * Adds event listeners to component's elements.
+   * Adds event listeners to ioeb a new pdf button from the pdf reader component and the shortcuts
    * @private
    */
   #registerEvents = () => {
@@ -49,7 +50,7 @@ class NavbarComponent {
   };
 
   /**
-   * Cretes event triggered when application view changed from reader view to input view.
+   * Creates event triggered when user click on the upload button from the pdf reader component
    * @private
    */
   #onNewFile = (event) => {
@@ -77,14 +78,14 @@ class NavbarComponent {
   };
 
   /**
-   * Callback for making a component not visible.
+   * Callback for making the error message for the wrong file uploaded not visible.
    */
   hideErrorMessage = () => {
     this.components.errorMessage.classList.add("hidden");
   };
 
   /**
-   * Callback for making a component visible.
+   * Callback for making the error message for the wrong file uploaded visible.
    */
   showErrorMessage = () => {
     clearTimeout(messageErrorTimeOut);
@@ -95,7 +96,7 @@ class NavbarComponent {
   };
 
   /**
-   * Callback for making a component visible.
+   * Callback for making the loader visible.
    */
   showLoader = () => {
     this.components.loader.classList.remove("hidden");

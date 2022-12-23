@@ -1,4 +1,3 @@
-import { InputView } from "./views/InputView.js";
 import { ReaderView } from "./views/ReaderView.js";
 import { WelcomeView } from "./views/WelcomeView.js";
 import {
@@ -37,9 +36,6 @@ class App {
    * @private
    */
   #registerEvents = () => {
-    EventHandlerService.subscribe(PDFLEvents.onShowInputView, () => {
-      this.#showInputView();
-    });
     EventHandlerService.subscribe(PDFLEvents.onShowReaderView, () => {
       this.#showReaderView();
     });
@@ -51,14 +47,6 @@ class App {
    */
   #showWelcomeView = () => {
     this.view = new WelcomeView();
-    this.view.init();
-  };
-
-  /**
-   * Switch from welcome page to input view, show the file uploader and hide the reader
-   */
-  #showInputView = () => {
-    this.view = new InputView();
     this.view.init();
   };
 
