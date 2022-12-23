@@ -27,7 +27,6 @@ const pdfjsLib = require("pdfjs-dist");
  * @property {PopupComponent} popupComponent popup component within the reader
  * @property {PDFDocumentProxy} pdfDoc PDF document
  * @property {KeyboardService} keyboardService keyboard service
- * @property {SummaryKeyComponent} summaryKeyComponent summary and key component within the reader
  */
 class PdfReaderComponent {
   components = {
@@ -50,7 +49,6 @@ class PdfReaderComponent {
     this.referenceComponent = new ReferenceComponent();
     this.popupComponent = new PopupComponent();
     this.referenceViewComponent = new ReferenceViewComponent();
-    this.summaryKeyComponent = new SummaryKeyComponent();
     this.#registerEvents();
   }
 
