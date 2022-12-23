@@ -11,12 +11,12 @@ import {
  * @property {HTMLElement} components.dropArea rectangle in which PDF file can be dropped to and uploaded
  * @property {HTMLElement} components.fileOpen input element used for PDF file upload
  */
-class FileUploadComponent {
+class NavbarComponent {
   components = {
-    openNew: document.getElementById("open-another"),
+    openNew: document.querySelector("#open-another"),
     loader: document.querySelector("#loader"),
-    errorMessage: document.getElementById(
-      "message-wrong-type-fileupload-reader"
+    errorMessage: document.querySelector(
+      "#message-wrong-type-fileupload-reader"
     ),
   };
 
@@ -102,4 +102,4 @@ class FileUploadComponent {
   };
 }
 
-export { FileUploadComponent };
+export { NavbarComponent };
