@@ -335,7 +335,7 @@ class KnowledgeGraphComponent {
     const nodeRadius = 4;
     // add ring just for highlighted nodes
     ctx.beginPath();
-    node.id === currentPaperId ? (ctx.arc(node.x, node.y, nodeRadius * 2.4, 0, 2 * Math.PI, false)) : (ctx.arc(node.x, node.y, nodeRadius * 1.4, 0, 2 * Math.PI, false));
+    ctx.arc(node.x, node.y, nodeRadius * (node.id === currentPaperId ? 2.4 : 1.4), 0, 2 * Math.PI, false)
     ctx.fillStyle = hoveredNode && node.id === hoveredNode.id ? "red" : "orange";
     ctx.fill();
     return node, ctx;
