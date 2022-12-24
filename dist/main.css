@@ -614,8 +614,16 @@ input[type="number"]::-webkit-outer-spin-button {
   width: 60px;
   position: fixed;
   top: 67px;
-  left: 22px;
   z-index: 1;
+  transition: 0.3s;
+}
+
+.left-22{
+  left: 22px;
+}
+
+.left-190{
+  left: 190px;
 }
 
 #sidenav a {
@@ -655,21 +663,10 @@ input[type="number"]::-webkit-outer-spin-button {
   border-radius: 15px;
 }
 
-#graph-maker{
+#graph-maker, #summary-maker, #full-screen, #search, #pages-sidebar{
     padding-top: 6px;
 }
 
-#summary-maker{
-  padding-top: 6px;
-}
-
-#full-screen{
-  padding-top: 6px;
-}
-
-#search{
-  padding-top: 6px;
-}
 /* CSS for Loader */
 #loader{
   position: fixed;
@@ -1437,12 +1434,40 @@ input[type="number"]::-webkit-outer-spin-button {
     overflow-y: scroll;
     max-height: calc(100% - 60px);
     margin-top: 60px;
+    background-color: gainsboro;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 
-  .tooltip-page-num{
+  #thumbnail::-webkit-scrollbar { 
+    display: none;
+  }
+
+  .thumbnail-page{
+    padding-inline: 20px;
+    padding-top: 10px;
+  }
+
+  .thumbnail-page-num{
     text-align: center;
   }
 
-  .tooltip-canvas {
+  .thumbnail-page-canvas {
     cursor: pointer;
+  }
+
+  .thumbnail-page-canvas:hover{
+    opacity: 1;
+  }
+
+  .blue-border{
+    border: var(--iconColor) 5px solid;
+  }
+
+  .half-opacity{
+    opacity: 0.5;
+  }
+
+  .full-opacity{
+    opacity: 1;
   }

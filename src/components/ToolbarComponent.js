@@ -10,6 +10,7 @@ import { ZoomComponent } from "./ZoomComponent";
  * elements, as well as linking components to their methods.
  *
  * @property {Object} components object that holds all DOM elements within this component
+ * @property {HTMLElement} components.toolbar element that represents this whole component
  * @property {HTMLElement} components.fullScreen full screen button
  * @property {HTMLElement} components.graphMakerBtn button that generates knowledge graph
  * @property {HTMLElement} components.body body of HTML document
@@ -19,6 +20,7 @@ import { ZoomComponent } from "./ZoomComponent";
  */
 class ToolbarComponent {
   components = {
+    toolbar: document.querySelector("#sidenav"),
     fullScreen: document.querySelector("#full-screen"),
     graphMakerBtn: document.querySelector("#graph-maker"),
     body: document.querySelector("body"),
@@ -92,7 +94,25 @@ class ToolbarComponent {
    * @private
    */
   #toggleThumbnail = () => {
+    this.#positionToolbar();
     EventHandlerService.publish(PDFLEvents.onToggleThumbnail);
+  };
+
+  /**
+   * Positions this component depending if thumbnail is
+   * closed or opened. If thumbnail is opened, this component is 
+   * moved further to the right so that thumbnail fits to the left
+   * side of the screen. When thumbnail is closed this component
+   * is positioned back to it's initial position.
+   */
+  #positionToolbar = () => {
+    if(this.components.toolbar.classList.contains("left-22")){
+      this.components.toolbar.classList.remove("left-22");
+      this.components.toolbar.classList.add("left-190");
+    } else {
+      this.components.toolbar.classList.remove("left-190");
+      this.components.toolbar.classList.add("left-22");
+    }
   };
 
   /**
