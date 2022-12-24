@@ -19,6 +19,9 @@ const TEN_MILLISECONDS = 10;
 
 const EXTRA_PAGES_TO_RENDER = 1;
 
+const MAX_ZOOM_FACTOR = 2;
+const MIN_ZOOM_FACTOR = 0.4;
+
 const FIELD_OF_STUDY_COLOR = {
   Medicine: "rgba(43, 213, 20, 0.8)",
   Chemistry: "rgba(37, 152, 170, 0.8)",
@@ -383,4 +386,6 @@ export {
   FIELD_OF_STUDY_COLOR,
   SUMMARIZER_STOP_LIST,
   EXTRA_PAGES_TO_RENDER,
+  MAX_ZOOM_FACTOR,
+  MIN_ZOOM_FACTOR,
 };

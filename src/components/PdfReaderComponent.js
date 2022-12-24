@@ -248,7 +248,9 @@ class PdfReaderComponent {
   async #setVisiblePageWithNewZoom(zoomScale) {
     this.#setCanvasSize(zoomScale);
     let visiblePageNum = Math.min(...this.visiblePages);
-    this.#setVisiblePage(visiblePageNum, true);
+    setTimeout(() => {
+      this.#setVisiblePage(visiblePageNum, true);
+    }, 10);
   }
 
   /**
