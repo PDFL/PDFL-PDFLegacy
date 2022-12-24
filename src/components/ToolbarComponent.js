@@ -15,12 +15,14 @@ import { ZoomComponent } from "./ZoomComponent";
  * @property {HTMLElement} components.body body of HTML document
  * @property {PaginationComponent} paginationComponent pagination component
  * @property {ZoomComponent} zoomComponent zoom component
+ * @property {HTMLElement} components.summaryKeyBtn button that open and close the sidepage
  */
 class ToolbarComponent {
   components = {
     fullScreen: document.querySelector("#full-screen"),
     graphMakerBtn: document.querySelector("#graph-maker"),
     body: document.querySelector("body"),
+    summaryKeyBtn: document.querySelector("#summary-maker"),
   };
 
   /**
@@ -44,6 +46,10 @@ class ToolbarComponent {
       "click",
       this.#showKnowledgeGraph
     );
+    this.components.summaryKeyBtn.addEventListener(
+      "click",
+      this.#showSummaryKey
+    );
     this.components.fullScreen.addEventListener("click", this.#showFullScreen);
     EventHandlerService.subscribe(
       PDFLEvents.onKeyboardKeyDown,
@@ -61,6 +67,14 @@ class ToolbarComponent {
    */
   #showKnowledgeGraph = () => {
     EventHandlerService.publish(PDFLEvents.onShowKnowledgeGraph);
+  };
+
+  /**
+   * Triggers event on which Summary Key will be shown.
+   * @private
+   */
+  #showSummaryKey = () => {
+    EventHandlerService.publish(PDFLEvents.onShowSummaryKey);
   };
 
   /**

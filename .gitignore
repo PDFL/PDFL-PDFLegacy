@@ -120,9 +120,6 @@ dist/favicon.ico
 .vscode/
 .vscode
 /dist/runtime.bundle.js
-dist/pdf.worker.bundle.js.LICENSE.txt
 dist/main.bundle.js.LICENSE.txt
 dist/main.css
 dist/pdf.worker.bundle.js.LICENSE.txt
-dist/main.bundle.js.LICENSE.txt
-dist/main.css

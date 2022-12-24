@@ -9,6 +9,7 @@ import { PopupComponent } from "./PopupComponent";
 import { ReferenceViewComponent } from "./ReferenceViewComponent";
 import { KeyboardService } from "../services/KeyboardService";
 import * as textRenderService from "../services/TextRenderService";
+import { SummaryKeyComponent } from "./SummaryKeyComponent";
 
 const pdfjsLib = require("pdfjs-dist");
 
