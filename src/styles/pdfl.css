@@ -50,6 +50,7 @@ body{
   background-color: #f5f5f5;
   transition: 0.5s;
   display: flex;
+  margin-top: 4rem;
 }
 
 
@@ -409,8 +410,8 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 #side-page-loader{
-  position: absolute;
-  width: 100%;
+  position: fixed;
+  width: 50%;
   height: 100%;
   background-color: #143552ed;
   z-index: 999;
@@ -718,7 +719,7 @@ input[type="number"]::-webkit-outer-spin-button {
 
   /* KNOWLEDGE GRAPH STYLE */
   #knowledge-graph{
-    min-width: 100%;
+    margin-top: 14%;
     display: flex;
     justify-content: center;
   }
@@ -731,12 +732,13 @@ input[type="number"]::-webkit-outer-spin-button {
     overflow-x: hidden;
     z-index: 2;
     cursor: move;
+    position: fixed;
   }
 
   .closebtn {
-    position: absolute;
-    top: 0;
-    right: 15px;
+    position: fixed;
+    top: 6%;
+    margin-left: 1%;
     font-size: 50px;
     z-index: 999;
     color: #f5f5f5;;
@@ -749,9 +751,9 @@ input[type="number"]::-webkit-outer-spin-button {
   
   /*tooltip for question mark */
   #question-mark {
-    position: absolute; 
+    position: fixed;
     bottom:5%;
-    right: 5%;
+    right: 2%;
     color:white;
     display: inline-block;
     border-bottom: 1px dotted black;
@@ -989,8 +991,11 @@ input[type="number"]::-webkit-outer-spin-button {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 2%;
+  margin-top: 4%;
   transform: scale(0.7);
+  position: fixed;
+  width: 50%;
+  z-index: 997;
  }
 
  #slider{
@@ -1041,6 +1046,7 @@ input[type="number"]::-webkit-outer-spin-button {
     height: 841px;
     width: 595px;
   }
+
 
   #side-page-reference-container.moveIn{
     animation: fadeIn 20s;
