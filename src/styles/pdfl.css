@@ -753,7 +753,7 @@ input[type="number"]::-webkit-outer-spin-button {
   #question-mark {
     position: fixed;
     bottom:5%;
-    right: 2%;
+    right: 5%;
     color:white;
     display: inline-block;
     border-bottom: 1px dotted black;
