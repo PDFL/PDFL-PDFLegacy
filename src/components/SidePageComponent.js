@@ -6,8 +6,6 @@ import { KnowledgeGraphComponent } from "./KnowledgeGraphComponent";
 import { SummaryKeyComponent } from "./SummaryKeyComponent";
 import { SidePageLoaderComponent } from "./SidePageLoaderComponent";
 
-import { SideElement } from "./../SidePageEnum";
-
 /**
  * Component representing side window that can be closed. It is a placeholder
  * for other components to be shown.
@@ -168,4 +166,16 @@ class SidePageComponent {
     this.knowledgeGraphComponent.setPDF(data);
   };
 }
+
+/**
+ * Enum of possible side element (to avoid typos)
+ * @type {{None: string, KnowledgeGraph: string, SummaryKey: string, Reference: string}}
+ */
+const SideElement = {
+  None: "None",
+  KnowledgeGraph: "KnowledgeGraph",
+  SummaryKey: "SummaryKey",
+  Reference: "Reference",
+};
+
 export { SidePageComponent };

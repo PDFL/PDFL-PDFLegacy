@@ -1,12 +1,9 @@
 /**
  * Component responsible for displaying the sidebar for summaries/key
- *
  * @property {Object} components object that holds DOM elements that represent this component, as well as component's context
  * @property {HTMLElement} components.accordionItem accordion item
  * @property {HTMLElement} components.closeBtn button that closes sidepage
- *
  */
-
 class SummaryKeyComponent {
   components = {
     sidePageSummary: document.querySelector("#side-page-summary"),
@@ -16,7 +13,6 @@ class SummaryKeyComponent {
 
   /**
    * Creates and initializes new Summary Key Component
-   *
    * @constructor
    */
   constructor() {
