@@ -25,9 +25,11 @@ class ThumbnailComponent {
       this.#toggle()
     );
 
-    EventHandlerService.subscribe(PDFLEvents.onPageChanged, (pageNumber) => 
-      this.#setSelectedPage(document.querySelectorAll(".thumbnail-page-canvas")[pageNumber - 1])
-    )
+    EventHandlerService.subscribe(PDFLEvents.onPageChanged, (pageNumber) =>
+      this.#setSelectedPage(
+        document.querySelectorAll(".thumbnail-page-canvas")[pageNumber - 1]
+      )
+    );
   };
 
   #toggle = () => {
@@ -86,38 +88,43 @@ class ThumbnailComponent {
   };
 
   #setCanvasStyle(canvas, isSelected) {
-    if (isSelected)
-      this.#setSelectedCanvasStyle(canvas);
-    else
-      this.#setDefaultCanvasStyle(canvas);
+    if (isSelected) this.#setSelectedCanvasStyle(canvas);
+    else this.#setDefaultCanvasStyle(canvas);
   }
 
   #setSelectedCanvasStyle(canvas) {
     canvas.classList.remove("half-opacity");
     canvas.classList.add("full-opacity", "blue-border");
   }
-  
+
   #setDefaultCanvasStyle(canvas) {
     canvas.classList.remove("full-opacity", "blue-border");
     canvas.classList.add("half-opacity");
   }
 
   #pageClicked = (canvas, pageNumber) => {
+    console.log("page clicked");
     EventHandlerService.publish(PDFLEvents.onNewPageRequest, pageNumber);
-    
+
     this.#setSelectedPage(canvas);
   };
 
   #setSelectedPage = (canvas) => {
     this.#unselectAllCanvases();
     this.#setSelectedCanvasStyle(canvas);
-  }
+    this.#setScrollPosition(canvas);
+  };
 
   #unselectAllCanvases() {
     document.querySelectorAll(".thumbnail-page-canvas").forEach((canvas) => {
       this.#setDefaultCanvasStyle(canvas);
     });
   }
+
+  #setScrollPosition = (canvas) => {
+    canvas.parentElement.scrollIntoView({ block: "nearest" });
+    canvas.parentElement.focus({ preventScroll: true });
+  };
 
   #createPageContainer = (canvas, num) => {
     let container = document.createElement("div");

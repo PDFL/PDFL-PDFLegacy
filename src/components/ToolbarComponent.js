@@ -108,9 +108,9 @@ class ToolbarComponent {
   #positionToolbar = () => {
     if(this.components.toolbar.classList.contains("left-22")){
       this.components.toolbar.classList.remove("left-22");
-      this.components.toolbar.classList.add("left-190");
+      this.components.toolbar.classList.add("left-215");
     } else {
-      this.components.toolbar.classList.remove("left-190");
+      this.components.toolbar.classList.remove("left-215");
       this.components.toolbar.classList.add("left-22");
     }
   };
