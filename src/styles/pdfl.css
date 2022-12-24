@@ -545,6 +545,10 @@ input[type="number"]::-webkit-outer-spin-button {
   width: 0;
 }
 
+.one-third-width{
+  width: 30%;
+}
+
 .half-width{
   width: 50%;
 }
@@ -1141,4 +1145,78 @@ input[type="number"]::-webkit-outer-spin-button {
     top: 35%;
     left: -2%;
   }
+
+  /* Css for Summary Key Component */
+
+#side-page-summary{
+  transition: 0.5s;
+  position: relative;
+  right: 0;
+  overflow-x: hidden;
+  z-index: 2;
+  width: 600px;
+  height: 94vh;
+}
+
+#accordion-container{
+  width: 90%;
+  float: right;
+  background: #143552ed;
+  height: 100%;
+}
+
+.accordion {
+  background-color: #eee;
+  color: #444;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  text-align: left;
+  border: none;
+  outline: none;
+  transition: 0.4s;
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.active, .accordion:hover {
+  background-color: #ccc;;
+}
+
+.panel {
+  padding: 0 18px;
+  background-color: var(--color);
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+  color: white;
+  margin-bottom: 1px;
+}
+
+.accordion:after {
+  content: '\025bc';
+  font-size: 13px;
+  color: #777;
+  float: right;
+  margin-left: 5px;
+}
+
+.active:after {
+  content: "\25b2"; 
+}
+
+#close-btn-summary{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 60px;
+  padding: 5px;
+  border-radius: 5px;
+  z-index: 0;
+  color: #000;
+}
+#close-btn-summary:hover{
+  color: red;
+}
+
   
