@@ -47,11 +47,9 @@ class ZoomComponent {
    * @private
    */
   #registerEvents = () => {
-    this.components.zoomIn.addEventListener("click", (e) => {
-      e.preventDefault();
-      this.#zoomIn();
-    });
+    this.components.zoomIn.addEventListener("click", this.#zoomIn);
     this.components.zoomOut.addEventListener("click", this.#zoomOut);
+
     EventHandlerService.subscribe(
       PDFLEvents.onKeyboardKeyDown,
       this.#onKeyboardKeyDown.bind(this)
@@ -62,7 +60,8 @@ class ZoomComponent {
    * Callback for zoom in action.
    * @private
    */
-  #zoomIn = () => {
+  #zoomIn = (event) => {
+    if (event) event.preventDefault();
     this.zoom *= 4 / 3;
     EventHandlerService.publish(PDFLEvents.onZoomChange, this.zoom);
   };

@@ -9,7 +9,7 @@ import { PopupComponent } from "./PopupComponent";
 import { ReferenceViewComponent } from "./ReferenceViewComponent";
 import { KeyboardService } from "../services/KeyboardService";
 import * as textRenderService from "../services/TextRenderService";
-import { Page } from "./Page";
+import { PdfPageComponent } from "./PdfPageComponent";
 import { respondToVisibility } from "../services/Utils";
 import { EXTRA_PAGES_TO_RENDER } from "../Constants";
 
@@ -29,7 +29,7 @@ const pdfjsLib = require("pdfjs-dist");
  * @property {PopupComponent} popupComponent popup component within the reader
  * @property {PDFDocumentProxy} pdfDoc PDF document
  * @property {KeyboardService} keyboardService keyboard service
- * @property {Page[]} pages array of the pages objects
+ * @property {PdfPageComponent[]} pages array of the pages objects
  * @property {int[]} visiblePages array of the visible pages by page number
  * @property {int} visiblePage currently visible page
  */
@@ -87,13 +87,7 @@ class PdfReaderComponent {
     });
 
     EventHandlerService.subscribe(PDFLEvents.onZoomChange, (zoomScale) => {
-      textRenderService
-        .getPageSize(this.pdfDoc, zoomScale)
-        .then(([width, height]) => {
-          this.#setCanvasSize(width, height);
-          let visiblePageNum = Math.min(...this.visiblePages);
-          this.#setVisiblePage(visiblePageNum, true);
-        });
+      this.#setVisiblePageWithNewZoom(zoomScale);
     });
 
     EventHandlerService.subscribe(PDFLEvents.onResetReader, () => {
@@ -131,7 +125,7 @@ class PdfReaderComponent {
 
         self.referenceViewComponent.setPdfDoc(data);
 
-        this.#createPages();
+        this.#setupPages();
       })
       .catch((err) => {
         console.log(err.message); // TODO: handle error in some way
@@ -151,56 +145,76 @@ class PdfReaderComponent {
   };
 
   /**
-   * Creates Pages objects, sets their size and adds a listener for
-   * their canvases that will calculate and set the currently visible
-   * page based on canvas visibility.
-   *
-   * Should only be called once after the pdf is loaded.
+   * Creates Pages objects, and appends their canvases to the
+   * pdfContainer DOM element.
    */
-  #createPages = () => {
+  #createPages() {
     for (let i = 0; i < this.pdfDoc.numPages; ++i) {
-      let page = new Page(i + 1, this.pdfDoc);
+      let page = new PdfPageComponent(i + 1, this.pdfDoc);
       let canvas = page.getCanvas();
       this.pages.push(page);
 
       this.components.pdfContainer.appendChild(canvas);
     }
+  }
 
-    textRenderService.getPageSize(this.pdfDoc, 1).then(([width, height]) => {
-      this.#setCanvasSize(width, height);
+  /**
+   * Creates pages object, sets their inital size and add the visibility
+   * listener to them.
+   *
+   * Should only be called once after the pdf is loaded.
+   *
+   * @async
+   */
+  async #setupPages() {
+    this.#createPages();
 
-      for (let i = 0; i < this.pdfDoc.numPages; ++i) {
-        let page = this.pages[i];
-        let canvas = page.getCanvas();
+    await this.#setCanvasSize();
 
-        respondToVisibility(canvas, (visible) => {
-          if (visible) {
-            this.visiblePages.push(i + 1);
+    this.#addVisibilityListenersToPages();
+  }
 
-            let visiblePageNum = Math.min(...this.visiblePages);
-            this.#setVisiblePage(visiblePageNum);
-          } else {
-            let index = this.visiblePages.indexOf(i + 1);
-            if (index != -1) {
-              this.visiblePages.splice(index, 1);
-            }
-            this.visiblePageNum = Math.min(...this.visiblePages);
-            this.toolbarComponent.setCurrentPage(this.visiblePageNum);
+  /**
+   * Add visiblity listener to pages. Once a page enters or leaves the
+   * viewport of the browser, an algorith is triggered to determine the
+   * visible page.
+   * Then the rendering is triggerd around that page.
+   */
+  #addVisibilityListenersToPages() {
+    for (let i = 0; i < this.pdfDoc.numPages; ++i) {
+      let page = this.pages[i];
+      let canvas = page.getCanvas();
+
+      respondToVisibility(canvas, (visible) => {
+        if (visible) {
+          this.visiblePages.push(i + 1);
+
+          let visiblePageNum = Math.min(...this.visiblePages);
+          this.#setVisiblePage(visiblePageNum);
+        } else {
+          let index = this.visiblePages.indexOf(i + 1);
+          if (index != -1) {
+            this.visiblePages.splice(index, 1);
           }
-        });
-      }
-    });
-  };
+          this.visiblePageNum = Math.min(...this.visiblePages);
+          this.toolbarComponent.setCurrentPage(this.visiblePageNum);
+        }
+      });
+    }
+  }
 
   /**
    * Set the canvas sizes for the pages.
    * Used at the beginning or when zoom changes to set the sizes of
    * unrendered pages so scroll position and size stays the same.
    *
-   * @param {int} width
-   * @param {int} height
+   * @param {float} zoomScale
    */
-  #setCanvasSize(width, height) {
+  async #setCanvasSize(zoomScale = 1) {
+    let [width, height] = await textRenderService.getPageSize(
+      this.pdfDoc,
+      zoomScale
+    );
     this.pages.forEach((page) => page.setCanvasSize(width, height));
   }
 
@@ -222,6 +236,19 @@ class PdfReaderComponent {
     this.#renderPages(pageNum, forceReRender);
 
     this.toolbarComponent.setCurrentPage(pageNum);
+  }
+
+  /**
+   * Changes canvas size of the pages and delegates work to
+   * '#setVisiblePage'.
+   *
+   * @param {float} zoomScale
+   * @async
+   */
+  async #setVisiblePageWithNewZoom(zoomScale) {
+    this.#setCanvasSize(zoomScale);
+    let visiblePageNum = Math.min(...this.visiblePages);
+    this.#setVisiblePage(visiblePageNum, true);
   }
 
   /**

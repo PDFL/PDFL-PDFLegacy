@@ -54,30 +54,9 @@ export function renderText(page, pageNum, canvas, viewport) {
   const textLayer = createTextLayerDOMIfNotExist(pageNum);
 
   page.getTextContent().then(function (textContent) {
-    //Render the text inside the textLayer container
+    renderTextLayer(textContent, textLayer, viewport);
     positionTextLayer(textLayer, canvas);
-    pdfjsLib.renderTextLayer({
-      textContent: textContent,
-      container: textLayer,
-      viewport: viewport,
-      textDivs: [],
-    });
-
-    // Render links
-    const pdfLinkService = new pdfjsViewer.PDFLinkService();
-    page.getAnnotations().then(function (annotationsData) {
-      pdfjsLib.AnnotationLayer.render({
-        div: textLayer,
-        viewport: viewport.clone({ dontFlip: true }),
-        annotations: annotationsData,
-        page: page,
-        linkService: pdfLinkService,
-        enableScripting: true,
-        renderInteractiveForms: true,
-      });
-
-      EventHandlerService.publish(PDFLEvents.onLinkLayerRendered, textLayer);
-    });
+    renderLinkLayer(page, textLayer, viewport);
   });
 
   //Display the container
@@ -110,4 +89,46 @@ export async function getPageSize(pdfDoc, zoomScale) {
   let viewport = await page.getViewport({ scale: zoomScale });
 
   return [viewport.width, viewport.height];
+}
+
+/**
+ * Renders the text layer to the text layer DOM element for a given viewport
+ * with text content.
+ *
+ * @param {import("pdfjs-dist/types/src/display/api").TextContent} textContent
+ * @param {HTMLElement} textLayer
+ * @param {import("pdfjs-dist").PageViewport} viewport
+ */
+function renderTextLayer(textContent, textLayer, viewport) {
+  pdfjsLib.renderTextLayer({
+    textContent: textContent,
+    container: textLayer,
+    viewport: viewport,
+    textDivs: [],
+  });
+}
+
+/**
+ * Renders the links (annotations) layer for a page.
+ * Publishes and event that the links layer has been rendered for a
+ * selected text layer.
+ *
+ * @param {Page} page pdf-js Page object
+ * @param {HTMLElement} textLayer
+ */
+function renderLinkLayer(page, textLayer, viewport) {
+  const pdfLinkService = new pdfjsViewer.PDFLinkService();
+  page.getAnnotations().then(function (annotationsData) {
+    pdfjsLib.AnnotationLayer.render({
+      div: textLayer,
+      viewport: viewport.clone({ dontFlip: true }),
+      annotations: annotationsData,
+      page: page,
+      linkService: pdfLinkService,
+      enableScripting: true,
+      renderInteractiveForms: true,
+    });
+
+    EventHandlerService.publish(PDFLEvents.onLinkLayerRendered, textLayer);
+  });
 }

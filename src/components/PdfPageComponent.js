@@ -9,10 +9,13 @@ import { renderText, positionTextLayer } from "../services/TextRenderService";
  * @property {bool} isRendering true if the render task is active
  * @property {bool} isRendered true if the page is rendered
  * @property {ResizeObserver} resizeObserver observer for resizing this HTMLElement
- * @property {HTMLElement} canvas inner canvas for this page
+ * @property {HTMLElement} components.canvas inner canvas for this page
  * @property {RenderTask} renderTask rendering task of the pdf.js library for a page
  */
-class Page {
+class PdfPageComponent {
+  components = {
+    canvas: null,
+  };
   /**
    * Creates the page object.
    * Does not set the size of the canvas (page) or starts rendering the page.
@@ -33,9 +36,10 @@ class Page {
     this.isRendering = false;
     this.isRendered = false;
     this.resizeObserver = null;
-    this.canvas = document.createElement("canvas");
-    this.canvas.setAttribute("id", `canvas-${pageNum}`);
-    this.canvas.setAttribute("class", "canvas__container");
+
+    this.components.canvas = document.createElement("canvas");
+    this.components.canvas.setAttribute("id", `canvas-${pageNum}`);
+    this.components.canvas.setAttribute("class", "canvas__container");
   }
 
   /**
@@ -56,33 +60,11 @@ class Page {
 
     let page = await this.pdfDoc.getPage(this.pageNum);
 
-    const ctx = this.canvas.getContext("2d");
-    let viewport = page.getViewport({
-      scale: zoomScale,
-    });
-    this.canvas.height = viewport.height;
-    this.canvas.width = viewport.width;
+    let viewport = this.#setupViewport(page, zoomScale);
 
-    const renderCtx = {
-      canvasContext: ctx,
-      viewport: viewport,
-    };
+    this.#startPageRender(page, viewport);
 
-    this.isRendering = true;
-    this.isRendered = false;
-    this.renderTask = page.render(renderCtx);
-
-    const self = this;
-    this.renderTask.promise
-      .then(function () {
-        self.isRendering = false;
-        self.isRendered = true;
-
-        renderText(page, self.pageNum, self.canvas, viewport);
-      })
-      .catch(() => {
-        // do nothing, the rendering task was canceled
-      });
+    this.#onRenderFinish(page, viewport);
   };
 
   /**
@@ -91,7 +73,7 @@ class Page {
    * @returns {HTMLElement} canvas
    */
   getCanvas = () => {
-    return this.canvas;
+    return this.components.canvas;
   };
 
   /**
@@ -101,8 +83,8 @@ class Page {
    * @param {int} height
    */
   setCanvasSize(width, height) {
-    this.canvas.width = width;
-    this.canvas.height = height;
+    this.components.canvas.width = width;
+    this.components.canvas.height = height;
     this.isRendered = false;
   }
 
@@ -111,8 +93,9 @@ class Page {
    * Should be called when the pdf container changes size.
    */
   positionTextLayer() {
+    if (!this.isRendered) return;
     let textLayer = document.querySelector(`#text-layer-${this.pageNum}`);
-    positionTextLayer(textLayer, this.canvas);
+    positionTextLayer(textLayer, this.components.canvas);
   }
 
   /**
@@ -120,12 +103,67 @@ class Page {
    *
    * @async
    */
-  #stopRendering = async () => {
+  async #stopRendering() {
     if (this.isRendering) {
       await this.renderTask.cancel();
     }
     this.isRendering = false;
-  };
+  }
+
+  /**
+   * Creates the page viewport and sets canvas size.
+   *
+   * @param {Page} page pdf.js library page
+   * @param {float} zoomScale
+   * @returns {import("pdfjs-dist").PageViewport} viewport of the page
+   */
+  #setupViewport(page, zoomScale) {
+    let viewport = page.getViewport({
+      scale: zoomScale,
+    });
+    this.components.canvas.height = viewport.height;
+    this.components.canvas.width = viewport.width;
+    return viewport;
+  }
+
+  /**
+   * Starts rendering the pdf page asynchronusly.
+   *
+   * @param {Page} page pdf.js library page
+   * @param {import("pdfjs-dist").PageViewport} viewport
+   */
+  #startPageRender(page, viewport) {
+    const ctx = this.components.canvas.getContext("2d");
+    const renderCtx = {
+      canvasContext: ctx,
+      viewport: viewport,
+    };
+
+    this.isRendering = true;
+    this.isRendered = false;
+    this.renderTask = page.render(renderCtx);
+  }
+
+  /**
+   * Waits for page render to finish, sets the flags and starts
+   * rendering the text.
+   *
+   * @param {Page} page pdf.js library page
+   * @param {import("pdfjs-dist").PageViewport} viewport of the page
+   */
+  #onRenderFinish(page, viewport) {
+    const self = this;
+    this.renderTask.promise
+      .then(function () {
+        self.isRendering = false;
+        self.isRendered = true;
+
+        renderText(page, self.pageNum, self.components.canvas, viewport);
+      })
+      .catch(() => {
+        // do nothing, the rendering task was canceled
+      });
+  }
 }
 
-export { Page };
+export { PdfPageComponent };
