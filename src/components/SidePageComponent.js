@@ -6,7 +6,7 @@ import { KnowledgeGraphComponent } from "./KnowledgeGraphComponent";
 import { SummaryKeyComponent } from "./SummaryKeyComponent";
 import { SidePageLoaderComponent } from "./SidePageLoaderComponent";
 
-import { ELEMENT_OPENED_IN_THE_SIDE } from "./../Constants";
+import { SideElement } from "./../SidePageEnum";
 
 /**
  * Component representing side window that can be closed. It is a placeholder
@@ -38,7 +38,7 @@ class SidePageComponent {
     this.knowledgeGraphComponent = new KnowledgeGraphComponent();
     this.summaryKeyComponent = new SummaryKeyComponent();
     this.loader = new SidePageLoaderComponent();
-    this.isOpen = ELEMENT_OPENED_IN_THE_SIDE.None;
+    this.currentOpenElement = SideElement.None;
     this.#registerEvents();
   }
 
@@ -64,12 +64,12 @@ class SidePageComponent {
       PDFLEvents.onKeyboardKeyDown,
       (functionalKeys, key, code) => {
         if (functionalKeys.ctrl && key === "g") {
-          if (this.isOpen === ELEMENT_OPENED_IN_THE_SIDE.KnowledgeGraph) {
+          if (this.currentOpenElement === SideElement.KnowledgeGraph) {
             this.hideSidePage();
-            this.isOpen = ELEMENT_OPENED_IN_THE_SIDE.None;
+            this.currentOpenElement = SideElement.None;
           } else {
             this.#showKnowledgeGraph();
-            this.isOpen = ELEMENT_OPENED_IN_THE_SIDE.KnowledgeGraph;
+            this.currentOpenElement = SideElement.KnowledgeGraph;
           }
         }
       }
@@ -79,12 +79,12 @@ class SidePageComponent {
       PDFLEvents.onKeyboardKeyDown,
       (functionalKeys, key, code) => {
         if (functionalKeys.ctrl && key === "y") {
-          if (this.isOpen === ELEMENT_OPENED_IN_THE_SIDE.SummaryKey) {
+          if (this.currentOpenElement === SideElement.SummaryKey) {
             this.hideSidePageSummary();
-            this.isOpen = ELEMENT_OPENED_IN_THE_SIDE.None;
+            this.currentOpenElement = SideElement.None;
           } else {
             this.#showSummaryKey();
-            this.isOpen = ELEMENT_OPENED_IN_THE_SIDE.SummaryKey;
+            this.currentOpenElement = SideElement.SummaryKey;
           }
         }
       }
@@ -95,24 +95,24 @@ class SidePageComponent {
    * Callback for generation of a knowledge graph.
    */
   #showKnowledgeGraph = () => {
-    if (this.isOpen === ELEMENT_OPENED_IN_THE_SIDE.SummaryKey) {
+    if (this.currentOpenElement === SideElement.SummaryKey) {
       this.hideSidePageSummary();
     }
     this.#showSidePage();
     this.knowledgeGraphComponent.displayGraph();
-    this.isOpen = ELEMENT_OPENED_IN_THE_SIDE.KnowledgeGraph;
+    this.currentOpenElement = SideElement.KnowledgeGraph;
   };
 
   /**
    * Callback for generation of the summary
    */
   #showSummaryKey = () => {
-    if (this.isOpen === ELEMENT_OPENED_IN_THE_SIDE.KnowledgeGraph) {
+    if (this.currentOpenElement === SideElement.KnowledgeGraph) {
       this.hideSidePage();
     }
     this.#showSidePageSummary();
     this.summaryKeyComponent.createPageSummary();
-    this.isOpen = ELEMENT_OPENED_IN_THE_SIDE.SummaryKey;
+    this.currentOpenElement = SideElement.SummaryKey;
   };
 
   /**

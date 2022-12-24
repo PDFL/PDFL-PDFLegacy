@@ -44,13 +44,6 @@ const FIELD_OF_STUDY_COLOR = {
   Agricultural: "rgba(3, 184, 58, 0.8)",
 };
 
-const ELEMENT_OPENED_IN_THE_SIDE = {
-  None: "None",
-  KnowledgeGraph: "KnowledgeGraph",
-  SummaryKey: "SummaryKey",
-  Reference: "Reference",
-};
-
 const SUMMARIZER_STOP_LIST = [
   "",
   "a",
@@ -374,7 +367,6 @@ const SUMMARIZER_STOP_LIST = [
   "the",
 ];
 
-
 export {
   SIMILARITY_THRESHOLD,
   MAX_POPUP_TEXT_LENGTH,
@@ -387,6 +379,5 @@ export {
   MAX_REFERENCES,
   TEN_MILLISECONDS,
   FIELD_OF_STUDY_COLOR,
-  ELEMENT_OPENED_IN_THE_SIDE,
   SUMMARIZER_STOP_LIST,
 };
