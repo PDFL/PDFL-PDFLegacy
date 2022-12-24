@@ -14,7 +14,7 @@ import {
  */
 class NavbarComponent {
   components = {
-    openNew: document.querySelector("#open-another"),
+    openNew: document.querySelector("#open-new-pdf"),
     loader: document.querySelector("#loader"),
     errorMessage: document.querySelector(
       "#message-wrong-type-fileupload-reader"

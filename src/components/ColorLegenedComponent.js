@@ -64,7 +64,7 @@ class ColorLegenedComponent {
   #createSlide = (slide, fieldColors) => {
     let fields = "";
     for (let fieldColor of fieldColors)
-      fields += `<div id="rect" style="background-color: ${fieldColor[1]}">&nbsp; &nbsp; &nbsp; ${fieldColor[0]}</div>`;
+      fields += `<div id="rect" style="background-color: ${fieldColor[1]}">${fieldColor[0]}</div>`;
 
     return `<input id="slide-${slide}" type="radio" name="slides" ${
       slide == 1 ? "checked" : ""

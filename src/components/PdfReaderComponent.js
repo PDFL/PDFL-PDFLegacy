@@ -9,7 +9,6 @@ import { PopupComponent } from "./PopupComponent";
 import { ReferenceViewComponent } from "./ReferenceViewComponent";
 import { KeyboardService } from "../services/KeyboardService";
 import * as textRenderService from "../services/TextRenderService";
-import { NavbarComponent } from "./NavbarComponent";
 
 const pdfjsLib = require("pdfjs-dist");
 
@@ -48,7 +47,6 @@ class PdfReaderComponent {
     this.referenceComponent = new ReferenceComponent();
     this.popupComponent = new PopupComponent();
     this.referenceViewComponent = new ReferenceViewComponent();
-    this.navbarComponent = new NavbarComponent();
     this.#registerEvents();
   }
 
