@@ -6,7 +6,8 @@
         "test": "DOTENV_CONFIG_PATH=./.env jest --coverage --collectCoverageFrom='./src/**' --coverageReporters='text-summary' --setupFiles dotenv/config",
         "build": "webpack --no-devtool --config webpack.prod.js",
         "serve": "webpack serve --config webpack.dev.js",
-        "cypress:open": "cypress open"
+        "cypress:open": "cypress open",
+        "cypress:run": "cypress run"
     },
     "devDependencies": {
         "@babel/core": "^7.20.2",
