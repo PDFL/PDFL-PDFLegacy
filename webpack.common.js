@@ -2,6 +2,7 @@ const path = require("path");
 const Dotenv = require("dotenv-webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 
 /**
  * Config file for webpack bundling.
@@ -18,7 +19,6 @@ module.exports = {
   context: __dirname,
   entry: {
     main: "./src/main.js",
-    "pdf.worker": "pdfjs-dist/build/pdf.worker.entry",
   },
   output: {
     path: path.join(__dirname, "/dist"),
@@ -31,6 +31,14 @@ module.exports = {
     }),
     new Dotenv(),
     new MiniCssExtractPlugin(),
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: "node_modules/pdfjs-dist/build/pdf.worker.min.js",
+          to: "pdf.worker.js",
+        },
+      ],
+    }),
   ],
   module: {
     rules: [

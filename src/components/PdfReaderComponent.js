@@ -11,7 +11,7 @@ import { KeyboardService } from "../services/KeyboardService";
 import * as textRenderService from "../services/TextRenderService";
 import { SummaryKeyComponent } from "./SummaryKeyComponent";
 
-const pdfjsLib = require("pdfjs-dist");
+const pdfjsLib = require("pdfjs-dist/legacy/build/pdf.js");
 
 /**
  * Component representing the PDF reader. Displays the content of PDF document and actions
@@ -114,7 +114,7 @@ class PdfReaderComponent {
    */
   loadPdf = (pdf) => {
     const self = this;
-    pdfjsLib.GlobalWorkerOptions.workerSrc = "/pdf.worker.bundle.js";
+    pdfjsLib.GlobalWorkerOptions.workerSrc = require("pdfjs-dist/build/pdf.worker.entry.js");
     pdfjsLib
       .getDocument(pdf)
       .promise.then((data) => {
@@ -132,7 +132,7 @@ class PdfReaderComponent {
         );
       })
       .catch((err) => {
-        console.log(err.message); // TODO: handle error in some way
+        console.log(err); // TODO: handle error in some way
       });
     this.components.loader.className += " hidden";
   };

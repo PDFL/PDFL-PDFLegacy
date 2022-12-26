@@ -5,7 +5,13 @@ const config = {
     "\\.[jt]sx?$": "babel-jest",
   },
   transformIgnorePatterns: ["node_modules/(?!d3|internmap)"],
-  setupFiles: ["setupJest.js"],
+  setupFiles: [
+    "<rootDir>/setupJest.js",
+    "<rootDir>/node_modules/dotenv/config",
+    "jest-canvas-mock",
+  ],
+  collectCoverage: true,
+  coverageReporters: ["json", "html", "text-summary"],
 };
 
 module.exports = config;
