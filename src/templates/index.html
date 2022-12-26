@@ -137,10 +137,11 @@
                 <label for="checkbox-toggle" class="hamburger">&#9776;</label>
                 <!-- NAVIGATION MENUS -->
                 <div id="menu">
-                    <li><a><button id="open-new">+ OPEN</button></a></li>
-                    <li><a><i class="fa-solid fa-floppy-disk"></i></a></li>
-                    <li><a><i class="fa-solid fa-download"></i></a></li>
-                    <li><a><i class="fa-solid fa-print"></i></a></li>
+                    <li><a><label for="open-new-pdf" class="open-new">
+                                Open new pdf
+                            </label>
+                            <input id="open-new-pdf" type="file" accept="application/pdf" /></a>
+                    </li>
                 </div>
             </ul>
         </nav>
@@ -150,6 +151,9 @@
         </div>
 
         <div id="main">
+            <div id="message-wrong-type-fileupload-reader" class="hidden">
+                <h2>The uploaded file is not a pdf</h2>
+            </div>
             <div id="pdf-container" class="full-width"></div>
             <div id="pop-up" class="hidden">
                 <div id="content-reference-div">

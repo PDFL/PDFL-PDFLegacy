@@ -51,6 +51,7 @@ body{
   transition: 0.5s;
   display: flex;
   flex-direction: column;
+  margin-top: 4rem;
 }
 
 
@@ -396,8 +397,9 @@ input[type="number"]::-webkit-outer-spin-button {
 
 #logo-loader{
   width: 50%;
-  animation: myAnim 600ms ease 0s 80 normal forwards, fadeOut 1s;
+  animation: myAnim 600ms ease 0s 80 normal forwards;
   animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
 }
 
 #loader > img {
@@ -410,10 +412,10 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 #side-page-loader{
-  position: absolute;
-  width: 100%;
+  position: fixed;
+  width: 50%;
   height: 100%;
-  background-color: #143552ed;
+  background: #143552;
   z-index: 999;
 }
 
@@ -723,7 +725,7 @@ input[type="number"]::-webkit-outer-spin-button {
 
   /* KNOWLEDGE GRAPH STYLE */
   #knowledge-graph{
-    min-width: 100%;
+    margin-top: 14%;
     display: flex;
     justify-content: center;
   }
@@ -736,12 +738,13 @@ input[type="number"]::-webkit-outer-spin-button {
     overflow-x: hidden;
     z-index: 2;
     cursor: move;
+    position: fixed;
   }
 
   .closebtn {
-    position: absolute;
-    top: 0;
-    right: 15px;
+    position: fixed;
+    top: 6%;
+    right: 1%;
     font-size: 50px;
     z-index: 999;
     color: #f5f5f5;;
@@ -754,7 +757,7 @@ input[type="number"]::-webkit-outer-spin-button {
   
   /*tooltip for question mark */
   #question-mark {
-    position: absolute; 
+    position: fixed;
     bottom:5%;
     right: 5%;
     color:white;
@@ -873,6 +876,7 @@ input[type="number"]::-webkit-outer-spin-button {
     color: white;
     box-shadow: rgb(34, 34, 34) 1px 1px 1px 1px;
     transition: all 500ms ease-out 0ms;
+    margin-top: var(--height);
   }
 
   #expand-node-btn, #info-close-btn{
@@ -994,8 +998,11 @@ input[type="number"]::-webkit-outer-spin-button {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 2%;
+  margin-top: 4%;
   transform: scale(0.7);
+  position: fixed;
+  width: 50%;
+  z-index: 997;
  }
 
  #slider{
@@ -1046,6 +1053,7 @@ input[type="number"]::-webkit-outer-spin-button {
     height: 841px;
     width: 595px;
   }
+
 
   #side-page-reference-container.moveIn{
     animation: fadeIn 20s;
@@ -1219,4 +1227,21 @@ input[type="number"]::-webkit-outer-spin-button {
   color: red;
 }
 
-  
+/* CSS error message from the reader */
+#message-wrong-type-fileupload-reader{
+  background-color: rgba(253, 63, 63, 0.925);
+  color: white;
+  text-align: center;
+  border-radius: 5px;
+  margin: auto;
+  margin-top: 2rem;
+  width: 30%;
+  padding: 5px;
+  font-size: 10px;
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  position: absolute;
+  bottom: 2rem;
+  left: 35%;
+  z-index: 999;
+}
+

@@ -63,8 +63,6 @@ class PdfReaderComponent {
    * @private
    */
   #registerEvents = () => {
-    this.components.openNew.addEventListener("click", this.#onNewFile);
-
     this.components.pdfContainer.addEventListener(
       "mousedown",
       textRenderService.hideLinks
@@ -101,14 +99,6 @@ class PdfReaderComponent {
   };
 
   /**
-   * Creates event triggered when application view changed from reader view to input view.
-   * @private
-   */
-  #onNewFile = () => {
-    EventHandlerService.publish(PDFLEvents.onShowInputView);
-  };
-
-  /**
    * Load and render the first page of the given pdf.
    * @param {Uint8Array} pdf data, filename or url of a PDF document
    */
@@ -130,7 +120,7 @@ class PdfReaderComponent {
       .catch((err) => {
         console.log(err.message); // TODO: handle error in some way
       });
-    this.components.loader.className += " hidden";
+    this.components.loader.classList.add("hidden");
   };
 
   /**
