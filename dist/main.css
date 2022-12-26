@@ -622,8 +622,8 @@ input[type="number"]::-webkit-outer-spin-button {
   left: 22px;
 }
 
-.left-190{
-  left: 190px;
+.left-215{
+  left: 215px;
 }
 
 #sidenav a {
@@ -1435,12 +1435,6 @@ input[type="number"]::-webkit-outer-spin-button {
     max-height: calc(100% - 60px);
     margin-top: 60px;
     background-color: gainsboro;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
-
-  #thumbnail::-webkit-scrollbar { 
-    display: none;
   }
 
   .thumbnail-page{
