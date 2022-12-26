@@ -870,6 +870,7 @@ input[type="number"]::-webkit-outer-spin-button {
     color: white;
     box-shadow: rgb(34, 34, 34) 1px 1px 1px 1px;
     transition: all 500ms ease-out 0ms;
+    margin-top: var(--height);
   }
 
   #expand-node-btn, #info-close-btn{
