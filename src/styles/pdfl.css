@@ -415,7 +415,6 @@ input[type="number"]::-webkit-outer-spin-button {
   height: 100%;
   background: #143552;
   z-index: 999;
-  margin-top: var(--height);
 }
 
 #side-page-loader.transparent{
