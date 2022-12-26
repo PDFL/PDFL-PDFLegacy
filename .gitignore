@@ -122,4 +122,5 @@ dist/favicon.ico
 /dist/runtime.bundle.js
 dist/main.bundle.js.LICENSE.txt
 dist/main.css
+cypress/videos
 dist/pdf.worker.bundle.js.LICENSE.txt
