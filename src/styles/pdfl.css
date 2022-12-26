@@ -50,6 +50,7 @@ body{
   background-color: #f5f5f5;
   transition: 0.5s;
   display: flex;
+  margin-top: 4rem;
 }
 
 
@@ -409,10 +410,10 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 #side-page-loader{
-  position: absolute;
-  width: 100%;
+  position: fixed;
+  width: 50%;
   height: 100%;
-  background-color: #143552ed;
+  background: #143552;
   z-index: 999;
 }
 
@@ -542,6 +543,10 @@ input[type="number"]::-webkit-outer-spin-button {
 
 .no-width{
   width: 0;
+}
+
+.one-third-width{
+  width: 30%;
 }
 
 .half-width{
@@ -718,7 +723,7 @@ input[type="number"]::-webkit-outer-spin-button {
 
   /* KNOWLEDGE GRAPH STYLE */
   #knowledge-graph{
-    min-width: 100%;
+    margin-top: 14%;
     display: flex;
     justify-content: center;
   }
@@ -731,12 +736,13 @@ input[type="number"]::-webkit-outer-spin-button {
     overflow-x: hidden;
     z-index: 2;
     cursor: move;
+    position: fixed;
   }
 
   .closebtn {
-    position: absolute;
-    top: 0;
-    right: 15px;
+    position: fixed;
+    top: 6%;
+    right: 1%;
     font-size: 50px;
     z-index: 999;
     color: #f5f5f5;;
@@ -749,7 +755,7 @@ input[type="number"]::-webkit-outer-spin-button {
   
   /*tooltip for question mark */
   #question-mark {
-    position: absolute; 
+    position: fixed;
     bottom:5%;
     right: 5%;
     color:white;
@@ -868,6 +874,7 @@ input[type="number"]::-webkit-outer-spin-button {
     color: white;
     box-shadow: rgb(34, 34, 34) 1px 1px 1px 1px;
     transition: all 500ms ease-out 0ms;
+    margin-top: var(--height);
   }
 
   #expand-node-btn, #info-close-btn{
@@ -989,8 +996,11 @@ input[type="number"]::-webkit-outer-spin-button {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 2%;
+  margin-top: 4%;
   transform: scale(0.7);
+  position: fixed;
+  width: 50%;
+  z-index: 997;
  }
 
  #slider{
@@ -1041,6 +1051,7 @@ input[type="number"]::-webkit-outer-spin-button {
     height: 841px;
     width: 595px;
   }
+
 
   #side-page-reference-container.moveIn{
     animation: fadeIn 20s;
@@ -1140,4 +1151,78 @@ input[type="number"]::-webkit-outer-spin-button {
     top: 35%;
     left: -2%;
   }
+
+  /* Css for Summary Key Component */
+
+#side-page-summary{
+  transition: 0.5s;
+  position: relative;
+  right: 0;
+  overflow-x: hidden;
+  z-index: 2;
+  width: 600px;
+  height: 94vh;
+}
+
+#accordion-container{
+  width: 90%;
+  float: right;
+  background: #143552ed;
+  height: 100%;
+}
+
+.accordion {
+  background-color: #eee;
+  color: #444;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  text-align: left;
+  border: none;
+  outline: none;
+  transition: 0.4s;
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.active, .accordion:hover {
+  background-color: #ccc;;
+}
+
+.panel {
+  padding: 0 18px;
+  background-color: var(--color);
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+  color: white;
+  margin-bottom: 1px;
+}
+
+.accordion:after {
+  content: '\025bc';
+  font-size: 13px;
+  color: #777;
+  float: right;
+  margin-left: 5px;
+}
+
+.active:after {
+  content: "\25b2"; 
+}
+
+#close-btn-summary{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 60px;
+  padding: 5px;
+  border-radius: 5px;
+  z-index: 0;
+  color: #000;
+}
+#close-btn-summary:hover{
+  color: red;
+}
+
   

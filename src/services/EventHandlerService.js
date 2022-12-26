@@ -57,6 +57,7 @@ const PDFLEvents = {
   onKeyboardKeyUp: "onKeyboardKeyUp",
   onKeyboardKeyDown: "onKeyboardKeyDown",
   onKeyboardKeyPress: "onKeyboardKeyPress",
+  onShowSummaryKey: "onShowSummaryKey",
 };
 
 export { PDFLEvents, EventHandlerService };
