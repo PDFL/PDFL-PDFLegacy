@@ -162,8 +162,13 @@ class SidePageComponent {
     this.components.pdfContainer.className = "full-width";
   };
 
+  /**
+   * Set a pdf document from the reader to the subcomponents
+   * @param data current pdf data
+   */
   setPDF = (data) => {
     this.knowledgeGraphComponent.setPDF(data);
+    this.summaryKeyComponent.setPdf(data);
   };
 }
 
