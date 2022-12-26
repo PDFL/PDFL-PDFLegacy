@@ -413,7 +413,7 @@ input[type="number"]::-webkit-outer-spin-button {
   position: fixed;
   width: 50%;
   height: 100%;
-  background-color: #143552ed;
+  background: #143552;
   z-index: 999;
 }
 
@@ -722,11 +722,12 @@ input[type="number"]::-webkit-outer-spin-button {
     margin-top: 14%;
     display: flex;
     justify-content: center;
+    background: #143552;
   }
   /* CSS for SidePage */
   #side-page {
     transition: 0.5s;
-    background: #143552ed;
+    background: #143552;
     position: relative;
     right: 0;
     overflow-x: hidden;
@@ -738,7 +739,7 @@ input[type="number"]::-webkit-outer-spin-button {
   .closebtn {
     position: fixed;
     top: 6%;
-    margin-left: 1%;
+    right: 1%;
     font-size: 50px;
     z-index: 999;
     color: #f5f5f5;;
