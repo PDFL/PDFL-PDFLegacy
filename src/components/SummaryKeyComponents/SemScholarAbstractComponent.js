@@ -19,14 +19,14 @@ class SemScholarAbstractComponent {
    */
   setPdf = (pdfDoc) => {
     this.pdfDoc = pdfDoc;
-    this.#loadAbstracts();
+    this.#loadData();
   };
 
   /**
    * @private
    * Load the abstract and the TLDR from the current pdf in async way, if no data is available, set a message
    */
-  #loadAbstracts = () => {
+  #loadData = () => {
     const self = this;
     getPaperTldrAndAbstract(this.pdfDoc).then((abstracts) => {
       if (!abstracts) {
