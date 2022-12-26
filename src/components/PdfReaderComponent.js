@@ -10,6 +10,7 @@ import { ReferenceViewComponent } from "./ReferenceViewComponent";
 import { KeyboardService } from "../services/KeyboardService";
 import * as textRenderService from "../services/TextRenderService";
 import { SummaryKeyComponent } from "./SummaryKeyComponent";
+import { SelectionPopUpComponent } from "./SelectionPopUpComponent";
 
 const pdfjsLib = require("pdfjs-dist");
 
@@ -27,6 +28,7 @@ const pdfjsLib = require("pdfjs-dist");
  * @property {PopupComponent} popupComponent popup component within the reader
  * @property {PDFDocumentProxy} pdfDoc PDF document
  * @property {KeyboardService} keyboardService keyboard service
+ * @property {SelectionPopUpComponent} selectionPopUp popup related to selection functionality
  */
 class PdfReaderComponent {
   components = {
@@ -49,6 +51,7 @@ class PdfReaderComponent {
     this.referenceComponent = new ReferenceComponent();
     this.popupComponent = new PopupComponent();
     this.referenceViewComponent = new ReferenceViewComponent();
+    this.selectionPopUp = new SelectionPopUpComponent();
     this.#registerEvents();
   }
 

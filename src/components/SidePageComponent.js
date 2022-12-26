@@ -168,7 +168,6 @@ class SidePageComponent {
    */
   setPDF = (data) => {
     this.knowledgeGraphComponent.setPDF(data);
-    this.summaryKeyComponent.setPdf(data);
   };
 }
 

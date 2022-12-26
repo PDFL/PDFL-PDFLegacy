@@ -17,6 +17,8 @@ const MAX_REFERENCES = 1;
 
 const TEN_MILLISECONDS = 10;
 
+const MOUSE_MIN_SELECTION_TIME = 200;
+
 const FIELD_OF_STUDY_COLOR = {
   Medicine: "rgba(43, 213, 20, 0.8)",
   Chemistry: "rgba(37, 152, 170, 0.8)",
@@ -380,4 +382,5 @@ export {
   TEN_MILLISECONDS,
   FIELD_OF_STUDY_COLOR,
   SUMMARIZER_STOP_LIST,
+  MOUSE_MIN_SELECTION_TIME,
 };

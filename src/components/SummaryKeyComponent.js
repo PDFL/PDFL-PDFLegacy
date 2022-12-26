@@ -1,4 +1,4 @@
-import { TLDRComponent } from "./SummaryKeyComponents/TLDRComponent";
+import { SelectionSummaryComponent } from "./SummaryKeyComponents/SelectionSummaryComponent";
 
 /**
  * Component responsible for displaying the sidebar for summaries/key
@@ -18,7 +18,7 @@ class SummaryKeyComponent {
    * @constructor
    */
   constructor() {
-    this.tldrComponent = new TLDRComponent();
+    this.selectionSummaryComponent = new SelectionSummaryComponent();
     this.#registerEvents();
   }
 
@@ -44,10 +44,6 @@ class SummaryKeyComponent {
    * Callback for making the summary key
    */
   createPageSummary = () => {};
-
-  setPdf = (pdfDoc) => {
-    this.tldrComponent.setPdf(pdfDoc);
-  };
 }
 
 export { SummaryKeyComponent };
