@@ -43,7 +43,7 @@ class SelectionSummaryComponent {
    */
   #computeSummary = (text) => {
     this.components.selectedSummaryText.innerText = textSummarizer(text, 5);
-    EventHandlerService.publish(PDFLEvents.onOpenSelectionSummary);
+    EventHandlerService.subscribe(PDFLEvents.onOpenSelectionSummary);
   };
 }
 

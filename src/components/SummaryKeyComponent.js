@@ -1,3 +1,7 @@
+import {
+  EventHandlerService,
+  PDFLEvents,
+} from "./../services/EventHandlerService";
 import { SelectionSummaryComponent } from "./SummaryKeyComponents/SelectionSummaryComponent";
 
 /**
@@ -38,6 +42,17 @@ class SummaryKeyComponent {
         }
       });
     });
+
+    EventHandlerService.publish(
+      PDFLEvents.onOpenSelectionSummary,
+      this.#showSelectedText()
+    );
+  };
+
+  #showSelectedText = () => {
+    document.querySelector("#selected-text-summary").classList.add("active");
+    document.querySelector("#selectedSummaryTextPanel").style.maxHeight =
+      "max-content";
   };
 
   /**

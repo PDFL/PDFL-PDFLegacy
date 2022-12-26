@@ -4,8 +4,14 @@ import {
   EventHandlerService,
   PDFLEvents,
 } from "../services/EventHandlerService";
+import { POPUP_DISAPPEAR_TIMEOUT } from "../Constants";
 
 class SelectionPopUpComponent {
+  components = {
+    popupSelectedText: document.querySelector("#pop-up-selection"),
+    summarySelectedTextBtn: document.querySelector("#summary-selection"),
+  };
+
   /**
    * @constructor
    * Register needed events
@@ -22,6 +28,11 @@ class SelectionPopUpComponent {
   #registerEvents = () => {
     document.addEventListener("mousedown", this.#onMouseDown.bind(this));
     document.addEventListener("mouseup", this.#onMouseUp.bind(this));
+
+    this.components.summarySelectedTextBtn.addEventListener(
+      "click",
+      this.#showSummaryKey
+    );
   };
 
   /**
@@ -54,14 +65,50 @@ class SelectionPopUpComponent {
    * @param position last mouse action position
    */
   #handleSelection = (position) => {
+    let component = this.components;
     const selectedText = getCurrentDOMSelection().trim();
     if (selectedText !== "") {
-      //TODO:- PopUp here -> On button dispatch the event to display summary
+      component.popupSelectedText.classList.remove("hidden");
+      component.popupSelectedText.style.top = position.y + "px";
+      component.popupSelectedText.style.left = position.x + 20 + "px";
       EventHandlerService.publish(
         PDFLEvents.onTextSelectionReady,
         selectedText
       );
     }
+
+    /* Hide the popup events */
+    const hidePopupTimeout = setTimeout(() => {
+      this.hidePopup();
+    }, POPUP_DISAPPEAR_TIMEOUT);
+    component.popupSelectedText.addEventListener("mouseenter", (event) => {
+      event.preventDefault();
+      this.components.popupSelectedText.classList.remove("hidden");
+      clearTimeout(hidePopupTimeout);
+    });
+    document
+      .querySelector("#pdf-container")
+      .addEventListener("mouseleave", (event) => {
+        event.preventDefault();
+        this.hidePopup();
+      });
+  };
+
+  /**
+   * Triggers event on which Summary Key will be shown.
+   * @private
+   */
+  #showSummaryKey = () => {
+    EventHandlerService.publish(PDFLEvents.onShowSummaryKey);
+    this.components.popupSelectedText.classList.add("hidden");
+  };
+
+  /**
+   * Handler to hides the popup
+   * @private
+   */
+  hidePopup = () => {
+    this.components.popupSelectedText.classList.add("hidden");
   };
 }
 
