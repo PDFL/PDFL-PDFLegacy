@@ -97,9 +97,9 @@ async function fetchReferences(paperID) {
  * @param paperID papaer id
  * @returns {Promise<Object>} the TLDR Object
  */
-async function fetchPaperTLDR(paperID) {
+async function fetchPaperAbstract(paperID) {
   let queryParams = new URLSearchParams({
-    fields: "tldr",
+    fields: "abstract",
   });
   let data = (
     await (
@@ -108,8 +108,8 @@ async function fetchPaperTLDR(paperID) {
         FETCH_OPTIONS
       )
     ).json()
-  ).tldr;
+  ).abstract;
   return data;
 }
 
-export { fetchPaperInfo, fetchCitations, fetchReferences, fetchPaperTLDR };
+export { fetchPaperInfo, fetchCitations, fetchReferences, fetchPaperAbstract };

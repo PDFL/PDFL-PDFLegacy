@@ -1,13 +1,13 @@
-import { fetchPaperInfo, fetchPaperTLDR } from "./Api";
+import { fetchPaperInfo, fetchPaperAbstract } from "./Api";
 import { compareSimilarity } from "./Utils";
 
 /**
  * @async
- * Fetch TLDR from semantic scholar
+ * Fetch Abstract from semantic scholar
  * @param pdfDoc PDF Document to search for
- * @returns {Promise<string|null>} string containing the tldr or null
+ * @returns {Promise<string|null>} string containing the abstract or null
  */
-async function getPaperTLDR(pdfDoc) {
+async function getPaperAbstract(pdfDoc) {
   let metadata = await pdfDoc.getMetadata();
   let title = metadata.info.Title;
   if (!title) {
@@ -22,11 +22,11 @@ async function getPaperTLDR(pdfDoc) {
     return null;
   }
   console.log(currentPaperInfo);
-  let tldr = await fetchPaperTLDR(currentPaperInfo.paperId);
-  if (!tldr.text) {
+  let abstract = await fetchPaperAbstract(currentPaperInfo.paperId);
+  if (!abstract || abstract === "") {
     return null;
   }
-  return tldr.text;
+  return abstract;
 }
 
-export { getPaperTLDR };
+export { getPaperAbstract };

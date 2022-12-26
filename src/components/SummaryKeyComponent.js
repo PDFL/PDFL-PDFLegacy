@@ -1,4 +1,4 @@
-import { TLDRComponent } from "./SummaryKeyComponents/TLDRComponent";
+import { AbstractComponent } from "./SummaryKeyComponents/AbstractComponent";
 
 /**
  * Component responsible for displaying the sidebar for summaries/key
@@ -18,7 +18,7 @@ class SummaryKeyComponent {
    * @constructor
    */
   constructor() {
-    this.tldrComponent = new TLDRComponent();
+    this.tldrComponent = new AbstractComponent();
     this.#registerEvents();
   }
 
