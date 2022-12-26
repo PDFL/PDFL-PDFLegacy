@@ -77,7 +77,7 @@ class PdfPageComponent {
   };
 
   /**
-   * Sets the size of the canvas.
+   * Sets the size of the canvas, destroys the existing text layer.
    *
    * @param {int} width
    * @param {int} height
@@ -85,6 +85,10 @@ class PdfPageComponent {
   setCanvasSize(width, height) {
     this.components.canvas.width = width;
     this.components.canvas.height = height;
+    let textLayer = document.querySelector(`#text-layer-${this.pageNum}`);
+    if (textLayer) {
+      textLayer.remove();
+    }
     this.isRendered = false;
   }
 
