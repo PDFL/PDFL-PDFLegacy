@@ -1,4 +1,4 @@
-import { getPaperSummaries } from "../../services/SemanticScholarService";
+import { getPaperTldrAndAbstract } from "../../services/SemanticScholarService";
 
 /**
  * Class representing the Abstract and the TLDR Accordion items
@@ -13,8 +13,8 @@ class SemScholarAbstractComponent {
   };
 
   /**
-   * Set the pdf document needed to retrieve the Abstract
-   * Once the pdf is ready, start to fetch the Abstract
+   * Set the pdf document needed to retrieve the Abstract and the TLDR
+   * Once the pdf is ready, start to fetch data
    * @param pdfDoc the current pdf document
    */
   setPdf = (pdfDoc) => {
@@ -24,11 +24,11 @@ class SemScholarAbstractComponent {
 
   /**
    * @private
-   * Load the abstract from the current pdf in async way, if no abstract is available, set a message
+   * Load the abstract and the TLDR from the current pdf in async way, if no data is available, set a message
    */
   #loadAbstracts = () => {
     const self = this;
-    getPaperSummaries(this.pdfDoc).then((abstracts) => {
+    getPaperTldrAndAbstract(this.pdfDoc).then((abstracts) => {
       if (!abstracts) {
         self.components.abstractText.innerText =
           "Abstract not available for this paper";

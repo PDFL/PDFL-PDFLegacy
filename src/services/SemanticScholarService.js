@@ -1,4 +1,4 @@
-import { fetchPaperInfo, fetchPaperSummaries } from "./Api";
+import { fetchPaperInfo, fetchPaperTldrAndAbstract } from "./Api";
 import { compareSimilarity } from "./Utils";
 
 /**
@@ -30,12 +30,12 @@ async function getPaperInfo(pdfDoc) {
  * @param pdfDoc PDF Document to search for
  * @returns {Promise<{tldr: null, abstract: null}|null>}
  */
-async function getPaperSummaries(pdfDoc) {
+async function getPaperTldrAndAbstract(pdfDoc) {
   let currentPaperInfo = await getPaperInfo(pdfDoc);
   if (!currentPaperInfo) {
     return null;
   }
-  let abstracts = await fetchPaperSummaries(currentPaperInfo.paperId);
+  let abstracts = await fetchPaperTldrAndAbstract(currentPaperInfo.paperId);
   var texts = {
     tldr: null,
     abstract: null,
@@ -49,4 +49,4 @@ async function getPaperSummaries(pdfDoc) {
   return texts;
 }
 
-export { getPaperInfo, getPaperSummaries };
+export { getPaperInfo, getPaperTldrAndAbstract };
