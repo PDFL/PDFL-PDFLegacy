@@ -1,4 +1,8 @@
 import { getPaperAbstract } from "../../services/AbstractService";
+import {
+  EventHandlerService,
+  PDFLEvents,
+} from "../../services/EventHandlerService";
 
 /**
  * Class representing the Abstract Accordion item
@@ -29,6 +33,7 @@ class AbstractComponent {
     getPaperAbstract(this.pdfDoc).then((abstract) => {
       if (abstract) {
         self.components.abstractText.innerText = abstract;
+        EventHandlerService.publish(PDFLEvents.onAbstractReady, abstract);
       } else {
         self.components.abstractText.innerText =
           "Abstract not available for this paper";
