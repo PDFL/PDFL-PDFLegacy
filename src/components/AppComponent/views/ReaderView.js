@@ -7,6 +7,7 @@ import { NavbarComponent } from "../../NavbarComponent.js";
  *
  * @extends AppView
  * @property {PdfReaderComponent} reader static property representhing the PDF file reader component
+ * @property {PdfReaderComponent} navbar static property representhing the PDF file navbar component
  * @property {HTMLElement} component element representing the reader view
  */
 class ReaderView extends AppView {

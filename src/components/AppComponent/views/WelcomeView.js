@@ -89,7 +89,7 @@ class WelcomeView extends AppView {
   };
 
   /**
-   * Function to read and return the data of the selected/dropped file.
+   * Function to reads and returns the data of the selected/dropped file, displays error message otherwise.
    * @private
    * @param {File} file uploaded PDF file
    */

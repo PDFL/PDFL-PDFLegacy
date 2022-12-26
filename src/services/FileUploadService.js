@@ -3,8 +3,8 @@ import {
   PDFLEvents,
 } from "../services/EventHandlerService.js";
 /**
- * Function to publishes the showReaderView event, reads a file and then publishes readNewFile event
- * @param {file} file PDF document
+ * Reset reader, reads file and then publishes readNewFileEvent. After, publishes the showReaderView event
+ * @param {File} file PDF document
  */
 export function readFile(file) {
   EventHandlerService.publish(PDFLEvents.onResetReader);

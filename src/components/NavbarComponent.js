@@ -1,8 +1,4 @@
 import { POPUP_DISAPPEAR_TIMEOUT } from "../Constants";
-import {
-  EventHandlerService,
-  PDFLEvents,
-} from "../services/EventHandlerService";
 import { readFile } from "../services/FileUploadService";
 
 /**
@@ -31,7 +27,7 @@ class NavbarComponent {
   }
 
   /**
-   * Adds event listeners to new pdf button from the pdf reader component
+   * Adds event listeners to new pdf button
    * @private
    */
   #registerEvents = () => {
@@ -39,30 +35,32 @@ class NavbarComponent {
   };
 
   /**
-   * Creates event triggered when user click on the upload button from the pdf reader component
+   * Call back for checking file format and read it. If the file is not a pdf an error message is displayed
    * @private
    */
   #onNewFile = (event) => {
     if (event.target.files[0].type === "application/pdf") {
-      this.showLoader();
-      this.hideErrorMessage();
+      this.#showLoader();
+      this.#hideErrorMessage();
       readFile(event.target.files[0]);
     } else {
-      this.showErrorMessage();
+      this.#showErrorMessage();
     }
   };
 
   /**
-   * Callback for making the error message for the wrong file uploaded not visible.
+   * Hide error message
+   * @private
    */
-  hideErrorMessage = () => {
+  #hideErrorMessage = () => {
     this.components.errorMessage.classList.add("hidden");
   };
 
   /**
-   * Callback for making the error message for the wrong file uploaded visible.
+   * Show error message
+   * @private
    */
-  showErrorMessage = () => {
+  #showErrorMessage = () => {
     clearTimeout(messageErrorTimeOut);
     this.components.errorMessage.classList.remove("hidden");
     var messageErrorTimeOut = setTimeout(() => {
@@ -71,9 +69,10 @@ class NavbarComponent {
   };
 
   /**
-   * Callback for making the loader visible.
+   * Show loader
+   * @private
    */
-  showLoader = () => {
+  #showLoader = () => {
     this.components.loader.classList.remove("hidden");
   };
 }
