@@ -3,6 +3,7 @@ import {
   EventHandlerService,
   PDFLEvents,
 } from "../services/EventHandlerService";
+import { readFile } from "../services/FileUploadService";
 
 /**
  * Component that takes in the PDF file that user uploads and processes it.
@@ -30,23 +31,11 @@ class NavbarComponent {
   }
 
   /**
-   * Adds event listeners to ioeb a new pdf button from the pdf reader component and the shortcuts
+   * Adds event listeners to new pdf button from the pdf reader component
    * @private
    */
   #registerEvents = () => {
     this.components.openNew.addEventListener("input", this.#onNewFile);
-
-    EventHandlerService.subscribe(
-      PDFLEvents.onKeyboardKeyDown,
-      (functionalKeys, key) => {
-        if (!functionalKeys.ctrl) {
-          return;
-        }
-        if (key === "u") {
-          this.#onNewFile();
-        }
-      }
-    );
   };
 
   /**
@@ -57,24 +46,10 @@ class NavbarComponent {
     if (event.target.files[0].type === "application/pdf") {
       this.showLoader();
       this.hideErrorMessage();
-      EventHandlerService.publish(PDFLEvents.onResetReader);
-      this.#readNewPdf(event.target.files[0]);
+      readFile(event.target.files[0]);
     } else {
       this.showErrorMessage();
     }
-  };
-
-  #readNewPdf = (newPdf) => {
-    const fileReader = new FileReader();
-    fileReader.onload = function () {
-      EventHandlerService.publish(
-        PDFLEvents.onReadNewFile,
-        new Uint8Array(this.result)
-      );
-      EventHandlerService.publish(PDFLEvents.onShowReaderView);
-      document.querySelector("#loader").classList.add("hidden");
-    };
-    fileReader.readAsArrayBuffer(newPdf);
   };
 
   /**

@@ -3,7 +3,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 60px;
+    height: var(--height);
     background-color: white;
     z-index: 999;
 }
@@ -22,6 +22,7 @@
     overflow: hidden;
     cursor: pointer;
     z-index: 2;
+    padding-left: 15px;
 }
 #menu li:hover {
     transform: scale(1.25, 1.25);
@@ -52,6 +53,7 @@ li {
     padding:10px 30px 10px 30px;
     background: linear-gradient(to right, #2f4858,#27596b,#166a7a,#007c84,#008e89,#119f89);
     border-radius: 15px;
+    margin-right: 15px;
 }
 
 .navbar-btn{
@@ -88,6 +90,7 @@ input[type=checkbox]{
         left: 0;
         text-align: center;
         padding: 16px 0;
+
     }
     #menu li:hover {
         display: inline-block;
