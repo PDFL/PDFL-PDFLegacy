@@ -6,7 +6,7 @@ import { getPaperTldrAndAbstract } from "../../services/SemanticScholarService";
  * @property {HTMLElement} components.abstractText html p element that represents the text of the accordion item
  * @property {HTMLElement} components.tldrText html p element that represents the text of the accordion item
  */
-class SemScholarAbstractComponent {
+class SemScholarAbstractAndTldrComponent {
   components = {
     tldrText: document.querySelector("#tldrText"),
     abstractText: document.querySelector("#abstractText"),
@@ -52,4 +52,4 @@ class SemScholarAbstractComponent {
   };
 }
 
-export { SemScholarAbstractComponent };
+export { SemScholarAbstractAndTldrComponent };

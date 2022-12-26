@@ -1,4 +1,4 @@
-import { SemScholarAbstractComponent } from "./SummaryKeyComponents/SemScholarAbstractComponent";
+import { SemScholarAbstractAndTldrComponent } from "./SummaryKeyComponents/SemScholarAbstractAndTldrComponent";
 
 /**
  * Component responsible for displaying the sidebar for summaries/key
@@ -18,7 +18,7 @@ class SummaryKeyComponent {
    * @constructor
    */
   constructor() {
-    this.abstractComponent = new SemScholarAbstractComponent();
+    this.abstractComponent = new SemScholarAbstractAndTldrComponent();
     this.#registerEvents();
   }
 
