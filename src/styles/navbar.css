@@ -3,7 +3,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: var(--height);
+    height: 60px;
     background-color: white;
     z-index: 999;
 }
