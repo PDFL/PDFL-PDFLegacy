@@ -396,8 +396,9 @@ input[type="number"]::-webkit-outer-spin-button {
 
 #logo-loader{
   width: 50%;
-  animation: myAnim 600ms ease 0s 80 normal forwards, fadeOut 1s;
+  animation: myAnim 600ms ease 0s 80 normal forwards;
   animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
 }
 
 #loader > img {
@@ -1225,4 +1226,21 @@ input[type="number"]::-webkit-outer-spin-button {
   color: red;
 }
 
-  
+/* CSS error message from the reader */
+#message-wrong-type-fileupload-reader{
+  background-color: rgba(253, 63, 63, 0.925);
+  color: white;
+  text-align: center;
+  border-radius: 5px;
+  margin: auto;
+  margin-top: 2rem;
+  width: 30%;
+  padding: 5px;
+  font-size: 10px;
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  position: absolute;
+  bottom: 2rem;
+  left: 35%;
+  z-index: 999;
+}
+
