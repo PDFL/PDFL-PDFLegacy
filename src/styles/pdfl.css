@@ -722,12 +722,11 @@ input[type="number"]::-webkit-outer-spin-button {
     margin-top: 14%;
     display: flex;
     justify-content: center;
-    background: #143552;
   }
   /* CSS for SidePage */
   #side-page {
     transition: 0.5s;
-    background: #143552;
+    background: #143552ed;
     position: relative;
     right: 0;
     overflow-x: hidden;
