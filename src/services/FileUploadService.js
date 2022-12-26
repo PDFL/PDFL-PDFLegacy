@@ -3,7 +3,7 @@ import {
   PDFLEvents,
 } from "../services/EventHandlerService.js";
 /**
- * Function to render the page.
+ * Function to publishes the showReaderView event, reads a file and then publishes readNewFile event
  * @param {pdfDoc} file PDF document
  */
 export function readFile(file) {
