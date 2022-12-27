@@ -2,6 +2,7 @@ import {
   EventHandlerService,
   PDFLEvents,
 } from "../services/EventHandlerService";
+import { THUMBNAIL_PAGE_VIEWPORT_SCALE } from "../Constants";
 
 /**
  * Component responsible for creating and displaying PDF thumbnail.
@@ -111,7 +112,7 @@ class ThumbnailComponent {
    */
   #createPageViewport = (page) => {
     return page.getViewport({
-      scale: 0.2,
+      scale: THUMBNAIL_PAGE_VIEWPORT_SCALE,
     });
   };
 
