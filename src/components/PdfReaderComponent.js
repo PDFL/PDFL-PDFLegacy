@@ -73,9 +73,7 @@ class PdfReaderComponent {
     );
 
     new ResizeObserver(() => {
-      this.visiblePages.forEach((pageNum) => {
-        this.pages[pageNum - 1].positionTextLayer();
-      });
+      this.#recalculateTextLayerPositionForVisiblePages();
     }).observe(this.components.pdfContainer);
 
     EventHandlerService.subscribe(PDFLEvents.onRenderPage, (page) => {
@@ -178,6 +176,7 @@ class PdfReaderComponent {
       respondToVisibility(canvas, (visible) => {
         if (visible) {
           this.visiblePages.push(i + 1);
+          this.#recalculateTextLayerPositionForVisiblePages();
 
           let visiblePageNum = Math.min(...this.visiblePages);
           this.#setVisiblePage(visiblePageNum);
@@ -241,6 +240,16 @@ class PdfReaderComponent {
     setTimeout(() => {
       this.#setVisiblePage(visiblePageNum, true);
     }, 10);
+  }
+
+  /**
+   * Positions text layer for visible pages, used when the pdf container resizes
+   * or when the visible pages change.
+   */
+  #recalculateTextLayerPositionForVisiblePages() {
+    this.visiblePages.forEach((pageNum) => {
+      this.pages[pageNum - 1].positionTextLayer();
+    });
   }
 
   /**
