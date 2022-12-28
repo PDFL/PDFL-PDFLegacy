@@ -1,10 +1,12 @@
-import { SemScholarAbstractAndTldrComponent } from "./SummaryKeyComponents/SemScholarAbstractAndTldrComponent";
+import { AbstractComponent } from "./SummaryKeyComponents/AbstractComponent";
 
 /**
  * Component responsible for displaying the sidebar for summaries/key
  * @property {Object} components object that holds DOM elements that represent this component, as well as component's context
  * @property {HTMLElement} components.accordionItem accordion item
  * @property {HTMLElement} components.closeBtn button that closes sidepage
+ * @property {AbstractComponent} abstractComponent abstract component instance
+ * @property {AbstractSummaryComponent} abstractSummaryComponent abstract summary component instance
  */
 class SummaryKeyComponent {
   components = {
@@ -18,7 +20,7 @@ class SummaryKeyComponent {
    * @constructor
    */
   constructor() {
-    this.abstractComponent = new SemScholarAbstractAndTldrComponent();
+    this.tldrComponent = new AbstractComponent();
     this.#registerEvents();
   }
 

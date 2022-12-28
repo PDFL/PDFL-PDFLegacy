@@ -59,6 +59,7 @@ const PDFLEvents = {
   onKeyboardKeyPress: "onKeyboardKeyPress",
   onZoomChange: "onZoomChange",
   onShowSummaryKey: "onShowSummaryKey",
+  onAbstractReady: "onAbstractReady",
 };
 
 export { PDFLEvents, EventHandlerService };
