@@ -1,4 +1,4 @@
-name: CD for PDFL chrome extension
+name: "CD for PDFL chrome extension"
 
 on:
   push:
@@ -10,7 +10,6 @@ jobs:
   build-and-deploy-extension:
     name: Build and Deploy the PDFL extension
     runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
       - name: Checkout 🛎️
         uses: actions/checkout@v2.3.1
