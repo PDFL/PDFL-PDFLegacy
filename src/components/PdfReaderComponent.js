@@ -99,26 +99,6 @@ class PdfReaderComponent {
       this.components.pdfContainer.innerHTML = "";
       this.loadPdf(pdf);
     });
-
-    EventHandlerService.subscribe(
-      PDFLEvents.onKeyboardKeyDown,
-      (functionalKeys, key) => {
-        if (!functionalKeys.ctrl) {
-          return;
-        }
-        if (key === "u") {
-          this.#onNewFile();
-        }
-      }
-    );
-  };
-
-  /**
-   * Cretes event triggered when application view changed from reader view to input view.
-   * @private
-   */
-  #onNewFile = () => {
-    EventHandlerService.publish(PDFLEvents.onShowInputView);
   };
 
   /**

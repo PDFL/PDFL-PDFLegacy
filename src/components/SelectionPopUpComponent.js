@@ -5,6 +5,11 @@ import {
 } from "../services/EventHandlerService";
 import { POPUP_DISAPPEAR_TIMEOUT } from "../Constants";
 
+/**
+ * Class to display a popup when a text is selected
+ * @property {HTMLElement} components.popupSelectedText
+ * @property {HTMLElement} components.summarySelectedTextBtn
+ */
 class SelectionPopUpComponent {
   components = {
     popupSelectedText: document.querySelector("#pop-up-selection"),
@@ -45,9 +50,7 @@ class SelectionPopUpComponent {
   };
 
   /**
-   * Selection handling function
-   * Get selected text
-   * If a text exists diplasy the popup to generate summary
+   * Selection handling function to get the selected text if exists and display the popup
    * @param position last mouse action position
    */
   #handleSelection = (position) => {

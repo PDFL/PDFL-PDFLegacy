@@ -36,7 +36,6 @@ class SidePageComponent {
   constructor() {
     this.knowledgeGraphComponent = new KnowledgeGraphComponent();
     this.summaryKeyComponent = new SummaryKeyComponent();
-    this.selectionPopUpComponent = new SelectionPopUpComponent();
     this.loader = new SidePageLoaderComponent();
     this.currentOpenElement = SideElement.None;
     this.#registerEvents();
