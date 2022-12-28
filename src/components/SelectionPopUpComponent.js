@@ -7,8 +7,8 @@ import { POPUP_DISAPPEAR_TIMEOUT } from "../Constants";
 
 /**
  * Class to display a popup when a text is selected
- * @property {HTMLElement} components.popupSelectedText
- * @property {HTMLElement} components.summarySelectedTextBtn
+ * @property {HTMLElement} components.popupSelectedText container for the popup
+ * @property {HTMLElement} components.summarySelectedTextBtn button to open the summary of the selected text
  */
 class SelectionPopUpComponent {
   components = {
@@ -57,6 +57,7 @@ class SelectionPopUpComponent {
     let component = this.components;
     const selectedText = getCurrentDOMSelection().trim();
     if (selectedText !== "") {
+      clearTimeout(hidePopupTimeout);
       component.popupSelectedText.classList.remove("hidden");
       component.popupSelectedText.style.top = position.y + "px";
       component.popupSelectedText.style.left = position.x + 20 + "px";
@@ -72,8 +73,12 @@ class SelectionPopUpComponent {
     }, POPUP_DISAPPEAR_TIMEOUT);
     component.popupSelectedText.addEventListener("mouseenter", (event) => {
       event.preventDefault();
-      this.components.popupSelectedText.classList.remove("hidden");
+      component.popupSelectedText.classList.remove("hidden");
       clearTimeout(hidePopupTimeout);
+    });
+    component.popupSelectedText.addEventListener("mouseleave", (event) => {
+      event.preventDefault();
+      component.popupSelectedText.classList.add("hidden");
     });
     document
       .querySelector("#pdf-container")
