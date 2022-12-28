@@ -1227,6 +1227,31 @@ input[type="number"]::-webkit-outer-spin-button {
   color: red;
 }
 
+#pop-up-selection{
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  background-color: inherit;
+  border-radius: 100%;
+  border-color: var(--iconColor);
+}
+
+#summary-selection{
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 100%;
+  background-color: var(--iconColor);
+  border-color: var(--iconColor);
+  padding: 2px;
+  color: white;
+  margin-top: 1px;
+}
+
 /* CSS error message from the reader */
 #message-wrong-type-fileupload-reader{
   background-color: rgba(253, 63, 63, 0.925);

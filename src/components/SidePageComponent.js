@@ -5,6 +5,7 @@ import {
 import { KnowledgeGraphComponent } from "./KnowledgeGraphComponent";
 import { SummaryKeyComponent } from "./SummaryKeyComponents/SummaryKeyComponent";
 import { SidePageLoaderComponent } from "./SidePageLoaderComponent";
+import { SelectionPopUpComponent } from "./SelectionPopUpComponent";
 
 /**
  * Component representing side window that can be closed. It is a placeholder
@@ -35,6 +36,7 @@ class SidePageComponent {
   constructor() {
     this.knowledgeGraphComponent = new KnowledgeGraphComponent();
     this.summaryKeyComponent = new SummaryKeyComponent();
+    this.selectionPopUpComponent = new SelectionPopUpComponent();
     this.loader = new SidePageLoaderComponent();
     this.currentOpenElement = SideElement.None;
     this.#registerEvents();
@@ -167,7 +169,6 @@ class SidePageComponent {
    */
   setPDF = (data) => {
     this.knowledgeGraphComponent.setPDF(data);
-    this.summaryKeyComponent.setPdf(data);
   };
 }
 

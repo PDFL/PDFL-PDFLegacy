@@ -12,6 +12,8 @@ import * as textRenderService from "../services/TextRenderService";
 import { PdfPageComponent } from "./PdfPageComponent";
 import { respondToVisibility } from "../services/Utils";
 import { EXTRA_PAGES_TO_RENDER } from "../Constants";
+import { SummaryKeyComponent } from "./SummaryKeyComponent";
+import { SelectionPopUpComponent } from "./SelectionPopUpComponent";
 
 const pdfjsLib = require("pdfjs-dist");
 
@@ -32,6 +34,7 @@ const pdfjsLib = require("pdfjs-dist");
  * @property {PdfPageComponent[]} pages array of the pages objects
  * @property {int[]} visiblePages array of the visible pages by page number
  * @property {int} visiblePage currently visible page
+ * @property {SelectionPopUpComponent} selectionPopUp popup related to selection functionality
  */
 class PdfReaderComponent {
   components = {
@@ -55,6 +58,7 @@ class PdfReaderComponent {
     this.pages = [];
     this.visiblePages = [];
     this.visiblePage = null;
+    this.selectionPopUp = new SelectionPopUpComponent();
     this.#registerEvents();
   }
 
@@ -96,6 +100,26 @@ class PdfReaderComponent {
       this.components.pdfContainer.innerHTML = "";
       this.loadPdf(pdf);
     });
+
+    EventHandlerService.subscribe(
+      PDFLEvents.onKeyboardKeyDown,
+      (functionalKeys, key) => {
+        if (!functionalKeys.ctrl) {
+          return;
+        }
+        if (key === "u") {
+          this.#onNewFile();
+        }
+      }
+    );
+  };
+
+  /**
+   * Cretes event triggered when application view changed from reader view to input view.
+   * @private
+   */
+  #onNewFile = () => {
+    EventHandlerService.publish(PDFLEvents.onShowInputView);
   };
 
   /**
