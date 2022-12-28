@@ -109,7 +109,6 @@ class SidePageComponent {
       this.hideSidePage();
     }
     this.#showSidePageSummary();
-    this.summaryKeyComponent.createPageSummary();
     this.currentOpenElement = SideElement.SummaryKey;
   };
 
