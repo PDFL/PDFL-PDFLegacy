@@ -24,6 +24,140 @@ body{
   font-size:15px;
 }
 
+.column{
+  width: 33.3%;
+}
+
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  width: 100%;
+  border-radius: 5px;
+  font-size: 15px;
+  height: 100%;
+  text-align: center;
+  color: rgb(0, 0, 0);
+}
+
+.icon-welcome-page {
+  margin-top: 40px;
+  width: 50px;
+  height: auto;
+}
+
+.text-card-welcome-page{
+  text-align: center;
+  color: rgb(0, 0, 0);
+}
+
+.container {
+  padding: 1px 8px;
+  text-align: center;
+}
+
+.carousel {
+  margin: 0 auto;
+  overflow: hidden;
+  text-align: center;
+}
+
+.slides {
+  margin-top: 80px;
+  width: 100%;
+  display: flex;
+  overflow-x: scroll;
+  scrollbar-width: none;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+}
+
+.slides::-webkit-scrollbar {
+  display: none;
+}
+
+.slides-item {
+  align-items: center;
+  border-radius: 10px;
+  display: flex;
+  flex-shrink: 0;
+  font-size: 100px;
+  height: 300px;
+  justify-content: center;
+  margin: 0 1rem;
+  position: relative;
+  scroll-snap-align: start;
+  transform: scale(1);
+  transform-origin: center center;
+  transition: transform .5s;
+  width: 100%;
+}
+
+.carousel__nav {
+  padding: 1.25rem .5rem;
+}
+
+.slider-nav {
+  align-items: center;
+  background-color: #ddd;
+  border-radius: 50%;
+  color: #000;
+  display: inline-flex;
+  height: 1rem;
+  justify-content: center;
+  padding: .5rem;
+  position: relative;
+  text-decoration: none;
+  width: 1rem;
+}
+
+.slider-nav:hover,
+.slider-nav:active {
+  background-color: var(--color);
+  color: #fff;
+}
+
+.slide-1 {
+  background-color: var(--color);
+  background-color: white;
+}
+
+.slide-2 {
+  background-color: #7a7ad4;
+  background-color: white;
+}
+
+.slide-3 {
+  background-color: #568bff;
+  background-color: white;
+}
+
+.slide-4 {
+  background-color: #ff9856;
+  background-color: white;
+}
+
+.carousel__skip-link {
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  top: auto;
+  width: 1px;
+}
+
+.carousel__skip-link:focus {
+  align-items: center;
+  background-color: #000;
+  color: #fff;
+  display: flex;
+  font-size: 30px;
+  height: 680px;
+  justify-content: center;
+  opacity: .8;
+  text-decoration: none;
+  width: 100%;
+  z-index: 1;
+}
+
 #message-wrong-type-fileupload{
   background-color: rgba(253, 63, 63, 0.925);
   color: white;
