@@ -1,3 +1,5 @@
+import { AbstractComponent } from "./SummaryKeyComponents/AbstractComponent";
+
 /**
  * Component responsible for displaying the sidebar for summaries/key
  * @property {Object} components object that holds DOM elements that represent this component, as well as component's context
@@ -16,6 +18,7 @@ class SummaryKeyComponent {
    * @constructor
    */
   constructor() {
+    this.tldrComponent = new AbstractComponent();
     this.#registerEvents();
   }
 
@@ -41,6 +44,10 @@ class SummaryKeyComponent {
    * Callback for making the summary key
    */
   createPageSummary = () => {};
+
+  setPdf = (pdfDoc) => {
+    this.tldrComponent.setPdf(pdfDoc);
+  };
 }
 
 export { SummaryKeyComponent };
