@@ -60,6 +60,11 @@ class SummaryKeyComponent {
     );
   };
 
+  /**
+   * Setter for pdf document from caller,
+   * start actions when pdf is ready
+   * @param pdfDoc
+   */
   setPdf = (pdfDoc) => {
     this.tldrItem.setLoading();
     this.abstractItem.setLoading();
@@ -68,6 +73,12 @@ class SummaryKeyComponent {
     this.#getSemScholarContent(pdfDoc);
   };
 
+  /**
+   * @private
+   * Load data SummaryKey data from semantic scholar and when thery are ready set data to items
+   * @param pdfDoc
+   * @returns {Promise<void>}
+   */
   #getSemScholarContent = async (pdfDoc) => {
     const contents = await getPaperTldrAndAbstract(pdfDoc);
     if (!contents) {
@@ -90,6 +101,10 @@ class SummaryKeyComponent {
     }
   };
 
+  /**
+   * Callback for the selection summary event which set the selected text to the item
+   * @param text
+   */
   #selectionSummarizerCallback = (text) => {
     this.selectionSummaryItem.setText(text);
   };
