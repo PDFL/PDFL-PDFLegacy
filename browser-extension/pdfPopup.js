@@ -32,6 +32,6 @@ function generateOpenWithPDFLButton() {
 
 let url = location.href;
 // if pdf is open inject the DOM with popup window
-if (url.includes(".pdf") && !url.includes("pdfl")) {
+if (url.endsWith(".pdf") && !url.includes("pdfl")) {
   generateOpenWithPDFLButton();
 }
