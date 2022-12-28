@@ -93,23 +93,26 @@ async function fetchReferences(paperID) {
 }
 
 /**
- * Fetch the TLDR for a paper given the ID
+ * Fetch the TLDR and the Abstract for a paper given the ID
  * @param paperID papaer id
- * @returns {Promise<Object>} the TLDR Object
+ * @returns {Promise<Object>} the object containing tldr and abstract
  */
-async function fetchPaperAbstract(paperID) {
+async function fetchPaperTldrAndAbstract(paperID) {
   let queryParams = new URLSearchParams({
-    fields: "abstract",
+    fields: "tldr,abstract",
   });
-  let data = (
-    await (
-      await fetch(
-        PAPER_API.replace("{paper_id}", paperID) + queryParams,
-        FETCH_OPTIONS
-      )
-    ).json()
-  ).abstract;
+  let data = await (
+    await fetch(
+      PAPER_API.replace("{paper_id}", paperID) + queryParams,
+      FETCH_OPTIONS
+    )
+  ).json();
   return data;
 }
 
-export { fetchPaperInfo, fetchCitations, fetchReferences, fetchPaperAbstract };
+export {
+  fetchPaperInfo,
+  fetchCitations,
+  fetchReferences,
+  fetchPaperTldrAndAbstract,
+};

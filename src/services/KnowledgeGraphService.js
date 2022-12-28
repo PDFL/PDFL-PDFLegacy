@@ -1,12 +1,13 @@
 import { FIELD_OF_STUDY_COLOR } from "../Constants";
-import { fetchCitations, fetchPaperInfo, fetchReferences } from "./Api";
-import { compareSimilarity, mergeColors, timeout } from "./Utils";
+import { fetchCitations, fetchReferences } from "./Api";
+import { mergeColors } from "./Utils";
 import {
   setGraphData,
   hasGraphData,
   getGraphData,
   addGraphData,
 } from "./KnowledgeGraphCachingService";
+import { getPaperInfo } from "./SemanticScholarService";
 
 /**
  * @typedef {Object} PaperInfo
@@ -31,24 +32,10 @@ import {
  * @returns {GraphData} linked papers of 'pdfDoc'
  */
 async function getLinkedPapers(pdfDoc) {
-  let metadata = await pdfDoc.getMetadata();
-
-  // TODO: check if some useful ID is in the metadata
-
-  let title = metadata.info.Title;
-  if (!title) {
-    console.warn("Title not in metadata!");
-    // TODO: parse references from pdf text
+  let currentPaperInfo = await getPaperInfo(pdfDoc);
+  if (!currentPaperInfo) {
     return [];
   }
-
-  let currentPaperInfo = await fetchPaperInfo(title);
-  if (!currentPaperInfo || !compareSimilarity(currentPaperInfo.title, title)) {
-    console.warn("Titles do not match!");
-    // TODO: parse references from pdf text
-    return [];
-  }
-
   return getCreatedGraphData(currentPaperInfo);
 }
 
@@ -87,12 +74,7 @@ async function getLinkedNodesByPaper(paperInfo) {
   if (!citations) return;
   if (!references) return;
 
-
-  return getGraphStructure(
-    paperInfo,
-    references,
-    citations
-  );
+  return getGraphStructure(paperInfo, references, citations);
 }
 
 /**
@@ -160,11 +142,23 @@ function getGraphStructure(paperInfo, references, citations) {
   let nodes = new Array();
   let links = new Array();
   let paperId = paperInfo.paperId;
-  nodes.push({ id: paperId, label: paperInfo.title, field: paperInfo.fieldsOfStudy, author: paperInfo.authors, fieldsOfStudy: paperInfo.fieldsOfStudy,});
+  nodes.push({
+    id: paperId,
+    label: paperInfo.title,
+    field: paperInfo.fieldsOfStudy,
+    author: paperInfo.authors,
+    fieldsOfStudy: paperInfo.fieldsOfStudy,
+  });
 
   for (let reference of references) {
     if (reference.paperId && reference.paperId != "") {
-      nodes.push({ id: reference.paperId, label: reference.title, field: reference.fieldsOfStudy, author: reference.authors, fieldsOfStudy: reference.fieldsOfStudy, });
+      nodes.push({
+        id: reference.paperId,
+        label: reference.title,
+        field: reference.fieldsOfStudy,
+        author: reference.authors,
+        fieldsOfStudy: reference.fieldsOfStudy,
+      });
       links.push({
         id: reference.paperId + paperInfo.paperId,
         source: paperInfo.paperId,
@@ -175,7 +169,13 @@ function getGraphStructure(paperInfo, references, citations) {
 
   for (let citation of citations) {
     if (citation.paperId && citation.paperId != "") {
-      nodes.push({ id: citation.paperId, label: citation.title, field: citation.fieldsOfStudy, author: citation.authors, fieldsOfStudy: citation.fieldsOfStudy,  });
+      nodes.push({
+        id: citation.paperId,
+        label: citation.title,
+        field: citation.fieldsOfStudy,
+        author: citation.authors,
+        fieldsOfStudy: citation.fieldsOfStudy,
+      });
       links.push({
         id: citation.paperId + paperInfo.paperId,
         source: citation.paperId,
@@ -211,7 +211,7 @@ async function buildGraphProcedure(graph, selectedDepth) {
 
 /**
  * Builds a graph of depth one from data in cache.
- * 
+ *
  * @param {ForceGraph} graph graph being displayed
  * @param {string} paperId id of paper being read
  */
@@ -221,7 +221,7 @@ function buildFirstDepth(graph, paperId) {
 
 /**
  * Builds a graph of depth two from data in cache.
- * 
+ *
  * @param {ForceGraph} graph graph being displayed
  * @param {string} paperId id of paper being read
  */
@@ -242,7 +242,7 @@ function buildSecondDepth(graph, paperId) {
  */
 async function buildGraphDepth(graph, paperId, depth) {
   let currentGraphData = graph.graphData();
-  
+
   let nodeIdsInGraph = currentGraphData.nodes.map(({ id }) => id);
   for (let node of currentGraphData.nodes.slice(0, 10)) {
     if (node.id == paperId) continue;
@@ -313,9 +313,9 @@ function fieldsOfStudyToColor(fieldsOfStudy) {
   );
 
   return mergeColors(colors);
-};
+}
 
- /* Takes a node that belongs to a ForceGraph, gets it's linked
+/* Takes a node that belongs to a ForceGraph, gets it's linked
  * papers and adds them to the graph.
  *
  * @async

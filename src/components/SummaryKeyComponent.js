@@ -1,4 +1,4 @@
-import { AbstractComponent } from "./SummaryKeyComponents/AbstractComponent";
+import { SemScholarAbstractAndTldrComponent } from "./SummaryKeyComponents/SemScholarAbstractAndTldrComponent";
 
 /**
  * Component responsible for displaying the sidebar for summaries/key
@@ -18,7 +18,7 @@ class SummaryKeyComponent {
    * @constructor
    */
   constructor() {
-    this.tldrComponent = new AbstractComponent();
+    this.abstractComponent = new SemScholarAbstractAndTldrComponent();
     this.#registerEvents();
   }
 
@@ -46,7 +46,7 @@ class SummaryKeyComponent {
   createPageSummary = () => {};
 
   setPdf = (pdfDoc) => {
-    this.tldrComponent.setPdf(pdfDoc);
+    this.abstractComponent.setPdf(pdfDoc);
   };
 }
 
