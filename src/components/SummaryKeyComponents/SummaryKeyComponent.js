@@ -3,6 +3,10 @@ import { TLDRAccordionItem } from "./TLDRAccordionItem";
 import { AbstractAccordionItem } from "./AbstractAccordionItem";
 import { AbstractSummaryAccordionItem } from "./AbstractSummaryAccordionItem";
 import { SelectionSummaryAccordionItem } from "./SelectionSummaryAccordionItem";
+import {
+  EventHandlerService,
+  PDFLEvents,
+} from "../../services/EventHandlerService";
 
 /**
  * Component responsible for displaying the sidebar for summaries/key
@@ -49,6 +53,11 @@ class SummaryKeyComponent {
         }
       });
     });
+
+    EventHandlerService.subscribe(
+      PDFLEvents.onTextSelectionReady,
+      this.#selectionSummarizerCallback.bind(this)
+    );
   };
 
   setPdf = (pdfDoc) => {
@@ -79,6 +88,10 @@ class SummaryKeyComponent {
     } else {
       this.tldrItem.setError();
     }
+  };
+
+  #selectionSummarizerCallback = (text) => {
+    this.selectionSummaryItem.setText(text);
   };
 }
 

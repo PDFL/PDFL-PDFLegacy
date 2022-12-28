@@ -1,4 +1,3 @@
-import { MOUSE_MIN_SELECTION_TIME } from "../Constants";
 import { getCurrentDOMSelection } from "../services/Utils";
 import {
   EventHandlerService,
@@ -18,7 +17,6 @@ class SelectionPopUpComponent {
    */
   constructor() {
     this.#registerEvents();
-    this.mouseDownTime = null;
   }
 
   /**
@@ -26,7 +24,6 @@ class SelectionPopUpComponent {
    * Register mouseup and mousedown event to manage selection
    */
   #registerEvents = () => {
-    document.addEventListener("mousedown", this.#onMouseDown.bind(this));
     document.addEventListener("mouseup", this.#onMouseUp.bind(this));
 
     this.components.summarySelectedTextBtn.addEventListener(
@@ -36,26 +33,15 @@ class SelectionPopUpComponent {
   };
 
   /**
-   * On mouse down callback, set action time
-   * @param event
-   */
-  #onMouseDown = (event) => {
-    this.mouseDownTime = new Date().getTime();
-  };
-
-  /**
    * On mouse up callback check if action duration is bigger then threshold
    * to distinguish a click action from a selection one
    * @param event
    */
   #onMouseUp = (event) => {
-    var mouseUpTime = new Date().getTime();
-    if (mouseUpTime - this.mouseDownTime > MOUSE_MIN_SELECTION_TIME) {
-      this.#handleSelection({
-        x: event.clientX,
-        y: event.clientY,
-      });
-    }
+    this.#handleSelection({
+      x: event.clientX + window.scrollX,
+      y: event.clientY + window.scrollY,
+    });
   };
 
   /**
@@ -79,7 +65,7 @@ class SelectionPopUpComponent {
 
     /* Hide the popup events */
     const hidePopupTimeout = setTimeout(() => {
-      this.hidePopup();
+      this.#hidePopup();
     }, POPUP_DISAPPEAR_TIMEOUT);
     component.popupSelectedText.addEventListener("mouseenter", (event) => {
       event.preventDefault();
@@ -90,7 +76,7 @@ class SelectionPopUpComponent {
       .querySelector("#pdf-container")
       .addEventListener("mouseleave", (event) => {
         event.preventDefault();
-        this.hidePopup();
+        this.#hidePopup();
       });
   };
 
@@ -107,7 +93,7 @@ class SelectionPopUpComponent {
    * Handler to hides the popup
    * @private
    */
-  hidePopup = () => {
+  #hidePopup = () => {
     this.components.popupSelectedText.classList.add("hidden");
   };
 }

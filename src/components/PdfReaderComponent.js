@@ -12,7 +12,6 @@ import * as textRenderService from "../services/TextRenderService";
 import { PdfPageComponent } from "./PdfPageComponent";
 import { respondToVisibility } from "../services/Utils";
 import { EXTRA_PAGES_TO_RENDER } from "../Constants";
-import { SummaryKeyComponent } from "./SummaryKeyComponent";
 import { SelectionPopUpComponent } from "./SelectionPopUpComponent";
 
 const pdfjsLib = require("pdfjs-dist");

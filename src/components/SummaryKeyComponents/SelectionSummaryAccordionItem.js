@@ -1,4 +1,5 @@
 import { LOADING_TEXT, SELECTION_INSTRUCTION_TEXT } from "../../Constants";
+import { textSummarizer } from "../../services/SummarizerService";
 
 /**
  * Class representing the Selection Summary Accordion Item in DOM
@@ -10,11 +11,11 @@ class SelectionSummaryAccordionItem {
   };
 
   /**
-   * Set the text of the accordion item
+   * Set the text of the accordion item to be summarized
    * @param text text to be set
    */
   setText = (text) => {
-    this.components.selectionSummaryText.innerText = text;
+    this.components.selectionSummaryText.innerText = textSummarizer(text, 6);
   };
 
   /**

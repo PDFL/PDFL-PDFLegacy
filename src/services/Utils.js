@@ -90,13 +90,6 @@ function respondToVisibility(element, callback) {
   observer.observe(element);
 }
 
-export {
-  compareSimilarity,
-  timeout,
-  mouseOverDelayEvent,
-  mergeColors,
-  respondToVisibility,
-};
 function getCurrentDOMSelection() {
   var text = "";
   if (typeof window.getSelection != "undefined") {
@@ -115,5 +108,6 @@ export {
   timeout,
   mouseOverDelayEvent,
   mergeColors,
+  respondToVisibility,
   getCurrentDOMSelection,
 };
