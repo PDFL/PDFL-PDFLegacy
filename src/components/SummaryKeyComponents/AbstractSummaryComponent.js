@@ -11,7 +11,7 @@ import { textSummarizer } from "../../services/SummarizerService";
  */
 class AbstractSummaryComponent {
   components = {
-    abstractSummaryText: document.querySelector("#abstractSummaryText"),
+    abstractSummaryText: document.querySelector("#abstract-summary-text"),
   };
 
   /**

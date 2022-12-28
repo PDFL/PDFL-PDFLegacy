@@ -1,4 +1,8 @@
 import { getPaperTldrAndAbstract } from "../../services/SemanticScholarService";
+import {
+  EventHandlerService,
+  PDFLEvents,
+} from "../../services/EventHandlerService";
 
 /**
  * Class representing the Abstract and the TLDR Accordion items
@@ -8,8 +12,8 @@ import { getPaperTldrAndAbstract } from "../../services/SemanticScholarService";
  */
 class SemScholarAbstractAndTldrComponent {
   components = {
-    tldrText: document.querySelector("#tldrText"),
-    abstractText: document.querySelector("#abstractText"),
+    tldrText: document.querySelector("#tldr-text"),
+    abstractText: document.querySelector("#abstract-text"),
   };
 
   /**
@@ -38,6 +42,10 @@ class SemScholarAbstractAndTldrComponent {
       }
       if (abstracts.abstract) {
         self.components.abstractText.innerText = abstracts.abstract;
+        EventHandlerService.publish(
+          PDFLEvents.onAbstractReady,
+          abstracts.abstract
+        );
       } else {
         self.components.abstractText.innerText =
           "Abstract not available for this paper";

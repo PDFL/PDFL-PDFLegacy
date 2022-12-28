@@ -3,7 +3,7 @@ import {
   PDFLEvents,
 } from "../services/EventHandlerService";
 import { KnowledgeGraphComponent } from "./KnowledgeGraphComponent";
-import { SummaryKeyComponent } from "./SummaryKeyComponent";
+import { SummaryKeyComponent } from "./SummaryKeyComponents/SummaryKeyComponent";
 import { SidePageLoaderComponent } from "./SidePageLoaderComponent";
 
 /**
