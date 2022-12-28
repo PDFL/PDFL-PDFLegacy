@@ -11,20 +11,3 @@ body {
   margin: auto;
 }
 
-#injected-popup {
-  background-color: green;
-  z-index: 100;
-  position: absolute;
-  top: 50px;
-  left: 50px;
-  padding: 5px;
-}
-
-#injected-button {
-  height: 50px;
-}
-
-
-#injected-button-no {
-  height: 50px;
-}
