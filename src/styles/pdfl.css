@@ -15,8 +15,12 @@ body{
     margin: 0;
 }
 
+#black-logo-welcome-page{
+  width: 8%;
+}
+
 #second-text{
-  margin-top: -55px;
+  margin-top: -45px;
 }
 
 .third-text{
@@ -61,7 +65,7 @@ body{
 }
 
 .slides {
-  margin-top: 80px;
+  margin-top: 100px;
   width: 100%;
   display: flex;
   overflow-x: scroll;
@@ -72,6 +76,36 @@ body{
 
 .slides::-webkit-scrollbar {
   display: none;
+}
+
+@keyframes slides{
+  0%{
+      transform: translateX(0);
+  }
+  20%{
+      transform: translateX(0);
+  }
+  25%{
+      transform: translateX(-107%);
+  }
+  40%{
+      transform: translateX(-107%);
+  }
+  45%{
+      transform: translateX(-212%);
+  }
+  70%{
+    transform: translateX(-212%);
+  }
+  75%{
+    transform: translateX(-315%);
+  }
+  95%{
+    transform: translateX(-315%);
+  }
+  100%{
+    transform: translateX(0);
+  }
 }
 
 .slides-item {
@@ -89,6 +123,9 @@ body{
   transform-origin: center center;
   transition: transform .5s;
   width: 100%;
+  animation: slides 30s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
 }
 
 .carousel__nav {
