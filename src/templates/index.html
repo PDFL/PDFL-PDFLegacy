@@ -25,7 +25,6 @@
         <div id="uploader-container">
             <div id="layout">
                 <div id="text">
-                    <img src="assets/logo.png" id="black-logo-welcome-page" />
                     <h1 class="font-header">PDF <br>
                         <h1 class="font-header" id="second-text">Legacy </h1>
                     </h1>
@@ -52,9 +51,13 @@
                     </div>
                 </div>
                 <div class="column">
-                    <section class="carousel" aria-label="carousel" Tabindex="0">
-                        <div class="slides">
-                            <div class="slides-item slide-1" id="slide-1" aria-label="slide 1 of 5" tabindex="0">
+                    <div id="carousel">
+                        <s id="s1"></s>
+                        <s id="s2"></s>
+                        <s id="s3"></s>
+                        <s id="s4"></s>
+                        <div class="slider">
+                            <div>
                                 <div class="card">
                                     <img src="assets/searchs.png" class="icon-welcome-page" />
                                     <div class="container">
@@ -68,7 +71,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="slides-item slide-2" id="slide-2" aria-label="slide 2 of 5" tabindex="0">
+                            <div>
                                 <div class="card">
                                     <img src="assets/summary.png" class="icon-welcome-page" />
                                     <div class="container">
@@ -79,22 +82,21 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="slides-item slide-3" id="slide-3" aria-label="slide 3 of 5" tabindex="0">
+                            <div>
                                 <div class="card">
-                                    <img src="assets/graph.png" class="icon-welcome-page" />
+                                    <img src="assets/searchs.png" class="icon-welcome-page" />
                                     <div class="container">
-                                        <h4><b>Make your knowledge graph</b></h4>
-                                        <p class="text-card-welcome-page">Discover the knowledge graph that showing the
-                                            citation
-                                            relations of all the papers in
-                                            the references section of your current paper. This can help to understand
-                                            the relations
-                                            between each work better.
-                                        </p>
+                                        <h4><b>Explore your paper and Cross-References</b></h4>
+                                        <p class="text-card-welcome-page">Read your paper with an extra gear. Hover the
+                                            references
+                                            and extract data from them. You
+                                            can also have two pages open, so you can view the contents of the reference
+                                            at the same
+                                            time</p>
                                     </div>
                                 </div>
                             </div>
-                            <div class="slides-item slide-4" id="slide-4" aria-label="slide 4 of 5" tabindex="0">
+                            <div>
                                 <div class="card">
                                     <img src="assets/highligh.png" class="icon-welcome-page" />
                                     <div class="container">
@@ -110,9 +112,19 @@
                                 </div>
                             </div>
                         </div>
-                    </section>
+
+                        <div class="bullets">
+                            <a href="#s1"></a>
+                            <a href="#s2"></a>
+                            <a href="#s3"></a>
+                            <a href="#s4"></a>
+                        </div>
+                    </div>
                 </div>
             </div>
+        </div>
+        <div id="logo">
+            <img src="assets/logo.png" class="black-logo" />
         </div>
     </div>
     <!--INPUT PAGE-->
