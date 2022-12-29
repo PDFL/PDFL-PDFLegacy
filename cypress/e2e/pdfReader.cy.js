@@ -10,6 +10,5 @@ describe("PDF Legacy pdf reader basic tests", () => {
   it("Pdf reader UI", () => {
     cy.title().should("eq", "PDFL - PDF Legacy");
 
-    cy.get("#sidenav").children().should("have.length", 5);
   });
 });

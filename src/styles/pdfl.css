@@ -318,52 +318,6 @@ input[type="number"]::-webkit-outer-spin-button {
   background: var(--color);;
 }*/
 
-/* CSS for SideToolBar */
-#sidenav {
-  padding: 8px 0px;
-  width: 60px;
-  position: fixed;
-  top: 67px;
-  left: 22px;
-  z-index: 1;
-}
-
-#sidenav a {
-  text-align: center;
-  padding: 8px 0px 8px 0px;
-  text-decoration: none;
-  font-size: 25px;
-  color: var(--iconColor);
-  display: block;
-}
-
-#sidenav a:hover {
-  color: #ffcd00;
-}
-
-.sidetoolbar {
-  width: 60px;
-  background-color: #ffffff;
-  border: solid #ffffff;
-  border-radius: 15px;
-  margin-bottom: 20px;
-  cursor: pointer;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.15);
-  transition: box-shadow 0.3s ease-in-out;
-}
-
-/* Transition to a bigger shadow on hover */
-.sidetoolbar:hover {
-  border-radius: 15px;
-  -webkit-transform: scale(1.15, 1.15);
-  transform: scale(1.15, 1.15);
-}
-
-/* Fade in the pseudo-element with the bigger shadow */
-.sidetoolbar:hover::after {
-  opacity: 1;
-  border-radius: 15px;
-}
 
 /* CSS for Loader */
 #loader{
