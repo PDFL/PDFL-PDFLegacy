@@ -29,7 +29,6 @@ body{
 }
 
 .card {
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   transition: 0.3s;
   width: 100%;
   border-radius: 5px;
@@ -109,30 +108,23 @@ body{
   text-decoration: none;
   width: 1rem;
 }
-
-.slider-nav:hover,
-.slider-nav:active {
+.slider-nav:hover{
   background-color: var(--color);
-  color: #fff;
 }
 
 .slide-1 {
-  background-color: var(--color);
   background-color: white;
 }
 
 .slide-2 {
-  background-color: #7a7ad4;
   background-color: white;
 }
 
 .slide-3 {
-  background-color: #568bff;
   background-color: white;
 }
 
 .slide-4 {
-  background-color: #ff9856;
   background-color: white;
 }
 
