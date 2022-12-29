@@ -31,7 +31,7 @@ class NavbarComponent {
    * @private
    */
   #registerEvents = () => {
-    //this.components.openNew.addEventListener("input", this.#onNewFile);
+    this.components.openNew.addEventListener("input", this.#onNewFile);
   };
 
   /**

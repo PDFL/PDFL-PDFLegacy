@@ -93,45 +93,52 @@
         <nav id="navbar">
             <div id="start">
                 <input type="checkbox" id="checkbox-toggle" />
-                <label for="checkbox-toggle" class="hamburger">&#9776;</label>
+                <label for="checkbox-toggle" class="hamburger scale-on-hover">&#9776;</label>
                 <span id="title"></span>
             </div>
             <div id="center">
-                <a>
+                <a class="scale-on-hover">
                     <i class="material-icons" id="prev-page">chevron_left</i>
                 </a>
                 <p id="num-pages">
                     <input type="number" value="1" id="current-page" /> / <span id="page-count"></span>
                 </p>
-                <a>
+                <a class="scale-on-hover">
                     <i class="material-icons" id="next-page">chevron_right</i>
                 </a>
-                <a>
+                <a class="scale-on-hover">
                     <i class="material-icons" id="zoom-in">zoom_in</i>
                 </a>
                 <input type="text" value="100%" aria-label="Zoom level" id="zoom-level">
-                <a>
+                <a class="scale-on-hover">
                     <i class="material-icons" id="zoom-out">zoom_out</i>
                 </a>
             </div>
             <div id="end">
                 <a class="scale-on-hover padding">
+                    <label for="open-new-pdf" class="open-new">
+                        Open new pdf
+                    </label>
+                    <input id="open-new-pdf" type="file" accept="application/pdf" />
+                </a>
+                <div class="verticalToolbarSeparator"></div>
+                <a class="scale-on-hover padding">
                     <i class="material-icons" id="graph-maker">schema</i>
-                    <span class="tooltip-text" id="bottom">Make the knowledge graph</span>
+                    <span class="tooltip-text">Make the knowledge graph</span>
                 </a>
                 <a class="scale-on-hover padding">
                     <i class="material-icons" id="summary-maker">summarize</i>
-                    <span class="tooltip-text" id="bottom">Summarize your paper</span>
+                    <span class="tooltip-text">Summarize your paper</span>
                 </a>
                 <div class="verticalToolbarSeparator"></div>
                 <a class="scale-on-hover padding">
                     <i class="material-icons" id="full-screen">fullscreen</i>
-                    <span class="tooltip-text" id="bottom">Open full screen view</span>
+                    <span class="tooltip-text">Open full screen view</span>
                 </a>
                 <div class="verticalToolbarSeparator"></div>
                 <a class="scale-on-hover padding">
                     <i class="material-icons" id="question-mark-margin">question_mark</i>
-                    <span class="tooltip-text" id="bottom">Help</span>
+                    <span class="tooltip-text">Help</span>
                 </a>
             </div>
         </nav>
