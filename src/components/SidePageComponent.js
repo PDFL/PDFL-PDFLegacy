@@ -149,6 +149,7 @@ class SidePageComponent {
   #showSidePage = () => {
     this.components.sideNav.className = "half-width";
     this.components.pdfContainer.className = "half-width";
+    this.components.closeBtn.className = "closebtn";
     this.isSummaryKeyOpen = false;
   };
 
