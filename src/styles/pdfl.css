@@ -51,7 +51,7 @@ body{
   transition: 0.5s;
   display: flex;
   flex-direction: column;
-  margin-top: 4rem;
+  margin-top: var(--height);
 }
 
 
@@ -103,9 +103,8 @@ body{
 
 #num-pages{
   text-align: center; 
-  color: var(--iconColor); 
+  color: #143552;; 
   font-weight: 600; 
-  font-size: small;
 }
 
 hr{
@@ -366,21 +365,6 @@ input[type="number"]::-webkit-outer-spin-button {
   border-radius: 15px;
 }
 
-#graph-maker{
-    padding-top: 6px;
-}
-
-#summary-maker{
-  padding-top: 6px;
-}
-
-#full-screen{
-  padding-top: 6px;
-}
-
-#search{
-  padding-top: 6px;
-}
 /* CSS for Loader */
 #loader{
   position: fixed;
@@ -1105,8 +1089,6 @@ input[type="number"]::-webkit-outer-spin-button {
     text-align: center;
     border-radius: 6px;
     padding: 5px 0;
-    opacity: 0;
-    transition: opacity 0.3s;
   }
   
   .sidetoolbar:hover .tooltip-text {
@@ -1114,44 +1096,13 @@ input[type="number"]::-webkit-outer-spin-button {
     opacity: 1;
   }
   
-  #top {
-    top: -40px;
-    left: -50%;
-  }
-  
-  #top::before {
-    top: 80%;
-    left: 45%;
-  }
-  
   #bottom {
-    top: 25px;
-    left: -50%;
+    top: 45px;
+    left: -140%;
   }
-  
-  #bottom::before {
-    top: -5%;
-    left: 45%;
-  }
-  
-  #left {
-    top: -8px;
-    right: 120%;
-  }
-  
-  #left::before {
-    top: 35%;
-    left: 94%;
-  }
-  
-  #right {
-    top: 15px;
-    left: 120%;
-  }
-  
-  #right::before {
-    top: 35%;
-    left: -2%;
+
+  .padding:hover .tooltip-text{
+    visibility: visible;
   }
 
   /* Css for Summary Key Component */
