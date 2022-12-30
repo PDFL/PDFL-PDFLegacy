@@ -245,6 +245,7 @@ class KeywordHighlighterComponent {
     let newHighlight = currentPresentation.children[0];
     newHighlight.classList.add(TOPIC_HIGHLIGHTED_TEXT_CLASS);
     newHighlight.style.height = currentPresentation.style.fontSize;
+    newHighlight.style.position = "relative";
     if (this.on) {
       newHighlight.classList.add(TOPIC_HIGHLIGHT_ACTIVE_CLASS);
     }
