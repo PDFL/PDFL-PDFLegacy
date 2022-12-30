@@ -1057,6 +1057,14 @@ input[type="number"]::-webkit-outer-spin-button {
     visibility: visible;
   }
 
+  .w-90{
+    width: 90px;
+  }
+
+  .w-120{
+    width: 120px;
+  }
+
   /* Css for Summary Key Component */
 
 #side-page-summary{
