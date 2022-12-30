@@ -55,12 +55,7 @@ class PdfReaderComponent {
     this.referenceViewComponent = new ReferenceViewComponent();
     this.keywordHightlighterComponent = new KeywordHighlighterComponent();
     // TODO: change when we have the keyword extractiong
-    this.keywordHightlighterComponent.setKeywords([
-      "bear",
-      "black",
-      "area",
-      "habitat",
-    ]);
+    this.keywordHightlighterComponent.setKeywords(["bear"]);
     this.pages = [];
     this.visiblePages = [];
     this.visiblePage = null;
