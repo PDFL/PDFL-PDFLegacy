@@ -49,15 +49,15 @@ function createTextLayerDOMIfNotExist(pageNum) {
  * @param {int} pageNum
  * @param {HTMLElement} canvas
  * @param {import("pdfjs-dist").PageViewport} viewport
+ * @async
  */
-export function renderText(page, pageNum, canvas, viewport) {
+export async function renderText(page, pageNum, canvas, viewport) {
   const textLayer = createTextLayerDOMIfNotExist(pageNum);
 
-  page.getTextContent().then(function (textContent) {
-    renderTextLayer(textContent, textLayer, viewport);
-    positionTextLayer(textLayer, canvas);
-    renderLinkLayer(page, textLayer, viewport);
-  });
+  let textContent = await page.getTextContent();
+  await renderTextLayer(textContent, textLayer, viewport);
+  positionTextLayer(textLayer, canvas);
+  renderLinkLayer(page, textLayer, viewport);
 
   //Display the container
   document.querySelector("#pdf-container").appendChild(textLayer);
@@ -98,14 +98,17 @@ export async function getPageSize(pdfDoc, zoomScale) {
  * @param {import("pdfjs-dist/types/src/display/api").TextContent} textContent
  * @param {HTMLElement} textLayer
  * @param {import("pdfjs-dist").PageViewport} viewport
+ * @async
  */
-function renderTextLayer(textContent, textLayer, viewport) {
-  pdfjsLib.renderTextLayer({
+async function renderTextLayer(textContent, textLayer, viewport) {
+  await pdfjsLib.renderTextLayer({
     textContent: textContent,
     container: textLayer,
     viewport: viewport,
     textDivs: [],
-  });
+  }).promise;
+
+  EventHandlerService.publish(PDFLEvents.onTextLayerRendered, textLayer);
 }
 
 /**

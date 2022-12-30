@@ -35,7 +35,7 @@ class EventHandlerService {
 /**
  * Enum of possible event type (to avoid typos)
  * @type {{onShowInputView: string, onShowReaderView: string, onRenderPage: string, onShowKnowledgeGraph: string,
- * onResetReader: string, onReadNewFile: string, onShowTransparentSidePageLoader: string, onShowOpaqueSidePageLoader: string,
+ * onResetReader: string, onReadNewFile: string, onTextLayerRendered: string, onShowTransparentSidePageLoader: string, onShowOpaqueSidePageLoader: string,
  * onHideSidePageLoader: string, onShowSidePageError: string}}
  */
 const PDFLEvents = {
@@ -46,6 +46,7 @@ const PDFLEvents = {
   onShowKnowledgeGraph: "onShowKnowledgeGraph",
   onResetReader: "onResetReader",
   onReadNewFile: "onReadNewFile",
+  onTextLayerRendered: "onTextLayerRendered",
   onLinkLayerRendered: "onLinkLayerRendered",
   onNewPageRequest: "onNewPageRequest",
   onPopupContentReady: "onPopupContentReady",

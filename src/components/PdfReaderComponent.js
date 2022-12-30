@@ -12,6 +12,7 @@ import * as textRenderService from "../services/TextRenderService";
 import { PdfPageComponent } from "./PdfPageComponent";
 import { respondToVisibility } from "../services/Utils";
 import { EXTRA_PAGES_TO_RENDER } from "../Constants";
+import { KeywordHighlighterComponent } from "./KeywordHighlighterComponent";
 
 const pdfjsLib = require("pdfjs-dist");
 
@@ -52,6 +53,14 @@ class PdfReaderComponent {
     this.referenceComponent = new ReferenceComponent();
     this.popupComponent = new PopupComponent();
     this.referenceViewComponent = new ReferenceViewComponent();
+    this.keywordHightlighterComponent = new KeywordHighlighterComponent();
+    // TODO: change when we have the keyword extractiong
+    this.keywordHightlighterComponent.setKeywords([
+      "bear",
+      "black",
+      "area",
+      "habitat",
+    ]);
     this.pages = [];
     this.visiblePages = [];
     this.visiblePage = null;

@@ -64,7 +64,7 @@ class PdfPageComponent {
 
     this.#startPageRender(page, viewport);
 
-    this.#onRenderFinish(page, viewport);
+    await this.#onRenderFinish(page, viewport);
   };
 
   /**
@@ -154,19 +154,17 @@ class PdfPageComponent {
    *
    * @param {Page} page pdf.js library page
    * @param {import("pdfjs-dist").PageViewport} viewport of the page
+   * @async
    */
-  #onRenderFinish(page, viewport) {
-    const self = this;
-    this.renderTask.promise
-      .then(function () {
-        self.isRendering = false;
-        self.isRendered = true;
-
-        renderText(page, self.pageNum, self.components.canvas, viewport);
-      })
-      .catch(() => {
-        // do nothing, the rendering task was canceled
-      });
+  async #onRenderFinish(page, viewport) {
+    try {
+      await this.renderTask.promise;
+      this.isRendering = false;
+      this.isRendered = true;
+      await renderText(page, this.pageNum, this.components.canvas, viewport);
+    } catch {
+      // do nothing, render task cancelled
+    }
   }
 }
 
