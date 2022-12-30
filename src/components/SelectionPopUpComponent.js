@@ -1,4 +1,4 @@
-import { getCurrentDOMSelection } from "../services/Utils";
+import { getCurrentDOMSelection, isChildOf } from "../services/Utils";
 import {
   EventHandlerService,
   PDFLEvents,
@@ -12,6 +12,7 @@ import { POPUP_DISAPPEAR_TIMEOUT } from "../Constants";
  */
 class SelectionPopUpComponent {
   components = {
+    pdfContainer: document.querySelector("#pdf-container"),
     popupSelectedText: document.querySelector("#pop-up-selection"),
     summarySelectedTextBtn: document.querySelector("#summary-selection"),
   };
@@ -43,20 +44,27 @@ class SelectionPopUpComponent {
    * @param event
    */
   #onMouseUp = (event) => {
-    this.#handleSelection({
-      x: event.clientX + window.scrollX,
-      y: event.clientY + window.scrollY,
-    });
+    this.#handleSelection(
+      {
+        x: event.clientX + window.scrollX,
+        y: event.clientY + window.scrollY,
+      },
+      event.target
+    );
   };
 
   /**
    * Selection handling function to get the selected text if exists and display the popup
    * @param position last mouse action position
+   * @param {HTMLElement} eventTarget the target of the action
    */
-  #handleSelection = (position) => {
+  #handleSelection = (position, eventTarget) => {
     let component = this.components;
     const selectedText = getCurrentDOMSelection().trim();
-    if (selectedText !== "") {
+    if (
+      selectedText !== "" &&
+      isChildOf(this.components.pdfContainer, eventTarget)
+    ) {
       clearTimeout(hidePopupTimeout);
       component.popupSelectedText.classList.remove("hidden");
       component.popupSelectedText.style.top = position.y + "px";

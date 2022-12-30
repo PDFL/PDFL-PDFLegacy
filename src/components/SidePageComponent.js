@@ -5,7 +5,6 @@ import {
 import { KnowledgeGraphComponent } from "./KnowledgeGraphComponent";
 import { SummaryKeyComponent } from "./SummaryKeyComponents/SummaryKeyComponent";
 import { SidePageLoaderComponent } from "./SidePageLoaderComponent";
-import { SelectionPopUpComponent } from "./SelectionPopUpComponent";
 
 /**
  * Component representing side window that can be closed. It is a placeholder

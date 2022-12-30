@@ -103,6 +103,23 @@ function getCurrentDOMSelection() {
   return text;
 }
 
+/**
+ * Check if an HTMLElement is at any level of on other one
+ * Exit condition is the body element
+ * @param {HTMLElement} target the parent
+ * @param {HTMLElement} element the element to check if it is child of the target
+ * @return {boolean} true if child of
+ */
+function isChildOf(target, element) {
+  if (element.parentElement === target) {
+    return true;
+  } else if (element.parentElement === document.body) {
+    return false;
+  } else {
+    return isChildOf(target, element.parentElement);
+  }
+}
+
 export {
   compareSimilarity,
   timeout,
@@ -110,4 +127,5 @@ export {
   mergeColors,
   respondToVisibility,
   getCurrentDOMSelection,
+  isChildOf,
 };
