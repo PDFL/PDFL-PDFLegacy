@@ -54,8 +54,6 @@ class PdfReaderComponent {
     this.popupComponent = new PopupComponent();
     this.referenceViewComponent = new ReferenceViewComponent();
     this.keywordHightlighterComponent = new KeywordHighlighterComponent();
-    // TODO: change when we have the keyword extractiong
-    this.keywordHightlighterComponent.setKeywords(["bear"]);
     this.pages = [];
     this.visiblePages = [];
     this.visiblePage = null;
@@ -134,6 +132,16 @@ class PdfReaderComponent {
     this.toolbarComponent.reset();
     this.pages = [];
     this.visiblePage = null;
+
+    // TODO: change when we have the keyword extractiong
+    // used for demonstration
+    this.keywordHightlighterComponent.setKeywords(["by"]);
+    setTimeout(() => {
+      this.keywordHightlighterComponent.turnOn();
+      setTimeout(() => {
+        this.keywordHightlighterComponent.turnOff();
+      }, 3000);
+    }, 4000);
   };
 
   /**
