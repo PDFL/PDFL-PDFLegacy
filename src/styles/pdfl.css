@@ -722,6 +722,24 @@ input[type="number"]::-webkit-outer-spin-button {
     }
   }
 
+  #side-page-reference-container {
+    transition: 0.5s;
+    margin-top: 6%;
+    position: relative;
+    right: 2%;
+    overflow-x: hidden;
+    z-index: 2;
+    cursor: move;
+    position: fixed;
+  }
+
+
+  @media (max-height: 1000px) {
+    #side-page-reference-container {
+      max-height: 850px;
+    }
+  }
+
 
   /* KNOWLEDGE GRAPH STYLE */
   #knowledge-graph{
@@ -826,6 +844,7 @@ input[type="number"]::-webkit-outer-spin-button {
     z-index: 10;
     background-color: #c6cace;
   }
+
   [id^="slide"]:checked + .slide {
     left: 0;
     z-index: 100;
@@ -1056,7 +1075,7 @@ input[type="number"]::-webkit-outer-spin-button {
 
 
   #side-page-reference-container.moveIn{
-    animation: fadeIn 20s;
+    animation: fadeIn 3s;
     animation-fill-mode: forwards;
   }
 
