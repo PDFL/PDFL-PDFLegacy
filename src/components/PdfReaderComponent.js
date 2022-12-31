@@ -12,6 +12,7 @@ import * as textRenderService from "../services/TextRenderService";
 import { PdfPageComponent } from "./PdfPageComponent";
 import { respondToVisibility } from "../services/Utils";
 import { EXTRA_PAGES_TO_RENDER } from "../Constants";
+import { SelectionPopUpComponent } from "./SelectionPopUpComponent";
 
 const pdfjsLib = require("pdfjs-dist");
 
@@ -32,6 +33,7 @@ const pdfjsLib = require("pdfjs-dist");
  * @property {PdfPageComponent[]} pages array of the pages objects
  * @property {int[]} visiblePages array of the visible pages by page number
  * @property {int} visiblePage currently visible page
+ * @property {SelectionPopUpComponent} selectionPopUp popup related to selection functionality
  */
 class PdfReaderComponent {
   components = {
@@ -55,6 +57,7 @@ class PdfReaderComponent {
     this.pages = [];
     this.visiblePages = [];
     this.visiblePage = null;
+    this.selectionPopUp = new SelectionPopUpComponent();
     this.#registerEvents();
   }
 

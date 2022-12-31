@@ -1054,7 +1054,6 @@ input[type="number"]::-webkit-outer-spin-button {
     width: 595px;
   }
 
-
   #side-page-reference-container.moveIn{
     animation: fadeIn 20s;
     animation-fill-mode: forwards;
@@ -1158,12 +1157,13 @@ input[type="number"]::-webkit-outer-spin-button {
 
 #side-page-summary{
   transition: 0.5s;
-  position: relative;
+  position: fixed;
   right: 0;
   overflow-x: hidden;
   z-index: 2;
   width: 600px;
-  height: 94vh;
+  height: 100%;
+  top: var(--height);
 }
 
 #accordion-container{
@@ -1225,6 +1225,32 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 #close-btn-summary:hover{
   color: red;
+}
+
+#pop-up-selection{
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  background-color: inherit;
+  border-radius: 100%;
+  border-color: var(--iconColor);
+}
+
+#summary-selection{
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 100%;
+  background-color: var(--iconColor);
+  border-color: var(--iconColor);
+  padding: 2px;
+  color: white;
+  margin-top: 1px;
+  cursor: pointer;
 }
 
 /* CSS error message from the reader */

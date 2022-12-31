@@ -166,6 +166,11 @@
                     <a><i class="material-icons" id="open-in-the-side-icon">open_in_new</i></a></button>
             </div>
 
+            <div id="pop-up-selection" class="hidden">
+                <button id="summary-selection">
+                    <a><i class="material-icons" id="summary-selection">summarize</i></a></button>
+            </div>
+
             <div id="side-page" class="no-width">
                 <div id="side-page-loader">
                     <div id="loader-bubbles">
@@ -220,42 +225,23 @@
                 <div id="accordion-container">
                     <button id="tldr" class="accordion">TLDR</button>
                     <div class="panel">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc congue aliquam mi sit amet
-                            vestibulum. Etiam porttitor lacinia tortor, a efficitur orci. Nam pharetra volutpat neque,
-                            at
-                            semper velit posuere eget. Pellentesque habitant morbi tristique senectus et netus et
-                            malesuada
-                            fames ac turpis egestas. Morbi in malesuada felis. Vivamus volutpat lacinia porttitor.</p>
+                        <p id="tldr-text">Loading...</p>
                     </div>
 
                     <button id="abstract" class="accordion">ABSTRACT</button>
                     <div class="panel">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc congue aliquam mi sit amet
-                            vestibulum. Etiam porttitor lacinia tortor, a efficitur orci. Nam pharetra volutpat neque,
-                            at
-                            semper velit posuere eget. Pellentesque habitant morbi tristique senectus et netus et
-                            malesuada
-                            fames ac turpis egestas. Morbi in malesuada felis. Vivamus volutpat lacinia porttitor.</p>
+                        <p id="abstract-text">Loading...</p>
                     </div>
 
                     <button id="summary-abstract" class="accordion">ABSTRACT SUMMARY</button>
                     <div class="panel">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc congue aliquam mi sit amet
-                            vestibulum. Etiam porttitor lacinia tortor, a efficitur orci. Nam pharetra volutpat neque,
-                            at
-                            semper velit posuere eget. Pellentesque habitant morbi tristique senectus et netus et
-                            malesuada
-                            fames ac turpis egestas. Morbi in malesuada felis. Vivamus volutpat lacinia porttitor.</p>
+                        <p id="abstract-summary-text">Abstract summary cannot be generated</p>
                     </div>
 
                     <button id="selected-text-summary" class="accordion">SELECTED TEXT SUMMARY</button>
-                    <div class="panel">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc congue aliquam mi sit amet
-                            vestibulum. Etiam porttitor lacinia tortor, a efficitur orci. Nam pharetra volutpat neque,
-                            at
-                            semper velit posuere eget. Pellentesque habitant morbi tristique senectus et netus et
-                            malesuada
-                            fames ac turpis egestas. Morbi in malesuada felis. Vivamus volutpat lacinia porttitor.</p>
+                    <div class="panel" id="selected-summary-text-panel">
+                        <p id="selection-summary-text">Select a text in the PDF and click the button to generate the
+                            summary</p>
                     </div>
                 </div>
             </div>
