@@ -742,9 +742,9 @@ input[type="number"]::-webkit-outer-spin-button {
   }
 
   .closebtn {
-    position: fixed;
-    top: 6%;
-    right: 1%;
+    position: absolute;
+    top: 70px;
+    right: 20px;
     font-size: 50px;
     z-index: 999;
     color: #f5f5f5;;
@@ -757,9 +757,9 @@ input[type="number"]::-webkit-outer-spin-button {
   
   /*tooltip for question mark */
   #question-mark {
-    position: fixed;
-    bottom:5%;
-    right: 5%;
+    position: absolute;
+    bottom: 200px;
+    right: 80px;
     color:white;
     display: inline-block;
     border-bottom: 1px dotted black;
@@ -995,12 +995,13 @@ input[type="number"]::-webkit-outer-spin-button {
 
  /* CSS for Graph Depth Slider */
  #slider-container{
+  position: absolute;
+  top: 80px;
+  left: 25%;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 4%;
   transform: scale(0.7);
-  position: fixed;
   width: 50%;
   z-index: 997;
  }
