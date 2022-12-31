@@ -10,7 +10,7 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
-
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols" />
     <link rel="shortcut icon" type="image/png" href="assets/logo.png" />
     <!--TODO: webpack-->
 
@@ -94,7 +94,13 @@
             <div id="start">
                 <input type="checkbox" id="checkbox-toggle" />
                 <label for="checkbox-toggle" class="hamburger scale-on-hover">&#9776;</label>
-                <span id="title"></span>
+                <div class="verticalToolbarSeparator"></div>
+                <a class="scale-on-hover padding">
+                    <label for="open-new-pdf" class="open-new">
+                        Open new paper
+                    </label>
+                    <input id="open-new-pdf" type="file" accept="application/pdf" />
+                </a>
             </div>
             <div id="center">
                 <a class="scale-on-hover">
@@ -106,6 +112,7 @@
                 <a class="scale-on-hover">
                     <i class="material-icons" id="next-page">chevron_right</i>
                 </a>
+                <span id="title"></span>
                 <a class="scale-on-hover">
                     <i class="material-icons" id="zoom-in">zoom_in</i>
                 </a>
@@ -115,20 +122,20 @@
                 </a>
             </div>
             <div id="end">
-                <a class="scale-on-hover padding">
-                    <label for="open-new-pdf" class="open-new">
-                        Open new pdf
+                <a class="padding">
+                    <input type="checkbox" id="toggle" />
+                    <label for="toggle" class="toggleWrapper">
+                        <div class="toggle"></div>
                     </label>
-                    <input id="open-new-pdf" type="file" accept="application/pdf" />
+                    <span class="tooltip-text">Highlight typical phrases/sentences</span>
                 </a>
-                <div class="verticalToolbarSeparator"></div>
                 <a class="scale-on-hover padding">
                     <i class="material-icons" id="graph-maker">schema</i>
                     <span class="tooltip-text">Make the knowledge graph</span>
                 </a>
                 <a class="scale-on-hover padding">
                     <i class="material-icons" id="summary-maker">summarize</i>
-                    <span class="tooltip-text">Summarize your paper</span>
+                    <span class="tooltip-text w-140">Summarize your paper</span>
                 </a>
                 <div class="verticalToolbarSeparator"></div>
                 <a class="scale-on-hover padding">
