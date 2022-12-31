@@ -52,6 +52,20 @@
                 </div>
                 <img src="assets/pic.png" id="main-pic" />
             </div>
+            <footer>
+                <div class="footer-text">
+                    <div>Check our github page for more details <span>&#9829;</span> :
+                        <a href="https://github.com/matteovisotto/PDFL-PDFLegacy"> PDFL-PDFLegacy</a>
+                    </div>
+                    <p>Maintained by the
+                        <a href="https://www.fer.unizg.hr/rasip/dsd/projects/clippy_2/team_members">core team</a>
+                        with help from our contributors :
+                        <a href="https://xiaofeixie.bitbucket.io/">@Xiaofei Xie</a> &amp;
+                        <a href="https://thepatrickstar.github.io/">@Yuekang Li</a> &amp;
+                        <a href="https://scholar.google.com/citations?user=idlExzkAAAAJ&hl=en">@Yun Tang</a>.
+                    </p>
+                </div>
+            </footer>
         </div>
         <div id="logo">
             <img src="assets/logo.png" class="black-logo" />
@@ -76,74 +90,57 @@
     </div>
     <!--PDF READER-->
     <div id="pdf-viewer" hidden class="app-view">
-        <!--SideToolBar-->
-        <div id="sidenav">
-            <div class="sidetoolbar">
-                <a>
-                    <i class="material-icons" id="search">search</i>
-                    <span class="tooltip-text" id="right">Search words in the paper</span>
-                </a>
+        <nav id="navbar">
+            <div id="start">
+                <input type="checkbox" id="checkbox-toggle" />
+                <label for="checkbox-toggle" class="hamburger scale-on-hover">&#9776;</label>
+                <span id="title"></span>
             </div>
-            <div class="sidetoolbar">
-                <a>
+            <div id="center">
+                <a class="scale-on-hover">
                     <i class="material-icons" id="prev-page">chevron_left</i>
                 </a>
                 <p id="num-pages">
-                    <span id="page-num"></span>/
-                    <span id="page-count"></span>
-                    <span class="tooltiptext">Page <input type="number" value="1" id="current-page" /> of <span
-                            id="page-count"></span></span>
+                    <input type="number" value="1" id="current-page" /> / <span id="page-count"></span>
                 </p>
-                <a>
+                <a class="scale-on-hover">
                     <i class="material-icons" id="next-page">chevron_right</i>
                 </a>
-                <hr>
-                <a href=" #">
+                <a class="scale-on-hover">
                     <i class="material-icons" id="zoom-in">zoom_in</i>
                 </a>
-                <a>
+                <input type="text" value="100%" aria-label="Zoom level" id="zoom-level">
+                <a class="scale-on-hover">
                     <i class="material-icons" id="zoom-out">zoom_out</i>
                 </a>
             </div>
-            <div class="sidetoolbar">
-                <a>
+            <div id="end">
+                <a class="scale-on-hover padding">
+                    <label for="open-new-pdf" class="open-new">
+                        Open new pdf
+                    </label>
+                    <input id="open-new-pdf" type="file" accept="application/pdf" />
+                </a>
+                <div class="verticalToolbarSeparator"></div>
+                <a class="scale-on-hover padding">
                     <i class="material-icons" id="graph-maker">schema</i>
-                    <span class="tooltip-text" id="right">Make the knowledge graph</span>
+                    <span class="tooltip-text">Make the knowledge graph</span>
                 </a>
-
-            </div>
-            <div class="sidetoolbar">
-                <a>
+                <a class="scale-on-hover padding">
                     <i class="material-icons" id="summary-maker">summarize</i>
-                    <span class="tooltip-text" id="right">Summarize your paper</span>
+                    <span class="tooltip-text">Summarize your paper</span>
                 </a>
-            </div>
-            <div class="sidetoolbar">
-                <a>
+                <div class="verticalToolbarSeparator"></div>
+                <a class="scale-on-hover padding">
                     <i class="material-icons" id="full-screen">fullscreen</i>
-                    <span class="tooltip-text" id="right">Open full screen view</span>
+                    <span class="tooltip-text w-120">Open full screen view</span>
+                </a>
+                <div class="verticalToolbarSeparator"></div>
+                <a class="scale-on-hover padding">
+                    <i class="material-icons" id="question-mark-margin">question_mark</i>
+                    <span class="tooltip-text w-90">Help</span>
                 </a>
             </div>
-        </div>
-        <nav id="navbar">
-            <!-- LOGO -->
-            <div id="padding">
-                <img src="assets/logo.png" class="black-logo" />
-            </div>
-            <!-- NAVIGATION MENU -->
-            <ul id="nav-links">
-                <!-- USING CHECKBOX HACK -->
-                <input type="checkbox" id="checkbox-toggle" />
-                <label for="checkbox-toggle" class="hamburger">&#9776;</label>
-                <!-- NAVIGATION MENUS -->
-                <div id="menu">
-                    <li><a><label for="open-new-pdf" class="open-new">
-                                Open new pdf
-                            </label>
-                            <input id="open-new-pdf" type="file" accept="application/pdf" /></a>
-                    </li>
-                </div>
-            </ul>
         </nav>
 
         <div id="loader">
