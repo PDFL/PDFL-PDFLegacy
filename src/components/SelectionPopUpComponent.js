@@ -84,9 +84,9 @@ class SelectionPopUpComponent {
       component.popupSelectedText.classList.remove("hidden");
       clearTimeout(hidePopupTimeout);
     });
-    component.popupSelectedText.addEventListener("mouseleave", (event) => {
+    component.summarySelectedTextBtn.addEventListener("mouseleave", (event) => {
       event.preventDefault();
-      component.popupSelectedText.classList.add("hidden");
+      this.#hidePopup();
     });
     document
       .querySelector("#pdf-container")

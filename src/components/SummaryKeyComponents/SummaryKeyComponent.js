@@ -58,6 +58,20 @@ class SummaryKeyComponent {
       PDFLEvents.onTextSelectionReady,
       this.#selectionSummarizerCallback.bind(this)
     );
+    EventHandlerService.publish(
+      PDFLEvents.onOpenSelectionSummary,
+      this.#showSelectedText()
+    );
+  };
+
+  /**
+   * Triggers event on which accordion of the selected text for Summary is automatically opens
+   * @private
+   */
+  #showSelectedText = () => {
+    document.querySelector("#selected-text-summary").classList.add("active");
+    document.querySelector("#selected-summary-text-panel").style.maxHeight =
+      "max-content";
   };
 
   /**
