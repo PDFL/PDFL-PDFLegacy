@@ -6,7 +6,7 @@
   --color: #119f89 ;
   --iconColor: #26596b;
   --font: 'Montserrat';
-  --height: 6%;
+  --height: 50px;
 }
 #logo{
   position:absolute;
@@ -191,7 +191,6 @@ font-family: var(--font);
 /* NAVBAR STYLING STARTS */
 #navbar {
     display: flex;
-    justify-content: space-between;
     align-items: center;
     height: var(--height);
     background-color: white;
@@ -199,67 +198,132 @@ font-family: var(--font);
     position: fixed;
     width: 100%;
 }
-#nav-links a {
-    color: var(--iconColor);
-    font-size:20px;
-}
-/* LOGO */
-#logo {
-    font-size: 32px;
-}
-/* NAVBAR MENU */
-#menu {
+
+#start {
+    align-items: center;
     display: flex;
-    font-size: 18px;
     overflow: hidden;
-    cursor: pointer;
-    z-index: 2;
-    padding-left: 15px;
-}
-#menu li:hover {
-    transform: scale(1.25, 1.25);
-    transition: 0.3s ease;
-}
-#menu li {
-    padding: 5px 14px;
-    align-content: center;
-    display:grid
-}
-a {
-    text-decoration: none;
-}
-li {
-    list-style: none;
+    padding-inline-end: 20px;
 }
 
-#padding{
-    margin-left: 15px;
-    padding-right: 13px;
-    border-right: 3px solid black;
+#center {
+    align-items: center;
+    display: flex;
 }
 
-.open-new{
-    border:none;
-    color:white;
-    font-size:15px;
-    padding:10px 30px 10px 30px;
-    background: linear-gradient(to right, #2f4858,#27596b,#166a7a,#007c84,#008e89,#119f89);
-    border-radius: 15px;
-    margin-right: 15px;
+#end {
+    display: flex;
+    justify-content: flex-end;
+    padding-inline-start: 20px;
+    text-align: end;
+    white-space: nowrap;
 }
 
-.navbar-btn{
-    border:none;
-    color:white;
-    color: black;
-    font-size:15px;
-    padding:10px 30px 10px 30px;
-    background: linear-gradient(to right, #2f4858,#27596b,#166a7a,#007c84,#008e89,#119f89);
-    background: white;
-    border-radius: 15px;
-    cursor: pointer;
+#end, #start {
+    flex: 1;
+}
+
+#title {
+    font-size: .87rem;
     font-weight: 500;
+    margin-inline-start: 16px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
+
+#center, #end, #menuButton, :host([loading_]) paper-progress {
+    opacity: 1;
+    visibility: visible;
+}
+
+#center, #end, paper-progress {
+    transition: opacity .1s cubic-bezier(0,0,.2,1);
+}
+
+#zoom-level {
+    background: rgba(208, 208, 208, 0.5);;
+    border: 1px solid black;
+    border-radius: 3px;
+    caret-color: currentColor;
+    color: inherit;
+    font-family: inherit;
+    line-height: inherit;
+    margin: 0 4px;
+    outline: 0;
+    padding: 5px;
+    text-align: center;
+    width: 6ch;
+}
+
+#current-page {
+    background: rgba(208, 208, 208, 0.5);;
+    border: 1px solid black;
+    border-radius: 3px;
+    caret-color: currentColor;
+    color: inherit;
+    font-family: inherit;
+    line-height: inherit;
+    margin: 0 4px;
+    padding: 10px;
+    outline: 0;
+    text-align: center;
+    width: 7ch;
+}
+
+#next-page{
+    margin-top: 5px;
+}
+
+#prev-page{
+    margin-top: 5px;
+}
+
+#zoom-in{
+    margin-top: 5px;
+}
+
+#zoom-out{
+    margin-top: 5px;
+}
+
+.verticalToolbarSeparator {
+    display: block;
+    margin: 5px 2px;
+    width: 1px;
+    height: 33px;
+    background-color: black;
+  }
+
+  .scale-on-hover {
+    transition: all .2s ease-in-out;
+  }
+  .scale-on-hover:hover {
+    transform: scale(1.1);
+  }
+
+  .padding{
+    position: relative;
+    min-width: 16px;
+    margin: 2px 1px;
+    padding: 2px 6px 0;
+    border: none;
+    border-radius: 2px;
+    color: var(--main-color);
+    font-size: 12px;
+    line-height: 14px;
+    user-select: none;
+    cursor: default;
+    box-sizing: border-box;
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+
+  .material-icons{
+    font-size: 26px;
+  }
+
+
 
 /*RESPONSIVE NAVBAR MENU STARTS*/
 /* CHECKBOX HACK */
@@ -268,10 +332,12 @@ input[type=checkbox]{
 } 
 /*HAMBURGER MENU*/
 .hamburger {
-    display: none;
-    font-size: 24px;
+    font-size: 20px;
     user-select: none;
+    padding-left: 20px;
 }
+
+
 /* APPLYING MEDIA QUERIES */
 @media (max-width: 768px) {
     #menu { 
@@ -359,7 +425,7 @@ body{
   transition: 0.5s;
   display: flex;
   flex-direction: column;
-  margin-top: 4rem;
+  margin-top: var(--height);
 }
 
 
@@ -411,9 +477,8 @@ body{
 
 #num-pages{
   text-align: center; 
-  color: var(--iconColor); 
+  color: #143552;; 
   font-weight: 600; 
-  font-size: small;
 }
 
 hr{
@@ -627,68 +692,7 @@ input[type="number"]::-webkit-outer-spin-button {
   background: var(--color);;
 }*/
 
-/* CSS for SideToolBar */
-#sidenav {
-  padding: 8px 0px;
-  width: 60px;
-  position: fixed;
-  top: 67px;
-  left: 22px;
-  z-index: 1;
-}
 
-#sidenav a {
-  text-align: center;
-  padding: 8px 0px 8px 0px;
-  text-decoration: none;
-  font-size: 25px;
-  color: var(--iconColor);
-  display: block;
-}
-
-#sidenav a:hover {
-  color: #ffcd00;
-}
-
-.sidetoolbar {
-  width: 60px;
-  background-color: #ffffff;
-  border: solid #ffffff;
-  border-radius: 15px;
-  margin-bottom: 20px;
-  cursor: pointer;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.15);
-  transition: box-shadow 0.3s ease-in-out;
-}
-
-/* Transition to a bigger shadow on hover */
-.sidetoolbar:hover {
-  border-radius: 15px;
-  -webkit-transform: scale(1.15, 1.15);
-  transform: scale(1.15, 1.15);
-}
-
-/* Fade in the pseudo-element with the bigger shadow */
-.sidetoolbar:hover::after {
-  opacity: 1;
-  border-radius: 15px;
-}
-
-#graph-maker{
-    padding-top: 6px;
-}
-
-#summary-maker{
-  padding-top: 6px;
-}
-
-#full-screen{
-  padding-top: 6px;
-}
-
-#search{
-  padding-top: 6px;
-}
 /* CSS for Loader */
 #loader{
   position: fixed;
@@ -1404,6 +1408,8 @@ input[type="number"]::-webkit-outer-spin-button {
   .tooltip-text {
     visibility: hidden;
     position: absolute;
+    top: 45px;
+    left: -140%;
     z-index: 2;
     width: 150px;
     color: white;
@@ -1412,53 +1418,24 @@ input[type="number"]::-webkit-outer-spin-button {
     text-align: center;
     border-radius: 6px;
     padding: 5px 0;
-    opacity: 0;
-    transition: opacity 0.3s;
   }
   
   .sidetoolbar:hover .tooltip-text {
     visibility: visible;
     opacity: 1;
   }
-  
-  #top {
-    top: -40px;
-    left: -50%;
+
+
+  .padding:hover .tooltip-text{
+    visibility: visible;
   }
-  
-  #top::before {
-    top: 80%;
-    left: 45%;
+
+  .w-90{
+    width: 90px;
   }
-  
-  #bottom {
-    top: 25px;
-    left: -50%;
-  }
-  
-  #bottom::before {
-    top: -5%;
-    left: 45%;
-  }
-  
-  #left {
-    top: -8px;
-    right: 120%;
-  }
-  
-  #left::before {
-    top: 35%;
-    left: 94%;
-  }
-  
-  #right {
-    top: 15px;
-    left: 120%;
-  }
-  
-  #right::before {
-    top: 35%;
-    left: -2%;
+
+  .w-120{
+    width: 120px;
   }
 
   /* Css for Summary Key Component */
