@@ -13,7 +13,7 @@ import { PdfPageComponent } from "./PdfPageComponent";
 import { respondToVisibility } from "../services/Utils";
 import { EXTRA_PAGES_TO_RENDER } from "../Constants";
 
-const pdfjsLib = require("pdfjs-dist");
+import * as pdfjsLib from "pdfjs-dist/webpack";
 
 /**
  * Component representing the PDF reader. Displays the content of PDF document and actions
@@ -102,7 +102,6 @@ class PdfReaderComponent {
    */
   loadPdf = (pdf) => {
     const self = this;
-    pdfjsLib.GlobalWorkerOptions.workerSrc = "/pdf.worker.bundle.js";
     pdfjsLib
       .getDocument(pdf)
       .promise.then((data) => {
