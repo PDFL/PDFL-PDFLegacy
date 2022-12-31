@@ -724,7 +724,6 @@ input[type="number"]::-webkit-outer-spin-button {
 
   #side-page-reference-container {
     transition: 0.5s;
-    margin-top: 6%;
     position: relative;
     right: 2%;
     overflow-x: hidden;
