@@ -45,8 +45,8 @@
 }
 
 .open-new{
-  background-color: var(--color);
-  padding: 10px;
+  background-color: var(--iconColor);
+  padding: 5px 5px 3px 5px;
   border-radius: 8px;
   color: white;
   font-weight: 500;
@@ -257,7 +257,7 @@ input:checked + .slider:before {
 }
 
 #toggle{
-  background-color: var(--color);
+  background-color: var(--iconColor);
   padding: 5px 10px 5px 10px;
   border-radius: 8px;
   color: white;

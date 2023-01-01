@@ -5,6 +5,8 @@ import {
   PDFLEvents,
 } from "../services/EventHandlerService";
 
+import { TutorialPopupComponent } from "./TutorialPopupComponent";
+
 /**
  * Component that takes in the PDF file that user uploads and processes it.
  *
@@ -24,9 +26,11 @@ class NavbarComponent {
 
   /**
    * Creates and initializes navbar component.
+   * Creates new TutorialPopupComponent objects
    * @constructor
    */
   constructor() {
+    this.tutorialPopupComponent = new TutorialPopupComponent();
     this.#registerEvents();
   }
 

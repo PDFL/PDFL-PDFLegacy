@@ -94,12 +94,7 @@
                 <input type="checkbox" id="checkbox-toggle" />
                 <label for="checkbox-toggle" class="hamburger scale-on-hover">&#9776;</label>
                 <div class="verticalToolbarSeparator"></div>
-                <a class="scale-on-hover padding">
-                    <label for="open-new-pdf" class="open-new">
-                        Open new paper
-                    </label>
-                    <input id="open-new-pdf" type="file" accept="application/pdf" />
-                </a>
+                <span id="title"></span>
             </div>
             <div id="center">
                 <a class="scale-on-hover">
@@ -111,7 +106,6 @@
                 <a class="scale-on-hover">
                     <i class="material-icons" id="next-page">chevron_right</i>
                 </a>
-                <span id="title"></span>
                 <a class="scale-on-hover">
                     <i class="material-icons" id="zoom-in">zoom_in</i>
                 </a>
@@ -122,6 +116,19 @@
             </div>
             <div id="end">
                 <a class="padding">
+                    <a class="scale-on-hover padding">
+                        <label for="open-new-pdf" class="open-new">
+                            <i class="material-icons">
+                                upload_file
+                            </i>
+
+                        </label>
+                        <input id="open-new-pdf" type="file" accept="application/pdf" />
+                        <span class="tooltip-text w-120">Open new paper</span>
+                    </a>
+
+                </a>
+                <a class="scale-on-hover padding">
                     <div id="toggle">
                         <div>
                             Highlight
@@ -129,26 +136,34 @@
                         <div>
                             <label class="switch">
                                 <input type="checkbox">
-                                <span class="slider round"></span>
-                                <span class="tooltip-text">Highlight typical phrases/sentences</span>
+                                <span class="slider round">
+                                </span>
+                                <span class="tooltip-text">Highlight typical phrases/sentences
+                                    <i class="material-icons question-mark-tutorial"
+                                        id="tutorial-highlight">question_mark</i>
+                                </span>
                             </label>
-
                         </div>
                     </div>
 
                 </a>
                 <a class="scale-on-hover padding">
                     <i class="material-icons" id="graph-maker">schema</i>
-                    <span class="tooltip-text">Make the knowledge graph</span>
+                    <span class="tooltip-text w-180">Make the knowledge graph
+                        <i class="material-icons question-mark-tutorial" id="tutorial-graph">question_mark
+                        </i></span>
                 </a>
                 <a class="scale-on-hover padding">
                     <i class="material-icons" id="summary-maker">summarize</i>
-                    <span class="tooltip-text w-140">Summarize your paper</span>
+                    <span class="tooltip-text w-140">Summarize your paper
+                        <i class="material-icons question-mark-tutorial" id="tutorial-summary">question_mark</i>
+                    </span>
                 </a>
                 <div class="verticalToolbarSeparator"></div>
                 <a class="scale-on-hover padding">
                     <i class="material-icons" id="full-screen">fullscreen</i>
-                    <span class="tooltip-text w-120">Open full screen view</span>
+                    <span class="tooltip-text w-120">Open full screen view
+                    </span>
                 </a>
                 <div class="verticalToolbarSeparator"></div>
                 <a class="scale-on-hover padding">
@@ -160,6 +175,82 @@
 
         <div id="loader">
             <img src="assets/logo_white.png" alt="loading..." id="logo-loader" />
+        </div>
+
+        <div id="tutorial" class="hidden">
+            <div class="tutorial-window hidden" id="highlight-tutorial-window">
+                <!--<img src="img_avatar.png" alt="Avatar" style="width:100%"> OPTIONAL GIF TUTORIAL-->
+                <div class="container">
+                    <h4><b>Highlight commonly used, topic-specific phrasings</b></h4>
+                    <p>A paper can involve using many typical
+                        phrases/sentences
+                        for introduction, background description and experiment result analyses.
+                        We identifying and
+                        highlighting these sentences<br><br>To do it:</p>
+                    <ul>
+                        <li>
+                            <p>Active the toggle from the navbar</p>
+                        </li>
+                        <li>
+                            <p>Scroll the paper and you will see some sentences highlighted</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="tutorial-window hidden" id="graph-tutorial-window">
+                <div class="container">
+                    <h4><b>Knowledge Graph</b></h4>
+                    <p>Knowledge graph that showing the
+                        citation
+                        relations of all the papers in
+                        the references section of your current paper. This can help to understand
+                        the relations
+                        between each work better.<br><br>Click on the knowledge graph button and you can:</p>
+                    <ul>
+                        <li>
+                            <p>Zoom-in zoom-out and move around the graph. On hover on one
+                                node you can see wich one is linked with it and paper info will be displayed with
+                                title, author and field of study</p>
+                        </li>
+                        <li>
+                            <p>Change depth with the slider to see more correlated paper</p>
+                        </li>
+                        <li>
+                            <p>Click on one node to expand just it and not the whole graph</p>
+                        </li>
+                        <li>
+                            <p>On the bottom left you find a question mark, that on click, display color of field of
+                                study for a better understanding of correlated paper</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="tutorial-window hidden" id="summary-tutorial-window">
+                <div class="container">
+                    <h4><b>Summarize your paper</b></h4>
+                    <p>A text wall? Summarize your paper for each key
+                        component in a few
+                        lines! You can also select just a piece of text with the mouse.<br><br>To do it:</p>
+                    <ul>
+                        <li>
+                            <p>Click the summary icon button on the navbar and a side page will be displayed with four
+                                accordion item</p>
+                        </li>
+                        <li>
+                            <p>TLDR: </p>
+                        </li>
+                        <li>
+                            <p>ABSTRACT: </p>
+                        </li>
+                        <li>
+                            <p>ABSTRACT SUMMARY: </p>
+                        </li>
+                        <li>
+                            <p>SELECTED TEXT SUMMARY: </p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
 
         <div id="main">
@@ -255,9 +346,13 @@
                         <p id="selection-summary-text">Select a text in the PDF and click the button to generate the
                             summary</p>
                     </div>
+
                 </div>
+
             </div>
+
         </div>
+
     </div>
 
     <!--floating button hidden for now-->
