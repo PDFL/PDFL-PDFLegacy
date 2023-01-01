@@ -30,14 +30,6 @@ module.exports = {
     }),
     new Dotenv(),
     new MiniCssExtractPlugin(),
-    new CopyWebpackPlugin({
-      patterns: [
-        {
-          from: "node_modules/pdfjs-dist/build/pdf.worker.min.js",
-          to: "pdf.worker.js",
-        },
-      ],
-    }),
   ],
   module: {
     rules: [

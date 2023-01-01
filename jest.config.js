@@ -12,6 +12,9 @@ const config = {
   ],
   collectCoverage: true,
   coverageReporters: ["json", "html", "text-summary"],
+  moduleNameMapper: {
+    "^worker-loader.+$": "pdfjs-dist/legacy/build/pdf.worker.js",
+  },
 };
 
 module.exports = config;
