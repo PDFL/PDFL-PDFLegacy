@@ -118,7 +118,7 @@ class PdfReaderComponent {
         this.#setupPages();
       })
       .catch((err) => {
-        console.log(err.message); // TODO: handle error in some way
+        console.log(err); // TODO: handle error in some way
       });
     this.components.loader.classList.add("hidden");
   };
