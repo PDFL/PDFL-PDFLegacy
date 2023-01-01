@@ -38,14 +38,17 @@ class ReferenceComponent {
   };
 
   /**
+   * Get the a tags from the DOM of a textLayer and add the event listener
+   * both for click and onMouseOver with delay.
+   *
+   * @param {HTMLElement} textLayer rendered text layer with 'internalLinks' (a tags)
    * @private
-   * Get the a tags from the DOM and add the event listener both for click and onMouseOver with delay
    */
-  #onLinkLayerRendered = () => {
+  #onLinkLayerRendered = (textLayer) => {
     if (!this.pdfDoc) {
       throw new Error("PDFDocument object missed");
     }
-    const pageHref = document.getElementsByClassName("internalLink");
+    const pageHref = textLayer.getElementsByClassName("internalLink");
     for (var i = 0; i < pageHref.length; i++) {
       const aTagElement = pageHref.item(i);
       aTagElement.addEventListener(

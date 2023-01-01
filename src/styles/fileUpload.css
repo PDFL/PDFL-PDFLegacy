@@ -4,7 +4,8 @@
 :root {
   --color: #119f89 ;
   --iconColor: #26596b;
-  --font: 'Montserrat'
+  --font: 'Montserrat';
+  --height: 6%;
 }
 #logo{
   position:absolute;

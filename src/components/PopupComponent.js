@@ -72,8 +72,18 @@ class PopupComponent {
     component.popupDiv.classList.remove("hidden");
     component.contentDiv.classList.remove("hidden");
     component.pageNumber = pageNumber;
-    component.popupDiv.style.top = position.y + "px";
-    component.popupDiv.style.left = position.x + 20 + "px";
+
+    var doc = document.documentElement;
+    var topOffset =
+      (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0);
+
+    component.popupDiv.style.top =
+      position.y +
+      topOffset -
+      component.sidePageReferenceBtn.clientHeight +
+      "px";
+    component.popupDiv.style.left =
+      position.x + component.sidePageReferenceBtn.clientWidth + "px";
 
     /* Switch element to display according to reference type*/
     switch (contentObject.type) {

@@ -1,8 +1,5 @@
 import { AppView } from "./AppView.js";
-import {
-  EventHandlerService,
-  PDFLEvents,
-} from "../../../services/EventHandlerService.js";
+import { readFile } from "../../../services/FileUploadService.js";
 
 /**
  * Welcome page view.
@@ -92,23 +89,13 @@ class WelcomeView extends AppView {
   };
 
   /**
-   * Function to read and return the data of the selected/dropped file.
+   * Function to reads and returns the data of the selected/dropped file, displays error message otherwise.
    * @private
    * @param {File} file uploaded PDF file
    */
   #readFile = (file) => {
     if (file.type === "application/pdf") {
-      EventHandlerService.publish(PDFLEvents.onResetReader);
-
-      const fileReader = new FileReader();
-      fileReader.onload = function () {
-        EventHandlerService.publish(
-          PDFLEvents.onReadNewFile,
-          new Uint8Array(this.result)
-        );
-        EventHandlerService.publish(PDFLEvents.onShowReaderView);
-      };
-      fileReader.readAsArrayBuffer(file);
+      readFile(file);
     } else {
       this.components.errorMessage.classList.remove("hidden");
     }

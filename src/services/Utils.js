@@ -70,4 +70,30 @@ function mergeColors(colors) {
   return `rgba(${r}, ${g}, ${b}, ${a})`;
 }
 
-export { compareSimilarity, timeout, mouseOverDelayEvent, mergeColors };
+/**
+ * Triggers callback when the element enters or exits the viewport.
+ *
+ * @param {HTMLElement} element
+ * @param {CallableFunction} callback
+ */
+function respondToVisibility(element, callback) {
+  var options = {
+    threshold: [0],
+  };
+
+  var observer = new IntersectionObserver((entries, observer) => {
+    entries.forEach((entry) => {
+      callback(entry.intersectionRatio > 0);
+    });
+  }, options);
+
+  observer.observe(element);
+}
+
+export {
+  compareSimilarity,
+  timeout,
+  mouseOverDelayEvent,
+  mergeColors,
+  respondToVisibility,
+};
