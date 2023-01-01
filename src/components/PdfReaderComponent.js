@@ -105,10 +105,6 @@ class PdfReaderComponent {
    */
   loadPdf = (pdf) => {
     const self = this;
-<<<<<<< HEAD
-    pdfjsLib.GlobalWorkerOptions.workerSrc = require("pdfjs-dist/build/pdf.worker.entry.js");
-=======
->>>>>>> main
     pdfjsLib
       .getDocument(pdf)
       .promise.then((data) => {
