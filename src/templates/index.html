@@ -10,7 +10,6 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols" />
     <link rel="shortcut icon" type="image/png" href="assets/logo.png" />
     <!--TODO: webpack-->
 
@@ -123,11 +122,20 @@
             </div>
             <div id="end">
                 <a class="padding">
-                    <input type="checkbox" id="toggle" />
-                    <label for="toggle" class="toggleWrapper">
-                        <div class="toggle"></div>
-                    </label>
-                    <span class="tooltip-text">Highlight typical phrases/sentences</span>
+                    <div id="toggle">
+                        <div>
+                            Highlight
+                        </div>
+                        <div>
+                            <label class="switch">
+                                <input type="checkbox">
+                                <span class="slider round"></span>
+                                <span class="tooltip-text">Highlight typical phrases/sentences</span>
+                            </label>
+
+                        </div>
+                    </div>
+
                 </a>
                 <a class="scale-on-hover padding">
                     <i class="material-icons" id="graph-maker">schema</i>
