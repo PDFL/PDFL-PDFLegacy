@@ -22,6 +22,13 @@ const EXTRA_PAGES_TO_RENDER = 1;
 const MAX_ZOOM_FACTOR = 2;
 const MIN_ZOOM_FACTOR = 0.4;
 
+const LOADING_TEXT = "Loading...";
+
+const SELECTION_INSTRUCTION_TEXT =
+  "Select a text in the PDF and click the button to generate the summary";
+
+const MOUSE_MIN_SELECTION_TIME = 200;
+
 const FIELD_OF_STUDY_COLOR = {
   Medicine: "rgba(43, 213, 20, 0.8)",
   Chemistry: "rgba(37, 152, 170, 0.8)",
@@ -385,7 +392,10 @@ export {
   TEN_MILLISECONDS,
   FIELD_OF_STUDY_COLOR,
   SUMMARIZER_STOP_LIST,
+  MOUSE_MIN_SELECTION_TIME,
   EXTRA_PAGES_TO_RENDER,
   MAX_ZOOM_FACTOR,
   MIN_ZOOM_FACTOR,
+  LOADING_TEXT,
+  SELECTION_INSTRUCTION_TEXT,
 };

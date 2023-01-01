@@ -7,9 +7,8 @@ const CopyWebpackPlugin = require("copy-webpack-plugin");
 /**
  * Config file for webpack bundling.
  * Configures how and where webpack will build the source code:
- *  - produces 2 js bundles:
+ *  - produces 1 js bundle:
  *    - main: where our own source js code is
- *    - pdf.worker: pdf.js worker needed by pdf.js library
  *  - for html files it just copies them with the correct refrences
  *  - for css we use 'mini-css-extract-plugin' which will for production
  *      build optimzed separate css file and for develpment use a 'css-loader'
