@@ -7,6 +7,7 @@ import {
  * @param {File} file PDF document
  */
 export function readFile(file) {
+  document.getElementById("title").textContent = file.name
   EventHandlerService.publish(PDFLEvents.onResetReader);
 
   const fileReader = new FileReader();

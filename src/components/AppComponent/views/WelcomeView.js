@@ -18,7 +18,6 @@ class WelcomeView extends AppView {
     dropArea: document.getElementById("file-drag"),
     fileOpen: document.getElementById("file-open"),
     errorMessage: document.getElementById("message-wrong-type-fileupload"),
-    fileName: document.getElementById("title")
   };
 
   /**
@@ -96,7 +95,6 @@ class WelcomeView extends AppView {
    */
   #readFile = (file) => {
     if (file.type === "application/pdf") {
-      this.components.fileName.textContent = file.name
       readFile(file);
     } else {
       this.components.errorMessage.classList.remove("hidden");
