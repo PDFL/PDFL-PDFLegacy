@@ -40,7 +40,7 @@ body{
   @media (min-width: 1200px) {
     .column{
       position: relative;
-      width: 40%;
+      width: 30%;
       height: fit-content;
       display: flex;
       align-items: center;
