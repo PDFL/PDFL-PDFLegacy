@@ -1,18 +1,71 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;900&display=swap');
 #injected-popup {
-    background-color: green;
+    background-color: rgb(44, 44, 44);
     z-index: 100;
     position: absolute;
     top: 50px;
     left: 50px;
     padding: 5px;
+    border-radius: 5px;
+    animation: myAnim 1s ease 0s 1 normal forwards;
+    font-family: Montserrat, Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   }
   
-  #injected-button {
+  .injected-button {
     height: 50px;
+    background-color: white;
+    cursor: pointer;
+    font-weight: 600;
+  }
+
+  .injected-button:hover {
+    background: rgb(226, 226, 226);
+    color: white;
+  }
+
+  @keyframes myAnim {
+    0% {
+      animation-timing-function: ease-in;
+      opacity: 0;
+      transform: translateY(-250px);
+    }
+  
+    40% {
+      animation-timing-function: ease-out;
+      opacity: 1;
+      transform: translateY(0);
+    }
+  
+    45% {
+      animation-timing-function: ease-in;
+      transform: translateY(-65px);
+    }
+  
+    60% {
+      animation-timing-function: ease-out;
+      transform: translateY(0);
+    }
+  
+    65% {
+      animation-timing-function: ease-in;
+      transform: translateY(-28px);
+    }
+  
+    75% {
+      animation-timing-function: ease-out;
+      transform: translateY(0);
+    }
+  
+    80% {
+      animation-timing-function: ease-in;
+      transform: translateY(-8px);
+    }
+  
+    100% {
+      animation-timing-function: ease-out;
+      transform: translateY(0);
+    }
   }
   
   
-  #injected-button-no {
-    height: 50px;
-  }
   

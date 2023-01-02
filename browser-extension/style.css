@@ -54,3 +54,8 @@ body {
   cursor: pointer;
 }
 
+#btn:hover {
+  background: rgb(226, 226, 226);
+  color: white;
+}
+

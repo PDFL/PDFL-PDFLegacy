@@ -9,11 +9,13 @@ function generateOpenWithPDFLButton() {
 
   var btn = document.createElement("button");
   btn.setAttribute("id", "injected-button");
+  btn.setAttribute("class", "injected-button");
   var t = document.createTextNode("Open in PDF - Legacy");
   btn.appendChild(t);
 
   var noBtn = document.createElement("button");
   noBtn.setAttribute("id", "injected-button-no");
+  noBtn.setAttribute("class", "injected-button");
   t = document.createTextNode("Close");
   noBtn.appendChild(t);
 
