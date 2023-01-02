@@ -322,7 +322,7 @@ input[type="number"]::-webkit-outer-spin-button {
 /* CSS for Loader */
 #loader{
   position: fixed;
-  z-index: 99;
+  z-index: 999;
   top: 0;
   left: 0;
   width: 100%;
@@ -1037,7 +1037,7 @@ input[type="number"]::-webkit-outer-spin-button {
     top: 45px;
     left: -140%;
     z-index: 2;
-    width: 150px;
+    width: 200px;
     color: white;
     font-size: 12px;
     background-color: rgba(85, 85, 85, 0.5);
@@ -1062,6 +1062,9 @@ input[type="number"]::-webkit-outer-spin-button {
 
   .w-120{
     width: 120px;
+  }
+  .w-140{
+    width: 140px;
   }
 
   /* Css for Summary Key Component */

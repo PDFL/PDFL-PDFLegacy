@@ -10,7 +10,6 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
-
     <link rel="shortcut icon" type="image/png" href="assets/logo.png" />
     <!--TODO: webpack-->
 
@@ -94,6 +93,7 @@
             <div id="start">
                 <input type="checkbox" id="checkbox-toggle" />
                 <label for="checkbox-toggle" class="hamburger scale-on-hover">&#9776;</label>
+                <div class="verticalToolbarSeparator"></div>
                 <span id="title"></span>
             </div>
             <div id="center">
@@ -115,25 +115,51 @@
                 </a>
             </div>
             <div id="end">
-                <a class="scale-on-hover padding">
-                    <label for="open-new-pdf" class="open-new">
-                        Open new pdf
-                    </label>
-                    <input id="open-new-pdf" type="file" accept="application/pdf" />
+                <a class="padding">
+                    <a class="scale-on-hover padding">
+                        <label for="open-new-pdf" class="open-new">
+                            <i class="material-icons">
+                                upload_file
+                            </i>
+
+                        </label>
+                        <input id="open-new-pdf" type="file" accept="application/pdf" />
+                        <span class="tooltip-text w-120">Open new paper</span>
+                    </a>
+
                 </a>
-                <div class="verticalToolbarSeparator"></div>
+                <a class="scale-on-hover padding">
+                    <div id="toggle">
+                        <div>
+                            Highlight
+                        </div>
+                        <div>
+                            <label class="switch">
+                                <input type="checkbox">
+                                <span class="slider round">
+                                </span>
+                                <span class="tooltip-text">Highlight typical phrases/sentences
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+
+                </a>
                 <a class="scale-on-hover padding">
                     <i class="material-icons" id="graph-maker">schema</i>
-                    <span class="tooltip-text">Make the knowledge graph</span>
+                    <span class="tooltip-text w-180">Make the knowledge graph
+                    </span>
                 </a>
                 <a class="scale-on-hover padding">
                     <i class="material-icons" id="summary-maker">summarize</i>
-                    <span class="tooltip-text">Summarize your paper</span>
+                    <span class="tooltip-text w-140">Summarize your paper
+                    </span>
                 </a>
                 <div class="verticalToolbarSeparator"></div>
                 <a class="scale-on-hover padding">
                     <i class="material-icons" id="full-screen">fullscreen</i>
-                    <span class="tooltip-text w-120">Open full screen view</span>
+                    <span class="tooltip-text w-120">Open full screen view
+                    </span>
                 </a>
                 <div class="verticalToolbarSeparator"></div>
                 <a class="scale-on-hover padding">
