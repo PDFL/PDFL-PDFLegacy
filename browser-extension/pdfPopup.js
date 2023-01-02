@@ -21,7 +21,7 @@ function generateOpenWithPDFLButton() {
 
   btn.addEventListener("click", () => {
     let url = location.href;
-    location.href = `http://localhost:8080/?url=${url}`;
+    location.href = `https://pdfl-pdf-legacy.onrender.com/?url=${url}`;
   });
   noBtn.addEventListener("click", () => {
     popup.remove();

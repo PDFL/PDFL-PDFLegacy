@@ -7,7 +7,9 @@ var btn = document.getElementById("btn");
  */
 function callback(tabs) {
   var currentTab = tabs[0];
-  chrome.tabs.update({ url: "http://localhost:8080?url=" + currentTab.url });
+  chrome.tabs.update({
+    url: "https://pdfl-pdf-legacy.onrender.com/?url=" + currentTab.url,
+  });
   window.close();
 }
 
