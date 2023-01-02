@@ -173,14 +173,17 @@ font-family: var(--font);
 #layout {
   display: inline-flex;
   flex-wrap: wrap;
-  gap: 8em;
+  gap: 6em;
 }
 #text{
-  text-align: left;
+  text-align: right;
+  width: 40%;
 }
 #media-text{
   display: flex;
   margin-top: -20px;
+  justify-content: right;
+  align-items: right;
 }
 #uploader-container{
   top: 50%; /* moved down by 50% of the screen height */
