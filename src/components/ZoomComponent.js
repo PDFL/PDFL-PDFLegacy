@@ -66,6 +66,8 @@ class ZoomComponent {
     if (this.zoom > MAX_ZOOM_FACTOR) return;
     this.zoom *= 4 / 3;
     EventHandlerService.publish(PDFLEvents.onZoomChange, this.zoom);
+    document.querySelector("#zoom-level").value =
+      (this.zoom * 100).toString().substring(0, 3) + "%";
   };
 
   /**
@@ -76,6 +78,8 @@ class ZoomComponent {
     if (this.zoom < MIN_ZOOM_FACTOR) return;
     this.zoom *= 2 / 3;
     EventHandlerService.publish(PDFLEvents.onZoomChange, this.zoom);
+    document.querySelector("#zoom-level").value =
+      (this.zoom * 100).toString().substring(0, 3) + "%";
   };
 
   /**
