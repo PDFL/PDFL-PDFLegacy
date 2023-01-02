@@ -831,7 +831,7 @@ input[type="number"]::-webkit-outer-spin-button {
   border-radius: 15px;
 }
 
-#graph-maker, #summary-maker, #full-screen, #search, #pages-sidebar{
+#graph-maker, #summary-maker, #full-screen, #search{
     padding-top: 6px;
 }
 
