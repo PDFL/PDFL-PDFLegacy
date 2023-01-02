@@ -1706,7 +1706,7 @@ input[type="number"]::-webkit-outer-spin-button {
   #thumbnail{
     position: fixed;
     overflow-y: scroll;
-    max-height: calc(100% - 50px);
+    height: calc(100% - 50px);
     margin-top: 50px;
     background-color: gainsboro;
   }
@@ -1739,3 +1739,4 @@ input[type="number"]::-webkit-outer-spin-button {
   .full-opacity{
     opacity: 1;
   }
+
