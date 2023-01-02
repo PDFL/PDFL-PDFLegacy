@@ -318,6 +318,64 @@ input[type="number"]::-webkit-outer-spin-button {
   background: var(--color);;
 }*/
 
+/* CSS for SideToolBar */
+#sidenav {
+  padding: 8px 0px;
+  width: 60px;
+  position: fixed;
+  top: 67px;
+  z-index: 1;
+  transition: 0.3s;
+}
+
+.left-22{
+  left: 22px;
+}
+
+.left-215{
+  left: 215px;
+}
+
+#sidenav a {
+  text-align: center;
+  padding: 8px 0px 8px 0px;
+  text-decoration: none;
+  font-size: 25px;
+  color: var(--iconColor);
+  display: block;
+}
+
+#sidenav a:hover {
+  color: #ffcd00;
+}
+
+.sidetoolbar {
+  width: 60px;
+  background-color: #ffffff;
+  border: solid #ffffff;
+  border-radius: 15px;
+  margin-bottom: 20px;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+/* Transition to a bigger shadow on hover */
+.sidetoolbar:hover {
+  border-radius: 15px;
+  -webkit-transform: scale(1.15, 1.15);
+  transform: scale(1.15, 1.15);
+}
+
+/* Fade in the pseudo-element with the bigger shadow */
+.sidetoolbar:hover::after {
+  opacity: 1;
+  border-radius: 15px;
+}
+
+#graph-maker, #summary-maker, #full-screen, #search, #pages-sidebar{
+    padding-top: 6px;
+}
 
 /* CSS for Loader */
 #loader{
@@ -1115,6 +1173,7 @@ input[type="number"]::-webkit-outer-spin-button {
   margin-bottom: 1px;
 }
 
+
 .accordion:after {
   content: '\025bc';
   font-size: 13px;
@@ -1185,3 +1244,40 @@ input[type="number"]::-webkit-outer-spin-button {
   z-index: 999;
 }
 
+
+  #thumbnail{
+    position: fixed;
+    overflow-y: scroll;
+    max-height: calc(100% - 50px);
+    margin-top: 50px;
+    background-color: gainsboro;
+  }
+
+  .thumbnail-page{
+    padding-inline: 20px;
+    padding-top: 10px;
+  }
+
+  .thumbnail-page-num{
+    text-align: center;
+  }
+
+  .thumbnail-page-canvas {
+    cursor: pointer;
+  }
+
+  .thumbnail-page-canvas:hover{
+    opacity: 1;
+  }
+
+  .blue-border{
+    border: var(--iconColor) 5px solid;
+  }
+
+  .half-opacity{
+    opacity: 0.5;
+  }
+
+  .full-opacity{
+    opacity: 1;
+  }
