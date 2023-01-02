@@ -17,8 +17,9 @@ jobs:
       - name: "zip the extension"
         uses: vimtor/action-zip@v1
         with:
-          files: browser-extension/*
+          files: browser-extension/
           dest: extension.zip
+          recursive: false
 
       - name: "publish the extension"
         uses: mnao305/chrome-extension-upload@v4.0.0
