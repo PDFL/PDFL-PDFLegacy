@@ -166,6 +166,7 @@ font-family: var(--font);
   transform: none;
   top: unset; 
 }
+
 }
 
 
@@ -174,10 +175,13 @@ font-family: var(--font);
   display: inline-flex;
   flex-wrap: wrap;
   gap: 6em;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 60px;
 }
 #text{
   text-align: right;
-  width: 40%;
+  width: 30%;
 }
 #media-text{
   display: flex;
