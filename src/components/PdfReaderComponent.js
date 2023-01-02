@@ -2,7 +2,6 @@ import {
   EventHandlerService,
   PDFLEvents,
 } from "../services/EventHandlerService";
-import { SidePageComponent } from "./SidePageComponent";
 import { ToolbarComponent } from "./ToolbarComponent";
 import { ReferenceComponent } from "./ReferenceComponent";
 import { PopupComponent } from "./PopupComponent";
@@ -25,7 +24,6 @@ import * as pdfjsLib from "pdfjs-dist/webpack";
  * @property {HTMLElement} components.openNew button that takes user to input view page
  * @property {HTMLElement} components.canvas canvas DOM element for pdf.js page
  * @property {import("pdfjs-dist").PageViewport} components.viewport target page viewport for the text layer
- * @property {SidePageComponent} sidePageComponent side component within the reader
  * @property {ToolbarComponent} toolbarComponent toolbar component within the reader
  * @property {PopupComponent} popupComponent popup component within the reader
  * @property {PDFDocumentProxy} pdfDoc PDF document
@@ -43,14 +41,14 @@ class PdfReaderComponent {
   };
 
   /**
-   * Creates and initializes new zoom component. Creates new ToolbarComponent and
-   * SidePageComponent objects.
+   * Creates and initializes new zoom component. Creates an instance of all components
+   * within this component.
+   * 
    * @constructor
    */
   constructor() {
     this.keyboardService = new KeyboardService();
     this.toolbarComponent = new ToolbarComponent();
-    this.sidePageComponent = new SidePageComponent();
     this.referenceComponent = new ReferenceComponent();
     this.popupComponent = new PopupComponent();
     this.referenceViewComponent = new ReferenceViewComponent();
@@ -110,10 +108,7 @@ class PdfReaderComponent {
     let data = await pdfjsLib.getDocument(pdf).promise;
 
     this.pdfDoc = data;
-    this.referenceComponent.setPdfDoc(data);
     this.toolbarComponent.setPageCount(data.numPages);
-    this.sidePageComponent.setPDF(data);
-    this.referenceViewComponent.setPdfDoc(data);
 
     await this.#setupPages();
     this.#renderPages(1);
@@ -124,8 +119,6 @@ class PdfReaderComponent {
    * of zoom component to 1. Clears pages array.
    */
   reset = () => {
-    this.sidePageComponent.hideSidePage();
-    this.sidePageComponent.hideSidePageSummary();
     this.toolbarComponent.reset();
     this.pages = [];
     this.visiblePages = [];

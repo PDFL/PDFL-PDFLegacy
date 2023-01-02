@@ -22,7 +22,6 @@ class SummaryKeyComponent {
   components = {
     sidePageSummary: document.querySelector("#side-page-summary"),
     accordionItem: document.getElementsByClassName("accordion"),
-    closeBtn: document.querySelector("#close-btn-summary"),
   };
 
   /**
@@ -122,6 +121,28 @@ class SummaryKeyComponent {
   #selectionSummarizerCallback = (text) => {
     this.selectionSummaryItem.setText(text);
   };
+
+  /**
+   * Returns true if this component is displayed in side window and false otherwise.
+   * @returns {boolean}
+   */
+  isOpened(){
+    return !this.components.sidePageSummary.classList.contains("hidden");
+  }
+
+  /**
+   * Hides this whole component.
+   */
+  hide = () => {
+    this.components.sidePageSummary.classList.add("hidden");
+  }
+
+  /**
+   * Displays this whole component.
+   */
+  show = () => {
+    this.components.sidePageSummary.classList.remove("hidden");
+  }
 }
 
 export { SummaryKeyComponent };

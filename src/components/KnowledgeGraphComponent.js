@@ -20,6 +20,7 @@ import ForceGraph from "force-graph";
  * Component responsible for displaying the knowledge graph.
  *
  * @property {Object} components object that holds elements within this component
+ * @property {HTMLElement} components.container container of this whole component
  * @property {HTMLElement} components.knowledgeGraph element in which knowledge graph will be displayed
  * @property {HTMLElement} components.graphDepth input element for depth selection
  * @property {int} depth depth of knowledge graph
@@ -29,6 +30,7 @@ import ForceGraph from "force-graph";
  */
 class KnowledgeGraphComponent {
   components = {
+    container: document.querySelector("#knowledge-graph-container"),
     knowledgeGraph: document.querySelector("#knowledge-graph"),
     graphDepth: document.querySelector("#graph-depth"),
   };
@@ -96,19 +98,20 @@ class KnowledgeGraphComponent {
   /**
    * Displays knowledge graph.
    */
-  displayGraph = (depth = 1) => {
+  displayGraph = async (depth = 1) => {
+    this.components.container.classList.remove("hidden");
+
     EventHandlerService.publish(PDFLEvents.onShowOpaqueSidePageLoader);
 
-    getLinkedPapers(this.pdfDocument, depth).then((linkedPapers) => {
-      if (!linkedPapers || linkedPapers.length == 0)
-        return EventHandlerService.publish(PDFLEvents.onShowSidePageError);
+    const linkedPapers = await getLinkedPapers(this.pdfDocument, depth);
+    if (!linkedPapers || linkedPapers.length == 0)
+      return EventHandlerService.publish(PDFLEvents.onShowSidePageError);
 
-      EventHandlerService.publish(PDFLEvents.onShowTransparentSidePageLoader);
+    EventHandlerService.publish(PDFLEvents.onShowTransparentSidePageLoader);
 
-      this.graph = this.#createForceGraph(linkedPapers);
+    this.graph = this.#createForceGraph(linkedPapers);
 
-      EventHandlerService.publish(PDFLEvents.onHideSidePageLoader);
-    });
+    EventHandlerService.publish(PDFLEvents.onHideSidePageLoader);
   };
 
   /**
@@ -339,6 +342,29 @@ class KnowledgeGraphComponent {
     ctx.fillStyle = hoveredNode && node.id === hoveredNode.id ? "red" : "orange";
     ctx.fill();
     return node, ctx;
+  }
+
+  /**
+   * Returns true if this component is displayed in side window and false otherwise.
+   * @returns {boolean}
+   */
+  isOpened(){
+    return !this.components.container.classList.contains("hidden");
+  }
+
+  /**
+   * Hides this whole component.
+   */
+  hide() {
+    this.components.container.classList.add("hidden");
+  }
+  
+  /**
+   * Displays this whole component.
+   */
+  reset = () => {
+    this.components.graphDepth.value = 1;
+    this.depth = 1;
   }
 }
 

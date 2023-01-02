@@ -34,7 +34,7 @@ class SidePageLoaderComponent {
    */
   #registerEvents = () => {
     EventHandlerService.subscribe(PDFLEvents.onHideSidePageLoader, () => {
-      this.#hideLoader();
+      this.hideLoader();
     });
 
     EventHandlerService.subscribe(PDFLEvents.onShowTransparentSidePageLoader, () => {
@@ -52,9 +52,8 @@ class SidePageLoaderComponent {
 
   /**
    * Hides all elements in component.
-   * @private
    */
-  #hideLoader() {
+  hideLoader() {
     this.components.loader.classList.add("hidden");
   }
 

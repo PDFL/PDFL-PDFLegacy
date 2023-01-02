@@ -14,17 +14,14 @@ import { SidePageLoaderComponent } from "./SidePageLoaderComponent";
  * @property {HTMLElement} components.closeBtn button that closes side page
  * @property {HTMLElement} components.sideNav placeholder of this component
  * @property {HTMLElement} components.pdfContainer sibling component of this component that displays PDF reader
- * @property {HTMLElement} components.slider input element for depth selection
  * @property {KnowledgeGraphComponent} knowledgeGraphComponent knowledge graph component
  * @property {SidePageLoaderComponent} loader component that displays loader in this page
- * @property {boolean} isKnowledgeGraphOpen true if the knowledge graph is open
  */
 class SidePageComponent {
   components = {
     closeBtn: document.querySelector("#close-btn"),
     sideNav: document.querySelector("#side-page"),
     pdfContainer: document.querySelector("#pdf-container"),
-    slider: document.querySelector("#graph-depth"),
   };
 
   /**
@@ -36,7 +33,6 @@ class SidePageComponent {
     this.knowledgeGraphComponent = new KnowledgeGraphComponent();
     this.summaryKeyComponent = new SummaryKeyComponent();
     this.loader = new SidePageLoaderComponent();
-    this.currentOpenElement = SideElement.None;
     this.#registerEvents();
   }
 
@@ -45,141 +41,103 @@ class SidePageComponent {
    * @private
    */
   #registerEvents = () => {
+    EventHandlerService.subscribe(
+      PDFLEvents.onKeyboardKeyDown,
+      (functionalKeys, key) => {
+        this.#resolveKeyboardEvent(functionalKeys, key);
+      }
+    );
+
     EventHandlerService.subscribe(PDFLEvents.onShowKnowledgeGraph, () => {
-      this.#showKnowledgeGraph();
+      this.#toggleKnowledgeGraph();
     });
 
     EventHandlerService.subscribe(PDFLEvents.onShowSummaryKey, () => {
-      this.#showSummaryKey();
+      this.#toggleSummary();
     });
-    this.components.closeBtn.addEventListener("click", this.hideSidePage);
-    this.summaryKeyComponent.components.closeBtn.addEventListener(
-      "click",
-      this.hideSidePageSummary
-    );
 
-    EventHandlerService.subscribe(
-      PDFLEvents.onKeyboardKeyDown,
-      (functionalKeys, key, code) => {
-        if (functionalKeys.ctrl && key === "g") {
-          if (this.currentOpenElement === SideElement.KnowledgeGraph) {
-            this.hideSidePage();
-            this.currentOpenElement = SideElement.None;
-          } else {
-            this.#showKnowledgeGraph();
-            this.currentOpenElement = SideElement.KnowledgeGraph;
-          }
-        }
-      }
-    );
+    this.components.closeBtn.addEventListener("click", () => {
+      this.#hideSidePage();
+    });
 
-    EventHandlerService.subscribe(
-      PDFLEvents.onKeyboardKeyDown,
-      (functionalKeys, key, code) => {
-        if (functionalKeys.ctrl && key === "y") {
-          if (this.currentOpenElement === SideElement.SummaryKey) {
-            this.hideSidePageSummary();
-            this.currentOpenElement = SideElement.None;
-          } else {
-            this.#showSummaryKey();
-            this.currentOpenElement = SideElement.SummaryKey;
-          }
-        }
-      }
-    );
+    EventHandlerService.subscribe(PDFLEvents.onResetReader, () => {
+      this.#hideSidePage();
+    });
+
+    EventHandlerService.subscribe(PDFLEvents.onReadNewPdf, (pdf) => {
+      this.#setPDF(pdf);
+    });
   };
 
   /**
-   * Callback for generation of a knowledge graph.
+   * Resolves combination of functional key and key pressed. If CTRL + g is pressed
+   * knowledge graph display will be toggled and if CTRL + y is pressed summary display
+   * will be toggled.
+   * @private
+   * @param {{ctrl: boolean, shift: boolean, alt: boolean}} functionalKeys functional keys pressed
+   * @param {string} key key pressed
    */
-  #showKnowledgeGraph = () => {
-    if (this.currentOpenElement === SideElement.SummaryKey) {
-      this.hideSidePageSummary();
-    }
-    this.#showSidePage();
-    this.knowledgeGraphComponent.displayGraph();
-    this.currentOpenElement = SideElement.KnowledgeGraph;
+  #resolveKeyboardEvent = (functionalKeys, key) => {
+    if (functionalKeys.ctrl && key === "g") this.#toggleKnowledgeGraph();
+    if (functionalKeys.ctrl && key === "y") this.#toggleSummary();
   };
 
   /**
-   * Callback for generation of the summary
-   */
-  #showSummaryKey = () => {
-    if (this.currentOpenElement === SideElement.KnowledgeGraph) {
-      this.hideSidePage();
-    }
-    this.#showSidePageSummary();
-    this.currentOpenElement = SideElement.SummaryKey;
-  };
-
-  /**
-   * Callback for making a component visible.
+   * Displays knowledge graph in side page if it is not displayed and hides it if displayed.
    * @private
    */
-  #showSidePageSummary = () => {
-    let summaryKeyComponent = this.summaryKeyComponent.components;
-    summaryKeyComponent.sidePageSummary.className = "one-third-width";
-    summaryKeyComponent.closeBtn.className = "closebtn";
+  #toggleKnowledgeGraph = () => {
+    if (this.knowledgeGraphComponent.isOpened()) return this.#hideSidePage();
+
+    this.loader.hideLoader();
+    this.summaryKeyComponent.hide();
+    this.components.closeBtn.className = "close-btn-graph";
+    this.#showSidePage();
+    this.knowledgeGraphComponent.displayGraph();
   };
 
   /**
-   * Callback for making a component not visible.
+   * Displays summary in side page if it is not displayed and hides it if displayed. 
+   * @private
    */
-  hideSidePage = () => {
-    this.components.slider.value = 1;
-    this.knowledgeGraphComponent.depth = 1;
-    this.components.sideNav.className = "no-width";
+  #toggleSummary = () => {
+    if (this.summaryKeyComponent.isOpened()) return this.#hideSidePage();
+
+    this.loader.hideLoader();
+    this.knowledgeGraphComponent.hide();
+    this.#showSidePage();
+    this.components.closeBtn.className="close-btn-summary";
+    this.summaryKeyComponent.show();
+  };
+
+  /**
+   * Hides this whole component.
+   * @private
+   */
+  #hideSidePage = () => {
+    this.knowledgeGraphComponent.reset();
+    this.components.sideNav.className = "hidden";
     this.components.pdfContainer.className = "full-width";
   };
 
   /**
-   * Callback for making a component not visible.
-   */
-  hideSidePageSummary = () => {
-    let summaryKeyComponent = this.summaryKeyComponent.components;
-    summaryKeyComponent.sidePageSummary.className = "hidden";
-    summaryKeyComponent.closeBtn.className = "hidden";
-  };
-
-  /**
-   * Callback for making a component visible.
+   * Displays this whole component.
    * @private
    */
   #showSidePage = () => {
     this.components.sideNav.className = "half-width";
     this.components.pdfContainer.className = "half-width";
-    this.isSummaryKeyOpen = false;
   };
 
   /**
-   * Callback for making a component not visible.
-   */
-  hideSidePage = () => {
-    this.components.slider.value = 1;
-    this.knowledgeGraphComponent.depth = 1;
-    this.components.sideNav.className = "no-width";
-    this.components.pdfContainer.className = "full-width";
-  };
-
-  /**
-   * Set a pdf document from the reader to the subcomponents
+   * Sets currently opened pdf document data.
+   * @private
    * @param data current pdf data
    */
-  setPDF = (data) => {
+  #setPDF = (data) => {
     this.knowledgeGraphComponent.setPDF(data);
     this.summaryKeyComponent.setPdf(data);
   };
 }
-
-/**
- * Enum of possible side element (to avoid typos)
- * @type {{None: string, KnowledgeGraph: string, SummaryKey: string, Reference: string}}
- */
-const SideElement = {
-  None: "None",
-  KnowledgeGraph: "KnowledgeGraph",
-  SummaryKey: "SummaryKey",
-  Reference: "Reference",
-};
 
 export { SidePageComponent };

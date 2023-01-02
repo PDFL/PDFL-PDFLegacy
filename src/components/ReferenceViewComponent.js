@@ -89,6 +89,16 @@ class ReferenceViewComponent {
   };
 
   /**
+   * Handler for graph maker view opening, hides the reference view to show the graph
+   * @private
+   */
+  #hidePdfReferenceToShowGraph = () => {
+    this.components.sidePageReferenceContainer.className = "no-width";
+    if(this.components.closeBtnReference && this.components.closeBtnReference.parentElement == this.components.main)
+      this.components.main.removeChild(this.components.closeBtnReference);
+  };
+
+  /**
    * Creates event triggered when graoh maker button is clicked to hide the reference pdf and show the
    * main pdf in full width
    * @private
