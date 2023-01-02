@@ -175,10 +175,9 @@ font-family: var(--font);
 #layout {
   display: inline-flex;
   flex-wrap: wrap;
-  gap: 6em;
+  gap: 8em;
   justify-content: center;
   align-items: center;
-  padding-bottom: 60px;
 }
 #text{
   text-align: right;
@@ -493,10 +492,19 @@ body{
   font-size:15px;
 }
 
+.column{
+  position: relative;
+  width: 30%;
+  height: fit-content;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
   @media (min-width: 1200px) {
     .column{
       position: relative;
-      width: 600px;
+      width: 30%;
       height: fit-content;
       display: flex;
       align-items: center;
