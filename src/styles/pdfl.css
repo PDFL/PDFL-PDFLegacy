@@ -121,6 +121,7 @@ body{
 	background: var(--color) !important;
 }
 #carousel >s:target ~ .bullets >* {        background-color: #ddd;}
+#s1 ~ .bullets >*:nth-child(1) {background:var(--color);}
 #s1:target ~ .bullets >*:nth-child(1) {background:var(--color);}
 #s2:target ~ .bullets >*:nth-child(2) {background:var(--color);}
 #s3:target ~ .bullets >*:nth-child(3) {background:var(--color);}
