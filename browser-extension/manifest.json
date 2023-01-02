@@ -1,12 +1,13 @@
 {
   "manifest_version": 3,
   "name": "PDF - Legacy",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Detects and opens pdfs in the PDF - Legacy reader",
   "action": {
     "default_icon": "assets/icon.png",
     "default_popup": "popup.html"
   },
+  "permissions": ["tabs"],
   "content_scripts": [
     {
       "matches": ["*://*/*.pdf"],

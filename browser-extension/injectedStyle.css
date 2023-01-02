@@ -7,7 +7,7 @@
     left: 50px;
     padding: 5px;
     border-radius: 5px;
-    animation: myAnim 1s ease 0s 1 normal forwards;
+    animation: myAnim 0.5s ease 0s 1 normal forwards;
     font-family: Montserrat, Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   }
   
@@ -30,15 +30,15 @@
       transform: translateY(-250px);
     }
   
-    40% {
+    20% {
       animation-timing-function: ease-out;
       opacity: 1;
       transform: translateY(0);
     }
   
-    45% {
+    40% {
       animation-timing-function: ease-in;
-      transform: translateY(-65px);
+      transform: translateY(-40px);
     }
   
     60% {
@@ -46,19 +46,9 @@
       transform: translateY(0);
     }
   
-    65% {
-      animation-timing-function: ease-in;
-      transform: translateY(-28px);
-    }
-  
-    75% {
-      animation-timing-function: ease-out;
-      transform: translateY(0);
-    }
-  
     80% {
       animation-timing-function: ease-in;
-      transform: translateY(-8px);
+      transform: translateY(-10px);
     }
   
     100% {
