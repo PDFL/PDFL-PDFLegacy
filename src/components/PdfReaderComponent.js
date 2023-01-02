@@ -12,8 +12,9 @@ import * as textRenderService from "../services/TextRenderService";
 import { PdfPageComponent } from "./PdfPageComponent";
 import { respondToVisibility } from "../services/Utils";
 import { EXTRA_PAGES_TO_RENDER } from "../Constants";
+import { SelectionPopUpComponent } from "./SelectionPopUpComponent";
 
-const pdfjsLib = require("pdfjs-dist");
+import * as pdfjsLib from "pdfjs-dist/webpack";
 
 /**
  * Component representing the PDF reader. Displays the content of PDF document and actions
@@ -32,6 +33,7 @@ const pdfjsLib = require("pdfjs-dist");
  * @property {PdfPageComponent[]} pages array of the pages objects
  * @property {int[]} visiblePages array of the visible pages by page number
  * @property {int} visiblePage currently visible page
+ * @property {SelectionPopUpComponent} selectionPopUp popup related to selection functionality
  */
 class PdfReaderComponent {
   components = {
@@ -55,6 +57,7 @@ class PdfReaderComponent {
     this.pages = [];
     this.visiblePages = [];
     this.visiblePage = null;
+    this.selectionPopUp = new SelectionPopUpComponent();
     this.#registerEvents();
   }
 
@@ -73,9 +76,7 @@ class PdfReaderComponent {
     );
 
     new ResizeObserver(() => {
-      this.visiblePages.forEach((pageNum) => {
-        this.pages[pageNum - 1].positionTextLayer();
-      });
+      this.#recalculateTextLayerPositionForVisiblePages();
     }).observe(this.components.pdfContainer);
 
     EventHandlerService.subscribe(PDFLEvents.onRenderPage, (page) => {
@@ -104,7 +105,6 @@ class PdfReaderComponent {
    */
   loadPdf = (pdf) => {
     const self = this;
-    pdfjsLib.GlobalWorkerOptions.workerSrc = "/pdf.worker.bundle.js";
     pdfjsLib
       .getDocument(pdf)
       .promise.then((data) => {
@@ -118,9 +118,8 @@ class PdfReaderComponent {
         this.#setupPages();
       })
       .catch((err) => {
-        console.log(err.message); // TODO: handle error in some way
+        console.log(err); // TODO: handle error in some way
       });
-    this.components.loader.classList.add("hidden");
   };
 
   /**
@@ -162,6 +161,7 @@ class PdfReaderComponent {
     await this.#setCanvasSize();
 
     this.#addVisibilityListenersToPages();
+    this.components.loader.classList.add("hidden");
   }
 
   /**
@@ -178,6 +178,7 @@ class PdfReaderComponent {
       respondToVisibility(canvas, (visible) => {
         if (visible) {
           this.visiblePages.push(i + 1);
+          this.#recalculateTextLayerPositionForVisiblePages();
 
           let visiblePageNum = Math.min(...this.visiblePages);
           this.#setVisiblePage(visiblePageNum);
@@ -241,6 +242,16 @@ class PdfReaderComponent {
     setTimeout(() => {
       this.#setVisiblePage(visiblePageNum, true);
     }, 10);
+  }
+
+  /**
+   * Positions text layer for visible pages, used when the pdf container resizes
+   * or when the visible pages change.
+   */
+  #recalculateTextLayerPositionForVisiblePages() {
+    this.visiblePages.forEach((pageNum) => {
+      this.pages[pageNum - 1].positionTextLayer();
+    });
   }
 
   /**

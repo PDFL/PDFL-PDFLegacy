@@ -8,6 +8,7 @@ import {
  * @param {File} file PDF document
  */
 export function readFile(file) {
+  document.getElementById("title").textContent = file.name;
   EventHandlerService.publish(PDFLEvents.onResetReader);
 
   const fileReader = new FileReader();
@@ -29,6 +30,6 @@ export function readFile(file) {
 export function readFileFromUrl(url) {
   EventHandlerService.publish(PDFLEvents.onResetReader);
 
-  EventHandlerService.publish(PDFLEvents.onReadNewFile, url);
+  EventHandlerService.publish(PDFLEvents.onReadNewFile, encodeURI(url));
   EventHandlerService.publish(PDFLEvents.onShowReaderView);
 }

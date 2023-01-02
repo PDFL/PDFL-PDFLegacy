@@ -3,7 +3,7 @@ import {
   PDFLEvents,
 } from "../services/EventHandlerService";
 import { KnowledgeGraphComponent } from "./KnowledgeGraphComponent";
-import { SummaryKeyComponent } from "./SummaryKeyComponent";
+import { SummaryKeyComponent } from "./SummaryKeyComponents/SummaryKeyComponent";
 import { SidePageLoaderComponent } from "./SidePageLoaderComponent";
 
 /**
@@ -109,7 +109,6 @@ class SidePageComponent {
       this.hideSidePage();
     }
     this.#showSidePageSummary();
-    this.summaryKeyComponent.createPageSummary();
     this.currentOpenElement = SideElement.SummaryKey;
   };
 
@@ -162,8 +161,13 @@ class SidePageComponent {
     this.components.pdfContainer.className = "full-width";
   };
 
+  /**
+   * Set a pdf document from the reader to the subcomponents
+   * @param data current pdf data
+   */
   setPDF = (data) => {
     this.knowledgeGraphComponent.setPDF(data);
+    this.summaryKeyComponent.setPdf(data);
   };
 }
 

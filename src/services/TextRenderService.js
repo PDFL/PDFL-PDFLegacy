@@ -3,7 +3,7 @@ import { EventHandlerService, PDFLEvents } from "./EventHandlerService";
  * Declaration of library that contains the method to render text and annotations
  * @constant
  */
-const pdfjsLib = require("pdfjs-dist");
+import * as pdfjsLib from "pdfjs-dist/webpack";
 const pdfjsViewer = require("pdfjs-dist/web/pdf_viewer");
 
 /**

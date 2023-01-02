@@ -105,6 +105,10 @@ class WelcomeView extends AppView {
     }
   };
 
+  /**
+   * Check if the url contains query 'url'. If it does it will load
+   * the pdf from the external service.
+   */
   #checkForPdfAsUrl = () => {
     const params = new Proxy(new URLSearchParams(window.location.search), {
       get: (searchParams, prop) => searchParams.get(prop),
