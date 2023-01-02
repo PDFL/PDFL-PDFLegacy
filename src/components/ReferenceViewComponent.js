@@ -35,6 +35,7 @@ class ReferenceViewComponent {
     graphMakerBtn: document.querySelector("#graph-maker"),
     sideNav: document.querySelector("#side-page"),
     closeBtnReference: document.createElement("button"),
+    openNew: document.querySelector("#open-new-pdf"),
   };
 
   /**
@@ -62,14 +63,22 @@ class ReferenceViewComponent {
       PDFLEvents.onReferencePdfOpen,
       this.#displayPdfReference.bind(this)
     );
+
     this.components.graphMakerBtn.addEventListener(
       "click",
       this.#hidePdfReferenceToShowGraph.bind(this)
     );
+
     this.components.closeBtnReference.addEventListener(
       "click",
       this.#hidePdfReference.bind(this)
     );
+
+    this.components.openNew.addEventListener(
+      "click",
+      this.#hidePdfReference.bind(this)
+    );
+
   };
 
   /**
@@ -155,6 +164,27 @@ class ReferenceViewComponent {
           viewport: this.components.viewport,
         };
         page.render(renderCtx);
+
+        const textLayer = document.createElement("div");
+        textLayer.setAttribute("class", "textLayer");
+        textLayer.setAttribute("id", "text-layer-reference");
+
+        page.getTextContent().then(function (textContent) {
+          
+          textLayer.style.left = this.components.sidePageReferenceContainer.offsetLeft + "px";
+          textLayer.style.top = this.components.sidePageReferenceContainer.offsetTop + "px";
+          textLayer.style.height = this.components.viewport.offsetHeight + "px";
+          textLayer.style.width = this.components.viewport.offsetWidth + "px";
+
+          //Render the text inside the textLayer container
+          pdfjsLib.renderTextLayer({
+            textContent: textContent,
+            container: textLayer,
+            viewport: this.components.viewport,
+            textDivs: [],
+          });
+        });
+        component.sidePageReferenceContainer.appendChild(textLayer);
       })
       .catch((err) => {
         console.log(err.message); // TODO: handle error in some way
