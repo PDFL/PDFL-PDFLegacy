@@ -1,5 +1,8 @@
 import { AppView } from "./AppView.js";
-import { readFile } from "../../../services/FileUploadService.js";
+import {
+  readFile,
+  readFileFromUrl,
+} from "../../../services/FileUploadService.js";
 
 /**
  * Welcome page view.
@@ -27,6 +30,7 @@ class WelcomeView extends AppView {
     this.cleanView();
     this.components.view.hidden = false;
     this.#registerEvents();
+    this.#checkForPdfAsUrl();
   }
 
   /**
@@ -98,6 +102,16 @@ class WelcomeView extends AppView {
       readFile(file);
     } else {
       this.components.errorMessage.classList.remove("hidden");
+    }
+  };
+
+  #checkForPdfAsUrl = () => {
+    const params = new Proxy(new URLSearchParams(window.location.search), {
+      get: (searchParams, prop) => searchParams.get(prop),
+    });
+    let pdfUrl = params.url;
+    if (pdfUrl) {
+      readFileFromUrl(pdfUrl);
     }
   };
 }

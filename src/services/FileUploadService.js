@@ -3,7 +3,8 @@ import {
   PDFLEvents,
 } from "../services/EventHandlerService.js";
 /**
- * Reset reader, reads file and then publishes readNewFileEvent. After, publishes the showReaderView event
+ * Reset reader, reads file and then publishes readNewFileEvent.
+ * After, publishes the showReaderView event.
  * @param {File} file PDF document
  */
 export function readFile(file) {
@@ -18,4 +19,16 @@ export function readFile(file) {
     EventHandlerService.publish(PDFLEvents.onShowReaderView);
   };
   fileReader.readAsArrayBuffer(file);
+}
+
+/**
+ * Reset reader, and then publishes readNewFileEvent with the url of the pdf as param.
+ * After, publishes the showReaderView event.
+ * @param {File} file PDF document
+ */
+export function readFileFromUrl(url) {
+  EventHandlerService.publish(PDFLEvents.onResetReader);
+
+  EventHandlerService.publish(PDFLEvents.onReadNewFile, url);
+  EventHandlerService.publish(PDFLEvents.onShowReaderView);
 }
