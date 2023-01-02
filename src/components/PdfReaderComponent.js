@@ -126,6 +126,7 @@ class PdfReaderComponent {
   reset = () => {
     this.sidePageComponent.hideSidePage();
     this.sidePageComponent.hideSidePageSummary();
+    this.referenceViewComponent.hidePdfReference();
     this.toolbarComponent.reset();
     this.pages = [];
     this.visiblePages = [];

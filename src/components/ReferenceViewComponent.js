@@ -68,7 +68,7 @@ class ReferenceViewComponent {
     );
     this.components.closeBtnReference.addEventListener(
       "click",
-      this.#hidePdfReference.bind(this)
+      this.hidePdfReference.bind(this)
     );
   };
 
@@ -93,12 +93,15 @@ class ReferenceViewComponent {
   /**
    * Creates event triggered when graoh maker button is clicked to hide the reference pdf and show the
    * main pdf in full width
-   * @private
    */
-  #hidePdfReference = () => {
+  hidePdfReference = () => {
     this.components.sidePageReferenceContainer.className = "no-width";
     this.components.pdfContainer.className = "full-width";
-    this.components.main.removeChild(this.components.closeBtnReference);
+    if (
+      this.components.main == this.components.closeBtnReference.parentElement
+    ) {
+      this.components.main.removeChild(this.components.closeBtnReference);
+    }
   };
 
   /**
