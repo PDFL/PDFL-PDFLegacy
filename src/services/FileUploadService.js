@@ -1,3 +1,4 @@
+import { CORS_PROXY } from "../Constants.js";
 import {
   EventHandlerService,
   PDFLEvents,
@@ -30,6 +31,7 @@ export function readFile(file) {
 export function readFileFromUrl(url) {
   EventHandlerService.publish(PDFLEvents.onResetReader);
 
-  EventHandlerService.publish(PDFLEvents.onReadNewFile, encodeURI(url));
+  EventHandlerService.publish(PDFLEvents.onReadNewFile, `${CORS_PROXY}${url}`);
+
   EventHandlerService.publish(PDFLEvents.onShowReaderView);
 }
