@@ -174,10 +174,9 @@ font-family: var(--font);
 #layout {
   display: inline-flex;
   flex-wrap: wrap;
-  gap: 6em;
+  gap: 8em;
   justify-content: center;
   align-items: center;
-  padding-bottom: 60px;
 }
 #text{
   text-align: right;

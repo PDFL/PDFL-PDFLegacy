@@ -28,10 +28,19 @@ body{
   font-size:15px;
 }
 
+.column{
+  position: relative;
+  width: 30%;
+  height: fit-content;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
   @media (min-width: 1200px) {
     .column{
       position: relative;
-      width: 600px;
+      width: 40%;
       height: fit-content;
       display: flex;
       align-items: center;
