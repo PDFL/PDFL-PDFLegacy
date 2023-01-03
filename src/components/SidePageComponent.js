@@ -97,7 +97,7 @@ class SidePageComponent {
   };
 
   /**
-   * Displays summary in side page if it is not displayed and hides it if displayed. 
+   * Displays summary in side page if it is not displayed and hides it if displayed.
    * @private
    */
   #toggleSummary = () => {
@@ -106,7 +106,7 @@ class SidePageComponent {
     this.loader.hideLoader();
     this.knowledgeGraphComponent.hide();
     this.#showSidePage();
-    this.components.closeBtn.className="close-btn-summary";
+    this.components.closeBtn.className = "close-btn-summary";
     this.summaryKeyComponent.show();
   };
 

@@ -542,6 +542,7 @@ input[type="number"]::-webkit-outer-spin-button {
   height: 100%;
   background: #143552;
   z-index: 999;
+  cursor: progress;
 }
 
 #side-page-loader.transparent{
@@ -890,7 +891,6 @@ input[type="number"]::-webkit-outer-spin-button {
     top: var(--height);
     right: 1%;
     font-size: 50px;
-    z-index: 999;
     color: #f5f5f5;;
     cursor: pointer;
   }
@@ -1144,10 +1144,9 @@ input[type="number"]::-webkit-outer-spin-button {
   justify-content: center;
   align-items: center;
   transform: scale(0.7);
-  margin-top: 4%;
   position: fixed;
   width: 50%;
-  z-index: 997;
+  top: var(--height);
  }
 
  #slider{
@@ -1290,6 +1289,7 @@ input[type="number"]::-webkit-outer-spin-button {
   float: right;
   background: #143552ed;
   height: 100%;
+  cursor: default;
 }
 
 .accordion {
