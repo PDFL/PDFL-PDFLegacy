@@ -9,7 +9,6 @@ import { SidePageLoaderComponent } from "./SidePageLoaderComponent";
 /**
  * Component representing side window that can be closed. It is a placeholder
  * for other components to be shown.
- *
  * @property {Object} components object that holds DOM elements that represent this component, as well as component's context
  * @property {HTMLElement} components.closeBtn button that closes side page
  * @property {HTMLElement} components.sideNav placeholder of this component

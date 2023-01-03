@@ -4,22 +4,20 @@ import {
 } from "../../services/EventHandlerService";
 
 /**
- * Component representing the loader in side page. It can be used when data from 
+ * Component representing the loader in side page. It can be used when data from
  * asynchronous function is being displayed in side page. If error occurs while
  * retrieving data from asynchronous function this component can also display
  * error message.
- *
  * @property {Object} components object that holds DOM elements within this component
  * @property {HTMLElement} components.loader placeholder for loader animation or error message
  * @property {HTMLElement} components.loaderAnimation loading animation element
  * @property {HTMLElement} components.errorMessageDiv error message element
  */
 class SidePageLoaderComponent {
-
   components = {
     loaderAnimation: document.querySelector("#loader-bubbles"),
     loader: document.querySelector("#side-page-loader"),
-    errorMessageDiv: document.querySelector("#error-message-div")
+    errorMessageDiv: document.querySelector("#error-message-div"),
   };
 
   /**
@@ -37,9 +35,12 @@ class SidePageLoaderComponent {
       this.hideLoader();
     });
 
-    EventHandlerService.subscribe(PDFLEvents.onShowTransparentSidePageLoader, () => {
+    EventHandlerService.subscribe(
+      PDFLEvents.onShowTransparentSidePageLoader,
+      () => {
         this.#showTransparentLoader();
-    });
+      }
+    );
 
     EventHandlerService.subscribe(PDFLEvents.onShowOpaqueSidePageLoader, () => {
       this.#showOpaqueLoader();
