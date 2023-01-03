@@ -132,3 +132,40 @@ function renderLinkLayer(page, textLayer, viewport) {
     EventHandlerService.publish(PDFLEvents.onLinkLayerRendered, textLayer);
   });
 }
+
+  /**
+ * Function to render the page inside the reference side view
+ * @param {pdfDoc} pdfDoc PDF document
+ * @param {Object} component object that holds DOM elements that are within component
+ * @param {HTMLElement} pageNumber number of the page of the reference selected
+ */
+export function renderPageReference(pdfDoc, component, pageNumber) {
+  pdfDoc.getPage(pageNumber).then((page) => {
+
+    const ctxReference = component.canvas.getContext("2d");
+    component.viewport = page.getViewport({scale: 1});
+
+    component.canvas.height = component.viewport.height;
+    component.canvas.width = component.viewport.width;
+
+    const renderCtx = {
+      canvasContext: ctxReference,
+      viewport: component.viewport,
+    };
+
+    page.render(renderCtx);
+
+    component.sidePageReferenceContainer.innerHTML = "";
+    component.sidePageReferenceContainer.appendChild(component.canvas);
+
+    /* Text Layer Implementation */
+    const textLayer = createTextLayerDOMIfNotExist(pageNumber);
+
+    page.getTextContent().then(function (textContent) {
+      positionTextLayer(textLayer, component.canvas);
+      renderTextLayer(textContent, textLayer, component.viewport);
+    }); 
+
+    component.sidePageReferenceContainer.appendChild(textLayer);
+  });
+}
