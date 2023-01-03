@@ -61,6 +61,10 @@ class SummaryKeyComponent {
       PDFLEvents.onOpenSelectionSummary,
       this.#showSelectedText.bind(this)
     );
+
+    EventHandlerService.subscribe(PDFLEvents.onReadNewPdf, (pdf) => {
+      this.#setPDF(pdf);
+    });
   };
 
   /**
@@ -74,11 +78,12 @@ class SummaryKeyComponent {
   };
 
   /**
-   * Setter for pdf document from caller,
-   * start actions when pdf is ready
-   * @param pdfDoc
+   * Sets the PDF document from caller,
+   * start actions when PDF is ready
+   * @private
+   * @param {PDFDocumentProxy} pdfDocument PDF document
    */
-  setPdf = (pdfDoc) => {
+  #setPDF = (pdfDoc) => {
     this.tldrItem.setLoading();
     this.abstractItem.setLoading();
     this.abstractSummaryItem.setLoading();

@@ -63,10 +63,6 @@ class SidePageComponent {
     EventHandlerService.subscribe(PDFLEvents.onResetReader, () => {
       this.#hideSidePage();
     });
-
-    EventHandlerService.subscribe(PDFLEvents.onReadNewPdf, (pdf) => {
-      this.#setPDF(pdf);
-    });
   };
 
   /**
@@ -130,16 +126,6 @@ class SidePageComponent {
   #showSidePage = () => {
     this.components.sideNav.className = "half-width";
     this.components.pdfContainer.className = "half-width";
-  };
-
-  /**
-   * Sets currently opened pdf document data.
-   * @private
-   * @param data current pdf data
-   */
-  #setPDF = (data) => {
-    this.knowledgeGraphComponent.setPDF(data);
-    this.summaryKeyComponent.setPdf(data);
   };
 }
 

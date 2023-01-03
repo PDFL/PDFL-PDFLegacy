@@ -56,6 +56,10 @@ class KnowledgeGraphComponent {
    */
   #registerEvents = () => {
     this.components.graphDepth.addEventListener("change", this.#depthSelected);
+
+    EventHandlerService.subscribe(PDFLEvents.onReadNewPdf, (pdf) => {
+      this.#setPDF(pdf);
+    });
   };
 
   /**
@@ -90,10 +94,11 @@ class KnowledgeGraphComponent {
   }
 
   /**
-   * Setter for PDF document from which knowledge graph will be generated.
+   * Sets the PDF document from which knowledge graph will be generated.
+   * @private
    * @param {PDFDocumentProxy} pdfDocument PDF document
    */
-  setPDF = (pdfDocument) => {
+  #setPDF = (pdfDocument) => {
     this.pdfDocument = pdfDocument;
   };
 

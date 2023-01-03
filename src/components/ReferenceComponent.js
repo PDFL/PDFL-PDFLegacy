@@ -29,15 +29,16 @@ class ReferenceComponent {
     );
 
     EventHandlerService.subscribe(PDFLEvents.onReadNewPdf, (pdf) => {
-      this.setPdfDoc(pdf);
+      this.#setPDF(pdf);
     });
   };
 
   /**
-   * Set the pdf document
-   * @param pdfDoc
+   * Sets the PDF document.
+   * @private
+   * @param {PDFDocumentProxy} pdfDocument PDF document
    */
-  setPdfDoc = (pdfDoc) => {
+  #setPDF = (pdfDoc) => {
     this.pdfDoc = pdfDoc;
   };
 
