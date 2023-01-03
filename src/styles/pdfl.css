@@ -101,6 +101,14 @@ body{
     margin-top: 2rem;
 }
 
+.canvas-for-reference{
+  box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px;
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 2rem;
+}
+
 #num-pages{
   text-align: center; 
   color: var(--iconColor); 
@@ -727,6 +735,7 @@ input[type="number"]::-webkit-outer-spin-button {
     position: relative;
     right: 2%;
     overflow-x: hidden;
+    overflow-y: hidden;
     z-index: 2;
     cursor: move;
     position: fixed;
@@ -1090,7 +1099,7 @@ input[type="number"]::-webkit-outer-spin-button {
   }
 
   #close-btn-reference{
-    position: absolute;
+    position: fixed;
     margin-top: 2rem;
     right: 46rem;
     font-size: 40px;

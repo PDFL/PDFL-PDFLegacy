@@ -2,6 +2,13 @@ import {
   EventHandlerService,
   PDFLEvents,
 } from "../services/EventHandlerService";
+import * as textRenderService from "../services/TextRenderService";
+
+/**
+ * Declaration of library that contains the method to render text and annotations
+ * @constant
+ */
+const pdfjsLib = require("pdfjs-dist");
 
 /**
  * Component representing two page layout and display dynamically the content of it
@@ -27,11 +34,12 @@ class ReferenceViewComponent {
     pdfContainer: document.querySelector("#pdf-container"),
     contentDiv: document.querySelector("#content-reference-div"),
     sidePageReferenceBtn: document.querySelector("#side-page-reference-btn"),
-    sidePageReferenceContainer: document.createElement("canvas"),
+    sidePageReferenceContainer: document.createElement("div"),
     main: document.querySelector("#main"),
     pdfDoc: null,
     pdfPageNumber: null,
     viewport: null,
+    canvas: null,
     graphMakerBtn: document.querySelector("#graph-maker"),
     sideNav: document.querySelector("#side-page"),
     closeBtnReference: document.createElement("button"),
@@ -118,9 +126,7 @@ class ReferenceViewComponent {
     this.components.pdfContainer.className = "half-width";
     this.components.closeBtnReference.setAttribute("id", "close-btn-reference");
     this.components.closeBtnReference.innerHTML = "<a>&times;</a>";
-    this.components.main.appendChild(
-      this.components.sidePageReferenceContainer
-    );
+    this.components.main.appendChild(this.components.sidePageReferenceContainer);
     this.components.main.appendChild(this.components.closeBtnReference);
     this.components.closeBtnReference.className += " moveIn";
     this.components.sidePageReferenceContainer.className += " moveIn";
@@ -131,65 +137,75 @@ class ReferenceViewComponent {
    * @private
    */
   #renderPdfReference = (pageNumber) => {
-    this.components.pdfPageNumber = pageNumber;
+    //this.components.pdfPageNumber = pageNumber;
     this.components.sideNav.className = "no-width";
-    this.components.sidePageReferenceContainer.setAttribute(
-      "id",
-      "side-page-reference-container"
-    );
-    this.components.sidePageReferenceContainer.setAttribute(
-      "class",
-      "canvas__container"
-    );
+    this.components.sidePageReferenceContainer.setAttribute("id", "side-page-reference-container");
+    //this.components.sidePageReferenceContainer.setAttribute("class", "canvas__container");
 
     if (this.pdfDoc === null) {
       throw new Error("PDFDocument object missed");
     }
-    this.pdfDoc
-      .getPage(this.components.pdfPageNumber)
-      .then((page) => {
-        const ctxReference =
-          this.components.sidePageReferenceContainer.getContext("2d");
-        this.components.viewport = page.getViewport({
-          scale: 1,
-        });
 
-        this.components.sidePageReferenceContainer.height =
-          this.components.viewport.height;
-        this.components.sidePageReferenceContainer.width =
-          this.components.viewport.width;
-
-        const renderCtx = {
-          canvasContext: ctxReference,
-          viewport: this.components.viewport,
-        };
-        page.render(renderCtx);
-
-        const textLayer = document.createElement("div");
-        textLayer.setAttribute("class", "textLayer");
-        textLayer.setAttribute("id", "text-layer-reference");
-
-        page.getTextContent().then(function (textContent) {
-          
-          textLayer.style.left = this.components.sidePageReferenceContainer.offsetLeft + "px";
-          textLayer.style.top = this.components.sidePageReferenceContainer.offsetTop + "px";
-          textLayer.style.height = this.components.viewport.offsetHeight + "px";
-          textLayer.style.width = this.components.viewport.offsetWidth + "px";
-
-          //Render the text inside the textLayer container
-          pdfjsLib.renderTextLayer({
-            textContent: textContent,
-            container: textLayer,
-            viewport: this.components.viewport,
-            textDivs: [],
-          });
-        });
-        component.sidePageReferenceContainer.appendChild(textLayer);
-      })
-      .catch((err) => {
-        console.log(err.message); // TODO: handle error in some way
-      });
+    this.#renderPageReference(
+      this.pdfDoc,
+      this.components,
+      pageNumber
+    );
+    
   };
+
+  /**
+ * Function to render the page of the reference
+ * @param {pdfDoc} pdfDoc PDF document
+ * @param {Object} component object that holds DOM elements that are within component
+ * @param {HTMLElement} pageNumber number of the page of the reference selected
+ */
+#renderPageReference = (pdfDoc, component, pageNumber) => {
+  pdfDoc.getPage(pageNumber).then((page) => {
+
+    component.canvas = document.createElement("canvas");
+    component.canvas.setAttribute("class", "canvas-for-reference");
+
+    const ctxReference = component.canvas.getContext("2d");
+    component.viewport = page.getViewport({
+      scale: 1,
+    });
+
+    component.canvas.height = component.viewport.height;
+    component.canvas.width = component.viewport.width;
+
+    const renderCtx = {
+      canvasContext: ctxReference,
+      viewport: component.viewport,
+    };
+
+    page.render(renderCtx);
+
+    component.sidePageReferenceContainer.innerHTML = "";
+    component.sidePageReferenceContainer.appendChild(component.canvas);
+
+    /* Text Layer Implementation */
+    const textLayer = document.createElement("div");
+    textLayer.setAttribute("class", "textLayer");
+    textLayer.setAttribute("id", "text-layer-reference");
+
+    page.getTextContent().then(function (textContent) {
+      textLayer.style.left = component.canvas.offsetLeft + "px";
+      textLayer.style.top = component.canvas.offsetTop + "px";
+      textLayer.style.height = component.viewport.offsetHeight + "px";
+      textLayer.style.width = component.viewport.offsetWidth + "px";
+
+      //Render the text inside the textLayer container
+      pdfjsLib.renderTextLayer({
+        textContent: textContent,
+        container: textLayer,
+        viewport: component.viewport,
+        textDivs: [],
+      });
+    }); 
+    component.sidePageReferenceContainer.appendChild(textLayer);
+  });
+}
 }
 
 export { ReferenceViewComponent };
