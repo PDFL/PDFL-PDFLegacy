@@ -1,11 +1,11 @@
 import {
   EventHandlerService,
   PDFLEvents,
-} from "../services/EventHandlerService";
+} from "../../services/EventHandlerService";
 import { PaginationComponent } from "./PaginationComponent";
 import { ZoomComponent } from "./ZoomComponent";
-import { POPUP_DISAPPEAR_TIMEOUT } from "../Constants";
-import { readFile } from "../services/FileUploadService";
+import { POPUP_DISAPPEAR_TIMEOUT } from "../../Constants";
+import { readFile } from "../../services/FileUploadService";
 
 /**
  * Component that serves as a placehodler for all elements in a toolbar. Manages functionality of it's

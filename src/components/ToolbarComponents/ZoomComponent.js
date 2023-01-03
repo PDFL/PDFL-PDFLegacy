@@ -1,8 +1,8 @@
-import { MAX_ZOOM_FACTOR, MIN_ZOOM_FACTOR } from "../Constants";
+import { MAX_ZOOM_FACTOR, MIN_ZOOM_FACTOR } from "../../Constants";
 import {
   EventHandlerService,
   PDFLEvents,
-} from "../services/EventHandlerService";
+} from "../../services/EventHandlerService";
 
 /**
  * Component that displays zoom buttons, calculates zoom level when buttons pressed and stores it.

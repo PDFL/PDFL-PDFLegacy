@@ -1,9 +1,9 @@
 import {
   EventHandlerService,
   PDFLEvents,
-} from "../services/EventHandlerService";
+} from "../../services/EventHandlerService";
 
-import { PAGE_INPUT_VALIDATION_REGEX } from "../Constants";
+import { PAGE_INPUT_VALIDATION_REGEX } from "../../Constants";
 
 /**
  * Component that paginates the PDF document that is being read. It calculates next/previous page number
