@@ -159,6 +159,7 @@ class PaginationComponent {
    * @param {int} pageNumber new current page number
    */
   setCurrentPage = (pageNumber = this.currentPage) => {
+    if(!isFinite(pageNumber)) return;//TODO: optimise - called too many times on file upload from welcome view
     this.currentPage = pageNumber;
     this.components.currentPage.value = pageNumber;
     this.#updateButtonStatus();

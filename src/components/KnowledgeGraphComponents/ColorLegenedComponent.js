@@ -1,4 +1,4 @@
-import { FIELD_OF_STUDY_COLOR } from "../Constants";
+import { FIELD_OF_STUDY_COLOR } from "../../Constants";
 
 /**
  * Component within knowledge graph responsible for creating a color legend. Color legend

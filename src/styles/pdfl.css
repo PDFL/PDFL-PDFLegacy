@@ -907,6 +907,7 @@ input[type="number"]::-webkit-outer-spin-button {
     color:white;
     display: inline-block;
     border-bottom: 1px dotted black;
+    cursor: default;
   }
   
   #question-mark .tooltiptext {
@@ -1331,6 +1332,10 @@ input[type="number"]::-webkit-outer-spin-button {
 
 .active:after {
   content: "\25b2"; 
+}
+
+#close-btn{
+  cursor: pointer;
 }
 
 .close-btn-summary{

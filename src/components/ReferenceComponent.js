@@ -8,7 +8,7 @@ import { ParserFactory } from "../services/DocumentParser/ParserFactory";
 import { POPUP_APPEAR_TIMEOUT } from "../Constants";
 
 /**
- * This class handles user interaction with internal document references
+ * This class handles user interaction with internal document references.
  * @property {object} pdfDoc
  * @property {object} overEventPosition
  */
@@ -27,6 +27,10 @@ class ReferenceComponent {
       PDFLEvents.onLinkLayerRendered,
       this.#onLinkLayerRendered.bind(this)
     );
+
+    EventHandlerService.subscribe(PDFLEvents.onReadNewPdf, (pdf) => {
+      this.setPdfDoc(pdf);
+    });
   };
 
   /**

@@ -52,10 +52,12 @@ class PdfReaderComponent {
     this.referenceComponent = new ReferenceComponent();
     this.popupComponent = new PopupComponent();
     this.referenceViewComponent = new ReferenceViewComponent();
+
     this.pages = [];
     this.visiblePages = [];
     this.visiblePage = null;
     this.selectionPopUp = new SelectionPopUpComponent();
+    
     this.#registerEvents();
   }
 

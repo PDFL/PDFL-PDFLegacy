@@ -1,4 +1,4 @@
-import { Node } from "../services/KnowledgeGraphService";
+import { Node } from "../../services/KnowledgeGraphService";
 
 /**
  * Component that representing a small window with information. This component displays infomation
