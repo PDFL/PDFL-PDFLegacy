@@ -116,6 +116,9 @@ class SidePageComponent {
    */
   #hideSidePage = () => {
     this.knowledgeGraphComponent.reset();
+    this.knowledgeGraphComponent.hide();
+    this.summaryKeyComponent.hide()
+
     this.components.sideNav.className = "hidden";
     this.components.pdfContainer.className = "full-width";
   };
