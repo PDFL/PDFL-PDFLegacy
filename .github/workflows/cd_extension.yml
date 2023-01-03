@@ -1,0 +1,32 @@
+name: "CD for PDFL chrome extension"
+
+on:
+  push:
+    branches: [main, PL-146-Browser-Extension]
+    paths:
+      - browser-extension/**
+
+jobs:
+  build-and-deploy-extension:
+    name: Build and Deploy the PDFL extension
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v2.3.1
+
+      - name: "zip the extension"
+        uses: vimtor/action-zip@v1
+        with:
+          files: browser-extension/
+          dest: extension.zip
+          recursive: false
+
+      - name: "publish the extension"
+        uses: mnao305/chrome-extension-upload@v4.0.0
+        with:
+          refresh-token: ${{ secrets.EXTENSION_REFRESH_TOKEN }}
+          client-id: ${{ secrets.EXTENSION_CLIENT_ID }}
+          client-secret: ${{ secrets.EXTENSION_CLIENT_SECRET }}
+          file-path: ./extension.zip
+          extension-id: ${{ secrets.EXTENSION_ID }}
+          publish: false

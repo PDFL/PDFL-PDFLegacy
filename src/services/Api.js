@@ -3,6 +3,7 @@ const CITATIONS_API =
   "https://api.semanticscholar.org/graph/v1/paper/{paper_id}/citations?";
 const REFERENCES_API =
   "https://api.semanticscholar.org/graph/v1/paper/{paper_id}/references?";
+const PAPER_API = "https://api.semanticscholar.org/graph/v1/paper/{paper_id}?";
 
 const HEADERS = new Headers({
   "X-Api-Key": process.env.SEMANTIC_SCHOLAR_API_KEY,
@@ -36,7 +37,11 @@ const FIELDS_TO_FETCH_FOR_PAPER =
  * @returns {Promise<import("./KnowledgeGraphService").PaperInfo>}
  */
 async function fetchPaperInfo(titleQuery) {
-  let queryParams = new URLSearchParams({ query: titleQuery, limit: 1, fields: FIELDS_TO_FETCH_FOR_PAPER});
+  let queryParams = new URLSearchParams({
+    query: titleQuery,
+    limit: 1,
+    fields: FIELDS_TO_FETCH_FOR_PAPER,
+  });
   let paper = (
     await (await fetch(KEYWORD_API + queryParams, FETCH_OPTIONS)).json()
   ).data[0];
@@ -87,4 +92,27 @@ async function fetchReferences(paperID) {
   return data;
 }
 
-export { fetchPaperInfo, fetchCitations, fetchReferences };
+/**
+ * Fetch the TLDR and the Abstract for a paper given the ID
+ * @param paperID papaer id
+ * @returns {Promise<Object>} the object containing tldr and abstract
+ */
+async function fetchPaperTldrAndAbstract(paperID) {
+  let queryParams = new URLSearchParams({
+    fields: "tldr,abstract",
+  });
+  let data = await (
+    await fetch(
+      PAPER_API.replace("{paper_id}", paperID) + queryParams,
+      FETCH_OPTIONS
+    )
+  ).json();
+  return data;
+}
+
+export {
+  fetchPaperInfo,
+  fetchCitations,
+  fetchReferences,
+  fetchPaperTldrAndAbstract,
+};
