@@ -18,7 +18,6 @@ import ForceGraph from "force-graph";
 
 /**
  * Component responsible for displaying the knowledge graph.
- *
  * @property {Object} components object that holds elements within this component
  * @property {HTMLElement} components.container container of this whole component
  * @property {HTMLElement} components.knowledgeGraph element in which knowledge graph will be displayed
@@ -38,7 +37,6 @@ class KnowledgeGraphComponent {
   /**
    * Creates and initializes new knowledge graph component. Sets depth
    * of knowledge graph to 1.
-   *
    * @constructor
    */
   constructor() {
@@ -64,7 +62,6 @@ class KnowledgeGraphComponent {
 
   /**
    * Called when user selects a depth from dropdown menu.
-   *
    * @private
    * @param {Event} event event triggered when depth chosen from dropdown menu
    */
@@ -77,7 +74,6 @@ class KnowledgeGraphComponent {
 
   /**
    * Sets new depth of knowledge graph and displays graph of that depth.
-   *
    * @private
    * @param {int} selectedDepth new depth
    */

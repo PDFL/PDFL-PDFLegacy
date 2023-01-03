@@ -1,12 +1,10 @@
 import { Node } from "../../services/KnowledgeGraphService";
 
 /**
- * Component that representing a small window with information. This component displays infomation
- * about paper that node is representing in graph. This class is responsible for opening, closing
- * and filling the window with data from node. This component also contains a button that when
- * pressed expands the node.
- *
- * @property {Object} components that holds DOM elements that are this or within this component
+ * Component that represents a small window with information about paper that node
+ * is representing in the graph. This class is responsible for opening, closing and
+ * filling the window with node data.
+ * @property {Object} components object that holds DOM elements that are this or within this component
  * @property {HTMLElement} components.infoWindow placeholder of this component
  */
 class PaperInfoComponent {
@@ -15,9 +13,8 @@ class PaperInfoComponent {
   };
 
   /**
-   * Fills window with paper information from node. Displays papers title,
+   * Fills window with paper information from node. Displays paper's title,
    * authors and field of study.
-   *
    * @param {Node} node node for which paper information is being displayed
    */
   displayPaperInfo = (node) => {
