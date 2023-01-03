@@ -1286,11 +1286,11 @@ input[type="number"]::-webkit-outer-spin-button {
 
 .panel {
   padding: 0 18px;
-  background-color: var(--color);
+  background-color: white;
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.2s ease-out;
-  color: white;
+  color: black;
   margin-bottom: 1px;
 }
 

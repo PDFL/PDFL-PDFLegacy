@@ -179,14 +179,14 @@ font-family: var(--font);
   align-items: center;
 }
 #text{
-  text-align: right;
+  text-align: left;
   width: 20%;
 }
 #media-text{
   display: flex;
   margin-top: -20px;
-  justify-content: right;
-  align-items: right;
+  justify-content: left;
+  align-items: left;
 }
 #uploader-container{
   top: 50%; /* moved down by 50% of the screen height */
