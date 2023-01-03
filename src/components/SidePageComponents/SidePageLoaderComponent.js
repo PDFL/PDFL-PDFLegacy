@@ -1,7 +1,7 @@
 import {
   EventHandlerService,
   PDFLEvents,
-} from "../services/EventHandlerService";
+} from "../../services/EventHandlerService";
 
 /**
  * Component representing the loader in side page. It can be used when data from 

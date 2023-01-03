@@ -1,7 +1,7 @@
 import { AppView } from "./AppView.js";
 import { PdfReaderComponent } from "../../PdfReaderComponent.js";
 import { ThumbnailComponent } from "../../ThumbnailComponent.js";
-import { SidePageComponent } from "../../SidePageComponent.js";
+import { SidePageComponent } from "../../SidePageComponents/SidePageComponent.js";
 
 /**
  * PDF reader page view.
