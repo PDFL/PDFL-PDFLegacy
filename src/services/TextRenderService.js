@@ -133,6 +133,40 @@ function renderLinkLayer(page, textLayer, viewport) {
   });
 }
 
+/**
+ * Creates the page context where render the page.
+ *
+ * @param {canvas} canvas canvas of the pdf.js page
+ * @param {viewport} viewport target page viewport for the textlayer
+ * @returns {renderCtx} renderCtx, element where render the page
+ */
+export function getContext(canvas, viewport) {
+  const ctx = canvas.getContext("2d");
+  const renderCtx = {
+    canvasContext: ctx,
+    viewport: viewport,
+  };
+  return renderCtx;
+}
+
+/**
+ * Creates the page viewport and sets canvas size.
+ *
+ * @param {Page} page pdf.js library page
+ * @param {canvas} canvas canvas of the pdf.js page
+ * @param {float} zoomScale
+ * @returns {import("pdfjs-dist").PageViewport} viewport of the page
+ */
+export function getViewport(page, canvas, zoomScale) {
+  let viewport = page.getViewport({
+    scale: zoomScale,
+  });
+
+  canvas.height = viewport.height;
+  canvas.width = viewport.width;
+  return viewport;
+}
+
   /**
  * Function to render the page inside the reference side view
  * @param {pdfDoc} pdfDoc PDF document
@@ -142,16 +176,8 @@ function renderLinkLayer(page, textLayer, viewport) {
 export function renderPageReference(pdfDoc, component, pageNumber) {
   pdfDoc.getPage(pageNumber).then((page) => {
 
-    const ctxReference = component.canvas.getContext("2d");
-    component.viewport = page.getViewport({scale: 1});
-
-    component.canvas.height = component.viewport.height;
-    component.canvas.width = component.viewport.width;
-
-    const renderCtx = {
-      canvasContext: ctxReference,
-      viewport: component.viewport,
-    };
+    component.viewport = getViewport(page, component.canvas, 1);
+    const renderCtx = getContext(component.canvas, component.viewport);
 
     page.render(renderCtx);
 
