@@ -64,11 +64,11 @@ class PdfReaderComponent {
    */
   #registerEvents = () => {
     this.components.pdfContainer.addEventListener(
-      "mousedown",
+      "mousemove",
       textRenderService.hideLinks
     );
     this.components.pdfContainer.addEventListener(
-      "mouseup",
+      "mousedown",
       textRenderService.hideLinks
     );
 
