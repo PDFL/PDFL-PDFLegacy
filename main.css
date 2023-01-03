@@ -180,14 +180,14 @@ font-family: var(--font);
   align-items: center;
 }
 #text{
-  text-align: right;
+  text-align: left;
   width: 20%;
 }
 #media-text{
   display: flex;
   margin-top: -20px;
-  justify-content: right;
-  align-items: right;
+  justify-content: left;
+  align-items: left;
 }
 #uploader-container{
   top: 50%; /* moved down by 50% of the screen height */
@@ -1750,11 +1750,11 @@ input[type="number"]::-webkit-outer-spin-button {
 
 .panel {
   padding: 0 18px;
-  background-color: var(--color);
+  background-color: white;
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.2s ease-out;
-  color: white;
+  color: black;
   margin-bottom: 1px;
 }
 
