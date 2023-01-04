@@ -6,7 +6,6 @@ import { ReferenceViewComponent } from "../../ReferenceViewComponent.js";
 
 /**
  * PDF reader page view.
- *
  * @extends AppView
  * @property {PdfReaderComponent} reader static property representhing the PDF file reader component
  * @property {ThumbnailComponent} thumbnail static property representhing the thumbnail of PDF file

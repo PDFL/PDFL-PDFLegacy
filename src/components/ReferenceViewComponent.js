@@ -13,14 +13,15 @@ import { KnowledgeGraphComponent } from "../components/KnowledgeGraphComponent";
 const pdfjsLib = require("pdfjs-dist");
 
 /**
- * Component representing two page layout and display dynamically the content of it
- *
- *
- * @property {Object} components object that holds DOM elements that represent this component, as well as component's context
- * @property {HTMLElement} components.pdfContainer element containing the PDF reader
- * @property {HTMLElement} components.canvas canvas for the pdf reference
- * @property {HTMLElement} components.closeBtn button for close the reference page
- * @property {HTMLElement} pdfDoc pdf of the user
+ * Component representing the page containing the cross reference content. Content
+ * dynamically changes when new cross reference is opened. This component is displayed
+ * as a page next to current page of PDF that user is reading.
+ * @property {Object} components object that holds DOM elements that represent this component
+ * @property {HTMLElement} components.pdfContainer PDF reader container
+ * @property {HTMLElement} components.canvas canvas containing the whole page where reference is
+ * @property {HTMLElement} components.closeBtn button that closes this component
+ * @property {HTMLElement} components.container placeholder of this whole component
+ * @property {HTMLElement} pdfDoc PDF document that is currently being read
  */
 
 class ReferenceViewComponent {
@@ -32,7 +33,7 @@ class ReferenceViewComponent {
   };
 
   /**
-   * Creates the endler service for manage the reference object
+   * Creates new ReferenceViewComponent object and registers events to it.
    * @constructor
    */
   constructor() {
@@ -71,8 +72,9 @@ class ReferenceViewComponent {
   };
 
   /**
-   * Creates event triggered when two page layout button is clicked
+   * Opens new side page and sets it's content to page where reference is.
    * @private
+   * @param {int} pageNumber number of page where reference is
    */
   #displayPdfReference = (pageNumber) => {
     this.#renderPdfReference(pageNumber);
@@ -80,8 +82,10 @@ class ReferenceViewComponent {
   };
 
   /**
-   * Call back to renders the reference page.
+   * Renders the reference page inside this component.
    * @private
+   * @async
+   * @param {int} pageNumber number of page where reference is
    */
   #renderPdfReference = async (pageNumber) => {
     //TODO: code repetition - extract page rendering
@@ -101,18 +105,29 @@ class ReferenceViewComponent {
     this.#positionCloseButton(viewport.width);
   };
 
+  /**
+   * Sets hight and width of canvas inside this component
+   * to given hight and width.
+   * @private
+   * @param {int} height height to be set
+   * @param {int} width width to be set
+   */
   #setCanvasDimensions = (height, width) => {
     this.components.canvas.height = height;
     this.components.canvas.width = width;
   };
 
+  /**
+   * Positions the close button left outside of canvas.
+   * @param {int} offset width of canvas
+   */
   #positionCloseButton = (offset) => {
     const halfButtonWidth = 25;
     this.components.closeBtn.style.right = offset + halfButtonWidth + "px";
   };
 
   /**
-   * Handler to display the reference page.
+   * Displays this component in half of reader view.
    * @private
    */
   #showPdfReference = () => {
@@ -121,8 +136,8 @@ class ReferenceViewComponent {
   };
 
   /**
-   * Creates event triggered when graoh maker button is clicked to hide the reference pdf and show the
-   * main pdf in full width
+   * Hides this component and displays reader in full width (default reader view) 
+   * or half width which depends isDefaultReaderDisplay parameter.
    * @private
    * @param {boolean} isDefaultReaderDisplay if true (default) reader will be displayed
    * in full width and half width otherwise
