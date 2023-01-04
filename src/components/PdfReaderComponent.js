@@ -121,6 +121,7 @@ class PdfReaderComponent {
       .catch((err) => {
         console.log(err.message); // TODO: handle error in some way
       });
+    this.components.loader.classList.add("hidden");
   };
 
   /**
@@ -162,7 +163,6 @@ class PdfReaderComponent {
     await this.#setCanvasSize();
 
     this.#addVisibilityListenersToPages();
-    this.components.loader.classList.add("hidden");
   }
 
   /**

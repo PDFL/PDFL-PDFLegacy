@@ -2,11 +2,14 @@
  * Component representing pop up for every reference and display dynamically the content of it
  *
  *
- * @property {Object} components object that holds DOM elements that represent this component, as well as component's context
+ * @property {Object} components object that holds DOM elements that represent tutorial popup component and his own objects
  * @property {HTMLElement} components.questionMarkHighlight question mark for highlight feature tutorial
  * @property {HTMLElement} components.questionMarkGraph question mark for graph feature tutorial
  * @property {HTMLElement} components.questionMarkSummary question mark for summary feature tutorial
- *  @property {HTMLElement} components.panelTutorial div that contains the tutorial window
+ * @property {HTMLElement} components.panelTutorial div that contains the tutorial window
+ * @property {HTMLElement} components.highlightTutorialWindow card with higlight tutorial gif and text
+ * @property {HTMLElement} components.graphTutorialWindow card with knowledge graph tutorial gif and text
+ * @property {HTMLElement} components.summaryTutorialWindow card with summary tutorial gif and text
  */
 class TutorialPopupComponent {
   components = {
@@ -75,7 +78,6 @@ class TutorialPopupComponent {
   };
 
   #showTutorialWindow = (element) => {
-    console.log(element);
     this.#showPopup();
     /* Switch element to display tutorial in accordion to feature */
     switch (element) {

@@ -1,6 +1,7 @@
 import { AppView } from "./AppView.js";
 import { PdfReaderComponent } from "../../PdfReaderComponent.js";
 import { NavbarComponent } from "../../NavbarComponent.js";
+import { TutorialPopupComponent } from "../../TutorialPopupComponent";
 
 /**
  * PDF reader page view.
@@ -13,6 +14,7 @@ import { NavbarComponent } from "../../NavbarComponent.js";
 class ReaderView extends AppView {
   static reader = new PdfReaderComponent();
   static navbar = new NavbarComponent();
+  static tutorial = new TutorialPopupComponent();
   component = document.getElementById("pdf-viewer");
 }
 
