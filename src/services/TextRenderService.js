@@ -191,8 +191,9 @@ export function getViewport(page, canvas, zoomScale) {
  * @param {Object} component object that holds DOM elements that are within component
  * @param {HTMLElement} pageNumber number of the page of the reference selected
  */
-export function renderPageReference(pdfDoc, component, pageNumber) {
-  pdfDoc.getPage(pageNumber).then((page) => {
+export async function renderPageReference(pdfDoc, component, pageNumber) {
+  
+    let page = await pdfDoc.getPage(pageNumber);
 
     component.viewport = getViewport(page, component.canvas, 1);
     const renderCtx = getContext(component.canvas, component.viewport);
@@ -205,11 +206,10 @@ export function renderPageReference(pdfDoc, component, pageNumber) {
     /* Text Layer Implementation */
     const textLayer = createTextLayerDOMIfNotExistReference(pageNumber);
 
-    page.getTextContent().then(function (textContent) {
-      positionTextLayer(textLayer, component.canvas);
-      renderTextLayer(textContent, textLayer, component.viewport);
-    }); 
+    let textContent = await page.getTextContent();
+    positionTextLayer(textLayer, component.canvas);
+    renderTextLayer(textContent, textLayer, component.viewport);
 
     component.sidePageReferenceContainer.appendChild(textLayer);
-  });
+  
 }
