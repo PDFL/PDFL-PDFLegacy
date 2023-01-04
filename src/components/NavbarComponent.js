@@ -16,6 +16,7 @@ import {
 class NavbarComponent {
   components = {
     openNew: document.querySelector("#open-new-pdf"),
+    highlightToggle: document.querySelector("#highlight-toggle"),
     loader: document.querySelector("#loader"),
     errorMessage: document.querySelector(
       "#message-wrong-type-fileupload-reader"
@@ -47,6 +48,11 @@ class NavbarComponent {
         }
       }
     );
+
+    this.components.highlightToggle.addEventListener(
+      "click",
+      this.#onHightlightToggleChange.bind(this)
+    );
   };
 
   /**
@@ -61,6 +67,13 @@ class NavbarComponent {
     } else {
       this.#showErrorMessage();
     }
+  };
+
+  #onHightlightToggleChange = () => {
+    EventHandlerService.publish(
+      PDFLEvents.onHighlightToggle,
+      this.components.highlightToggle.checked
+    );
   };
 
   /**

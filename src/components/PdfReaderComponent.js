@@ -35,6 +35,7 @@ import * as pdfjsLib from "pdfjs-dist/webpack";
  * @property {int[]} visiblePages array of the visible pages by page number
  * @property {int} visiblePage currently visible page
  * @property {SelectionPopUpComponent} selectionPopUp popup related to selection functionality
+ * @property {KeywordHighlighterComponent} keywordHightlighterComponent component for highlighting sentences
  */
 class PdfReaderComponent {
   components = {
@@ -134,15 +135,8 @@ class PdfReaderComponent {
     this.pages = [];
     this.visiblePage = null;
 
-    // TODO: change when we have the keyword extractiong
-    // used for demonstration
+    // TODO: temporary until keyword extraction
     this.keywordHightlighterComponent.setKeywords(["by"]);
-    setTimeout(() => {
-      this.keywordHightlighterComponent.turnOn();
-      setTimeout(() => {
-        this.keywordHightlighterComponent.turnOff();
-      }, 3000);
-    }, 4000);
   };
 
   /**

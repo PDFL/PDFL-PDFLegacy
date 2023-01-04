@@ -47,13 +47,14 @@ class KeywordHighlighterComponent {
    * highlited sentences turned on by default.
    */
   turnOn() {
-    this.on = true;
     let highlightedTexts = document.querySelectorAll(
       `.${TOPIC_HIGHLIGHTED_TEXT_CLASS}`
     );
     highlightedTexts.forEach((highlightedText) => {
       highlightedText.classList.add(TOPIC_HIGHLIGHT_ACTIVE_CLASS);
     });
+
+    this.on = true;
   }
 
   /**
@@ -61,24 +62,46 @@ class KeywordHighlighterComponent {
    * highlited sentences turned off by default.
    */
   turnOff() {
-    this.on = false;
     let highlightedTexts = document.querySelectorAll(
       `.${TOPIC_HIGHLIGHTED_TEXT_CLASS}`
     );
     highlightedTexts.forEach((highlightedText) => {
       highlightedText.classList.remove(TOPIC_HIGHLIGHT_ACTIVE_CLASS);
     });
+
+    this.on = false;
   }
 
   /**
    * Registers for 'onTextLayerRendered' events to process the rendered text layer
    * and inject HTML to highlight the sentences.
+   *
+   * Also listens for 'onHighlightToggle' events to turn on and off the highlighting
+   * functionallity.
    */
   #registerEvents() {
     EventHandlerService.subscribe(
       PDFLEvents.onTextLayerRendered,
       this.#onTextLayerRendered.bind(this)
     );
+
+    EventHandlerService.subscribe(
+      PDFLEvents.onHighlightToggle,
+      this.#onToggleChange.bind(this)
+    );
+  }
+
+  /**
+   * Handler for change of highlight toggled on/off events.
+   *
+   * @param {boolean} on
+   */
+  #onToggleChange(on) {
+    if (on) {
+      this.turnOn();
+    } else {
+      this.turnOff();
+    }
   }
 
   /**
