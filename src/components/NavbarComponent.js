@@ -12,6 +12,7 @@ import {
  * @property {HTMLElement} components.openNew button to click for upload a new pdf from the reader component
  * @property {HTMLElement} components.loader loader for showing the pdf uploaded
  * @property {HTMLElement} components.errorMessage error message for a wrong pdf uploaded from the pdf reader component
+ * @property {HTMLElement} components.highlightToggle toggle button for turning on/off highlighted sentences
  */
 class NavbarComponent {
   components = {
@@ -69,6 +70,11 @@ class NavbarComponent {
     }
   };
 
+  /**
+   * Handler for highlight toggle value changes, publishes and event when the
+   * button is toggled.
+   * @private
+   */
   #onHightlightToggleChange = () => {
     EventHandlerService.publish(
       PDFLEvents.onHighlightToggle,
