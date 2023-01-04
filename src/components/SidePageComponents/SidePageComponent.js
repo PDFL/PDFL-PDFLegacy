@@ -62,6 +62,10 @@ class SidePageComponent {
     EventHandlerService.subscribe(PDFLEvents.onResetReader, () => {
       this.#hideSidePage();
     });
+
+    EventHandlerService.subscribe(PDFLEvents.onReferencePdfOpen, () => {
+      this.#hideSidePage(false);
+    });
   };
 
   /**
@@ -108,14 +112,18 @@ class SidePageComponent {
   /**
    * Hides this whole component.
    * @private
+   * @param {boolean} isDefaultReaderDisplay if true (default) reader will be displayed
+   * in full width and half width otherwise
    */
-  #hideSidePage = () => {
+  #hideSidePage = (isDefaultReaderDisplay = true) => {
     this.knowledgeGraphComponent.reset();
     this.knowledgeGraphComponent.hide();
     this.summaryKeyComponent.hide()
 
     this.components.sideNav.className = "hidden";
-    this.components.pdfContainer.className = "full-width";
+    this.components.pdfContainer.className = isDefaultReaderDisplay
+      ? "full-width"
+      : "half-width";
   };
 
   /**
@@ -125,6 +133,7 @@ class SidePageComponent {
   #showSidePage = () => {
     this.components.sideNav.className = "half-width";
     this.components.pdfContainer.className = "half-width";
+    EventHandlerService.publish(PDFLEvents.onSidePageDisplayed);
   };
 }
 

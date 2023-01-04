@@ -2,10 +2,10 @@ import { FIELD_OF_STUDY_COLOR } from "../../Constants";
 
 /**
  * Component within knowledge graph responsible for creating a color legend. Color legend
- * displays field of study and color representing it. This class creates a legend based on
+ * displays fields of study and colors representing them. This class creates a legend based on
  * {@link FIELD_OF_STUDY_COLOR} object.
- * @property {Object} object that holds elements within this component
- * @property {HTMLElement} placeholder element that contains slides with color legend
+ * @property {Object} components object that holds elements within this component
+ * @property {HTMLElement} components.placeholder element that contains slides with color legend
  *
  */
 class ColorLegenedComponent {

@@ -5,7 +5,6 @@ import {
 import { ToolbarComponent } from "./ToolbarComponents/ToolbarComponent";
 import { ReferenceComponent } from "./ReferenceComponent";
 import { PopupComponent } from "./PopupComponent";
-import { ReferenceViewComponent } from "./ReferenceViewComponent";
 import { KeyboardService } from "../services/KeyboardService";
 import * as textRenderService from "../services/TextRenderService";
 import { PdfPageComponent } from "./PdfPageComponent";
@@ -51,7 +50,6 @@ class PdfReaderComponent {
     this.toolbarComponent = new ToolbarComponent();
     this.referenceComponent = new ReferenceComponent();
     this.popupComponent = new PopupComponent();
-    this.referenceViewComponent = new ReferenceViewComponent();
 
     this.pages = [];
     this.visiblePages = [];

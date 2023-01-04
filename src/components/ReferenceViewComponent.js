@@ -18,23 +18,17 @@ const pdfjsLib = require("pdfjs-dist");
  *
  * @property {Object} components object that holds DOM elements that represent this component, as well as component's context
  * @property {HTMLElement} components.pdfContainer element containing the PDF reader
- * @property {HTMLElement} components.contentDiv div containing the content of the reference img/table/text/pdf
- * @property {HTMLElement} components.sidePageReferenceBtn button that open the two page layout view
- * @property {HTMLElement} components.sidePageReferenceContainer canvas for the pdf reference
- * @property {HTMLElement} components.main button that open the two page layout view
- * @property {HTMLElement} components.sideNav div that contain the graph
- * @property {HTMLElement} components.closeBtnReference button for close the reference page
+ * @property {HTMLElement} components.canvas canvas for the pdf reference
+ * @property {HTMLElement} components.closeBtn button for close the reference page
+ * @property {HTMLElement} pdfDoc pdf of the user
  */
 
 class ReferenceViewComponent {
   components = {
-    contentDiv: document.querySelector("#content-reference-div"),
-    sidePageReferenceBtn: document.querySelector("#side-page-reference-btn"),
-    sidePageReferenceContainer: document.createElement("div"),
-    sideNav: document.querySelector("#side-page"),
-    closeBtnReference: document.createElement("button"),
-    openNew: document.querySelector("#open-new-pdf"),
-    canvas: document.createElement("canvas"),
+    pdfContainer: document.querySelector("#pdf-container"),
+    canvas: document.querySelector("#reference-canvas"),
+    closeBtn: document.querySelector("#reference-close-btn"),
+    container: document.querySelector("#reference-container"),
   };
 
   /**
@@ -52,32 +46,24 @@ class ReferenceViewComponent {
   }
 
   /**
-   * Sets the PDF document.
-   * @private
-   * @param {PDFDocumentProxy} pdfDocument PDF document
-   */
-  #setPDF = (pdfDoc) => {
-    this.pdfDoc = pdfDoc;
-  };
-
-  /**
    * Adds event listeners to component and it's elements.
    * @private
    */
   #registerEvents = () => {
     EventHandlerService.subscribe(
       PDFLEvents.onReferencePdfOpen,
-      this.#displayPdfReference.bind(this)
-    );
-    this.components.closeBtnReference.addEventListener(
-      "click",
-      this.#hidePdfReference.bind(this)
+      (pageNumber) => {
+        this.#displayPdfReference(pageNumber);
+      }
     );
 
-    this.components.openNew.addEventListener(
-      "click",
-      this.#hidePdfReference.bind(this)
-    );
+    this.components.closeBtn.addEventListener("click", () => {
+      this.#hidePdfReference();
+    });
+
+    EventHandlerService.subscribe(PDFLEvents.onSidePageDisplayed, () => {
+      this.#hidePdfReference(false);
+    });
 
     EventHandlerService.subscribe(PDFLEvents.onReadNewPdf, (pdf) => {
       this.#setPDF(pdf);
@@ -94,59 +80,67 @@ class ReferenceViewComponent {
   };
 
   /**
-   * Handler for graph maker view opening, hides the reference view to show the graph
+   * Call back to renders the reference page.
    * @private
    */
-  #hidePdfReferenceToShowGraph = () => {
-    this.components.sidePageReferenceContainer.className = "no-width";
-    if(this.components.closeBtnReference && this.components.closeBtnReference.parentElement == this.components.main)
-      this.components.main.removeChild(this.components.closeBtnReference);
+  #renderPdfReference = async (pageNumber) => {
+    //TODO: code repetition - extract page rendering
+    const page = await this.pdfDoc.getPage(pageNumber);
+
+    const ctxReference = this.components.canvas.getContext("2d");
+    const viewport = page.getViewport({
+      scale: 1,
+    });
+
+    page.render({
+      canvasContext: ctxReference,
+      viewport: viewport,
+    });
+
+    this.#setCanvasDimensions(viewport.height, viewport.width);
+    this.#positionCloseButton(viewport.width);
   };
 
-  /**
-   * Creates event triggered when graoh maker button is clicked to hide the reference pdf and show the
-   * main pdf in full width
-   * @private
-   */
-  #hidePdfReference = () => {
-    this.main.removeChild(this.components.sidePageReferenceContainer);
-    this.components.closeBtnReference.className = "hidden";
-    this.pdfContainer.className = "full-width";  };
+  #setCanvasDimensions = (height, width) => {
+    this.components.canvas.height = height;
+    this.components.canvas.width = width;
+  };
+
+  #positionCloseButton = (offset) => {
+    const halfButtonWidth = 25;
+    this.components.closeBtn.style.right = offset + halfButtonWidth + "px";
+  };
 
   /**
    * Handler to display the reference page.
    * @private
    */
   #showPdfReference = () => {
-    this.pdfContainer.className = "half-width";
-    this.components.closeBtnReference.setAttribute("id", "close-btn-reference");
-    this.components.closeBtnReference.classList.remove("hidden");
-    this.components.closeBtnReference.innerHTML = "<a>&times;</a>";
-    this.main.appendChild(this.components.sidePageReferenceContainer);
-    this.main.appendChild(this.components.closeBtnReference);
+    this.components.pdfContainer.className = "half-width";
+    this.components.container.classList.remove("hidden");
   };
 
   /**
-   * Call back to renders the reference page.
+   * Creates event triggered when graoh maker button is clicked to hide the reference pdf and show the
+   * main pdf in full width
    * @private
+   * @param {boolean} isDefaultReaderDisplay if true (default) reader will be displayed
+   * in full width and half width otherwise
    */
-  #renderPdfReference = (pageNumber) => {
-    this.components.sideNav.className = "no-width";
-    this.components.sidePageReferenceContainer.setAttribute(
-      "id",
-      "side-page-reference-container"
-    );
+  #hidePdfReference = (isDefaultReaderDisplay = true) => {
+    this.components.container.classList.add("hidden");
+    this.components.pdfContainer.className = isDefaultReaderDisplay
+      ? "full-width"
+      : "half-width";
+  };
 
-    if (this.pdfDoc === null) {
-      throw new Error("PDFDocument object missed");
-    }
-
-    textRenderService.renderPageReference(
-      this.pdfDoc,
-      this.components,
-      pageNumber,
-      this.viewport
-    );
+  /**
+   * Sets the PDF document.
+   * @private
+   * @param {PDFDocumentProxy} pdfDocument PDF document
+   */
+  #setPDF = (pdfDoc) => {
+    this.pdfDoc = pdfDoc;
   };
 }
 
