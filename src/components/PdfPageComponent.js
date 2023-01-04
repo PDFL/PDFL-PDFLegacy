@@ -115,22 +115,6 @@ class PdfPageComponent {
   }
 
   /**
-   * Creates the page viewport and sets canvas size.
-   *
-   * @param {Page} page pdf.js library page
-   * @param {float} zoomScale
-   * @returns {import("pdfjs-dist").PageViewport} viewport of the page
-   */
-  #setupViewport(page, zoomScale) {
-    let viewport = page.getViewport({
-      scale: zoomScale,
-    });
-    this.components.canvas.height = viewport.height;
-    this.components.canvas.width = viewport.width;
-    return viewport;
-  }
-
-  /**
    * Starts rendering the pdf page asynchronusly.
    *
    * @param {Page} page pdf.js library page

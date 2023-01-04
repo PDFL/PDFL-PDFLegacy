@@ -30,20 +30,32 @@ export function hideLinks() {
  *
  * @param {int} pageNum
  */
-function createTextLayerDOMIfNotExist(pageNum, reference = false) {
+function createTextLayerDOMIfNotExist(pageNum) {
   let textLayer = document.querySelector(`#text-layer-${pageNum}`);
   if (textLayer) {
     textLayer.innerHTML = "";
   } else {
-    if (reference) {
-      textLayer = document.createElement("div");
-      textLayer.setAttribute("class", "textLayer");
-      textLayer.setAttribute("id", "text-layer-reference");
-    } else {
-      textLayer = document.createElement("div");
-      textLayer.setAttribute("id", `text-layer-${pageNum}`);
-      textLayer.setAttribute("class", "textLayer");
-    }
+    textLayer = document.createElement("div");
+    textLayer.setAttribute("id", `text-layer-${pageNum}`);
+    textLayer.setAttribute("class", "textLayer");
+  }
+  return textLayer;
+}
+
+/**
+ * Creates the text layer DOM node if it does not already exist for the referenceViewComponent.
+ * Id of the element will be 'text-layer-reference'.
+ *
+ * @param {int} pageNum
+ */
+function createTextLayerDOMIfNotExistReference(pageNum) {
+  let textLayer = document.querySelector(`#text-layer-${pageNum}`);
+  if (textLayer) {
+    textLayer.innerHTML = "";
+  } else {
+    textLayer = document.createElement("div");
+    textLayer.setAttribute("class", "textLayer");
+    textLayer.setAttribute("id", "text-layer-reference");      
   }
   return textLayer;
 }
@@ -191,7 +203,7 @@ export function renderPageReference(pdfDoc, component, pageNumber) {
     component.sidePageReferenceContainer.appendChild(component.canvas);
 
     /* Text Layer Implementation */
-    const textLayer = createTextLayerDOMIfNotExist(pageNumber, true);
+    const textLayer = createTextLayerDOMIfNotExistReference(pageNumber);
 
     page.getTextContent().then(function (textContent) {
       positionTextLayer(textLayer, component.canvas);
