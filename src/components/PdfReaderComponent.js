@@ -100,26 +100,23 @@ class PdfReaderComponent {
   };
 
   /**
-   * Load and render the first page of the given pdf.
+   * Loads the pdf document, configures 'child' components, delegates
+   * page setup and rendering of the first page.
    * @param {Uint8Array} pdf data, filename or url of a PDF document
    */
-  loadPdf = (pdf) => {
-    const self = this;
-    pdfjsLib
-      .getDocument(pdf)
-      .promise.then((data) => {
-        self.pdfDoc = data;
-        self.referenceComponent.setPdfDoc(data);
-        self.toolbarComponent.setPageCount(data.numPages);
-        self.sidePageComponent.setPDF(data);
+  loadPdf = async (pdf) => {
+    this.components.loader.classList.add("hidden");
 
-        self.referenceViewComponent.setPdfDoc(data);
+    let data = await pdfjsLib.getDocument(pdf).promise;
 
-        this.#setupPages();
-      })
-      .catch((err) => {
-        console.log(err); // TODO: handle error in some way
-      });
+    this.pdfDoc = data;
+    this.referenceComponent.setPdfDoc(data);
+    this.toolbarComponent.setPageCount(data.numPages);
+    this.sidePageComponent.setPDF(data);
+    this.referenceViewComponent.setPdfDoc(data);
+
+    await this.#setupPages();
+    this.#renderPages(1);
   };
 
   /**
@@ -128,9 +125,13 @@ class PdfReaderComponent {
    */
   reset = () => {
     this.sidePageComponent.hideSidePage();
+    this.sidePageComponent.hideSidePageSummary();
+    this.referenceViewComponent.hidePdfReference();
     this.toolbarComponent.reset();
     this.pages = [];
+    this.visiblePages = [];
     this.visiblePage = null;
+    window.scrollTo(0, 0);
   };
 
   /**
