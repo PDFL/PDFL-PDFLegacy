@@ -20,6 +20,7 @@ class NavbarComponent {
     errorMessage: document.querySelector(
       "#message-wrong-type-fileupload-reader"
     ),
+    helpBtn: document.querySelector("#question-mark-margin"),
   };
 
   /**
@@ -36,6 +37,10 @@ class NavbarComponent {
    */
   #registerEvents = () => {
     this.components.openNew.addEventListener("input", this.#onNewFile);
+    this.components.helpBtn.addEventListener(
+      "click",
+      this.#showDocumentationPage
+    );
     EventHandlerService.subscribe(
       PDFLEvents.onKeyboardKeyDown,
       (functionalKeys, key) => {
@@ -89,6 +94,10 @@ class NavbarComponent {
    */
   #showLoader = () => {
     this.components.loader.classList.remove("hidden");
+  };
+
+  #showDocumentationPage = () => {
+    EventHandlerService.publish(PDFLEvents.onShowDocumentationView);
   };
 }
 
