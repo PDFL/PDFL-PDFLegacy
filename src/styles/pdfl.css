@@ -227,7 +227,7 @@ body{
   display: block;
   margin-right: auto;
   margin-left: auto;
-  margin-top: 5rem;
+  margin-top: var(--height);
 }
 
 #num-pages{
@@ -1217,8 +1217,8 @@ input[type="number"]::-webkit-outer-spin-button {
 
   #close-btn-reference{
     position: fixed;
-    margin-top: 2rem;
-    right: 46rem;
+    margin-top: 4%;
+    right: 35%;
     font-size: 40px;
     z-index: 999;
     color: black;
