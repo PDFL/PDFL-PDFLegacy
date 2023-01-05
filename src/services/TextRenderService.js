@@ -55,7 +55,7 @@ function createTextLayerDOMIfNotExistReference(pageNum) {
   } else {
     textLayer = document.createElement("div");
     textLayer.setAttribute("class", "textLayer");
-    textLayer.setAttribute("id", "text-layer-reference");      
+    textLayer.setAttribute("id", "text-layer-reference");
   }
   return textLayer;
 }
@@ -185,31 +185,34 @@ export function getViewport(page, canvas, zoomScale) {
   return viewport;
 }
 
-  /**
+/**
  * Function to render the page inside the reference side view
  * @param {pdfDoc} pdfDoc PDF document
  * @param {Object} component object that holds DOM elements that are within component
  * @param {HTMLElement} pageNumber number of the page of the reference selected
  */
-export async function renderPageReference(pdfDoc, component, pageNumber) {
-  
-    let page = await pdfDoc.getPage(pageNumber);
+export async function renderPageReference(
+  pdfDoc,
+  component,
+  pageNumber,
+  viewport
+) {
+  let page = await pdfDoc.getPage(pageNumber);
 
-    component.viewport = getViewport(page, component.canvas, 1);
-    const renderCtx = getContext(component.canvas, component.viewport);
+  viewport = getViewport(page, component.canvas, 1);
+  const renderCtx = getContext(component.canvas, viewport);
 
-    page.render(renderCtx);
+  page.render(renderCtx);
 
-    component.sidePageReferenceContainer.innerHTML = "";
-    component.sidePageReferenceContainer.appendChild(component.canvas);
+  component.sidePageReferenceContainer.innerHTML = "";
+  component.sidePageReferenceContainer.appendChild(component.canvas);
 
-    /* Text Layer Implementation */
-    const textLayer = createTextLayerDOMIfNotExistReference(pageNumber);
+  /* Text Layer Implementation */
+  const textLayer = createTextLayerDOMIfNotExistReference(pageNumber);
 
-    let textContent = await page.getTextContent();
-    positionTextLayer(textLayer, component.canvas);
-    renderTextLayer(textContent, textLayer, component.viewport);
+  let textContent = await page.getTextContent();
+  positionTextLayer(textLayer, component.canvas);
+  renderTextLayer(textContent, textLayer, viewport);
 
-    component.sidePageReferenceContainer.appendChild(textLayer);
-  
+  component.sidePageReferenceContainer.appendChild(textLayer);
 }
