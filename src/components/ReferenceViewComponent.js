@@ -2,39 +2,40 @@ import {
   EventHandlerService,
   PDFLEvents,
 } from "../services/EventHandlerService";
+import * as textRenderService from "../services/TextRenderService";
+
+/**
+ * Declaration of library that contains the method to render text and annotations
+ * @constant
+ */
+const pdfjsLib = require("pdfjs-dist");
 
 /**
  * Component representing two page layout and display dynamically the content of it
  *
  *
  * @property {Object} components object that holds DOM elements that represent this component, as well as component's context
- * @property {HTMLElement} components.pdfContainer element containing the PDF reader
  * @property {HTMLElement} components.contentDiv div containing the content of the reference img/table/text/pdf
  * @property {HTMLElement} components.sidePageReferenceBtn button that open the two page layout view
- * @property {HTMLElement} components.sidePageReferenceContainer canvas for the pdf reference
- * @property {HTMLElement} components.main button that open the two page layout view
- * @property {HTMLElement} components.pdfDoc pdf of the user
- * @property {HTMLElement} components.pdfPageNumber number of the page of the reference
- * @property {HTMLElement} components.viewport handle the viewport
+ * @property {HTMLElement} components.sidePageReferenceContainer canvas for the entire reference
+ * @property {HTMLElement} components.canvas canvas that contain the rendered page
  * @property {HTMLElement} components.graphMakerBtn button that generates knowledge graph to manage the request
  * of knowledge graph display when pdf reference is displayed
  * @property {HTMLElement} components.sideNav div that contain the graph
  * @property {HTMLElement} components.closeBtnReference button for close the reference page
+ * @property {HTMLElement} components.openNew button to open a new pdf
  */
 
 class ReferenceViewComponent {
   components = {
-    pdfContainer: document.querySelector("#pdf-container"),
     contentDiv: document.querySelector("#content-reference-div"),
     sidePageReferenceBtn: document.querySelector("#side-page-reference-btn"),
-    sidePageReferenceContainer: document.createElement("canvas"),
-    main: document.querySelector("#main"),
-    pdfDoc: null,
-    pdfPageNumber: null,
-    viewport: null,
+    sidePageReferenceContainer: document.createElement("div"),
+    canvas: null,
     graphMakerBtn: document.querySelector("#graph-maker"),
     sideNav: document.querySelector("#side-page"),
     closeBtnReference: document.createElement("button"),
+    openNew: document.querySelector("#open-new-pdf"),
   };
 
   /**
@@ -43,6 +44,14 @@ class ReferenceViewComponent {
    */
   constructor() {
     this.#registerEvents();
+    this.pdfDoc = null;
+    this.pdfPageNumber = null;
+    this.viewport = null;
+    this.main = document.querySelector("#main");
+    this.pdfContainer = document.querySelector("#pdf-container");
+
+    this.components.canvas = document.createElement("canvas");
+    this.components.canvas.setAttribute("class", "canvas-for-reference");
   }
 
   /**
@@ -62,14 +71,22 @@ class ReferenceViewComponent {
       PDFLEvents.onReferencePdfOpen,
       this.#displayPdfReference.bind(this)
     );
+
     this.components.graphMakerBtn.addEventListener(
       "click",
       this.#hidePdfReferenceToShowGraph.bind(this)
     );
+
     this.components.closeBtnReference.addEventListener(
       "click",
       this.hidePdfReference.bind(this)
     );
+
+    this.components.openNew.addEventListener(
+      "click",
+      this.#hidePdfReference.bind(this)
+    );
+
   };
 
   /**
@@ -87,7 +104,7 @@ class ReferenceViewComponent {
    */
   #hidePdfReferenceToShowGraph = () => {
     this.components.sidePageReferenceContainer.className = "no-width";
-    this.components.main.removeChild(this.components.closeBtnReference);
+    this.main.removeChild(this.components.closeBtnReference);
   };
 
   /**
@@ -96,12 +113,7 @@ class ReferenceViewComponent {
    */
   hidePdfReference = () => {
     this.components.sidePageReferenceContainer.className = "no-width";
-    this.components.pdfContainer.className = "full-width";
-    if (
-      this.components.main == this.components.closeBtnReference.parentElement
-    ) {
-      this.components.main.removeChild(this.components.closeBtnReference);
-    }
+    this.main.removeChild(this.components.closeBtnReference);
   };
 
   /**
@@ -109,13 +121,11 @@ class ReferenceViewComponent {
    * @private
    */
   #showPdfReference = () => {
-    this.components.pdfContainer.className = "half-width";
+    this.pdfContainer.className = "half-width";
     this.components.closeBtnReference.setAttribute("id", "close-btn-reference");
     this.components.closeBtnReference.innerHTML = "<a>&times;</a>";
-    this.components.main.appendChild(
-      this.components.sidePageReferenceContainer
-    );
-    this.components.main.appendChild(this.components.closeBtnReference);
+    this.main.appendChild(this.components.sidePageReferenceContainer);
+    this.main.appendChild(this.components.closeBtnReference);
     this.components.closeBtnReference.className += " moveIn";
     this.components.sidePageReferenceContainer.className += " moveIn";
   };
@@ -125,44 +135,21 @@ class ReferenceViewComponent {
    * @private
    */
   #renderPdfReference = (pageNumber) => {
-    this.components.pdfPageNumber = pageNumber;
     this.components.sideNav.className = "no-width";
-    this.components.sidePageReferenceContainer.setAttribute(
-      "id",
-      "side-page-reference-container"
-    );
-    this.components.sidePageReferenceContainer.setAttribute(
-      "class",
-      "canvas__container"
-    );
+    this.components.sidePageReferenceContainer.setAttribute("id", "side-page-reference-container");
 
     if (this.pdfDoc === null) {
       throw new Error("PDFDocument object missed");
     }
-    this.pdfDoc
-      .getPage(this.components.pdfPageNumber)
-      .then((page) => {
-        const ctxReference =
-          this.components.sidePageReferenceContainer.getContext("2d");
-        this.components.viewport = page.getViewport({
-          scale: 1,
-        });
 
-        this.components.sidePageReferenceContainer.height =
-          this.components.viewport.height;
-        this.components.sidePageReferenceContainer.width =
-          this.components.viewport.width;
-
-        const renderCtx = {
-          canvasContext: ctxReference,
-          viewport: this.components.viewport,
-        };
-        page.render(renderCtx);
-      })
-      .catch((err) => {
-        console.log(err.message); // TODO: handle error in some way
-      });
+    textRenderService.renderPageReference(
+      this.pdfDoc,
+      this.components,
+      pageNumber
+    );
+    
   };
+
 }
 
 export { ReferenceViewComponent };
