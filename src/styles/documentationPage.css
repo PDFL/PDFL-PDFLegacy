@@ -1,0 +1,45 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap'); 
+
+#documentation-page{
+    background: rgb(255, 255, 255);
+    width: 100vw;
+    height: 100vh;
+    margin: 15%;
+}
+
+.sidenav {
+    height: 50%;
+    width: 160px;
+    position: fixed;
+    z-index: 1;
+    top: 15%;
+    left: 15%;
+    background-color: white;
+    overflow-x: hidden;
+    padding-top: 20px;
+  }
+.sidenav > a {
+    padding: 6px 8px 15px 16px;
+    text-decoration: none;
+    color: #818181;
+    display: block;
+    font-family: Montserrat, 'Times New Roman', serif;
+    font-weight: 600;
+    font-size: 13px;
+    text-align: left;
+  }
+.sidenav > a:hover {
+    color: #000000;
+  }
+#about:target ~ .sidenav >*:nth-child(1) {color: black;}
+#services:target ~ .sidenav >*:nth-child(2) {color: black;}
+#clients:target ~ .sidenav >*:nth-child(3) {color: black;}
+#contact:target ~ .sidenav >*:nth-child(4) {color: black;}
+
+#documentation-text{
+    position: fixed;
+    top: 0;
+    left: 20%;
+    height: 100vh;
+    width: 60vw;
+}

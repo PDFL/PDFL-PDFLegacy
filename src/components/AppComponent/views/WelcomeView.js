@@ -3,6 +3,10 @@ import {
   readFile,
   readFileFromUrl,
 } from "../../../services/FileUploadService.js";
+import {
+  EventHandlerService,
+  PDFLEvents,
+} from "../../../services/EventHandlerService.js";
 
 /**
  * Welcome page view.
@@ -21,6 +25,7 @@ class WelcomeView extends AppView {
     dropArea: document.getElementById("file-drag"),
     fileOpen: document.getElementById("file-open"),
     errorMessage: document.getElementById("message-wrong-type-fileupload"),
+    documenationBtn: document.getElementById("documentation-welcome-page"),
   };
 
   /**
@@ -42,6 +47,10 @@ class WelcomeView extends AppView {
     this.components.dropArea.addEventListener("dragover", this.#onDragOver);
     this.components.dropArea.addEventListener("dragleave", this.#onDragLeave);
     this.components.dropArea.addEventListener("drop", this.#onDrop);
+    this.components.documenationBtn.addEventListener(
+      "click",
+      this.#showDocumentationPage
+    );
   };
 
   /**
@@ -117,6 +126,10 @@ class WelcomeView extends AppView {
     if (pdfUrl) {
       readFileFromUrl(pdfUrl);
     }
+  };
+
+  #showDocumentationPage = () => {
+    EventHandlerService.publish(PDFLEvents.onShowDocumentationView);
   };
 }
 
