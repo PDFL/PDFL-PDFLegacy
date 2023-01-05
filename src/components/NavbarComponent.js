@@ -1,5 +1,9 @@
 import { POPUP_DISAPPEAR_TIMEOUT } from "../Constants";
 import { readFile } from "../services/FileUploadService";
+import {
+  EventHandlerService,
+  PDFLEvents,
+} from "../services/EventHandlerService";
 
 /**
  * Component that takes in the PDF file that user uploads and processes it.
@@ -32,6 +36,17 @@ class NavbarComponent {
    */
   #registerEvents = () => {
     this.components.openNew.addEventListener("input", this.#onNewFile);
+    EventHandlerService.subscribe(
+      PDFLEvents.onKeyboardKeyDown,
+      (functionalKeys, key) => {
+        if (!functionalKeys.ctrl) {
+          return;
+        }
+        if (key === "u") {
+          this.components.openNew.click();
+        }
+      }
+    );
   };
 
   /**

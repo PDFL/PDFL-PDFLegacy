@@ -12,8 +12,9 @@ import * as textRenderService from "../services/TextRenderService";
 import { PdfPageComponent } from "./PdfPageComponent";
 import { respondToVisibility } from "../services/Utils";
 import { EXTRA_PAGES_TO_RENDER } from "../Constants";
+import { SelectionPopUpComponent } from "./SelectionPopUpComponent";
 
-const pdfjsLib = require("pdfjs-dist");
+import * as pdfjsLib from "pdfjs-dist/webpack";
 
 /**
  * Component representing the PDF reader. Displays the content of PDF document and actions
@@ -32,6 +33,7 @@ const pdfjsLib = require("pdfjs-dist");
  * @property {PdfPageComponent[]} pages array of the pages objects
  * @property {int[]} visiblePages array of the visible pages by page number
  * @property {int} visiblePage currently visible page
+ * @property {SelectionPopUpComponent} selectionPopUp popup related to selection functionality
  */
 class PdfReaderComponent {
   components = {
@@ -55,6 +57,7 @@ class PdfReaderComponent {
     this.pages = [];
     this.visiblePages = [];
     this.visiblePage = null;
+    this.selectionPopUp = new SelectionPopUpComponent();
     this.#registerEvents();
   }
 
@@ -97,28 +100,23 @@ class PdfReaderComponent {
   };
 
   /**
-   * Load and render the first page of the given pdf.
+   * Loads the pdf document, configures 'child' components, delegates
+   * page setup and rendering of the first page.
    * @param {Uint8Array} pdf data, filename or url of a PDF document
    */
-  loadPdf = (pdf) => {
-    const self = this;
-    pdfjsLib.GlobalWorkerOptions.workerSrc = "/pdf.worker.bundle.js";
-    pdfjsLib
-      .getDocument(pdf)
-      .promise.then((data) => {
-        self.pdfDoc = data;
-        self.referenceComponent.setPdfDoc(data);
-        self.toolbarComponent.setPageCount(data.numPages);
-        self.sidePageComponent.setPDF(data);
-
-        self.referenceViewComponent.setPdfDoc(data);
-
-        this.#setupPages();
-      })
-      .catch((err) => {
-        console.log(err.message); // TODO: handle error in some way
-      });
+  loadPdf = async (pdf) => {
     this.components.loader.classList.add("hidden");
+
+    let data = await pdfjsLib.getDocument(pdf).promise;
+
+    this.pdfDoc = data;
+    this.referenceComponent.setPdfDoc(data);
+    this.toolbarComponent.setPageCount(data.numPages);
+    this.sidePageComponent.setPDF(data);
+    this.referenceViewComponent.setPdfDoc(data);
+
+    await this.#setupPages();
+    this.#renderPages(1);
   };
 
   /**
@@ -127,9 +125,13 @@ class PdfReaderComponent {
    */
   reset = () => {
     this.sidePageComponent.hideSidePage();
+    this.sidePageComponent.hideSidePageSummary();
+    this.referenceViewComponent.hidePdfReference();
     this.toolbarComponent.reset();
     this.pages = [];
+    this.visiblePages = [];
     this.visiblePage = null;
+    window.scrollTo(0, 0);
   };
 
   /**
@@ -160,6 +162,7 @@ class PdfReaderComponent {
     await this.#setCanvasSize();
 
     this.#addVisibilityListenersToPages();
+    this.components.loader.classList.add("hidden");
   }
 
   /**

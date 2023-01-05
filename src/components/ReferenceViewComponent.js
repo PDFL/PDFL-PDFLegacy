@@ -79,7 +79,7 @@ class ReferenceViewComponent {
 
     this.components.closeBtnReference.addEventListener(
       "click",
-      this.#hidePdfReference.bind(this)
+      this.hidePdfReference.bind(this)
     );
 
     this.components.openNew.addEventListener(
@@ -110,11 +110,9 @@ class ReferenceViewComponent {
   /**
    * Creates event triggered when graoh maker button is clicked to hide the reference pdf and show the
    * main pdf in full width
-   * @private
    */
-  #hidePdfReference = () => {
+  hidePdfReference = () => {
     this.components.sidePageReferenceContainer.className = "no-width";
-    this.pdfContainer.className = "full-width";
     this.main.removeChild(this.components.closeBtnReference);
   };
 

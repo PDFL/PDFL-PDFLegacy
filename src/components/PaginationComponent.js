@@ -11,7 +11,6 @@ import { PAGE_INPUT_VALIDATION_REGEX } from "../Constants";
  * and maximum page number, together with previous/next page buttons.
  *
  * @property {Object} components object that holds DOM elements that are within component
- * @property {HTMLElement} components.pageNum element that displays current page number
  * @property {HTMLElement} components.pageCount element that displays maximum page number
  * @property {HTMLElement} components.currentPage input element for desired page number
  * @property {HTMLElement} components.previousPage previous page button
@@ -21,8 +20,7 @@ import { PAGE_INPUT_VALIDATION_REGEX } from "../Constants";
  */
 class PaginationComponent {
   components = {
-    pageNum: document.querySelector("#page-num"),
-    pageCount: document.querySelectorAll("#page-count"),
+    pageCount: document.querySelector("#page-count"),
     currentPage: document.querySelector("#current-page"),
     previousPage: document.querySelector("#prev-page"),
     nextPage: document.querySelector("#next-page"),
@@ -111,8 +109,6 @@ class PaginationComponent {
       // Get the new page number and render it.
       let desiredPage = this.components.currentPage.valueAsNumber;
       this.currentPage = Math.min(Math.max(desiredPage, 1), this.pageCount);
-
-      this.components.pageNum.textContent = this.currentPage;
       this.#currentPageChanged();
     } else {
       if (!PAGE_INPUT_VALIDATION_REGEX.test(event.key)) {
@@ -129,6 +125,7 @@ class PaginationComponent {
     this.components.currentPage.value = this.currentPage;
     this.#updateButtonStatus();
     EventHandlerService.publish(PDFLEvents.onRenderPage, this.currentPage);
+    EventHandlerService.publish(PDFLEvents.onPageChanged, this.currentPage);
   };
 
   /**
@@ -154,8 +151,7 @@ class PaginationComponent {
    */
   setPageCount = (pageNumber) => {
     this.pageCount = pageNumber;
-    this.components.pageCount[0].textContent = pageNumber;
-    this.components.pageCount[1].textContent = pageNumber;
+    this.components.pageCount.textContent = pageNumber;
   };
 
   /**
@@ -164,9 +160,9 @@ class PaginationComponent {
    */
   setCurrentPage = (pageNumber = this.currentPage) => {
     this.currentPage = pageNumber;
-    this.components.pageNum.textContent = pageNumber;
     this.components.currentPage.value = pageNumber;
     this.#updateButtonStatus();
+    EventHandlerService.publish(PDFLEvents.onPageChanged, this.currentPage);
   };
 
   /**
