@@ -84,7 +84,7 @@ class ReferenceViewComponent {
 
     this.components.openNew.addEventListener(
       "click",
-      this.#hidePdfReference.bind(this)
+      this.hidePdfReference.bind(this)
     );
 
   };
@@ -113,7 +113,12 @@ class ReferenceViewComponent {
    */
   hidePdfReference = () => {
     this.components.sidePageReferenceContainer.className = "no-width";
-    this.main.removeChild(this.components.closeBtnReference);
+    this.pdfContainer.className = "full-width";
+    if (
+      this.main == this.components.closeBtnReference.parentElement
+    ) {
+      this.main.removeChild(this.components.closeBtnReference);
+    }
   };
 
   /**
