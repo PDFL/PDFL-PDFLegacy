@@ -238,7 +238,7 @@ input[type=checkbox]{
 }
 
 input:checked + .slider {
-  background-color: var(--color);
+  background-color: var(--iconColor);
 }
 
 input:focus + .slider {

@@ -193,7 +193,15 @@
                 </a>
             </div>
             <div id="end">
+
                 <a class="padding">
+                    <a id="home-btn-navbar" class="scale-on-hover padding">
+                        <label class="open-new">
+                            <i class="material-icons">
+                                home
+                            </i>
+                        </label>
+                    </a>
                     <a class="scale-on-hover padding">
                         <label for="open-new-pdf" class="open-new">
                             <i class="material-icons">
@@ -204,7 +212,6 @@
                         <input id="open-new-pdf" type="file" accept="application/pdf" />
                         <span class="tooltip-text w-120">Open new paper</span>
                     </a>
-
                 </a>
                 <a class="scale-on-hover padding">
                     <div id="toggle">
@@ -351,91 +358,204 @@
 
     <!--DOCUMENTATION PAGE-->
     <div id="documentation-page" hidden class="app-view">
-        <section id="overview"></section>
-        <s id="explore-title"></s>
-        <s id="knowledge-graph-title"></s>
-        <s id="cross-references-title"></s>
-        <s id="summary-title"></s>
-        <s id="highlight-title"></s>
         <div id="documentation-text">
             <h1 id="overview">Getting Started</h1>
-            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Exercitationem deserunt hic voluptates expedita
-                rerum similique nulla earum ex enim odit perspiciatis corrupti consectetur vel ipsa harum, aliquid nihil
-                amet molestias.Lorem ipsum dolor sit amet consectetur, adipisicing elit. Exercitationem deserunt hic
-                voluptates expedita
-                rerum similique nulla earum ex enim odit perspiciatis corrupti consectetur vel ipsa harum, aliquid nihil
-                amet molestias.Lorem ipsum dolor sit amet consectetur, adipisicing elit. Exercitationem deserunt hic
-                voluptates expedita
-                rerum similique nulla earum ex enim odit perspiciatis corrupti consectetur vel ipsa harum, aliquid nihil
+            <p>PDFLegacy is a tool to provide better reading experiences for researchers. This PDF reader has four key
+                features:
+            <ul>
+                <li>Extract essential information (such as
+                    figures, references, etc.) from the paper.
+                </li>
+                <li>
+                    Mine knowledge from the extracted information to help with paper comprehension and inspire new
+                    research
+                    ideas by looking at correlated papers.
+                </li>
+                <li>
+                    Generating/mining summarizations for key components of the paper
+                </li>
+                <li>
+                    Highlighting commonly used, topic-specific phrasings
+                </li>
+            </ul>
+            The project is open source and you can contribute here: <a
+                href="https://github.com/matteovisotto/PDFL-PDFLegacy">PDFL-PDFLegacy</a> <br>
+            Checkout also our Chrome plug-in at: <a
+                href="https://chrome.google.com/webstore/detail/pdf-legacy/cnfmfaohminlbglpkfhbofiolmndonkj">PDFL-PDFLegacy
+                Chrome Web Store</a>
             </p>
             <h2 id="explore-title">Explore your paper</h2>
-            <p> rerum similique nulla earum ex enim odit perspiciatis corrupti consectetur vel ipsa harum, aliquid nihil
-                amet molestias.voluptates expedita
-                rerum similique nulla earum ex enim odit perspiciatis corrupti consectetur vel ipsa harum, aliquid nihil
-                amet molestias.Lorem ipsum dolor sit amet consectetur, adipisicing elit. Exercitationem deserunt hic
-                voluptates expedita
-                rerum similique nulla earum ex enim odit perspiciatis corrupti consectetur vel ipsa harum, aliquid nihil
-                amet molestias.voluptates expedita
-                rerum similique nulla earum ex enim odit perspiciatis corrupti consectetur vel ipsa harum, aliquid nihil
-                amet molestias.Lorem ipsum dolor sit amet consectetur, adipisicing elit. Exercitationem deserunt hic
-                voluptates expedita
+            <p>
+                Read the paper with an extra gear. After you upload a paper you can:
+            <ul>
+                <li>
+                    Navigate through pages
+                    <ul>
+                        <li>
+                            Click on the buttons <i class="material-icons">chevron_left</i><i
+                                class="material-icons">chevron_right</i>
+                        </li>
+                        <li>
+                            Scroll with the mouse
+                        </li>
+                        <li>
+                            Press on the arrow keys on the keyboard
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    Zoom in and out
+                    <ul>
+                        <li>
+                            Click on the buttons <i class="material-icons">zoom_in</i> <i
+                                class="material-icons">zoom_out</i>
+                        </li>
+                        <li>
+                            Press ctrl/cmd+ '+' or ctrl/cmd+ '-'
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    Select text from the paper
+                </li>
+                <li>
+                    Reach page faster by clicking on the button &nbsp;<label>&#9776;</label>&nbsp;
+                    and scroll through thumbnails of the pages
+                </li>
+            </ul>
             </p>
             <h2 id="cross-references-title">Cross References</h2>
-            <p> rerum similique nulla earum ex enim odit perspiciatis corrupti consectetur vel ipsa harum, aliquid nihil
-                amet molestias.voluptates expedita
-                rerum similique nulla earum ex enim odit perspiciatis corrupti consectetur vel ipsa harum, aliquid nihil
-                amet molestias.Lorem ipsum dolor sit amet consectetur, adipisicing elit. Exercitationem deserunt hic
-                voluptates expedita
-                rerum similique nulla earum ex enim odit perspiciatis corrupti consectetur vel ipsa harum, aliquid nihil
-                amet molestias.voluptates expedita
-                rerum similique nulla earum ex enim odit perspiciatis corrupti consectetur vel ipsa harum, aliquid nihil
-                amet molestias.Lorem ipsum dolor sit amet consectetur, adipisicing elit. Exercitationem deserunt hic
-                voluptates expedita
+            <p> Hover the references and extract data from them. You can also have two pages open, so you can view the
+                contents of the reference at the same time
+            <ul>
+                <li>
+                    Finding a reference and hover it
+                    <ul>
+                        <li>
+                            If the reference is about an image you will see it in a small popup and a button
+                        </li>
+                        <li>
+                            If the reference is about a text you will see an extraction of it and a button
+                        </li>
+                        <li>
+                            If the reference is about a page you will see just the button
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    If you click the button the page of the reference will be open and you will have a two page layout
+                    You can also select text from it
+                </li>
+            </ul>
             </p>
             <h2 id="knowledge-graph-title">Knowledge Graph</h2>
-            <p> rerum similique nulla earum ex enim odit perspiciatis corrupti consectetur vel ipsa harum, aliquid nihil
-                amet molestias.voluptates expedita
-                rerum similique nulla earum ex enim odit perspiciatis corrupti consectetur vel ipsa harum, aliquid nihil
-                amet molestias.Lorem ipsum dolor sit amet consectetur, adipisicing elit. Exercitationem deserunt hic
-                voluptates expedita
-                rerum similique nulla earum ex enim odit perspiciatis corrupti consectetur vel ipsa harum, aliquid nihil
-                amet molestias.voluptates expedita
-                rerum similique nulla earum ex enim odit perspiciatis corrupti consectetur vel ipsa harum, aliquid nihil
-                amet molestias.Lorem ipsum dolor sit amet consectetur, adipisicing elit. Exercitationem deserunt hic
-                voluptates expedita
+            <p> Discover the knowledge graph that showing the citation relations of all the papers in the references
+                section of your current paper. This can help to understand the relations between each work better.
+            <ul>
+                <li>
+                    To generate the knowledge graph click the button on the navbar <i class="material-icons">schema</i>
+                    <br> or press ctrl/cmd+ 'g'
+                </li>
+                <li>
+                    Explore it:
+                    <ul>
+                        <li>
+                            Drag and drop on the side page to move around it, the paper uploaded is rappresented by the
+                            biggest node
+                        </li>
+                        <li>
+                            Over a node to display paper info
+                        </li>
+                        <li>
+                            Color of a node is relative to his field of study, to understand which one you can click on
+                            the question mark on the bottom right corner and see the legend
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    Expand it:
+                    <ul>
+                        <li>
+                            Click on one node to expand it
+                        </li>
+                        <li>
+                            Select depth with the slider
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    To close it just click the cross icon
+                </li>
+            </ul>
             </p>
             <h2 id="summary-title">Summary</h2>
-            <p> rerum similique nulla earum ex enim odit perspiciatis corrupti consectetur vel ipsa harum, aliquid nihil
-                amet molestias.voluptates expedita
-                rerum similique nulla earum ex enim odit perspiciatis corrupti consectetur vel ipsa harum, aliquid nihil
-                amet molestias.Lorem ipsum dolor sit amet consectetur, adipisicing elit. Exercitationem deserunt hic
-                voluptates expedita
-                rerum similique nulla earum ex enim odit perspiciatis corrupti consectetur vel ipsa harum, aliquid nihil
-                amet molestias.voluptates expedita
-                rerum similique nulla earum ex enim odit perspiciatis corrupti consectetur vel ipsa harum, aliquid nihil
-                amet molestias.Lorem ipsum dolor sit amet consectetur, adipisicing elit. Exercitationem deserunt hic
-                voluptates expedita
+            <p> Summarize your paper for each key component in a few lines!
+            <ul>
+                <li>
+                    To open the side page relative to summary click the button on the navbar <i
+                        class="material-icons">summarize</i> <br> or press ctrl/cmd+ 'y'
+                </li>
+                <li>
+                    The summary is relative to four element
+                    <ul>
+                        <li>
+                            TLDR: Summary of the entire paper
+                        </li>
+                        <li>
+                            Abstract: Abstract of the paper
+                        </li>
+                        <li>
+                            Abstract Summary: Summary of the abstract of the paper
+                        </li>
+                        <li>
+                            Selected Text Summary: This section is a summary of a part of the paper that you can select
+                            <ul>
+                                <li>
+                                    Select text with the mouse and a button will be displayed <i
+                                        class="material-icons">summarize</i>, click on it and you will see the relative
+                                    summary
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    To close it just click the cross icon
+                </li>
+            </ul>
             </p>
             <h2 id="highlight-title">Highlight Sentences</h2>
-            <p> rerum similique nulla earum ex enim odit perspiciatis corrupti consectetur vel ipsa harum, aliquid nihil
-                amet molestias.voluptates expedita
-                rerum similique nulla earum ex enim odit perspiciatis corrupti consectetur vel ipsa harum, aliquid nihil
-                amet molestias.Lorem ipsum dolor sit amet consectetur, adipisicing elit. Exercitationem deserunt hic
-                voluptates expedita
-                rerum similique nulla earum ex enim odit perspiciatis corrupti consectetur vel ipsa harum, aliquid nihil
-                amet molestias.voluptates expedita
-                rerum similique nulla earum ex enim odit perspiciatis corrupti consectetur vel ipsa harum, aliquid nihil
-                amet molestias.Lorem ipsum dolor sit amet consectetur, adipisicing elit. Exercitationem deserunt hic
-                voluptates expedita
+            <p> A paper can involve using many typical phrases/sentences for introduction, background description and
+                experiment result analyses. We identifying and highlighting these sentences
+            <ul>
+                <li>Highlight the text by activating the toggle on the navbar</li>
+                <li>Un-highlight the text by deactivating the toggle on the navbar</li>
+            </ul>
+            </p>
+            <h2 id="shortcuts-title">Shortcuts</h2>
+            <p>
+            <ul>
+                <li>ZOOM IN: ctrl/cmd+ '+'</li>
+                <li>ZOOM OUT: ctrl/cmd+ '-'</li>
+                <li>NEXT PAGE: right arrow</li>
+                <li>PREVIOUS PAGE: left arrow</li>
+                <li>UPLOAD NEW FILE: ctrl/cmd+ 'u'</li>
+                <li>GENERATE KNOWLEDGE GRAPH: ctrl/cmd+ 'g'</li>
+                <li>OPEN SUMMARY: ctrl/cmd+ 'y'</li>
+            </ul>
             </p>
         </div>
         <div class="sidenav">
+            <button id="home-btn" class="scale-on-hover btn-welcome"><img src="assets/logo_white.png"
+                    class="black-logo" />&nbsp;&nbsp;HOME</button>
+            <br><br><br>
             <a href="#overview">Overview</a>
             <a href="#explore-title">| EXPLORE</a>
-            <a href="#knowledge-graph-title">| KNOWLEDGE GRAPH</a>
             <a href="#cross-references-title">| CROSS REFERENCES</a>
+            <a href="#knowledge-graph-title">| KNOWLEDGE GRAPH</a>
             <a href="#summary-title">| SUMMARY</a>
             <a href="#highlight-title">| HIGHLIGHT SENTENCES</a>
+            <a href="#shortcuts-title">| SHORTCUTS</a>
         </div>
     </div>
 

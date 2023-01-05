@@ -21,6 +21,7 @@ class NavbarComponent {
       "#message-wrong-type-fileupload-reader"
     ),
     helpBtn: document.querySelector("#question-mark-margin"),
+    homeBtn: document.querySelector("#home-btn-navbar"),
   };
 
   /**
@@ -37,6 +38,7 @@ class NavbarComponent {
    */
   #registerEvents = () => {
     this.components.openNew.addEventListener("input", this.#onNewFile);
+    this.components.homeBtn.addEventListener("click", this.#showWelcomeView);
     this.components.helpBtn.addEventListener(
       "click",
       this.#showDocumentationPage
@@ -98,6 +100,10 @@ class NavbarComponent {
 
   #showDocumentationPage = () => {
     EventHandlerService.publish(PDFLEvents.onShowDocumentationView);
+  };
+
+  #showWelcomeView = () => {
+    EventHandlerService.publish(PDFLEvents.onShowWelcomeView);
   };
 }
 

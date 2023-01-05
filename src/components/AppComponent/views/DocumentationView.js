@@ -1,5 +1,5 @@
 import { AppView } from "./AppView.js";
-
+import { DocumentationComponent } from "../../DocumentationComponent.js";
 /**
  * PDF file upload page view.
  *
@@ -8,6 +8,7 @@ import { AppView } from "./AppView.js";
  * @property {HTMLElement} component DOM element representing the file upload view
  */
 class DocumentationView extends AppView {
+  static documentation = new DocumentationComponent();
   component = document.getElementById("documentation-page");
 }
 

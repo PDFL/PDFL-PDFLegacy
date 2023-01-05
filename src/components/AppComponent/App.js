@@ -43,6 +43,9 @@ class App {
     EventHandlerService.subscribe(PDFLEvents.onShowDocumentationView, () => {
       this.#showDocumentationView();
     });
+    EventHandlerService.subscribe(PDFLEvents.onShowWelcomeView, () => {
+      this.#showWelcomeView();
+    });
   };
 
   /**
