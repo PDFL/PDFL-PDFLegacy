@@ -1,9 +1,8 @@
-import { LOADING_TEXT } from "../../Constants";
+import { LOADING_TEXT, SUMMARY_KEY_ERROR_MESSAGE } from "../../Constants";
 
 /**
  * Class representing a generic Accordion Item
  * @param {Object} components object to set the element component
- * @param {String} errorMessage the specific message the component has to show
  */
 class AccordionItem {
   components = {};
@@ -11,11 +10,9 @@ class AccordionItem {
   /**
    * @constructor
    * @param {HTMLElement} accordionText the element in which fill the text
-   * @param {string} errorMessage the specific error message to be shown
    */
-  constructor(accordionText, errorMessage) {
+  constructor(accordionText) {
     this.components.accordionText = accordionText;
-    this.errorMessage = errorMessage;
   }
 
   /**
@@ -30,7 +27,7 @@ class AccordionItem {
    * Set a default error text in case the content cannot be displayed
    */
   setError = () => {
-    this.components.accordionText.innerText = this.errorMessage;
+    this.components.accordionText.innerText = SUMMARY_KEY_ERROR_MESSAGE;
   };
 
   /**

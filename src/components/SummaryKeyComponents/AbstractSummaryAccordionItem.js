@@ -10,10 +10,7 @@ class AbstractSummaryAccordionItem extends AccordionItem {
    * Set superclass parameters
    */
   constructor() {
-    super(
-      document.querySelector("#abstract-summary-text"),
-      "Abstract summary cannot be generated"
-    );
+    super(document.querySelector("#abstract-summary-text"));
   }
 
   /**

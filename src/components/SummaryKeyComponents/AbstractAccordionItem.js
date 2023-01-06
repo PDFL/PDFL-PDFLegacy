@@ -9,10 +9,7 @@ class AbstractAccordionItem extends AccordionItem {
    * Set superclass parameters
    */
   constructor() {
-    super(
-      document.querySelector("#abstract-text"),
-      "Abstract cannot be loaded"
-    );
+    super(document.querySelector("#abstract-text"));
   }
 }
 

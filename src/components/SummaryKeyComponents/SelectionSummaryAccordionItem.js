@@ -11,10 +11,7 @@ class SelectionSummaryAccordionItem extends AccordionItem {
    * Set superclass parameters
    */
   constructor() {
-    super(
-      document.querySelector("#selection-summary-text"),
-      "Summary cannot be generated"
-    );
+    super(document.querySelector("#selection-summary-text"));
   }
 
   /**

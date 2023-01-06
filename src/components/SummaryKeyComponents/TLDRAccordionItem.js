@@ -9,7 +9,7 @@ class TLDRAccordionItem extends AccordionItem {
    * Set superclass parameters
    */
   constructor() {
-    super(document.querySelector("#tldr-text"), "TLDR cannot be loaded");
+    super(document.querySelector("#tldr-text"));
   }
 }
 
