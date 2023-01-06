@@ -23,7 +23,7 @@ class SelectionSummaryAccordionItem extends AccordionItem {
    * @param text text to be set
    */
   setText = (text) => {
-    super.setText(textSummarizer(text, 6));
+    this.components.accordionText.innerText = textSummarizer(text, 6);
   };
 
   /**
@@ -31,7 +31,7 @@ class SelectionSummaryAccordionItem extends AccordionItem {
    * Clear the content setting the text to the instruction string from constrants
    */
   clear = () => {
-    this.components.selectionSummaryText.innerText = SELECTION_INSTRUCTION_TEXT;
+    this.components.accordionText.innerText = SELECTION_INSTRUCTION_TEXT;
   };
 }
 
