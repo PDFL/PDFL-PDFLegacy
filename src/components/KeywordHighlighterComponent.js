@@ -119,41 +119,55 @@ class KeywordHighlighterComponent {
    * @param {HTMLElement} textLayer
    */
   #onTextLayerRendered(textLayer) {
-    for (let currentPresentation of textLayer.children) {
-      if (currentPresentation.tagName == "SPAN") {
-        let content = currentPresentation.innerHTML;
-        for (let keyword of this.keywords) {
-          let keywordIndex = content.indexOf(keyword);
-          if (keywordIndex != -1) {
-            let dotIndex = currentPresentation.innerHTML.indexOf(". ");
-            if (dotIndex == -1) {
-              this.#highlightUntilLeftDot(currentPresentation);
-              this.#highlightUntilRightDot(
-                currentPresentation.nextElementSibling
-              );
-            } else {
-              if (keywordIndex > dotIndex) {
-                this.#highlightToLeftDot(currentPresentation);
-                this.#highlightUntilRightDot(
-                  currentPresentation.nextElementSibling
-                );
-              } else {
-                this.#hightlightToRightDot(currentPresentation);
-                this.#highlightUntilLeftDot(
-                  currentPresentation.previousElementSibling
-                );
-              }
-            }
-          }
-        }
-      }
+    const spans = [...textLayer.children].filter(
+      (currentPresentation) => currentPresentation.tagName == "SPAN"
+    );
+    for (let currentPresentation of spans) {
+      this.#highlightPresentation(currentPresentation);
+    }
+  }
+
+  /**
+   * Helper method that inserts highlights to a specifc presentation.
+   *
+   * @param {HTMLElement} currentPresentation
+   */
+  #highlightPresentation(currentPresentation) {
+    let content = currentPresentation.innerHTML;
+
+    for (let keyword of this.keywords) {
+      let keywordIndex = content.indexOf(keyword);
+      if (keywordIndex == -1) continue;
+
+      this.#highlightPresentationWithKeyword(currentPresentation, keywordIndex);
+    }
+  }
+
+  /**
+   * Helper method that inserts highlights to a specific presentation using a
+   * specific keyword.
+   *
+   * @param {HTMLElement} currentPresentation
+   * @param {int} keywordIndex index of the keyword in the inner html of a presentation
+   */
+  #highlightPresentationWithKeyword(currentPresentation, keywordIndex) {
+    let dotIndex = currentPresentation.innerHTML.indexOf(". ");
+    if (dotIndex == -1) {
+      this.#highlightUntilLeftDot(currentPresentation);
+      this.#highlightUntilRightDot(currentPresentation.nextElementSibling);
+    } else if (keywordIndex > dotIndex) {
+      this.#highlightToLeftDot(currentPresentation);
+      this.#highlightUntilRightDot(currentPresentation.nextElementSibling);
+    } else {
+      this.#hightlightToRightDot(currentPresentation);
+      this.#highlightUntilLeftDot(currentPresentation.previousElementSibling);
     }
   }
 
   /**
    * Highlights the whole presentation.
    *
-   * @param {String} currentPresentation
+   * @param {HTMLElement} currentPresentation
    */
   #hightlightWholePresentation(currentPresentation) {
     currentPresentation.innerHTML = "<span>" + currentPresentation.innerHTML;
@@ -165,7 +179,7 @@ class KeywordHighlighterComponent {
   /**
    * Highlights the presentation to the right dot.
    *
-   * @param {String} currentPresentation
+   * @param {HTMLElement} currentPresentation
    */
   #hightlightToRightDot(currentPresentation) {
     if (currentPresentation.innerHTML.includes("<span>")) {
@@ -185,7 +199,7 @@ class KeywordHighlighterComponent {
   /**
    * Highlights the presentation to the left dot.
    *
-   * @param {String} currentPresentation
+   * @param {HTMLElement} currentPresentation
    */
   #highlightToLeftDot(currentPresentation) {
     if (currentPresentation.innerHTML.includes("</span>")) {
@@ -206,7 +220,7 @@ class KeywordHighlighterComponent {
    * include the dot, recursively highlights the left presentations until it
    * finds the dot. (end of sentence)
    *
-   * @param {String} currentPresentation
+   * @param {HTMLElement} currentPresentation
    */
   #highlightUntilLeftDot(currentPresentation) {
     // begining of text layer guard
@@ -234,7 +248,7 @@ class KeywordHighlighterComponent {
    * include the dot, recursively highlights the right presentations until it
    * finds the dot. (end of sentence)
    *
-   * @param {String} currentPresentation
+   * @param {HTMLElement} currentPresentation
    */
   #highlightUntilRightDot(currentPresentation) {
     // end of text layer guard
@@ -262,7 +276,7 @@ class KeywordHighlighterComponent {
    * inconsistent). If the topic-specific highlight is turned on, it activates
    * the hightlight by adding thr 'topic-highlighted' class to the text.
    *
-   * @param {String} currentPresentation
+   * @param {HTMLElement} currentPresentation
    */
   #setHighlight(currentPresentation) {
     let newHighlight = currentPresentation.children[0];
