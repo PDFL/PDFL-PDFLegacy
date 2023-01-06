@@ -14,7 +14,7 @@ class AbstractSummaryAccordionItem extends AccordionItem {
   }
 
   /**
-   * Set the text af the abstract
+   * Set the text of the abstract
    * @param abstract
    */
   setAbstract = (abstract) => {
