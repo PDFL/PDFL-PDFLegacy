@@ -14,7 +14,6 @@ import { readFile } from "../../services/FileUploadService";
  * @property {Object} components object that holds all DOM elements within this component
  * @property {HTMLElement} components.fullScreen full screen button
  * @property {HTMLElement} components.graphMakerBtn button that generates knowledge graph
- * @property {HTMLElement} components.body body of HTML document
  * @property {HTMLElement} components.thumbnailBtn button that opens the thumbnail
  * @property {PaginationComponent} paginationComponent pagination component
  * @property {ZoomComponent} zoomComponent zoom component
@@ -28,10 +27,8 @@ class ToolbarComponent {
   components = {
     fullScreen: document.querySelector("#full-screen"),
     graphMakerBtn: document.querySelector("#graph-maker"),
-    body: document.querySelector("body"),
     summaryKeyBtn: document.querySelector("#summary-maker"),
     thumbnailBtn: document.querySelector("#pages-sidebar"),
-
     openNew: document.querySelector("#open-new-pdf"),
     loader: document.querySelector("#loader"),
     errorMessage: document.querySelector(
@@ -115,15 +112,12 @@ class ToolbarComponent {
    * @private
    */
   #showFullScreen = () => {
-    if (this.components.body.requestFullscreen) {
-      this.components.body.requestFullscreen();
-    } else if (this.components.body.webkitRequestFullscreen) {
-      /* Safari */
-      this.components.body.webkitRequestFullscreen();
-    } else if (this.components.body.msRequestFullscreen) {
-      /* IE11 */
-      this.components.body.msRequestFullscreen();
-    }
+    if (document.documentElement.requestFullscreen)
+      document.documentElement.requestFullscreen();
+    else if (document.documentElement.webkitRequestFullscreen)
+      document.documentElement.webkitRequestFullscreen();
+    else if (document.documentElement.msRequestFullscreen)
+      document.documentElement.msRequestFullscreen();
   };
 
   /**

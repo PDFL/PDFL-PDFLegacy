@@ -69,6 +69,10 @@ class ReferenceViewComponent {
     EventHandlerService.subscribe(PDFLEvents.onReadNewPdf, (pdf) => {
       this.#setPDF(pdf);
     });
+
+    EventHandlerService.subscribe(PDFLEvents.onResetReader, () => {
+      this.#hidePdfReference();
+    });
   };
 
   /**
