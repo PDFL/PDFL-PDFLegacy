@@ -42,7 +42,7 @@ class PdfReaderComponent {
   /**
    * Creates and initializes new zoom component. Creates an instance of all components
    * within this component.
-   * 
+   *
    * @constructor
    */
   constructor() {
@@ -55,7 +55,7 @@ class PdfReaderComponent {
     this.visiblePages = [];
     this.visiblePage = null;
     this.selectionPopUp = new SelectionPopUpComponent();
-    
+
     this.#registerEvents();
   }
 
@@ -107,7 +107,7 @@ class PdfReaderComponent {
 
     let data = await pdfjsLib.getDocument(pdf).promise;
 
-    this.pdfDoc = data;
+this.pdfDoc = data;
     this.toolbarComponent.setPageCount(data.numPages);
 
     await this.#setupPages();

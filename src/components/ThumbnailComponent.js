@@ -101,9 +101,8 @@ class ThumbnailComponent {
     let viewport = this.#createPageViewport(page);
     let canvas = this.#createPageCanvas(viewport, num);
 
-    await page
-      .render({ canvasContext: canvas.getContext("2d"), viewport: viewport })
-      .promise.then(() => this.#createPageContainer(canvas, num));
+    await page.render({ canvasContext: canvas.getContext("2d"), viewport: viewport }).promise;
+    this.#createPageContainer(canvas, num);
   };
 
   /**
