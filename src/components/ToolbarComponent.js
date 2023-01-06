@@ -16,6 +16,9 @@ import { ZoomComponent } from "./ZoomComponent";
  * @property {PaginationComponent} paginationComponent pagination component
  * @property {ZoomComponent} zoomComponent zoom component
  * @property {HTMLElement} components.summaryKeyBtn button that open and close the sidepage
+ * @property {HTMLElement} components.questionMarkHighlight question mark for highlight tutorial window
+ * @property {HTMLElement} components.questionMarkGraph question mark for graph tutorial window
+ * @property {HTMLElement} components.questionMarkSummary question mark for summary tutorial window
  */
 class ToolbarComponent {
   components = {
@@ -23,6 +26,9 @@ class ToolbarComponent {
     graphMakerBtn: document.querySelector("#graph-maker"),
     body: document.querySelector("body"),
     summaryKeyBtn: document.querySelector("#summary-maker"),
+    questionMarkHighlight: document.querySelector("#tutorial-highlight"),
+    questionMarkGraph: document.querySelector("#tutorial-graph"),
+    questionMarkSummary: document.querySelector("#tutorial-summary"),
   };
 
   /**
@@ -51,6 +57,49 @@ class ToolbarComponent {
       this.#showSummaryKey
     );
     this.components.fullScreen.addEventListener("click", this.#showFullScreen);
+
+    this.components.questionMarkHighlight.addEventListener(
+      "mouseenter",
+      (event) => {
+        event.preventDefault();
+        EventHandlerService.publish(PDFLEvents.onShowHighlightTutorialWindow);
+      }
+    );
+    this.components.questionMarkHighlight.addEventListener(
+      "mouseleave",
+      (event) => {
+        event.preventDefault();
+        EventHandlerService.publish(PDFLEvents.onHideTutorialWindow);
+      }
+    );
+    this.components.questionMarkGraph.addEventListener(
+      "mouseenter",
+      (event) => {
+        event.preventDefault();
+        EventHandlerService.publish(PDFLEvents.onShowGraphTutorialWindow);
+      }
+    );
+    this.components.questionMarkGraph.addEventListener(
+      "mouseleave",
+      (event) => {
+        event.preventDefault();
+        EventHandlerService.publish(PDFLEvents.onHideTutorialWindow);
+      }
+    );
+    this.components.questionMarkSummary.addEventListener(
+      "mouseenter",
+      (event) => {
+        event.preventDefault();
+        EventHandlerService.publish(PDFLEvents.onShowSummaryTutorialWindow);
+      }
+    );
+    this.components.questionMarkSummary.addEventListener(
+      "mouseleave",
+      (event) => {
+        event.preventDefault();
+        EventHandlerService.publish(PDFLEvents.onHideTutorialWindow);
+      }
+    );
     EventHandlerService.subscribe(
       PDFLEvents.onKeyboardKeyDown,
       (functionalKeys, key, code) => {

@@ -36,7 +36,8 @@ class EventHandlerService {
  * Enum of possible event type (to avoid typos)
  * @type {{onShowInputView: string, onShowReaderView: string, onRenderPage: string, onShowKnowledgeGraph: string,
  * onResetReader: string, onReadNewFile: string, onShowTransparentSidePageLoader: string, onShowOpaqueSidePageLoader: string,
- * onHideSidePageLoader: string, onShowSidePageError: string}}
+ * onHideSidePageLoader: string, onShowSidePageError: string, onShowHighlightTutorialWindow: string, onShowGraphTutorialWindow: string, onShowSummaryTutorialWindow: string
+ * onHideTutorialWindow: string}}
  */
 const PDFLEvents = {
   onShowWelcomeView: "onShowWelcomeView",
@@ -61,6 +62,10 @@ const PDFLEvents = {
   onShowSummaryKey: "onShowSummaryKey",
   onTextSelectionReady: "onTextSelectionReady",
   onOpenSelectionSummary: "onOpenSelectionSummary",
+  onShowHighlightTutorialWindow: "onShowHighlightTutorialWindow",
+  onShowGraphTutorialWindow: "onShowGraphTutorialWindow",
+  onShowSummaryTutorialWindow: "onShowSummaryTutorialWindow",
+  onHideTutorialWindow: "onHideTutorialWindow",
 };
 
 export { PDFLEvents, EventHandlerService };

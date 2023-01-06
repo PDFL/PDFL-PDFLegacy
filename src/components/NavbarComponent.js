@@ -24,7 +24,6 @@ class NavbarComponent {
 
   /**
    * Creates and initializes navbar component.
-   * Creates new TutorialPopupComponent objects
    * @constructor
    */
   constructor() {
