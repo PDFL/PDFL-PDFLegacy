@@ -171,7 +171,6 @@ class ToolbarComponent {
    */
   reset = () => {
     this.paginationComponent.setCurrentPage(1);
-    this.zoomComponent.setZoom(1);
   };
 
 

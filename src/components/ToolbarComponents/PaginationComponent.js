@@ -69,6 +69,7 @@ class PaginationComponent {
    * @param key the actual key which triggers the event
    */
   #handleKeyboardKeyPressAction = (functionalKey, key, code) => {
+    if(event.target.id == "zoom-level" || event.target.id == "current-page") return;
     if (key === "ArrowRight" || key === "Right") {
       this.#showNextPage();
     } else if (key === "ArrowLeft" || key === "Left") {
