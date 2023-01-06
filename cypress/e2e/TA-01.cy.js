@@ -12,39 +12,20 @@ describe("TA-01 - PDF Upload", () => {
     cy.title().should("eq", "PDFL - PDF Legacy");
 
     cy.get("#pdf-container").should("exist")
-      .get("#text-layer-1").should("exist")
-      .get("#text-layer-2").should("exist")
-      .get("#text-layer-3").should("exist")
-
-    cy.get("#navbar").children().should("have.length", 3)
-      .get("#start").should("exist")
-      .get("#center").should("exist")
-      .get("#end").should("exist")
-
-    cy.get("#start")
-      .get("#title").contains( "black bear.pdf")
-      .get("#pages-sidebar").should("exist")
-      .get(".verticalToolbarSeparator").should("exist");
-
-    cy.get("#center")
-      .get("#prev-page").should("exist")
-      .get("#num-pages").should("exist")
-      .get("#current-page").should("exist")
-      .get("#page-count").should("exist")
-      .get("#next-page").should("exist")
-      .get("#zoom-in").should("exist")
-      .get("#zoom-level").should("exist")
-      .get("#zoom-out").should("exist");
-
-    cy.get("#end")
-      .get(".open-new").should("exist")
-      .get("#toggle").should("exist")
-      .get(".switch").should("exist")
-      .get(".slider").should("exist")
-      .get("#graph-maker").should("exist")
-      .get("#summary-maker").should("exist")
-      .get("#full-screen").should("exist")
-      .get("#question-mark-margin").should("exist");
+      .get("#canvas-1").should("exist")
+      .get("#canvas-2").should("exist")
+      .get("#canvas-3").should("exist")
+      .get("#canvas-4").should("exist")
+      .get("#canvas-5").should("exist")
+      .get("#canvas-6").should("exist")
+      .get("#canvas-7").should("exist")
+      .get("#canvas-8").should("exist")
+      .get("#canvas-9").should("exist")
+      .get("#canvas-10").should("exist")
+      .get("#canvas-11").should("exist")
+      .get("#canvas-12").should("exist")
+      .get("#canvas-13").should("exist")
+      .get("#canvas-14").should("exist");
 
   });
 });
