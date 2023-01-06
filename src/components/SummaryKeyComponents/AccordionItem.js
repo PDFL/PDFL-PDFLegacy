@@ -37,14 +37,14 @@ class AccordionItem {
    * Set loading constant as a text
    */
   setLoading = () => {
-    this.components.tldrText.innerText = LOADING_TEXT;
+    this.components.accordionText.innerText = LOADING_TEXT;
   };
 
   /**
    * Clear the content setting the text to empty string
    */
   clear = () => {
-    this.components.tldrText.innerText = "";
+    this.components.accordionText.innerText = "";
   };
 }
 

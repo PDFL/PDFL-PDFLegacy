@@ -60,7 +60,7 @@ class SummaryKeyComponent {
     );
     EventHandlerService.publish(
       PDFLEvents.onOpenSelectionSummary,
-      this.#showSelectedText()
+      this.#showSelectedText.bind(this)
     );
   };
 
