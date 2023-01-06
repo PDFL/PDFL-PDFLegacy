@@ -96,7 +96,7 @@ class ReferenceViewComponent {
   #hidePdfReference = () => {
     this.main.removeChild(this.components.sidePageReferenceContainer);
     this.components.closeBtnReference.className = "hidden";
-  };
+    this.pdfContainer.className = "full-width";  };
 
   /**
    * Handler to display the reference page.
