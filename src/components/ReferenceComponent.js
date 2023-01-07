@@ -124,37 +124,36 @@ class ReferenceComponent {
   };
 
   /**
+   * @async
    * Call the correct parser and rise ad event to notify that popup content is ready
    * @param reference the reference from the dom
    * @param pageNumber the solved page number
+   * @return Promise<Void>
    */
-  #parseReference = (reference, pageNumber) => {
-    const self = this;
+  #parseReference = async (reference, pageNumber) => {
     const referenceType = reference.split(".")[0];
     const parseService = ParserFactory(referenceType, {
-      pdfDoc: self.pdfDoc,
+      pdfDoc: this.pdfDoc,
       pageNumber: pageNumber,
       reference: reference,
     });
 
-    parseService
-      .getContent()
-      .then((result) => {
-        EventHandlerService.publish(
-          PDFLEvents.onPopupContentReady,
-          self.overEventPosition,
-          pageNumber,
-          result
-        );
-      })
-      .catch(() => {
-        EventHandlerService.publish(
-          PDFLEvents.onPopupContentReady,
-          self.overEventPosition,
-          pageNumber,
-          { type: "page", popupDisplayable: false }
-        );
-      });
+    try {
+      const result = await parseService.getContent();
+      EventHandlerService.publish(
+        PDFLEvents.onPopupContentReady,
+        this.overEventPosition,
+        pageNumber,
+        result
+      );
+    } catch (exception) {
+      EventHandlerService.publish(
+        PDFLEvents.onPopupContentReady,
+        this.overEventPosition,
+        pageNumber,
+        { type: "page", popupDisplayable: false }
+      );
+    }
   };
 }
 
