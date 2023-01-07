@@ -1093,6 +1093,7 @@ input[type="number"]::-webkit-outer-spin-button {
     position: fixed;
     justify-content: center;
     align-items: center;
+    
   }
 
   .tutorial-window{
@@ -1102,6 +1103,7 @@ input[type="number"]::-webkit-outer-spin-button {
     width: 600px;
     text-align:justify;
     padding: 20px;
+    transform: scale(0.9);
   }
 
   .gif-tutorial{width: 100%;}
