@@ -5,7 +5,6 @@ import {
 import { ToolbarComponent } from "./ToolbarComponents/ToolbarComponent";
 import { ReferenceComponent } from "./ReferenceComponent";
 import { PopupComponent } from "./PopupComponent";
-import { KeyboardService } from "../services/KeyboardService";
 import * as textRenderService from "../services/TextRenderService";
 import { PdfPageComponent } from "./PdfPageComponent";
 import { respondToVisibility } from "../services/Utils";
@@ -20,22 +19,18 @@ import * as pdfjsLib from "pdfjs-dist/webpack";
  *
  * @property {Object} components object that holds DOM elements that are within component
  * @property {HTMLElement} components.pdfContainer element containing the PDF reader
- * @property {HTMLElement} components.openNew button that takes user to input view page
- * @property {HTMLElement} components.canvas canvas DOM element for pdf.js page
- * @property {import("pdfjs-dist").PageViewport} components.viewport target page viewport for the text layer
  * @property {ToolbarComponent} toolbarComponent toolbar component within the reader
+ * @property {ReferenceComponent} referenceComponent component detecting and managing cross references
  * @property {PopupComponent} popupComponent popup component within the reader
+ * @property {SelectionPopUpComponent} selectionPopUp popup related to selection functionality
  * @property {PDFDocumentProxy} pdfDoc PDF document
- * @property {KeyboardService} keyboardService keyboard service
  * @property {PdfPageComponent[]} pages array of the pages objects
  * @property {int[]} visiblePages array of the visible pages by page number
  * @property {int} visiblePage currently visible page
- * @property {SelectionPopUpComponent} selectionPopUp popup related to selection functionality
  */
 class PdfReaderComponent {
   components = {
     pdfContainer: document.querySelector("#pdf-container"),
-    openNew: document.querySelector("#open-new"),
     loader: document.querySelector("#loader"),
   };
 
@@ -46,15 +41,14 @@ class PdfReaderComponent {
    * @constructor
    */
   constructor() {
-    this.keyboardService = new KeyboardService();
     this.toolbarComponent = new ToolbarComponent();
     this.referenceComponent = new ReferenceComponent();
     this.popupComponent = new PopupComponent();
+    this.selectionPopUp = new SelectionPopUpComponent();
 
     this.pages = [];
     this.visiblePages = [];
     this.visiblePage = null;
-    this.selectionPopUp = new SelectionPopUpComponent();
 
     this.#registerEvents();
   }

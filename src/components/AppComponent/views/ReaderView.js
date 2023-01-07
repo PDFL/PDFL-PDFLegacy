@@ -3,6 +3,7 @@ import { PdfReaderComponent } from "../../PdfReaderComponent.js";
 import { ThumbnailComponent } from "../../ThumbnailComponent.js";
 import { SidePageComponent } from "../../SidePageComponents/SidePageComponent.js";
 import { ReferenceViewComponent } from "../../ReferenceViewComponent.js";
+import { KeyboardService } from "../../../services/KeyboardService.js";
 
 /**
  * PDF reader page view.
@@ -13,6 +14,7 @@ import { ReferenceViewComponent } from "../../ReferenceViewComponent.js";
  * or knowledge graph can be displayed
  * @property {ReferenceViewComponent} referenceView static property representing a side paper with 
  * cross reference content
+ * @property {KeyboardService} keyboardService keyboard service responsible for listening keyboard events
  * @property {HTMLElement} component element representing the reader view
  */
 class ReaderView extends AppView {
@@ -20,6 +22,8 @@ class ReaderView extends AppView {
   static thumbnail = new ThumbnailComponent();
   static sidePage = new SidePageComponent();
   static referenceView = new ReferenceViewComponent();
+
+  static keyboardService = new KeyboardService();
 
   component = document.getElementById("pdf-viewer");
 }
