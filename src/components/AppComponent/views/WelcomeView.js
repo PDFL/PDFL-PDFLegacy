@@ -25,7 +25,7 @@ class WelcomeView extends AppView {
     dropArea: document.getElementById("file-drag"),
     fileOpen: document.getElementById("file-open"),
     errorMessage: document.getElementById("message-wrong-type-fileupload"),
-    documenationBtn: document.getElementById("documentation-welcome-page"),
+    tutorialPageBtn: document.getElementById("tutorial-welcome-page"),
   };
 
   /**
@@ -47,9 +47,9 @@ class WelcomeView extends AppView {
     this.components.dropArea.addEventListener("dragover", this.#onDragOver);
     this.components.dropArea.addEventListener("dragleave", this.#onDragLeave);
     this.components.dropArea.addEventListener("drop", this.#onDrop);
-    this.components.documenationBtn.addEventListener(
+    this.components.tutorialPageBtn.addEventListener(
       "click",
-      this.#showDocumentationPage
+      this.#showTutorialPage
     );
   };
 
@@ -128,8 +128,8 @@ class WelcomeView extends AppView {
     }
   };
 
-  #showDocumentationPage = () => {
-    EventHandlerService.publish(PDFLEvents.onShowDocumentationView);
+  #showTutorialPage = () => {
+    EventHandlerService.publish(PDFLEvents.onShowTutorialView);
   };
 }
 

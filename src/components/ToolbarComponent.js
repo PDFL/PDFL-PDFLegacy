@@ -27,6 +27,8 @@ class ToolbarComponent {
     body: document.querySelector("body"),
     summaryKeyBtn: document.querySelector("#summary-maker"),
     thumbnailBtn: document.querySelector("#pages-sidebar"),
+    helpBtn: document.querySelector("#question-mark-margin"),
+    homeBtn: document.querySelector("#home-btn-navbar"),
   };
 
   /**
@@ -60,6 +62,8 @@ class ToolbarComponent {
       "click",
       this.#toggleThumbnail
     );
+    this.components.homeBtn.addEventListener("click", this.#showWelcomeView);
+    this.components.helpBtn.addEventListener("click", this.#showTutorialPage);
 
     EventHandlerService.subscribe(
       PDFLEvents.onKeyboardKeyDown,
@@ -108,7 +112,18 @@ class ToolbarComponent {
    * @private
    */
   #toggleThumbnail = () => {
-    EventHandlerService.publish(PDFLEvents.onToggleThumbnail, this.paginationComponent.getCurrentPage());
+    EventHandlerService.publish(
+      PDFLEvents.onToggleThumbnail,
+      this.paginationComponent.getCurrentPage()
+    );
+  };
+
+  #showTutorialPage = () => {
+    EventHandlerService.publish(PDFLEvents.onShowTutorialView);
+  };
+
+  #showWelcomeView = () => {
+    EventHandlerService.publish(PDFLEvents.onShowWelcomeView);
   };
 
   /**

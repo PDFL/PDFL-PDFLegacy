@@ -37,7 +37,7 @@ class EventHandlerService {
  * @type {{onShowInputView: string, onShowReaderView: string, onRenderPage: string, onShowKnowledgeGraph: string,
  * onResetReader: string, onReadNewFile: string, onShowTransparentSidePageLoader: string, onShowOpaqueSidePageLoader: string,
  * onHideSidePageLoader: string, onShowSidePageError: string, onCreateThumbnail: string, onToggleThumbnail:string,
- * onPageChanged: string, onShowDocumentationView: string, onShowWelcomeView: string}}
+ * onPageChanged: string, onShowTutorialView: string, onShowWelcomeView: string}}
  */
 const PDFLEvents = {
   onShowWelcomeView: "onShowWelcomeView",
@@ -65,7 +65,7 @@ const PDFLEvents = {
   onCreateThumbnail: "onCreateThumbnail",
   onToggleThumbnail: "onToggleThumbnail",
   onPageChanged: "onPageChanged",
-  onShowDocumentationView: "onShowDocumentationView",
+  onShowTutorialView: "onShowTutorialView",
   onShowWelcomeView: "onShowWelcomeView",
 };
 
