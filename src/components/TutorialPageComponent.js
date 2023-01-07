@@ -4,9 +4,11 @@ import {
 } from "../services/EventHandlerService";
 
 /**
- * Component that takes in the PDF file that user uploads and processes it.
+ * Component that takes Tutorial Page View and it's component
  *
  * @property {Object} components object that holds DOM elements that are within component
+ * @property {HTMLElement} components.tutorialPage div that contains the tutorial page
+ * @property {HTMLElement} components.backBtn button that let the user come back to last opened view
  */
 class TutorialPageComponent {
   components = {
@@ -15,7 +17,7 @@ class TutorialPageComponent {
   };
 
   /**
-   * Creates and initializes navbar component.
+   * Creates and initializes tutorial page component.
    * @constructor
    */
   constructor() {
@@ -26,18 +28,28 @@ class TutorialPageComponent {
   }
 
   /**
-   * Adds event listeners to new pdf button
+   * Adds event listeners to back button
    * @private
    */
   #registerEvents = () => {
     this.components.backBtn.addEventListener("click", this.#showLastView);
   };
 
+  /**
+   * Hides tutorial page to show last view opened
+   *
+   * @private
+   */
   #showLastView = () => {
     document.querySelector("#pdf-viewer").classList.remove("hidden");
     this.components.tutorialPage.classList.add("hidden");
   };
 
+  /**
+   * Shows tutorial page
+   *
+   * @private
+   */
   #showTutorialView = () => {
     document.querySelector("#pdf-viewer").classList.add("hidden");
     this.components.tutorialPage.classList.remove("hidden");

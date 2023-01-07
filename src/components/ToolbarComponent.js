@@ -17,7 +17,8 @@ import { ZoomComponent } from "./ZoomComponent";
  * @property {HTMLElement} components.thumbnailBtn button that opens the thumbnail
  * @property {PaginationComponent} paginationComponent pagination component
  * @property {ZoomComponent} zoomComponent zoom component
- * @property {HTMLElement} components.summaryKeyBtn button that open and close the sidepage
+ * @property {HTMLElement} components.helpBtn button that open the tutorial page
+ * @property {HTMLElement} components.homeBtn button that takes the user to Welcome Page
  */
 class ToolbarComponent {
   components = {
@@ -118,10 +119,16 @@ class ToolbarComponent {
     );
   };
 
+  /**
+   * Triggers the onShowTutorialView event
+   */
   #showTutorialPage = () => {
     EventHandlerService.publish(PDFLEvents.onShowTutorialView);
   };
 
+  /**
+   * Triggers the onShowWelcomeView event
+   */
   #showWelcomeView = () => {
     EventHandlerService.publish(PDFLEvents.onShowWelcomeView);
   };

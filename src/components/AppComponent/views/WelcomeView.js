@@ -17,6 +17,8 @@ import {
  * @property {HTMLElement} components.buttonFile button that takes user to file input page
  * @property {HTMLElement} components.dropArea rectangle in which PDF file can be dropped to and uploaded
  * @property {HTMLElement} components.fileOpen input element used for PDF file upload
+ * @property {HTMLElement} components.errorMessage error message showed when the user try to upload a file that is not a pdf
+ * @property {HTMLElement} components.tutorialPageBtn button that takes user to tutorial page
  */
 class WelcomeView extends AppView {
   components = {
@@ -128,6 +130,9 @@ class WelcomeView extends AppView {
     }
   };
 
+  /**
+   * Triggers the onShowTutorialView
+   */
   #showTutorialPage = () => {
     EventHandlerService.publish(PDFLEvents.onShowTutorialView);
   };

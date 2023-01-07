@@ -4,7 +4,7 @@ import { TutorialPageComponent } from "../../TutorialPageComponent.js";
  * PDF file upload page view.
  *
  * @extends AppView
- * @property {FileUploadComponent} FileUploadComponent static property representing the file upload component
+ * @property {TutorialPageComponent} TutorialPageComponent static property representing the tutorial page component with it's element
  * @property {HTMLElement} component DOM element representing the file upload view
  */
 class TutorialPageView extends AppView {
