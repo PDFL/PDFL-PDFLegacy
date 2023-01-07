@@ -2,12 +2,7 @@ import {
   EventHandlerService,
   PDFLEvents,
 } from "../services/EventHandlerService";
-
-/**
- * Declaration of library that contains the method to render text and annotations
- * @constant
- */
-const pdfjsLib = require("pdfjs-dist");
+import * as textRenderService from "../services/TextRenderService";
 
 /**
  * Component representing the page containing the cross reference content. Content
@@ -34,13 +29,7 @@ class ReferenceViewComponent {
    * @constructor
    */
   constructor() {
-    this.pdfDoc = null;
-    this.pdfPageNumber = null;
-    this.viewport = null;
-    this.main = document.querySelector("#main");
-    this.pdfContainer = document.querySelector("#pdf-container");
     this.#registerEvents();
-    this.components.canvas.setAttribute("class", "canvas-for-reference");
   }
 
   /**
@@ -89,19 +78,19 @@ class ReferenceViewComponent {
    * @param {int} pageNumber number of page where reference is
    */
   #renderPdfReference = async (pageNumber) => {
-    //TODO: code repetition - extract page rendering
     const page = await this.pdfDoc.getPage(pageNumber);
-
-    const ctxReference = this.components.canvas.getContext("2d");
     const viewport = page.getViewport({
       scale: 1,
     });
-
-    page.render({
-      canvasContext: ctxReference,
-      viewport: viewport,
-    });
-
+    
+    textRenderService.renderPageReference(
+      page,
+      pageNumber,
+      this.components.canvas,
+      this.components.container,
+      viewport
+    );
+    
     this.#setCanvasDimensions(viewport.height, viewport.width);
     this.#positionCloseButton(viewport.width);
   };
