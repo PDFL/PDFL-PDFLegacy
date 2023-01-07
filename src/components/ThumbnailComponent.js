@@ -11,8 +11,10 @@ import { THUMBNAIL_PAGE_VIEWPORT_SCALE } from "../Constants";
  * 
  * @property {Object} components object that holds all DOM elements within this component
  * @property {HTMLElement} components.toolbar element that represents this component
- * @property {Object} pdfjsLib PDF.js library
  * @property {boolean} isOpened state of component which can be either closed or opened
+ * @property {boolean} isRendering true if thumbnail is being created
+ * @property {AbortController} abortController controller responsible for stopping creation
+ * of thumbnail if request for new thumbnail creation is made
  */
 class ThumbnailComponent {
   components = {
@@ -23,9 +25,8 @@ class ThumbnailComponent {
    * Creates and initializes new thumbnail component. Sets component state to closed.
    */
   constructor() {
-    this.pdfjsLib = require("pdfjs-dist");
     this.isOpened = false;
-
+    this.abortController = new AbortController();
     this.#registerEvents();
   }
 
@@ -34,17 +35,24 @@ class ThumbnailComponent {
    * @private
    */
   #registerEvents = () => {
-    EventHandlerService.subscribe(PDFLEvents.onReadNewFile, (pdfDoc) =>
-      this.#createNewThumbnail(pdfDoc)
-    );
+    EventHandlerService.subscribe(PDFLEvents.onReadNewPdf, (pdfDoc) =>{
+      this.#createNewThumbnail(pdfDoc, this.abortController.signal)
+  });
 
     EventHandlerService.subscribe(PDFLEvents.onToggleThumbnail, (pageNumber) =>
       this.#toggle(pageNumber)
     );
 
     EventHandlerService.subscribe(PDFLEvents.onPageChanged, (pageNumber) =>
-      this.#setSelectedPage(document.querySelectorAll(".thumbnail-page-canvas")[pageNumber - 1])
+      this.#setSelectedPage(
+        document.querySelectorAll(".thumbnail-page-canvas")[pageNumber - 1]
+      )
     );
+
+    EventHandlerService.subscribe(PDFLEvents.onResetReader, () => {
+      if (this.isRendering) this.abortController.abort();
+      this.#close();
+    });
   };
 
   /**
@@ -55,14 +63,16 @@ class ThumbnailComponent {
   #toggle = (pageNumber) => {
     this.isOpened ? this.#close() : this.#open();
 
-    this.isOpened = !this.isOpened;
-    this.#setSelectedPage(document.querySelectorAll(".thumbnail-page-canvas")[pageNumber - 1]);
+    this.#setSelectedPage(
+      document.querySelectorAll(".thumbnail-page-canvas")[pageNumber - 1]
+    );
   };
 
   /**
    * Displays thumbnail.
    */
   #open = () => {
+    this.isOpened = true;
     this.components.thumbnail.classList.remove("hidden");
   };
 
@@ -70,19 +80,29 @@ class ThumbnailComponent {
    * Hides thumbnail.
    */
   #close = () => {
+    this.isOpened = false;
     this.components.thumbnail.classList.add("hidden");
   };
 
   /**
    * Removes old and creates new thumbnail from PDF document data.
    * @param {Uint8Array} pdfDoc PDF document data
+   * @param {AbortSignal} signal signal to stop creation of new thumbnail
    */
-  #createNewThumbnail = async (pdfDoc) => {
+  #createNewThumbnail = async (pdfDoc, signal) => {
+    this.isRendering = true;
     this.#clear();
+    this.pdfDoc = pdfDoc;
 
-    let document = await this.pdfjsLib.getDocument(pdfDoc).promise;
-    for (let pageNumber = 1; pageNumber <= document.numPages; pageNumber++)
-      await this.#createPage(await document.getPage(pageNumber), pageNumber);
+    for (let pageNumber = 1; pageNumber <= this.pdfDoc.numPages; pageNumber++) {
+      if (signal.aborted) {
+        this.abortController = new AbortController();
+        break;
+      }
+      await this.#createPage(await this.pdfDoc.getPage(pageNumber), pageNumber);
+    }
+    
+    this.isRendering = false;
   };
 
   /**
@@ -93,7 +113,7 @@ class ThumbnailComponent {
   };
 
   /**
-   * Creates new small PDF page in thumbnail. 
+   * Creates new small PDF page in thumbnail.
    * @param {PDFPageProxy} page PDF page
    * @param {int} num page number
    */
@@ -101,7 +121,10 @@ class ThumbnailComponent {
     let viewport = this.#createPageViewport(page);
     let canvas = this.#createPageCanvas(viewport, num);
 
-    await page.render({ canvasContext: canvas.getContext("2d"), viewport: viewport }).promise;
+    await page.render({
+      canvasContext: canvas.getContext("2d"),
+      viewport: viewport,
+    }).promise;
     this.#createPageContainer(canvas, num);
   };
 
@@ -118,7 +141,7 @@ class ThumbnailComponent {
 
   /**
    * Creates styled page canvas with click event.
-   * 
+   *
    * @param {Object} viewport page viewport
    * @param {int} pageNumber page number
    * @returns {HTMLElement} canvas
@@ -140,7 +163,7 @@ class ThumbnailComponent {
   /**
    * Adds canvas style depending if page is
    * selected or not.
-   * 
+   *
    * @param {HTMLElement} canvas page canvas
    * @param {boolean} isSelected is page selected
    */
@@ -186,7 +209,7 @@ class ThumbnailComponent {
    * @param {HTMLElement} canvas page canvas
    */
   #setSelectedPage = (canvas) => {
-    if(!canvas) return;
+    if (!canvas) return;
     this.#unselectAllCanvases();
     this.#setSelectedCanvasStyle(canvas);
     this.#setScrollPosition(canvas);

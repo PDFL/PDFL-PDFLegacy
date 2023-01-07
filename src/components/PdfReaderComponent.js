@@ -78,7 +78,8 @@ class PdfReaderComponent {
     }).observe(this.components.pdfContainer);
 
     EventHandlerService.subscribe(PDFLEvents.onRenderPage, (page) => {
-      this.pages[page - 1].getCanvas().scrollIntoView();
+      if(this.pages[page - 1])
+        this.pages[page - 1].getCanvas().scrollIntoView();
       this.visiblePages = [page];
       this.#setVisiblePage(page);
     });
@@ -243,7 +244,8 @@ this.pdfDoc = data;
    */
   #recalculateTextLayerPositionForVisiblePages() {
     this.visiblePages.forEach((pageNum) => {
-      this.pages[pageNum - 1].positionTextLayer();
+      if(this.pages[pageNum - 1])
+        this.pages[pageNum - 1].positionTextLayer();
     });
   }
 
