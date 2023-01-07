@@ -9,7 +9,8 @@ import { ThumbnailComponent } from "../../ThumbnailComponent.js";
  *
  * @extends AppView
  * @property {PdfReaderComponent} reader static property representhing the PDF file reader component
- * @property {ThumbnailComponent} reader static property representhing the thumbnail of PDF file
+ * @property {ThumbnailComponent} thumbnail static property representhing the thumbnail of PDF file
+ * @property {ThumbnailComponent} tutorial static property representhing the tutorial window component
  * @property {HTMLElement} component element representing the reader view
  */
 class ReaderView extends AppView {
@@ -17,7 +18,7 @@ class ReaderView extends AppView {
   static navbar = new NavbarComponent();
   static tutorial = new TutorialWindowComponent();
   static thumbnail = new ThumbnailComponent();
-  
+
   component = document.getElementById("pdf-viewer");
 }
 

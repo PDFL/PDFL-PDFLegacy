@@ -3,7 +3,7 @@ import {
   PDFLEvents,
 } from "../services/EventHandlerService";
 /**
- * Component representing tutorial window component and it's element
+ * Component representing tutorial window component and it's element to display highlight, graph and summary window tutorial
  *
  * @property {Object} components object that holds DOM elements that represent tutorial popup component and it's own objects
  * @property {HTMLElement} components.panelTutorial div that contains the tutorial window
@@ -22,7 +22,7 @@ class TutorialWindowComponent {
   };
 
   /**
-   * Creates the handler service for managing mouse events on the questions marks elements
+   * Creates the handler service for managing mouse events on the questions marks elements to display relaive tutorial window
    * @constructor
    */
   constructor() {
@@ -30,7 +30,7 @@ class TutorialWindowComponent {
   }
 
   /**
-   * Adds event listeners to tutorial window component and it's elements.
+   * Adds event listeners to tutorial window component
    * @private
    */
   #registerEvents = () => {
