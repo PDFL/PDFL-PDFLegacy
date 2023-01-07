@@ -81,7 +81,7 @@ class PdfReaderComponent {
 
     EventHandlerService.subscribe(PDFLEvents.onRenderPage, (page) => {
       this.pages[page - 1].getCanvas().scrollIntoView();
-      this.visiblePages = [page];
+      //this.visiblePages = [page];
       this.#setVisiblePage(page);
     });
 
@@ -124,6 +124,7 @@ class PdfReaderComponent {
    * of zoom component to 1. Clears pages array.
    */
   reset = () => {
+    if (this.pdfDoc) this.pdfDoc.destroy();
     this.sidePageComponent.hideSidePage();
     this.sidePageComponent.hideSidePageSummary();
     this.toolbarComponent.reset();
