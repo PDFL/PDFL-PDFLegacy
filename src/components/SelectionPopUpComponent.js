@@ -101,7 +101,7 @@ class SelectionPopUpComponent {
    * @private
    */
   #showSummaryKey = () => {
-    EventHandlerService.publish(PDFLEvents.onShowSummaryKey);
+    EventHandlerService.publish(PDFLEvents.onShowSummaryKey, true);
     this.components.popupSelectedText.classList.add("hidden");
   };
 
