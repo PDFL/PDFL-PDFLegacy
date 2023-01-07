@@ -401,6 +401,9 @@
                         <li>
                             Press on the arrow keys on the keyboard
                         </li>
+                        <li>
+                            Or change page number from the input box
+                        </li>
                     </ul>
                 </li>
                 <li>
@@ -412,6 +415,9 @@
                         </li>
                         <li>
                             Press ctrl/cmd+ '+' or ctrl/cmd+ '-'
+                        </li>
+                        <li>
+                            Or change percentage from the input box
                         </li>
                     </ul>
                 </li>
@@ -425,8 +431,7 @@
             </ul>
             </p>
             <h2 id="cross-references-title">Cross References</h2>
-            <p> Hover the references and extract data from them. You can also have two pages open, so you can view the
-                contents of the reference at the same time
+            <p> Hover the references and extract data from them.
             <ul>
                 <li>
                     Finding a reference and hover it
@@ -443,14 +448,25 @@
                     </ul>
                 </li>
                 <li>
-                    If you click the button the page of the reference will be open and you will have a two page layout
-                    You can also select text from it
+                    If you click the button, the page of the reference (entire page) will be open and you will have a
+                    two page layout
+                    You can also select text from it.
                 </li>
             </ul>
             </p>
             <h2 id="knowledge-graph-title">Knowledge Graph</h2>
-            <p> Discover the knowledge graph that showing the citation relations of all the papers in the references
-                section of your current paper. This can help to understand the relations between each work better.
+            <p> Create a knowledge graph showing the citation relations of all the papers in the "references section" of
+                the current paper.
+                This can help you to understand the relations between each work better.
+                Knowledge graph contains nodes representing papers that can be citing another paper or that can be cited
+                by another paper.
+                These relationships are visualized by the direction of an arrow on a link between two nodes.
+                Arrow pointing to node means that paper represented by that node is being cited in paper which is
+                represented by node at the other end of the link.
+                Click on the knowledge graph button in the navigation bar to generate the knowledge graph. Initially
+                displayed graph has a middle node representing the
+                paper that is currently being read and the nodes around it represent papers being cited by or citing
+                that paper.
             <ul>
                 <li>
                     To generate the knowledge graph click the button on the navbar <i class="material-icons">schema</i>
@@ -460,26 +476,29 @@
                     Explore it:
                     <ul>
                         <li>
-                            Drag and drop on the side page to move around it, the paper uploaded is rappresented by the
-                            biggest node
+                            Zoom in/out on the graph: scroll up/down on your mouse while hovering the graph window.
                         </li>
                         <li>
-                            Over a node to display paper info
+                            Move around the graph: click and drag inside the graph window.
                         </li>
                         <li>
-                            Color of a node is relative to his field of study, to understand which one you can click on
-                            the question mark on the bottom right corner and see the legend
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    Expand it:
-                    <ul>
-                        <li>
-                            Click on one node to expand it
+                            Get information about specific node: hover over node and paper title will be displayed over
+                            node as well as popup with paper title, authors and fields of study will appear.
                         </li>
                         <li>
-                            Select depth with the slider
+                            Change graph depth: inital graph depth is one, you can click on the slider in the graph
+                            window to display depth two which expands some (not all) nodes displayed initially to see
+                            even more correlated papers.
+                        </li>
+                        <li>
+                            Get correlated papers of specific node: click on desired node and it will be expanded with
+                            nodes representing the papers correlated to paper represented by that node.
+                        </li>
+                        <li>
+                            Display the node color legend: hover over a question mark at the bottom right of the graph
+                            window and the color legend will appear. Legend explains the connection
+                            between node color and field of study of the paper represented by node. Legened has four
+                            pages which can be switched by clicking on circled in the legend.
                         </li>
                     </ul>
                 </li>
@@ -499,16 +518,17 @@
                     The summary is relative to four element
                     <ul>
                         <li>
-                            TLDR: Summary of the entire paper
+                            TLDR: "Too Long Didn't Read" - summary of the whole paper in just a few sentences.
                         </li>
                         <li>
-                            Abstract: Abstract of the paper
+                            Abstract: Summary of the paper or entire thesis.
                         </li>
                         <li>
-                            Abstract Summary: Summary of the abstract of the paper
+                            Abstract Summary: Summary of the abstract of the paper.
                         </li>
                         <li>
-                            Selected Text Summary: This section is a summary of a part of the paper that you can select
+                            Selected Text Summary: Summary of selected piece of text. When a new text is selected, the
+                            content of this summary is accordingly changed.
                             <ul>
                                 <li>
                                     Select text with the mouse and a button will be displayed <i
@@ -524,12 +544,13 @@
                 </li>
             </ul>
             </p>
-            <h2 id="highlight-title">Highlight Sentences</h2>
+            <h2 id="highlight-title">Highlight commonly used, topic-specific phrasings</h2>
             <p> A paper can involve using many typical phrases/sentences for introduction, background description and
-                experiment result analyses. We identifying and highlighting these sentences
+                experiment result analyses.
+                With this tool you can identify and highlight these sentences.
             <ul>
-                <li>Highlight the text by activating the toggle on the navbar</li>
-                <li>Un-highlight the text by deactivating the toggle on the navbar</li>
+                <li>Active the "Highlight" toggle in navigation bar.</li>
+                <li>Scroll the paper and see highlighted sentences.</li>
             </ul>
             </p>
             <h2 id="shortcuts-title">Shortcuts</h2>
