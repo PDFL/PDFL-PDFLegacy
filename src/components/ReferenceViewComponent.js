@@ -2,9 +2,6 @@ import {
   EventHandlerService,
   PDFLEvents,
 } from "../services/EventHandlerService";
-import * as textRenderService from "../services/TextRenderService";
-
-import { KnowledgeGraphComponent } from "../components/KnowledgeGraphComponent";
 
 /**
  * Declaration of library that contains the method to render text and annotations

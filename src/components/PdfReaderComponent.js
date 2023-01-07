@@ -102,8 +102,9 @@ class PdfReaderComponent {
 
     let data = await pdfjsLib.getDocument(pdf).promise;
 
-this.pdfDoc = data;
+    this.pdfDoc = data;
     this.toolbarComponent.setPageCount(data.numPages);
+    EventHandlerService.publish(PDFLEvents.onReadNewPdf, data);
 
     await this.#setupPages();
     this.#renderPages(1);
