@@ -43,6 +43,9 @@ class App {
     EventHandlerService.subscribe(PDFLEvents.onShowWelcomeView, () => {
       this.#showWelcomeView();
     });
+    EventHandlerService.subscribe(PDFLEvents.onShowTutorialView, () => {
+      this.#showTutorialView();
+    });
   };
 
   /**
@@ -59,6 +62,14 @@ class App {
    */
   #showReaderView = () => {
     this.view = new ReaderView();
+    this.view.init();
+  };
+
+  /**
+   * Switch from the uploader view to the reader one
+   */
+  #showTutorialView = () => {
+    this.view = new TutorialPageView();
     this.view.init();
   };
 }
