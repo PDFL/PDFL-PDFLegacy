@@ -136,11 +136,15 @@ class PdfPageComponent {
    * @param {import("pdfjs-dist").PageViewport} viewport of the page
    */
   async #onRenderFinish(page, viewport) {
-    await this.renderTask.promise;
-    this.isRendering = false;
-    this.isRendered = true;
+    try{
+      await this.renderTask.promise;
+      this.isRendering = false;
+      this.isRendered = true;
 
-    renderText(page, this.pageNum, this.components.canvas, viewport);
+      renderText(page, this.pageNum, this.components.canvas, viewport);
+    } catch (err){
+      // do nothing, the rendering task was canceled
+    }
   }
 }
 
