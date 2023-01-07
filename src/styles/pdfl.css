@@ -214,20 +214,15 @@ body{
     border-radius: 50%;
 }
 
-.canvas__container {
+.canvas__container, #reference-container {
     box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px;
-    display: block;
     margin-left: auto;
     margin-right: auto;
     margin-top: 2rem;
 }
 
-.canvas-for-reference{
-  box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px;
-  display: block;
-  margin-right: auto;
-  margin-left: auto;
-  margin-top: var(--height);
+.canvas__container{
+    display: block;
 }
 
 #num-pages{
@@ -541,7 +536,8 @@ input[type="number"]::-webkit-outer-spin-button {
   width: 50%;
   height: 100%;
   background: #143552;
-  z-index: 999;
+  z-index: 3;
+  cursor: progress;
 }
 
 #side-page-loader.transparent{
@@ -555,6 +551,7 @@ input[type="number"]::-webkit-outer-spin-button {
 
 #side-page-loader.error{
   background: rgba(40, 50, 59);
+  z-index: 1;
 }
 #error-message-div{
   position: absolute;
@@ -666,7 +663,7 @@ input[type="number"]::-webkit-outer-spin-button {
   display: flex;
   justify-content: space-between;
   position: inherit;
-  background: #f5f5f5;
+  background-color: #f5f5f5;
 }
 
 .no-width{
@@ -885,17 +882,17 @@ input[type="number"]::-webkit-outer-spin-button {
     position: fixed;
   }
 
-  .closebtn {
-    position: fixed;
-    top: 6%;
+  .close-btn-graph {
+    position: absolute;
+    top: var(--height);
     right: 1%;
     font-size: 50px;
-    z-index: 999;
     color: #f5f5f5;;
     cursor: pointer;
+    z-index: 2;
   }
 
-  .closebtn:hover{
+  .close-btn-graph:hover{
     color: red;
   }
   
@@ -907,6 +904,7 @@ input[type="number"]::-webkit-outer-spin-button {
     color:white;
     display: inline-block;
     border-bottom: 1px dotted black;
+    cursor: default;
   }
   
   #question-mark .tooltiptext {
@@ -1143,11 +1141,10 @@ input[type="number"]::-webkit-outer-spin-button {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 4%;
   transform: scale(0.7);
   position: fixed;
   width: 50%;
-  z-index: 997;
+  top: var(--height);
  }
 
  #slider{
@@ -1194,13 +1191,17 @@ input[type="number"]::-webkit-outer-spin-button {
   cursor: pointer;
 }
 
-  #pdf-reference{
-    height: 841px;
-    width: 595px;
+  #reference-canvas {
+    transition: 0.5s;
+    position: relative;
+    right: 2%;
+    overflow-x: hidden;
+    z-index: 2;
+    position: fixed;
   }
 
-  #side-page-reference-container.moveIn{
-    animation: fadeIn 3s;
+  #reference-canvas.moveIn{
+    animation: fadeIn 20s;
     animation-fill-mode: forwards;
   }
 
@@ -1215,10 +1216,9 @@ input[type="number"]::-webkit-outer-spin-button {
     }
   }
 
-  #close-btn-reference{
+  #reference-close-btn{
     position: fixed;
-    margin-top: 4%;
-    right: 35%;
+    margin-top: calc(var(--height) - 2rem);
     font-size: 40px;
     z-index: 999;
     color: black;
@@ -1227,11 +1227,11 @@ input[type="number"]::-webkit-outer-spin-button {
     background-color: transparent;
   }
 
-  #close-btn-reference:hover{
+  #reference-close-btn:hover{
     color: red;
   }
 
-  #close-btn-reference.moveIn{
+  #reference-close-btn.moveIn{
     animation: fadeIn 60s;
     animation-fill-mode: forwards;
   }
@@ -1281,17 +1281,16 @@ input[type="number"]::-webkit-outer-spin-button {
   position: fixed;
   right: 0;
   overflow-x: hidden;
-  z-index: 2;
   width: 600px;
   height: 100%;
   top: var(--height);
 }
 
 #accordion-container{
-  width: 90%;
   float: right;
   background: #143552ed;
   height: 100%;
+  cursor: default;
 }
 
 .accordion {
@@ -1335,17 +1334,21 @@ input[type="number"]::-webkit-outer-spin-button {
   content: "\25b2"; 
 }
 
-#close-btn-summary{
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 60px;
+#close-btn{
+  cursor: pointer;
+}
+
+.close-btn-summary{
+  position: fixed;
+  top: var(--height);
   padding: 5px;
   border-radius: 5px;
-  z-index: 0;
+  z-index: 2;
+  font-size: 50px;
   color: #000;
+  right: 600px;
 }
-#close-btn-summary:hover{
+.close-btn-summary:hover{
   color: red;
 }
 
@@ -1429,4 +1432,9 @@ input[type="number"]::-webkit-outer-spin-button {
 
   .full-opacity{
     opacity: 1;
+  }
+
+  .reference-text-layer{
+    position: fixed;
+    z-index: 3;
   }

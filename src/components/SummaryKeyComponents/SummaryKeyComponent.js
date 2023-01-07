@@ -22,7 +22,6 @@ class SummaryKeyComponent {
   components = {
     sidePageSummary: document.querySelector("#side-page-summary"),
     accordionItem: document.getElementsByClassName("accordion"),
-    closeBtn: document.querySelector("#close-btn-summary"),
   };
 
   /**
@@ -62,6 +61,10 @@ class SummaryKeyComponent {
       PDFLEvents.onOpenSelectionSummary,
       this.#showSelectedText.bind(this)
     );
+
+    EventHandlerService.subscribe(PDFLEvents.onReadNewPdf, (pdf) => {
+      this.#setPDF(pdf);
+    });
   };
 
   /**
@@ -75,11 +78,12 @@ class SummaryKeyComponent {
   };
 
   /**
-   * Setter for pdf document from caller,
-   * start actions when pdf is ready
-   * @param pdfDoc
+   * Sets the PDF document from caller,
+   * start actions when PDF is ready
+   * @private
+   * @param {PDFDocumentProxy} pdfDocument PDF document
    */
-  setPdf = (pdfDoc) => {
+  #setPDF = (pdfDoc) => {
     this.tldrItem.setLoading();
     this.abstractItem.setLoading();
     this.abstractSummaryItem.setLoading();
@@ -122,6 +126,28 @@ class SummaryKeyComponent {
   #selectionSummarizerCallback = (text) => {
     this.selectionSummaryItem.setText(text);
   };
+
+  /**
+   * Returns true if this component is displayed in side window and false otherwise.
+   * @returns {boolean}
+   */
+  isOpened(){
+    return !this.components.sidePageSummary.classList.contains("hidden");
+  }
+
+  /**
+   * Hides this whole component.
+   */
+  hide = () => {
+    this.components.sidePageSummary.classList.add("hidden");
+  }
+
+  /**
+   * Displays this whole component.
+   */
+  show = () => {
+    this.components.sidePageSummary.classList.remove("hidden");
+  }
 }
 
 export { SummaryKeyComponent };

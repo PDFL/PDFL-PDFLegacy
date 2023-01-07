@@ -131,22 +131,16 @@ class PdfPageComponent {
   /**
    * Waits for page render to finish, sets the flags and starts
    * rendering the text.
-   *
+   * @async
    * @param {Page} page pdf.js library page
    * @param {import("pdfjs-dist").PageViewport} viewport of the page
    */
-  #onRenderFinish(page, viewport) {
-    const self = this;
-    this.renderTask.promise
-      .then(function () {
-        self.isRendering = false;
-        self.isRendered = true;
+  async #onRenderFinish(page, viewport) {
+    await this.renderTask.promise;
+    this.isRendering = false;
+    this.isRendered = true;
 
-        renderText(page, self.pageNum, self.components.canvas, viewport);
-      })
-      .catch(() => {
-        // do nothing, the rendering task was canceled
-      });
+    renderText(page, this.pageNum, this.components.canvas, viewport);
   }
 }
 
