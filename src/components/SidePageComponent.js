@@ -52,6 +52,10 @@ class SidePageComponent {
     EventHandlerService.subscribe(PDFLEvents.onShowSummaryKey, () => {
       this.#showSummaryKey();
     });
+    EventHandlerService.subscribe(PDFLEvents.onOpenReference, () => {
+      this.#showReference();
+    });
+
     this.components.closeBtn.addEventListener("click", this.hideSidePage);
     this.summaryKeyComponent.components.closeBtn.addEventListener(
       "click",
@@ -66,6 +70,7 @@ class SidePageComponent {
             this.hideSidePage();
             this.currentOpenElement = SideElement.None;
           } else {
+            this.#clearView();
             this.#showKnowledgeGraph();
             this.currentOpenElement = SideElement.KnowledgeGraph;
           }
@@ -81,6 +86,7 @@ class SidePageComponent {
             this.hideSidePageSummary();
             this.currentOpenElement = SideElement.None;
           } else {
+            this.#clearView();
             this.#showSummaryKey();
             this.currentOpenElement = SideElement.SummaryKey;
           }
@@ -93,9 +99,7 @@ class SidePageComponent {
    * Callback for generation of a knowledge graph.
    */
   #showKnowledgeGraph = () => {
-    if (this.currentOpenElement === SideElement.SummaryKey) {
-      this.hideSidePageSummary();
-    }
+    this.#clearView();
     this.#showSidePage();
     this.knowledgeGraphComponent.displayGraph();
     this.currentOpenElement = SideElement.KnowledgeGraph;
@@ -105,11 +109,29 @@ class SidePageComponent {
    * Callback for generation of the summary
    */
   #showSummaryKey = () => {
-    if (this.currentOpenElement === SideElement.KnowledgeGraph) {
-      this.hideSidePage();
-    }
+    this.#clearView();
     this.#showSidePageSummary();
     this.currentOpenElement = SideElement.SummaryKey;
+  };
+
+  /**
+   * Display Reference
+   */
+  #showReference = () => {
+    this.#clearView();
+    this.components.pdfContainer.className = "half-width";
+    this.currentOpenElement = SideElement.Reference;
+  };
+
+  /**
+   * Hides Reference
+   */
+  hideReference = () => {
+    document
+      .querySelector("#side-page-reference-container")
+      .classList.add("hidden");
+    document.querySelector("#close-btn-reference").classList.add("hidden");
+    this.components.pdfContainer.className = "full-width";
   };
 
   /**
@@ -120,16 +142,7 @@ class SidePageComponent {
     let summaryKeyComponent = this.summaryKeyComponent.components;
     summaryKeyComponent.sidePageSummary.className = "one-third-width";
     summaryKeyComponent.closeBtn.className = "closebtn";
-  };
-
-  /**
-   * Callback for making a component not visible.
-   */
-  hideSidePage = () => {
-    this.components.slider.value = 1;
-    this.knowledgeGraphComponent.depth = 1;
-    this.components.sideNav.className = "no-width";
-    this.components.pdfContainer.className = "full-width";
+    this.components.pdfContainer.className = "half-width";
   };
 
   /**
@@ -139,6 +152,7 @@ class SidePageComponent {
     let summaryKeyComponent = this.summaryKeyComponent.components;
     summaryKeyComponent.sidePageSummary.className = "hidden";
     summaryKeyComponent.closeBtn.className = "hidden";
+    this.components.pdfContainer.className = "full-width";
   };
 
   /**
@@ -159,6 +173,17 @@ class SidePageComponent {
     this.knowledgeGraphComponent.depth = 1;
     this.components.sideNav.className = "no-width";
     this.components.pdfContainer.className = "full-width";
+  };
+
+  /**
+   * Hides all side component
+   * @private
+   */
+  #clearView = () => {
+    this.currentOpenElement = SideElement.None;
+    this.hideSidePage();
+    this.hideSidePageSummary();
+    this.hideReference();
   };
 
   /**
