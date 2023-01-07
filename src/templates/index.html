@@ -27,7 +27,7 @@
                     <h1 class="font-header">PDF <br>
                         <h1 class="font-header" id="second-text">Legacy </h1>
                     </h1>
-                    <h1 class="third-text">YOUR PDF,</h1>
+                    <h1 class="third-text">YOUR PAPER,</h1>
                     <span id="media-text">
                         <h1 class="third-text"> BUT </h1>
                         <h1 class="font-header better"> BETTER </h1>
@@ -49,7 +49,79 @@
                         </button>
                     </div>
                 </div>
-                <img src="assets/pic.png" id="main-pic" />
+                <div class="column">
+                    <div id="carousel">
+                        <s id="s1"></s>
+                        <s id="s2"></s>
+                        <s id="s3"></s>
+                        <s id="s4"></s>
+                        <div class="slider">
+                            <div>
+                                <div class="card">
+                                    <img src="assets/search.png" class="icon-welcome-page" />
+                                    <div class="container">
+                                        <h4><b>Explore paper and Cross-References</b></h4>
+                                        <p class="text-card-welcome-page">Read the paper with an extra gear. Hover the
+                                            references
+                                            and extract data from them. You
+                                            can also have two pages open, so you can view the contents of the reference
+                                            at the same
+                                            time</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="card">
+                                    <img src="assets/summary.png" class="icon-welcome-page" />
+                                    <div class="container">
+                                        <h4><b>Summarize the paper</b></h4>
+                                        <p class="text-card-welcome-page">A text wall? Summarize your paper for each key
+                                            component in a few
+                                            lines! You can also select just a piece of text with the mouse</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="card">
+                                    <img src="assets/graph.png" class="icon-welcome-page" />
+                                    <div class="container">
+                                        <h4><b>Make the knowledge graph</b></h4>
+                                        <p class="text-card-welcome-page">Discover the knowledge graph that showing the
+                                            citation
+                                            relations of all the papers in
+                                            the references section of your current paper. This can help to understand
+                                            the relations
+                                            between each work better.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="card">
+                                    <img src="assets/highlight.png" class="icon-welcome-page" />
+                                    <div class="container">
+                                        <h4><b>
+                                                Highlight commonly used, topic-specific phrasings
+                                            </b></h4>
+                                        <p class="text-card-welcome-page">A paper can involve using many typical
+                                            phrases/sentences
+                                            for introduction, background description and experiment result analyses.
+                                            We identifying and
+                                            highlighting these sentences
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bullets">
+                            <a href="#s1"></a>
+                            <a href="#s2"></a>
+                            <a href="#s3"></a>
+                            <a href="#s4"></a>
+                        </div>
+                    </div>
+                </div>
             </div>
             <footer>
                 <div class="footer-text">
@@ -89,10 +161,11 @@
     </div>
     <!--PDF READER-->
     <div id="pdf-viewer" hidden class="app-view">
+        <div id="thumbnail" class="hidden"></div>
         <nav id="navbar">
             <div id="start">
                 <input type="checkbox" id="checkbox-toggle" />
-                <label for="checkbox-toggle" class="hamburger scale-on-hover">&#9776;</label>
+                <label for="checkbox-toggle" id="pages-sidebar" class="hamburger scale-on-hover">&#9776;</label>
                 <div class="verticalToolbarSeparator"></div>
                 <span id="title"></span>
             </div>

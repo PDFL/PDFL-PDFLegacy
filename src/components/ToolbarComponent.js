@@ -10,9 +10,11 @@ import { ZoomComponent } from "./ZoomComponent";
  * elements, as well as linking components to their methods.
  *
  * @property {Object} components object that holds all DOM elements within this component
+ * @property {HTMLElement} components.toolbar element that represents this whole component
  * @property {HTMLElement} components.fullScreen full screen button
  * @property {HTMLElement} components.graphMakerBtn button that generates knowledge graph
  * @property {HTMLElement} components.body body of HTML document
+ * @property {HTMLElement} components.thumbnailBtn button that opens the thumbnail
  * @property {PaginationComponent} paginationComponent pagination component
  * @property {ZoomComponent} zoomComponent zoom component
  * @property {HTMLElement} components.summaryKeyBtn button that open and close the sidepage
@@ -22,6 +24,7 @@ import { ZoomComponent } from "./ZoomComponent";
  */
 class ToolbarComponent {
   components = {
+    toolbar: document.querySelector("#sidenav"),
     fullScreen: document.querySelector("#full-screen"),
     graphMakerBtn: document.querySelector("#graph-maker"),
     body: document.querySelector("body"),
@@ -29,6 +32,7 @@ class ToolbarComponent {
     questionMarkHighlight: document.querySelector("#tutorial-highlight"),
     questionMarkGraph: document.querySelector("#tutorial-graph"),
     questionMarkSummary: document.querySelector("#tutorial-summary"),
+    thumbnailBtn: document.querySelector("#pages-sidebar"),
   };
 
   /**
@@ -100,6 +104,11 @@ class ToolbarComponent {
         EventHandlerService.publish(PDFLEvents.onHideTutorialWindow);
       }
     );
+    this.components.thumbnailBtn.addEventListener(
+      "click",
+      this.#toggleThumbnail
+    );
+
     EventHandlerService.subscribe(
       PDFLEvents.onKeyboardKeyDown,
       (functionalKeys, key, code) => {
@@ -140,6 +149,14 @@ class ToolbarComponent {
       /* IE11 */
       this.components.body.msRequestFullscreen();
     }
+  };
+
+  /**
+   * Creates event which opens/closes the thumbnail.
+   * @private
+   */
+  #toggleThumbnail = () => {
+    EventHandlerService.publish(PDFLEvents.onToggleThumbnail, this.paginationComponent.getCurrentPage());
   };
 
   /**

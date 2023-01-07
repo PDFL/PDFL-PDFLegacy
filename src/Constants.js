@@ -24,6 +24,8 @@ const MIN_ZOOM_FACTOR = 0.4;
 
 const LOADING_TEXT = "Loading...";
 
+const CORS_PROXY = "https://api.codetabs.com/v1/proxy/?quest=";
+
 const SELECTION_INSTRUCTION_TEXT =
   "Select a text in the PDF and click the button to generate the summary";
 
@@ -379,6 +381,10 @@ const SUMMARIZER_STOP_LIST = [
   "the",
 ];
 
+const THUMBNAIL_PAGE_VIEWPORT_SCALE = 0.2;
+
+const SUMMARY_KEY_ERROR_MESSAGE = "Content cannot be loaded";
+
 export {
   SIMILARITY_THRESHOLD,
   MAX_POPUP_TEXT_LENGTH,
@@ -398,4 +404,7 @@ export {
   MIN_ZOOM_FACTOR,
   LOADING_TEXT,
   SELECTION_INSTRUCTION_TEXT,
+  THUMBNAIL_PAGE_VIEWPORT_SCALE,
+  CORS_PROXY,
+  SUMMARY_KEY_ERROR_MESSAGE,
 };

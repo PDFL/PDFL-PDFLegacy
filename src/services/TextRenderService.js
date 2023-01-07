@@ -3,7 +3,7 @@ import { EventHandlerService, PDFLEvents } from "./EventHandlerService";
  * Declaration of library that contains the method to render text and annotations
  * @constant
  */
-const pdfjsLib = require("pdfjs-dist");
+import * as pdfjsLib from "pdfjs-dist/webpack";
 const pdfjsViewer = require("pdfjs-dist/web/pdf_viewer");
 
 /**
@@ -38,6 +38,24 @@ function createTextLayerDOMIfNotExist(pageNum) {
     textLayer = document.createElement("div");
     textLayer.setAttribute("id", `text-layer-${pageNum}`);
     textLayer.setAttribute("class", "textLayer");
+  }
+  return textLayer;
+}
+
+/**
+ * Creates the text layer DOM node if it does not already exist for the referenceViewComponent.
+ * Id of the element will be 'text-layer-reference'.
+ *
+ * @param {int} pageNum
+ */
+function createTextLayerDOMIfNotExistReference(pageNum) {
+  let textLayer = document.querySelector(`#text-layer-${pageNum}`);
+  if (textLayer) {
+    textLayer.innerHTML = "";
+  } else {
+    textLayer = document.createElement("div");
+    textLayer.setAttribute("class", "textLayer");
+    textLayer.setAttribute("id", "text-layer-reference");      
   }
   return textLayer;
 }
@@ -131,4 +149,67 @@ function renderLinkLayer(page, textLayer, viewport) {
 
     EventHandlerService.publish(PDFLEvents.onLinkLayerRendered, textLayer);
   });
+}
+
+/**
+ * Creates the page context where render the page.
+ *
+ * @param {canvas} canvas canvas of the pdf.js page
+ * @param {viewport} viewport target page viewport for the textlayer
+ * @returns {renderCtx} renderCtx, element where render the page
+ */
+export function getContext(canvas, viewport) {
+  const ctx = canvas.getContext("2d");
+  const renderCtx = {
+    canvasContext: ctx,
+    viewport: viewport,
+  };
+  return renderCtx;
+}
+
+/**
+ * Creates the page viewport and sets canvas size.
+ *
+ * @param {Page} page pdf.js library page
+ * @param {canvas} canvas canvas of the pdf.js page
+ * @param {float} zoomScale
+ * @returns {import("pdfjs-dist").PageViewport} viewport of the page
+ */
+export function getViewport(page, canvas, zoomScale) {
+  let viewport = page.getViewport({
+    scale: zoomScale,
+  });
+
+  canvas.height = viewport.height;
+  canvas.width = viewport.width;
+  return viewport;
+}
+
+  /**
+ * Function to render the page inside the reference side view
+ * @param {pdfDoc} pdfDoc PDF document
+ * @param {Object} component object that holds DOM elements that are within component
+ * @param {HTMLElement} pageNumber number of the page of the reference selected
+ */
+export async function renderPageReference(pdfDoc, component, pageNumber) {
+  
+    let page = await pdfDoc.getPage(pageNumber);
+
+    component.viewport = getViewport(page, component.canvas, 1);
+    const renderCtx = getContext(component.canvas, component.viewport);
+
+    page.render(renderCtx);
+
+    component.sidePageReferenceContainer.innerHTML = "";
+    component.sidePageReferenceContainer.appendChild(component.canvas);
+
+    /* Text Layer Implementation */
+    const textLayer = createTextLayerDOMIfNotExistReference(pageNumber);
+
+    let textContent = await page.getTextContent();
+    positionTextLayer(textLayer, component.canvas);
+    renderTextLayer(textContent, textLayer, component.viewport);
+
+    component.sidePageReferenceContainer.appendChild(textLayer);
+  
 }

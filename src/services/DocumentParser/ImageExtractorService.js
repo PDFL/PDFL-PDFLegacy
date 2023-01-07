@@ -1,6 +1,6 @@
 import { DocumentParser } from "./DocumentParser";
 
-const pdfjsLib = require("pdfjs-dist");
+import * as pdfjsLib from "pdfjs-dist/webpack";
 
 /**
  * @extends DocumentParser

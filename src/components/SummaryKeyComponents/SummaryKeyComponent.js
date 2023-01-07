@@ -13,10 +13,10 @@ import {
  * @property {Object} components object that holds DOM elements that represent this component, as well as component's context
  * @property {HTMLElement} components.accordionItem accordion item
  * @property {HTMLElement} components.closeBtn button that closes sidepage
- * @property {TLDRAccordionItem} tldrItem the TLDR Accordion Item instance
- * @property {AbstractAccordionItem} abstractItem the Abstract Accordion Item instance
- * @property {AbstractSummaryAccordionItem} abstractSummaryItem the Abstract Summary Accordion Item instance
- * @property {SelectionSummaryAccordionItem} selectionSummaryItem the Selection Summary Accordion Item instance
+ * @property {AccordionItem} tldrItem the TLDR Accordion Item instance
+ * @property {AccordionItem} abstractItem the Abstract Accordion Item instance
+ * @property {AccordionItem} abstractSummaryItem the Abstract Summary Accordion Item instance
+ * @property {AccordionItem} selectionSummaryItem the Selection Summary Accordion Item instance
  */
 class SummaryKeyComponent {
   components = {
@@ -60,7 +60,7 @@ class SummaryKeyComponent {
     );
     EventHandlerService.publish(
       PDFLEvents.onOpenSelectionSummary,
-      this.#showSelectedText()
+      this.#showSelectedText.bind(this)
     );
   };
 
