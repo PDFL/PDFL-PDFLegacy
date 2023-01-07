@@ -12,6 +12,7 @@ export const PreventOnKeyDown = [
   { ctrl: true, alt: false, shift: false, key: "-" },
   { ctrl: true, alt: false, shift: false, key: "u" },
   { ctrl: true, alt: false, shift: false, key: "g" },
+  { ctrl: true, alt: false, shift: false, key: "y" },
 ];
 /**
  * Keyboard key combination to be prevented by default action for keyPress event

@@ -1,9 +1,9 @@
 import {
   EventHandlerService,
   PDFLEvents,
-} from "../services/EventHandlerService";
+} from "../../services/EventHandlerService";
 
-import { PAGE_INPUT_VALIDATION_REGEX } from "../Constants";
+import { PAGE_INPUT_VALIDATION_REGEX } from "../../Constants";
 
 /**
  * Component that paginates the PDF document that is being read. It calculates next/previous page number
@@ -69,6 +69,7 @@ class PaginationComponent {
    * @param key the actual key which triggers the event
    */
   #handleKeyboardKeyPressAction = (functionalKey, key, code) => {
+    if(event.target.id == "zoom-level" || event.target.id == "current-page") return;
     if (key === "ArrowRight" || key === "Right") {
       this.#showNextPage();
     } else if (key === "ArrowLeft" || key === "Left") {
@@ -159,6 +160,7 @@ class PaginationComponent {
    * @param {int} pageNumber new current page number
    */
   setCurrentPage = (pageNumber = this.currentPage) => {
+    if(!isFinite(pageNumber)) return;//TODO: optimise - called too many times on file upload from welcome view
     this.currentPage = pageNumber;
     this.components.currentPage.value = pageNumber;
     this.#updateButtonStatus();

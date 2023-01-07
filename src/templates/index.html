@@ -281,7 +281,7 @@
                         </p>
                     </div>
                 </div>
-                <a id="close-btn" class="closebtn">&times;</a>
+                <a id="close-btn">&times;</a>
                 <div id="paper-info" class="hidden">
                     <h2 class="info-title">Paper Info:</h2>
                     <div class="info-display">
@@ -305,66 +305,47 @@
                         </div>
                     </div>
                 </div>
-
-                <div id="knowledge-graph"></div>
-                <i class="material-icons" id="question-mark">question_mark
-                    <span class="tooltiptext">
-                        <div class="tooltip-margin">
-                            <div class="css-slider" id="field-colors"></div>
+                <div id="knowledge-graph-container" class="hidden">
+                    <div id="knowledge-graph"></div>
+                    <i class="material-icons" id="question-mark">question_mark
+                        <span class="tooltiptext">
+                            <div class="tooltip-margin">
+                                <div class="css-slider" id="field-colors"></div>
+                            </div>
+                        </span>
+                    </i>
+                </div>
+                <div id="side-page-summary" class="hidden">
+                    <div id="accordion-container">
+                        <button id="tldr" class="accordion">TLDR</button>
+                        <div class="panel">
+                            <p id="tldr-text">Loading...</p>
                         </div>
-                    </span>
-                </i>
-            </div>
-
-            <div id="side-page-summary" class="hidden">
-                <a id="close-btn-summary" class="hidden">&times;</a>
-                <div id="accordion-container">
-                    <button id="tldr" class="accordion">TLDR</button>
-                    <div class="panel">
-                        <p id="tldr-text">Loading...</p>
-                    </div>
-
-                    <button id="abstract" class="accordion">ABSTRACT</button>
-                    <div class="panel">
-                        <p id="abstract-text">Loading...</p>
-                    </div>
-
-                    <button id="summary-abstract" class="accordion">ABSTRACT SUMMARY</button>
-                    <div class="panel">
-                        <p id="abstract-summary-text">Abstract summary cannot be generated</p>
-                    </div>
-
-                    <button id="selected-text-summary" class="accordion">SELECTED TEXT SUMMARY</button>
-                    <div class="panel" id="selected-summary-text-panel">
-                        <p id="selection-summary-text">Select a text in the PDF and click the button to generate the
-                            summary</p>
+    
+                        <button id="abstract" class="accordion">ABSTRACT</button>
+                        <div class="panel">
+                            <p id="abstract-text">Loading...</p>
+                        </div>
+    
+                        <button id="summary-abstract" class="accordion">ABSTRACT SUMMARY</button>
+                        <div class="panel">
+                            <p id="abstract-summary-text">Abstract summary cannot be generated</p>
+                        </div>
+    
+                        <button id="selected-text-summary" class="accordion">SELECTED TEXT SUMMARY</button>
+                        <div class="panel" id="selected-summary-text-panel">
+                            <p id="selection-summary-text">Select a text in the PDF and click the button to generate the
+                                summary</p>
+                        </div>
                     </div>
                 </div>
             </div>
+            <div id="reference-container" class="moveIn hidden">
+                <canvas id="reference-canvas" class="canvas__container moveIn"></canvas>
+                <button id="reference-close-btn" class="moveIn"><a>×</a></button>
+            </div>
         </div>
     </div>
-
-    <!--floating button hidden for now-->
-    <!--<div class="floating-container">
-            <div class="floating-button">
-                <i class="material-icons">menu
-                </i>
-            </div>
-            <div class=" element-container">
-                <span class="float-element">
-                    <i class="material-icons">bolt
-                    </i>
-                </span>
-                <span class="float-element">
-                    <i class="material-icons">download</i>
-                </span>
-                </span>
-                <span class="float-element">
-                    <i class="material-icons">publish</i>
-                </span>
-            </div>
-        </div> -->
-
     </div>
     <script src="main.bundle.js"></script>
 </body>
