@@ -85,8 +85,8 @@ class ThumbnailComponent {
   };
 
   /**
-   * Removes old and creates new thumbnail from PDF document data.
-   * @param {Uint8Array} pdfDoc PDF document data
+   * Removes old and creates new thumbnail from PDF document.
+   * @param {PDFDocumentProxy} pdfDoc PDF document
    * @param {AbortSignal} signal signal to stop creation of new thumbnail
    */
   #createNewThumbnail = async (pdfDoc, signal) => {
