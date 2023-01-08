@@ -36,8 +36,10 @@ class EventHandlerService {
  * Enum of possible event type (to avoid typos)
  * @type {{onShowInputView: string, onShowReaderView: string, onRenderPage: string, onShowKnowledgeGraph: string,
  * onResetReader: string, onReadNewFile: string, onShowTransparentSidePageLoader: string, onShowOpaqueSidePageLoader: string,
+ * onHideSidePageLoader: string, onShowSidePageError: string, onShowHighlightTutorialWindow: string, onShowGraphTutorialWindow: string, onShowSummaryTutorialWindow: string
+ * onHideTutorialWindow: string,
  * onHideSidePageLoader: string, onShowSidePageError: string, onCreateThumbnail: string, onToggleThumbnail:string,
- * onPageChanged: string, onShowTutorialView: string, onShowWelcomeView: string}}
+ * onPageChanged: string, onReadNewPdf: string, onSidePageDisplayed: string, onShowTutorialView: string, onShowWelcomeView: string}}
  */
 const PDFLEvents = {
   onShowWelcomeView: "onShowWelcomeView",
@@ -62,11 +64,17 @@ const PDFLEvents = {
   onShowSummaryKey: "onShowSummaryKey",
   onTextSelectionReady: "onTextSelectionReady",
   onOpenSelectionSummary: "onOpenSelectionSummary",
+  onShowHighlightTutorialWindow: "onShowHighlightTutorialWindow",
+  onShowGraphTutorialWindow: "onShowGraphTutorialWindow",
+  onShowSummaryTutorialWindow: "onShowSummaryTutorialWindow",
+  onHideTutorialWindow: "onHideTutorialWindow",
   onCreateThumbnail: "onCreateThumbnail",
   onToggleThumbnail: "onToggleThumbnail",
   onPageChanged: "onPageChanged",
   onShowTutorialView: "onShowTutorialView",
   onShowWelcomeView: "onShowWelcomeView",
+  onReadNewPdf: "onReadNewPdf",
+  onSidePageDisplayed: "onSidePageDisplayed",
 };
 
 export { PDFLEvents, EventHandlerService };

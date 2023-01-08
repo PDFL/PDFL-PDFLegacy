@@ -13,16 +13,15 @@ import {
  * @property {Object} components object that holds DOM elements that represent this component, as well as component's context
  * @property {HTMLElement} components.accordionItem accordion item
  * @property {HTMLElement} components.closeBtn button that closes sidepage
- * @property {TLDRAccordionItem} tldrItem the TLDR Accordion Item instance
- * @property {AbstractAccordionItem} abstractItem the Abstract Accordion Item instance
- * @property {AbstractSummaryAccordionItem} abstractSummaryItem the Abstract Summary Accordion Item instance
- * @property {SelectionSummaryAccordionItem} selectionSummaryItem the Selection Summary Accordion Item instance
+ * @property {AccordionItem} tldrItem the TLDR Accordion Item instance
+ * @property {AccordionItem} abstractItem the Abstract Accordion Item instance
+ * @property {AccordionItem} abstractSummaryItem the Abstract Summary Accordion Item instance
+ * @property {AccordionItem} selectionSummaryItem the Selection Summary Accordion Item instance
  */
 class SummaryKeyComponent {
   components = {
     sidePageSummary: document.querySelector("#side-page-summary"),
     accordionItem: document.getElementsByClassName("accordion"),
-    closeBtn: document.querySelector("#close-btn-summary"),
   };
 
   /**
@@ -60,8 +59,12 @@ class SummaryKeyComponent {
     );
     EventHandlerService.publish(
       PDFLEvents.onOpenSelectionSummary,
-      this.#showSelectedText()
+      this.#showSelectedText.bind(this)
     );
+
+    EventHandlerService.subscribe(PDFLEvents.onReadNewPdf, (pdf) => {
+      this.#setPDF(pdf);
+    });
   };
 
   /**
@@ -75,11 +78,12 @@ class SummaryKeyComponent {
   };
 
   /**
-   * Setter for pdf document from caller,
-   * start actions when pdf is ready
-   * @param pdfDoc
+   * Sets the PDF document from caller,
+   * start actions when PDF is ready
+   * @private
+   * @param {PDFDocumentProxy} pdfDocument PDF document
    */
-  setPdf = (pdfDoc) => {
+  #setPDF = (pdfDoc) => {
     this.tldrItem.setLoading();
     this.abstractItem.setLoading();
     this.abstractSummaryItem.setLoading();
@@ -122,6 +126,40 @@ class SummaryKeyComponent {
   #selectionSummarizerCallback = (text) => {
     this.selectionSummaryItem.setText(text);
   };
+
+  /**
+   * Returns true if this component is displayed in side window and false otherwise.
+   * @returns {boolean}
+   */
+  isOpened(){
+    return !this.components.sidePageSummary.classList.contains("hidden");
+  }
+
+  /**
+   * Hides this whole component.
+   */
+  hide = () => {
+    this.components.sidePageSummary.classList.add("hidden");
+    this.#hideSelectedText();
+  }
+
+  /**
+   * Closes accordion item of the selected text summary.
+   */
+  #hideSelectedText = () => {
+    document.querySelector("#selected-text-summary").classList.remove("active");
+    document.querySelector("#selected-summary-text-panel").style.maxHeight = null;
+  }
+
+  /**
+   * Displays this whole component.
+   * @param {boolean} openSelectedSummary if true selected text summary accordion item will be displayed
+   */
+  show = (openSelectedSummary) => {
+    this.components.sidePageSummary.classList.remove("hidden");
+    if(openSelectedSummary)
+      this.#showSelectedText();
+  }
 }
 
 export { SummaryKeyComponent };

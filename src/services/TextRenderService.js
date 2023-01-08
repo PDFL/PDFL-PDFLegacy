@@ -43,6 +43,24 @@ function createTextLayerDOMIfNotExist(pageNum) {
 }
 
 /**
+ * Creates the text layer DOM node if it does not already exist for the referenceViewComponent.
+ * Id of the element will be 'text-layer-reference'.
+ *
+ * @param {int} pageNum
+ */
+function createTextLayerDOMIfNotExistReference(pageNum) {
+  let textLayer = document.querySelector(`#text-layer-${pageNum}`);
+  if (textLayer) {
+    textLayer.innerHTML = "";
+  } else {
+    textLayer = document.createElement("div");
+    textLayer.setAttribute("class", "textLayer");
+    textLayer.setAttribute("id", "text-layer-reference");      
+  }
+  return textLayer;
+}
+
+/**
  * Renders the text layer and links (references) for a given page.
  *
  * @param {PDFPage} page
@@ -131,4 +149,66 @@ function renderLinkLayer(page, textLayer, viewport) {
 
     EventHandlerService.publish(PDFLEvents.onLinkLayerRendered, textLayer);
   });
+}
+
+/**
+ * Creates the page context where render the page.
+ *
+ * @param {canvas} canvas canvas of the pdf.js page
+ * @param {viewport} viewport target page viewport for the textlayer
+ * @returns {renderCtx} renderCtx, element where render the page
+ */
+export function getContext(canvas, viewport) {
+  const ctx = canvas.getContext("2d");
+  const renderCtx = {
+    canvasContext: ctx,
+    viewport: viewport,
+  };
+  return renderCtx;
+}
+
+/**
+ * Creates the page viewport and sets canvas size.
+ *
+ * @param {Page} page pdf.js library page
+ * @param {canvas} canvas canvas of the pdf.js page
+ * @param {float} zoomScale
+ * @returns {import("pdfjs-dist").PageViewport} viewport of the page
+ */
+export function getViewport(page, canvas, zoomScale) {
+  let viewport = page.getViewport({
+    scale: zoomScale,
+  });
+
+  canvas.height = viewport.height;
+  canvas.width = viewport.width;
+  return viewport;
+}
+
+  /**
+ * Function to render the page inside the reference side view
+ * @param {PDFPageProxy} page where reference is
+ * @param {int} pageNumber number of the page where reference is
+ * @param {HTMLElement} canvas canvas element of reference window
+ * @param {HTMLElement} container reference window container
+ * @param {PageViewport} viewport viewport of page in reference window
+ */
+export async function renderPageReference(page, pageNumber, canvas, container, viewport) {
+    const renderCtx = getContext(canvas, viewport);
+
+    page.render(renderCtx);
+
+    let existingTextLayer = container.querySelector(".reference-text-layer");
+    if(existingTextLayer)
+      container.removeChild(existingTextLayer);
+
+    const textLayer = createTextLayerDOMIfNotExistReference(pageNumber);
+
+    let textContent = await page.getTextContent();
+    positionTextLayer(textLayer, canvas);
+    renderTextLayer(textContent, textLayer, viewport);
+
+    textLayer.classList.add("reference-text-layer")
+    
+    container.appendChild(textLayer);
 }

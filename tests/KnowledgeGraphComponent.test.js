@@ -39,9 +39,7 @@ test("Reader initialization with a pdf", async () => {
   expect(reader.pdfDoc == undefined).toBe(true);
   expect(reader.components.loader.className.includes("hidden")).toBe(false);
 
-  reader.loadPdf("http://www.pdf995.com/samples/pdf.pdf");
-
-  await sleep(4000);
+  await reader.loadPdf("http://www.pdf995.com/samples/pdf.pdf");
 
   expect(reader.pdfDoc == undefined).toBe(false);
   expect(reader.components.loader.className.includes("hidden")).toBe(true);

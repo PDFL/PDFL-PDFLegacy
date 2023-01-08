@@ -8,7 +8,7 @@ import { ParserFactory } from "../services/DocumentParser/ParserFactory";
 import { POPUP_APPEAR_TIMEOUT } from "../Constants";
 
 /**
- * This class handles user interaction with internal document references
+ * This class handles user interaction with internal document references.
  * @property {object} pdfDoc
  * @property {object} overEventPosition
  */
@@ -27,13 +27,18 @@ class ReferenceComponent {
       PDFLEvents.onLinkLayerRendered,
       this.#onLinkLayerRendered.bind(this)
     );
+
+    EventHandlerService.subscribe(PDFLEvents.onReadNewPdf, (pdf) => {
+      this.#setPDF(pdf);
+    });
   };
 
   /**
-   * Set the pdf document
-   * @param pdfDoc
+   * Sets the PDF document.
+   * @private
+   * @param {PDFDocumentProxy} pdfDocument PDF document
    */
-  setPdfDoc = (pdfDoc) => {
+  #setPDF = (pdfDoc) => {
     this.pdfDoc = pdfDoc;
   };
 
@@ -125,10 +130,11 @@ class ReferenceComponent {
 
   /**
    * Call the correct parser and rise ad event to notify that popup content is ready
+   * @async
    * @param reference the reference from the dom
    * @param pageNumber the solved page number
    */
-  #parseReference = (reference, pageNumber) => {
+  #parseReference = async (reference, pageNumber) => {
     const self = this;
     const referenceType = reference.split(".")[0];
     const parseService = ParserFactory(referenceType, {
@@ -137,24 +143,22 @@ class ReferenceComponent {
       reference: reference,
     });
 
-    parseService
-      .getContent()
-      .then((result) => {
-        EventHandlerService.publish(
-          PDFLEvents.onPopupContentReady,
-          self.overEventPosition,
-          pageNumber,
-          result
-        );
-      })
-      .catch(() => {
-        EventHandlerService.publish(
-          PDFLEvents.onPopupContentReady,
-          self.overEventPosition,
-          pageNumber,
-          { type: "page", popupDisplayable: false }
-        );
-      });
+    try {
+      let result = await parseService.getContent();
+      EventHandlerService.publish(
+        PDFLEvents.onPopupContentReady,
+        self.overEventPosition,
+        pageNumber,
+        result
+      );
+    } catch (err) {
+      EventHandlerService.publish(
+        PDFLEvents.onPopupContentReady,
+        self.overEventPosition,
+        pageNumber,
+        { type: "page", popupDisplayable: false }
+      );
+    }
   };
 }
 

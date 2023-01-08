@@ -1,4 +1,4 @@
-import { renderText, positionTextLayer } from "../services/TextRenderService";
+import { renderText, positionTextLayer, getContext, getViewport } from "../services/TextRenderService";
 
 /**
  * Represents a pdf page, holds the canvas where the page will be rendered.
@@ -60,9 +60,9 @@ class PdfPageComponent {
 
     let page = await this.pdfDoc.getPage(this.pageNum);
 
-    let viewport = this.#setupViewport(page, zoomScale);
+    let viewport = getViewport(page, this.components.canvas, zoomScale);
 
-    this.#startPageRender(page, viewport);
+    this.#startPageRender(page, this.components.canvas, viewport);
 
     this.#onRenderFinish(page, viewport);
   };
@@ -115,33 +115,13 @@ class PdfPageComponent {
   }
 
   /**
-   * Creates the page viewport and sets canvas size.
-   *
-   * @param {Page} page pdf.js library page
-   * @param {float} zoomScale
-   * @returns {import("pdfjs-dist").PageViewport} viewport of the page
-   */
-  #setupViewport(page, zoomScale) {
-    let viewport = page.getViewport({
-      scale: zoomScale,
-    });
-    this.components.canvas.height = viewport.height;
-    this.components.canvas.width = viewport.width;
-    return viewport;
-  }
-
-  /**
    * Starts rendering the pdf page asynchronusly.
    *
    * @param {Page} page pdf.js library page
    * @param {import("pdfjs-dist").PageViewport} viewport
    */
-  #startPageRender(page, viewport) {
-    const ctx = this.components.canvas.getContext("2d");
-    const renderCtx = {
-      canvasContext: ctx,
-      viewport: viewport,
-    };
+  #startPageRender(page, canvas, viewport) {
+    const renderCtx = getContext(canvas, viewport);
 
     this.isRendering = true;
     this.isRendered = false;
@@ -151,22 +131,20 @@ class PdfPageComponent {
   /**
    * Waits for page render to finish, sets the flags and starts
    * rendering the text.
-   *
+   * @async
    * @param {Page} page pdf.js library page
    * @param {import("pdfjs-dist").PageViewport} viewport of the page
    */
-  #onRenderFinish(page, viewport) {
-    const self = this;
-    this.renderTask.promise
-      .then(function () {
-        self.isRendering = false;
-        self.isRendered = true;
+  async #onRenderFinish(page, viewport) {
+    try{
+      await this.renderTask.promise;
+      this.isRendering = false;
+      this.isRendered = true;
 
-        renderText(page, self.pageNum, self.components.canvas, viewport);
-      })
-      .catch(() => {
-        // do nothing, the rendering task was canceled
-      });
+      renderText(page, this.pageNum, this.components.canvas, viewport);
+    } catch (err){
+      // do nothing, the rendering task was canceled
+    }
   }
 }
 
