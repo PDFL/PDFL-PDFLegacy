@@ -6,6 +6,7 @@ import { ToolbarComponent } from "./ToolbarComponents/ToolbarComponent";
 import { ReferenceComponent } from "./ReferenceComponent";
 import { PopupComponent } from "./PopupComponent";
 import * as textRenderService from "../services/TextRenderService";
+import { extractKeywords } from "../services/KeywordExtractionService";
 import { PdfPageComponent } from "./PdfPageComponent";
 import { respondToVisibility } from "../services/Utils";
 import { EXTRA_PAGES_TO_RENDER } from "../Constants";
@@ -110,6 +111,8 @@ class PdfReaderComponent {
 
     await this.#setupPages();
     this.#renderPages(1);
+
+    extractKeywords(data); //TODO: remove
   };
 
   /**

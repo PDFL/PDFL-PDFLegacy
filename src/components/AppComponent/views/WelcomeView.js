@@ -3,6 +3,10 @@ import {
   readFile,
   readFileFromUrl,
 } from "../../../services/FileUploadService.js";
+import {
+  EventHandlerService,
+  PDFLEvents,
+} from "../../../services/EventHandlerService.js";
 
 /**
  * Welcome page view.
@@ -13,6 +17,8 @@ import {
  * @property {HTMLElement} components.buttonFile button that takes user to file input page
  * @property {HTMLElement} components.dropArea rectangle in which PDF file can be dropped to and uploaded
  * @property {HTMLElement} components.fileOpen input element used for PDF file upload
+ * @property {HTMLElement} components.errorMessage error message showed when the user try to upload a file that is not a pdf
+ * @property {HTMLElement} components.tutorialPageBtn button that takes user to tutorial page
  */
 class WelcomeView extends AppView {
   components = {
@@ -21,6 +27,7 @@ class WelcomeView extends AppView {
     dropArea: document.getElementById("file-drag"),
     fileOpen: document.getElementById("file-open"),
     errorMessage: document.getElementById("message-wrong-type-fileupload"),
+    tutorialPageBtn: document.getElementById("tutorial-welcome-page"),
   };
 
   /**
@@ -42,6 +49,10 @@ class WelcomeView extends AppView {
     this.components.dropArea.addEventListener("dragover", this.#onDragOver);
     this.components.dropArea.addEventListener("dragleave", this.#onDragLeave);
     this.components.dropArea.addEventListener("drop", this.#onDrop);
+    this.components.tutorialPageBtn.addEventListener(
+      "click",
+      this.#showTutorialPage
+    );
   };
 
   /**
@@ -117,6 +128,13 @@ class WelcomeView extends AppView {
     if (pdfUrl) {
       readFileFromUrl(pdfUrl);
     }
+  };
+
+  /**
+   * Triggers the onShowTutorialView event
+   */
+  #showTutorialPage = () => {
+    EventHandlerService.publish(PDFLEvents.onShowTutorialView);
   };
 }
 

@@ -24,6 +24,8 @@ import { readFile } from "../../services/FileUploadService";
  * @property {HTMLElement} components.openNew button to click for upload a new pdf from the reader component
  * @property {HTMLElement} components.loader loader for showing the pdf uploaded
  * @property {HTMLElement} components.errorMessage error message for a wrong pdf uploaded from the pdf reader component
+ * @property {HTMLElement} components.helpBtn button that open the tutorial page
+ * @property {HTMLElement} components.homeBtn button that takes the user to Welcome Page
  */
 class ToolbarComponent {
   components = {
@@ -40,6 +42,8 @@ class ToolbarComponent {
     errorMessage: document.querySelector(
       "#message-wrong-type-fileupload-reader"
     ),
+    helpBtn: document.querySelector("#question-mark-margin"),
+    homeBtn: document.querySelector("#home-btn-navbar"),
   };
 
   /**
@@ -119,6 +123,8 @@ class ToolbarComponent {
       "click",
       this.#toggleThumbnail
     );
+    this.components.homeBtn.addEventListener("click", this.#showWelcomeView);
+    this.components.helpBtn.addEventListener("click", this.#showTutorialPage);
 
     EventHandlerService.subscribe(
       PDFLEvents.onKeyboardKeyDown,
@@ -181,6 +187,20 @@ class ToolbarComponent {
       PDFLEvents.onToggleThumbnail,
       this.paginationComponent.getCurrentPage()
     );
+  };
+
+  /**
+   * Triggers the onShowTutorialView event
+   */
+  #showTutorialPage = () => {
+    EventHandlerService.publish(PDFLEvents.onShowTutorialView);
+  };
+
+  /**
+   * Triggers the onShowWelcomeView event
+   */
+  #showWelcomeView = () => {
+    EventHandlerService.publish(PDFLEvents.onShowWelcomeView);
   };
 
   /**
