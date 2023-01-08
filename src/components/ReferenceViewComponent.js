@@ -4,60 +4,33 @@ import {
 } from "../services/EventHandlerService";
 import * as textRenderService from "../services/TextRenderService";
 
-import { KnowledgeGraphComponent } from "../components/KnowledgeGraphComponent";
-
 /**
- * Declaration of library that contains the method to render text and annotations
- * @constant
- */
-const pdfjsLib = require("pdfjs-dist");
-
-/**
- * Component representing two page layout and display dynamically the content of it
- *
- *
- * @property {Object} components object that holds DOM elements that represent this component, as well as component's context
- * @property {HTMLElement} components.pdfContainer element containing the PDF reader
- * @property {HTMLElement} components.contentDiv div containing the content of the reference img/table/text/pdf
- * @property {HTMLElement} components.sidePageReferenceBtn button that open the two page layout view
- * @property {HTMLElement} components.sidePageReferenceContainer canvas for the pdf reference
- * @property {HTMLElement} components.main button that open the two page layout view
- * @property {HTMLElement} components.sideNav div that contain the graph
- * @property {HTMLElement} components.closeBtnReference button for close the reference page
+ * Component representing the page containing the cross reference content. Content
+ * dynamically changes when new cross reference is opened. This component is displayed
+ * as a page next to current page of PDF that user is reading.
+ * @property {Object} components object that holds DOM elements that represent this component
+ * @property {HTMLElement} components.pdfContainer PDF reader container
+ * @property {HTMLElement} components.canvas canvas containing the whole page where reference is
+ * @property {HTMLElement} components.closeBtn button that closes this component
+ * @property {HTMLElement} components.container placeholder of this whole component
+ * @property {HTMLElement} pdfDoc PDF document that is currently being read
  */
 
 class ReferenceViewComponent {
   components = {
-    contentDiv: document.querySelector("#content-reference-div"),
-    sidePageReferenceBtn: document.querySelector("#side-page-reference-btn"),
-    sidePageReferenceContainer: document.createElement("div"),
-    sideNav: document.querySelector("#side-page"),
-    closeBtnReference: document.createElement("button"),
-    openNew: document.querySelector("#open-new-pdf"),
-    canvas: document.createElement("canvas"),
+    pdfContainer: document.querySelector("#pdf-container"),
+    canvas: document.querySelector("#reference-canvas"),
+    closeBtn: document.querySelector("#reference-close-btn"),
+    container: document.querySelector("#reference-container"),
   };
 
   /**
-   * Creates the endler service for manage the reference object
+   * Creates new ReferenceViewComponent object and registers events to it.
    * @constructor
    */
   constructor() {
-    this.pdfDoc = null;
-    this.pdfPageNumber = null;
-    this.viewport = null;
-    this.main = document.querySelector("#main");
-    this.pdfContainer = document.querySelector("#pdf-container");
     this.#registerEvents();
-    this.components.canvas.setAttribute("class", "canvas-for-reference");
   }
-
-  /**
-   * Set the pdf document
-   * @param pdfDoc
-   */
-  setPdfDoc = (pdfDoc) => {
-    this.pdfDoc = pdfDoc;
-  };
 
   /**
    * Adds event listeners to component and it's elements.
@@ -66,22 +39,32 @@ class ReferenceViewComponent {
   #registerEvents = () => {
     EventHandlerService.subscribe(
       PDFLEvents.onReferencePdfOpen,
-      this.#displayPdfReference.bind(this)
-    );
-    this.components.closeBtnReference.addEventListener(
-      "click",
-      this.#hidePdfReference.bind(this)
+      (pageNumber) => {
+        this.#displayPdfReference(pageNumber);
+      }
     );
 
-    this.components.openNew.addEventListener(
-      "click",
-      this.#hidePdfReference.bind(this)
-    );
+    this.components.closeBtn.addEventListener("click", () => {
+      this.#hidePdfReference();
+    });
+
+    EventHandlerService.subscribe(PDFLEvents.onSidePageDisplayed, () => {
+      this.#hidePdfReference(false);
+    });
+
+    EventHandlerService.subscribe(PDFLEvents.onReadNewPdf, (pdf) => {
+      this.#setPDF(pdf);
+    });
+
+    EventHandlerService.subscribe(PDFLEvents.onResetReader, () => {
+      this.#hidePdfReference();
+    });
   };
 
   /**
-   * Creates event triggered when two page layout button is clicked
+   * Opens new side page and sets it's content to page where reference is.
    * @private
+   * @param {int} pageNumber number of page where reference is
    */
   #displayPdfReference = (pageNumber) => {
     this.#renderPdfReference(pageNumber);
@@ -89,49 +72,80 @@ class ReferenceViewComponent {
   };
 
   /**
-   * Creates event triggered when graoh maker button is clicked to hide the reference pdf and show the
-   * main pdf in full width
+   * Renders the reference page inside this component.
    * @private
+   * @async
+   * @param {int} pageNumber number of page where reference is
    */
-  #hidePdfReference = () => {
-    this.main.removeChild(this.components.sidePageReferenceContainer);
-    this.components.closeBtnReference.className = "hidden";
-    this.pdfContainer.className = "full-width";  };
-
-  /**
-   * Handler to display the reference page.
-   * @private
-   */
-  #showPdfReference = () => {
-    this.pdfContainer.className = "half-width";
-    this.components.closeBtnReference.setAttribute("id", "close-btn-reference");
-    this.components.closeBtnReference.classList.remove("hidden");
-    this.components.closeBtnReference.innerHTML = "<a>&times;</a>";
-    this.main.appendChild(this.components.sidePageReferenceContainer);
-    this.main.appendChild(this.components.closeBtnReference);
+  #renderPdfReference = async (pageNumber) => {
+    const page = await this.pdfDoc.getPage(pageNumber);
+    const viewport = page.getViewport({
+      scale: 1,
+    });
+    
+    textRenderService.renderPageReference(
+      page,
+      pageNumber,
+      this.components.canvas,
+      this.components.container,
+      viewport
+    );
+    
+    this.#setCanvasDimensions(viewport.height, viewport.width);
+    this.#positionCloseButton(viewport.width);
   };
 
   /**
-   * Call back to renders the reference page.
+   * Sets hight and width of canvas inside this component
+   * to given hight and width.
+   * @private
+   * @param {int} height height to be set
+   * @param {int} width width to be set
+   */
+  #setCanvasDimensions = (height, width) => {
+    this.components.canvas.height = height;
+    this.components.canvas.width = width;
+  };
+
+  /**
+   * Positions the close button left outside of canvas.
+   * @param {int} offset width of canvas
+   */
+  #positionCloseButton = (offset) => {
+    const halfButtonWidth = 25;
+    this.components.closeBtn.style.right = offset + halfButtonWidth + "px";
+  };
+
+  /**
+   * Displays this component in half of reader view.
    * @private
    */
-  #renderPdfReference = (pageNumber) => {
-    this.components.sideNav.className = "no-width";
-    this.components.sidePageReferenceContainer.setAttribute(
-      "id",
-      "side-page-reference-container"
-    );
+  #showPdfReference = () => {
+    this.components.pdfContainer.className = "half-width";
+    this.components.container.classList.remove("hidden");
+  };
 
-    if (this.pdfDoc === null) {
-      throw new Error("PDFDocument object missed");
-    }
+  /**
+   * Hides this component and displays reader in full width (default reader view) 
+   * or half width which depends isDefaultReaderDisplay parameter.
+   * @private
+   * @param {boolean} isDefaultReaderDisplay if true (default) reader will be displayed
+   * in full width and half width otherwise
+   */
+  #hidePdfReference = (isDefaultReaderDisplay = true) => {
+    this.components.container.classList.add("hidden");
+    this.components.pdfContainer.className = isDefaultReaderDisplay
+      ? "full-width"
+      : "half-width";
+  };
 
-    textRenderService.renderPageReference(
-      this.pdfDoc,
-      this.components,
-      pageNumber,
-      this.viewport
-    );
+  /**
+   * Sets the PDF document.
+   * @private
+   * @param {PDFDocumentProxy} pdfDocument PDF document
+   */
+  #setPDF = (pdfDoc) => {
+    this.pdfDoc = pdfDoc;
   };
 }
 

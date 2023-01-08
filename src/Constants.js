@@ -19,8 +19,8 @@ const TEN_MILLISECONDS = 10;
 
 const EXTRA_PAGES_TO_RENDER = 1;
 
-const MAX_ZOOM_FACTOR = 2;
-const MIN_ZOOM_FACTOR = 0.4;
+const MAX_ZOOM_FACTOR = 5;
+const MIN_ZOOM_FACTOR = 0.25;
 
 const LOADING_TEXT = "Loading...";
 

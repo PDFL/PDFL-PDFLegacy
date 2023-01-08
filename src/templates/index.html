@@ -199,7 +199,6 @@
                         <input id="open-new-pdf" type="file" accept="application/pdf" />
                         <span class="tooltip-text w-120">Open new paper</span>
                     </a>
-
                 </a>
                 <a class="scale-on-hover padding">
                     <div id="toggle">
@@ -212,20 +211,23 @@
                                 <span class="slider round">
                                 </span>
                                 <span class="tooltip-text">Highlight typical phrases/sentences
+                                    <i class="material-icons question-mark-tutorial"
+                                        id="tutorial-highlight">question_mark</i>
                                 </span>
                             </label>
                         </div>
                     </div>
-
                 </a>
                 <a class="scale-on-hover padding">
                     <i class="material-icons" id="graph-maker">schema</i>
                     <span class="tooltip-text w-180">Make the knowledge graph
-                    </span>
+                        <i class="material-icons question-mark-tutorial" id="tutorial-graph">question_mark
+                        </i></span>
                 </a>
                 <a class="scale-on-hover padding">
                     <i class="material-icons" id="summary-maker">summarize</i>
                     <span class="tooltip-text w-140">Summarize your paper
+                        <i class="material-icons question-mark-tutorial" id="tutorial-summary">question_mark</i>
                     </span>
                 </a>
                 <div class="verticalToolbarSeparator"></div>
@@ -244,6 +246,93 @@
 
         <div id="loader">
             <img src="assets/logo_white.png" alt="loading..." id="logo-loader" />
+        </div>
+
+        <div id="tutorial" class="hidden">
+            <div class="tutorial-window hidden" id="highlight-tutorial-window">
+                <img src="assets/TutorialGif/highlight.gif" alt="Tutorial Gif Highlight" class="gif-tutorial">
+                <div class="container">
+                    <h4><b>Highlight commonly used, topic-specific phrasings</b></h4>
+                    <p>A paper can involve using many typical phrases/sentences for introduction, background description
+                        and experiment result analyses.
+                        With this tool you can identify and highlight these sentences.<br><br>To do it:</p>
+                    <ul>
+                        <li>
+                            <p>Active the "Highlight" toggle in navigation bar.</p>
+                        </li>
+                        <li>
+                            <p>Scroll the paper and see highlighted sentences.</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="tutorial-window hidden" id="graph-tutorial-window">
+                <img src="assets/TutorialGif/knowledge-graph.gif" alt="Tutorial Gif Graph" class="gif-tutorial">
+                <div class="container">
+                    <h4><b>Knowledge Graph</b></h4>
+                    <p> Knowledge graph contains nodes representing papers that can be citing another paper or that can
+                        be cited by another paper. The middle node
+                        represent the
+                        paper that is currently open and the nodes around it represent papers being cited by or
+                        citing that paper.</p>
+                    <ul>
+                        <li>
+                            <p>Zoom in/out on the graph: scroll up/down on your mouse while hovering the graph window.
+                            </p>
+                        </li>
+                        <li>
+                            <p>Move around the graph: click and drag inside the graph window.</p>
+                        </li>
+                        <li>
+                            <p>Get information about specific node: hover over node and paper title will be displayed
+                                over node as well as popup with paper title, authors and fields of study will appear.
+                            </p>
+                        </li>
+                        <li>
+                            <p>Inital graph depth is one, you can click on the slider in the graph
+                                window to display depth two which expands some (not all) nodes displayed initially to
+                                see even more correlated papers.</p>
+                        </li>
+                        <li>
+                            <p>Get correlated papers of specific node: click on desired node and it will be expanded
+                                with nodes representing the papers correlated to paper represented by that node.</p>
+                        </li>
+                        <li>
+                            <p>Hover over a question mark at the bottom right of the
+                                graph window and the color legend will appear. Legend explains the connection
+                                between node color and field of study of the paper represented by node.</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="tutorial-window hidden" id="summary-tutorial-window">
+                <img src="assets/TutorialGif/summary.gif" alt="Tutorial Gif Summary" class="gif-tutorial">
+                <div class="container">
+                    <h4><b>Summarize your paper</b></h4>
+                    <p>A text wall? Summarize the paper you are reading to just a few sentences!
+                        You can also select a piece of text with the mouse, click on the popup icon that then appears
+                        and have that selected text summarized.<br><br>To do it:</p>
+                    <ul>
+                        <li>
+                            <p>Click the summary button in the navigation bar and a side page will be displayed with the
+                                following accordion items:</p>
+                        </li>
+                        <li>
+                            <p>TLDR: "Too Long Didn't Read" - summary of the whole paper in just a few sentences.</p>
+                        </li>
+                        <li>
+                            <p>ABSTRACT: Summary of the paper or entire thesis.</p>
+                        </li>
+                        <li>
+                            <p>ABSTRACT SUMMARY: Summary of the abstract of the paper.</p>
+                        </li>
+                        <li>
+                            <p>SELECTED TEXT SUMMARY: Summary of selected piece of text. When a new text is selected,
+                                the content of this summary is accordingly changed.</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
 
         <div id="main">
@@ -281,7 +370,7 @@
                         </p>
                     </div>
                 </div>
-                <a id="close-btn" class="closebtn">&times;</a>
+                <a id="close-btn">&times;</a>
                 <div id="paper-info" class="hidden">
                     <h2 class="info-title">Paper Info:</h2>
                     <div class="info-display">
@@ -305,66 +394,50 @@
                         </div>
                     </div>
                 </div>
-
-                <div id="knowledge-graph"></div>
-                <i class="material-icons" id="question-mark">question_mark
-                    <span class="tooltiptext">
-                        <div class="tooltip-margin">
-                            <div class="css-slider" id="field-colors"></div>
-                        </div>
-                    </span>
-                </i>
-            </div>
-
-            <div id="side-page-summary" class="hidden">
-                <a id="close-btn-summary" class="hidden">&times;</a>
-                <div id="accordion-container">
-                    <button id="tldr" class="accordion">TLDR</button>
-                    <div class="panel">
-                        <p id="tldr-text">Loading...</p>
-                    </div>
-
-                    <button id="abstract" class="accordion">ABSTRACT</button>
-                    <div class="panel">
-                        <p id="abstract-text">Loading...</p>
-                    </div>
-
-                    <button id="summary-abstract" class="accordion">ABSTRACT SUMMARY</button>
-                    <div class="panel">
-                        <p id="abstract-summary-text">Abstract summary cannot be generated</p>
-                    </div>
-
-                    <button id="selected-text-summary" class="accordion">SELECTED TEXT SUMMARY</button>
-                    <div class="panel" id="selected-summary-text-panel">
-                        <p id="selection-summary-text">Select a text in the PDF and click the button to generate the
-                            summary</p>
-                    </div>
+                <div id="knowledge-graph-container" class="hidden">
+                    <div id="knowledge-graph"></div>
+                    <i class="material-icons" id="question-mark">question_mark
+                        <span class="tooltiptext">
+                            <div class="tooltip-margin">
+                                <div class="css-slider" id="field-colors"></div>
+                            </div>
+                        </span>
+                    </i>
                 </div>
+                <div id="side-page-summary" class="hidden">
+                    <div id="accordion-container">
+                        <button id="tldr" class="accordion">TLDR</button>
+                        <div class="panel">
+                            <p id="tldr-text">Loading...</p>
+                        </div>
+
+                        <button id="abstract" class="accordion">ABSTRACT</button>
+                        <div class="panel">
+                            <p id="abstract-text">Loading...</p>
+                        </div>
+
+                        <button id="summary-abstract" class="accordion">ABSTRACT SUMMARY</button>
+                        <div class="panel">
+                            <p id="abstract-summary-text">Abstract summary cannot be generated</p>
+                        </div>
+
+                        <button id="selected-text-summary" class="accordion">SELECTED TEXT SUMMARY</button>
+                        <div class="panel" id="selected-summary-text-panel">
+                            <p id="selection-summary-text">Select a text in the PDF and click the button to generate the
+                                summary</p>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            <div id="reference-container" class="moveIn hidden">
+                <canvas id="reference-canvas" class="canvas__container moveIn"></canvas>
+                <button id="reference-close-btn" class="moveIn"><a>×</a></button>
             </div>
         </div>
+
     </div>
-
-    <!--floating button hidden for now-->
-    <!--<div class="floating-container">
-            <div class="floating-button">
-                <i class="material-icons">menu
-                </i>
-            </div>
-            <div class=" element-container">
-                <span class="float-element">
-                    <i class="material-icons">bolt
-                    </i>
-                </span>
-                <span class="float-element">
-                    <i class="material-icons">download</i>
-                </span>
-                </span>
-                <span class="float-element">
-                    <i class="material-icons">publish</i>
-                </span>
-            </div>
-        </div> -->
-
     </div>
     <script src="main.bundle.js"></script>
 </body>
