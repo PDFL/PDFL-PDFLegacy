@@ -240,6 +240,9 @@ class ToolbarComponent {
    */
   reset = () => {
     this.paginationComponent.setCurrentPage(1);
+    if (this.components.highlightToggle.checked == true) {
+      this.components.highlightToggle.click();
+    }
   };
 
   /**

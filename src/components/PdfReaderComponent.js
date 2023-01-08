@@ -98,7 +98,8 @@ class PdfReaderComponent {
 
   /**
    * Loads the pdf document, configures 'child' components, delegates
-   * page setup and rendering of the first page.
+   * page setup and rendering of the first page, also initializes the
+   * highlighter component with paper's keywords.
    * @param {Uint8Array} pdf data, filename or url of a PDF document
    */
   loadPdf = async (pdf) => {
@@ -112,7 +113,8 @@ class PdfReaderComponent {
     await this.#setupPages();
     this.#renderPages(1);
 
-    extractKeywords(data); //TODO: remove
+    let keywords = await extractKeywords(this.pdfDoc);
+    this.keywordHightlighterComponent.setKeywords(keywords);
   };
 
   /**
@@ -125,9 +127,6 @@ class PdfReaderComponent {
     this.pages = [];
     this.visiblePages = [];
     this.visiblePage = null;
-
-    // TODO: temporary until keyword extraction
-    this.keywordHightlighterComponent.setKeywords(["by"]);
 
     window.scrollTo(0, 0);
   };
