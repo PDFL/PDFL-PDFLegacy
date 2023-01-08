@@ -1,12 +1,11 @@
-import { FIELD_OF_STUDY_COLOR } from "../Constants";
+import { FIELD_OF_STUDY_COLOR } from "../../Constants";
 
 /**
  * Component within knowledge graph responsible for creating a color legend. Color legend
- * displays field of study and color representing it. This class creates a legend based on
+ * displays fields of study and colors representing them. This class creates a legend based on
  * {@link FIELD_OF_STUDY_COLOR} object.
- *
- * @property {Object} object that holds elements within this component
- * @property {HTMLElement} placeholder element that contains slides with color legend
+ * @property {Object} components object that holds elements within this component
+ * @property {HTMLElement} components.placeholder element that contains slides with color legend
  *
  */
 class ColorLegenedComponent {
@@ -25,7 +24,6 @@ class ColorLegenedComponent {
   /**
    * Creates slides that contain color legend and adds them to slider.
    * Finally this method creates a header with actions to change slide.
-   *
    * @private
    */
   #fillLegend = () => {
@@ -44,7 +42,6 @@ class ColorLegenedComponent {
    * Returs {@link FIELD_OF_STUDY_COLOR} object as array. Every element
    * in object is turned into array with two elements. Filtering out
    * missing color.
-   *
    * @private
    * @returns {Array.<string[]>}
    */
@@ -55,7 +52,6 @@ class ColorLegenedComponent {
   /**
    * Creates a slide with a legend for six colors/field
    * of study. Slide is returned as string.
-   *
    * @private
    * @param {int} slide slide number
    * @param {Array.<string[]>} fieldColors
@@ -77,7 +73,6 @@ class ColorLegenedComponent {
   /**
    * Creates a header with actions which enable
    * switching between slides.
-   *
    * @private
    * @param {int} slidesNum total number of slides
    * @returns {string}
