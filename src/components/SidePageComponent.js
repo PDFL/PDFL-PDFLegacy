@@ -96,6 +96,7 @@ class SidePageComponent {
   };
 
   /**
+   * @private
    * Callback for generation of a knowledge graph.
    */
   #showKnowledgeGraph = () => {
@@ -106,6 +107,7 @@ class SidePageComponent {
   };
 
   /**
+   * @private
    * Callback for generation of the summary
    */
   #showSummaryKey = () => {
@@ -115,6 +117,7 @@ class SidePageComponent {
   };
 
   /**
+   * @private
    * Display Reference
    */
   #showReference = () => {
