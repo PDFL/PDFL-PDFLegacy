@@ -20,7 +20,7 @@ describe("Summary functionalities (TA-20 to TA-22)", () => {
 
   });
 
-  it("TA-21: Open TLDR, Abstract, Abstract summary section in the summary layout", () => {
+  it("TA-21: Open TLDR, Abstract, Abstract summary, Selected text section in the summary layout", () => {
 
     cy.get("#end > :nth-child(5)")
       .click();
@@ -41,6 +41,12 @@ describe("Summary functionalities (TA-20 to TA-22)", () => {
       .click();
 
     cy.get("#abstract-summary-text")
+      .should("be.visible");
+
+    cy.get("#selected-text-summary")
+      .click();
+
+    cy.get("#selection-summary-text")
       .should("be.visible");
 
   });

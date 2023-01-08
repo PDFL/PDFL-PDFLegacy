@@ -23,7 +23,7 @@ describe("Cross-references (TA-17 to TA-19)", () => {
     cy.get("#pdfjs_internal_id_679R").trigger("mouseover");
     cy.get("#pop-up").click();
     cy.get("#text-layer-reference").should("be.visible");
-    cy.get("#close-btn-reference").should("be.visible");
+    cy.get("#reference-close-btn").should("be.visible");
 
   });
 
@@ -43,6 +43,11 @@ describe("Cross-references (TA-17 to TA-19)", () => {
     cy.get("#pdfjs_internal_id_222R").trigger("mouseover")
     cy.get("#pop-up-image")
       .should("be.visible");
+
+    cy.get("#side-page-reference-btn").click();
+    cy.get("#reference-canvas").should("be.visible");
+    cy.get("#reference-close-btn").should("be.visible");
+
 
 
   });

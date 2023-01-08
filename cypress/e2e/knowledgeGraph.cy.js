@@ -1,4 +1,4 @@
-describe("Knowledge Graph functionallity (TA-14 to TA-16", () => {
+describe("Knowledge Graph functionallity (TA-14 to TA-16)", () => {
   beforeEach(() => {
     cy.visit("https://pdfl-pdf-legacy.onrender.com/#");
 
@@ -12,6 +12,9 @@ describe("Knowledge Graph functionallity (TA-14 to TA-16", () => {
   it("TA-14: Open Knowledge Graph", () => {
     cy.get(".force-graph-container").should("not.exist");
     cy.get("#graph-maker").click();
+
+    cy.wait(8000);
+
     cy.get(".force-graph-container").should("be.visible");
   });
 
@@ -25,6 +28,8 @@ describe("Knowledge Graph functionallity (TA-14 to TA-16", () => {
     cy.wait("@myAlias").then((interception) => {
       expect(interception.request.url).to.include("semanticscholar");
     });
+
+    cy.wait(8000);
 
     cy.get(".force-graph-container").find("canvas").should("exist");
   });

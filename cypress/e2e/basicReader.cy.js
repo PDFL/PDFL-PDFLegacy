@@ -7,9 +7,10 @@ describe("Basic reader functionallity (TA-1 to TA-13)", () => {
       .selectFile("cypress/fixtures/black bear.pdf", { force: true });
 
     cy.wait(300);
+
   });
 
-  it("TA.1: PDF Uploading", () => {
+  it("TA-01: PDF Uploading", () => {
     cy.title().should("eq", "PDFL - PDF Legacy");
 
     cy.get("#pdf-container")
@@ -44,7 +45,7 @@ describe("Basic reader functionallity (TA-1 to TA-13)", () => {
       .should("exist");
   });
 
-  it("TA-2: Open a new pdf document", () => {
+  it("TA-02: Open a new pdf document", () => {
     cy.get("#open-new-pdf")
       .first()
       .selectFile("cypress/fixtures/comp.pdf", { force: true });
@@ -156,7 +157,13 @@ describe("Basic reader functionallity (TA-1 to TA-13)", () => {
     cy.get("#zoom-out")
       .click()
       .get('input[id="zoom-level"]')
-      .should("have.value", "88.%");
+      .should("have.value", "100%");
+
+    cy.get("#zoom-out")
+      .click()
+      .get('input[id="zoom-level"]')
+      .should("have.value", "75%");
+
   });
 
   it("TA-08: Zoom in (out) (with keyboard shortcuts)", () => {
@@ -168,7 +175,12 @@ describe("Basic reader functionallity (TA-1 to TA-13)", () => {
     cy.get("body")
       .type("{ctrl} -")
       .get('input[id="zoom-level"]')
-      .should("have.value", "88.%");
+      .should("have.value", "100%");
+
+    cy.get("body")
+      .type("{ctrl} -")
+      .get('input[id="zoom-level"]')
+      .should("have.value", "75%");
   });
 
   it("TA-10: Visualize Document", () => {
