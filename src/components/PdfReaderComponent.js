@@ -2,12 +2,9 @@ import {
   EventHandlerService,
   PDFLEvents,
 } from "../services/EventHandlerService";
-import { SidePageComponent } from "./SidePageComponent";
-import { ToolbarComponent } from "./ToolbarComponent";
+import { ToolbarComponent } from "./ToolbarComponents/ToolbarComponent";
 import { ReferenceComponent } from "./ReferenceComponent";
 import { PopupComponent } from "./PopupComponent";
-import { ReferenceViewComponent } from "./ReferenceViewComponent";
-import { KeyboardService } from "../services/KeyboardService";
 import * as textRenderService from "../services/TextRenderService";
 import { PdfPageComponent } from "./PdfPageComponent";
 import { respondToVisibility } from "../services/Utils";
@@ -22,42 +19,37 @@ import * as pdfjsLib from "pdfjs-dist/webpack";
  *
  * @property {Object} components object that holds DOM elements that are within component
  * @property {HTMLElement} components.pdfContainer element containing the PDF reader
- * @property {HTMLElement} components.openNew button that takes user to input view page
- * @property {HTMLElement} components.canvas canvas DOM element for pdf.js page
- * @property {import("pdfjs-dist").PageViewport} components.viewport target page viewport for the text layer
- * @property {SidePageComponent} sidePageComponent side component within the reader
  * @property {ToolbarComponent} toolbarComponent toolbar component within the reader
+ * @property {ReferenceComponent} referenceComponent component detecting and managing cross references
  * @property {PopupComponent} popupComponent popup component within the reader
+ * @property {SelectionPopUpComponent} selectionPopUp popup related to selection functionality
  * @property {PDFDocumentProxy} pdfDoc PDF document
- * @property {KeyboardService} keyboardService keyboard service
  * @property {PdfPageComponent[]} pages array of the pages objects
  * @property {int[]} visiblePages array of the visible pages by page number
  * @property {int} visiblePage currently visible page
- * @property {SelectionPopUpComponent} selectionPopUp popup related to selection functionality
  */
 class PdfReaderComponent {
   components = {
     pdfContainer: document.querySelector("#pdf-container"),
-    openNew: document.querySelector("#open-new"),
     loader: document.querySelector("#loader"),
   };
 
   /**
-   * Creates and initializes new zoom component. Creates new ToolbarComponent and
-   * SidePageComponent objects.
+   * Creates and initializes new zoom component. Creates an instance of all components
+   * within this component.
+   *
    * @constructor
    */
   constructor() {
-    this.keyboardService = new KeyboardService();
     this.toolbarComponent = new ToolbarComponent();
-    this.sidePageComponent = new SidePageComponent();
     this.referenceComponent = new ReferenceComponent();
     this.popupComponent = new PopupComponent();
-    this.referenceViewComponent = new ReferenceViewComponent();
+    this.selectionPopUp = new SelectionPopUpComponent();
+
     this.pages = [];
     this.visiblePages = [];
     this.visiblePage = null;
-    this.selectionPopUp = new SelectionPopUpComponent();
+
     this.#registerEvents();
   }
 
@@ -80,8 +72,8 @@ class PdfReaderComponent {
     }).observe(this.components.pdfContainer);
 
     EventHandlerService.subscribe(PDFLEvents.onRenderPage, (page) => {
-      this.pages[page - 1].getCanvas().scrollIntoView();
-      this.visiblePages = [page];
+      if (this.pages[page - 1])
+        this.pages[page - 1].getCanvas().scrollIntoView();
       this.#setVisiblePage(page);
     });
 
@@ -108,24 +100,21 @@ class PdfReaderComponent {
     this.components.loader.classList.add("hidden");
 
     let data = await pdfjsLib.getDocument(pdf).promise;
-    
+
     this.pdfDoc = data;
-    this.referenceComponent.setPdfDoc(data);
     this.toolbarComponent.setPageCount(data.numPages);
-    this.sidePageComponent.setPDF(data);
-    this.referenceViewComponent.setPdfDoc(data);
+    EventHandlerService.publish(PDFLEvents.onReadNewPdf, data);
 
     await this.#setupPages();
     this.#renderPages(1);
   };
 
   /**
-   * Sets current page of pagination component to 1 and current zoom level
-   * of zoom component to 1. Clears pages array.
+   * Resets the pdf reader, destroys the old pdf document, clears its properties,
+   * resets the toolbar and scrolls to the beginning.
    */
   reset = () => {
-    this.sidePageComponent.hideSidePage();
-    this.sidePageComponent.hideSidePageSummary();
+    if (this.pdfDoc) this.pdfDoc.destroy();
     this.toolbarComponent.reset();
     this.pages = [];
     this.visiblePages = [];
@@ -249,7 +238,7 @@ class PdfReaderComponent {
    */
   #recalculateTextLayerPositionForVisiblePages() {
     this.visiblePages.forEach((pageNum) => {
-      this.pages[pageNum - 1].positionTextLayer();
+      if (this.pages[pageNum - 1]) this.pages[pageNum - 1].positionTextLayer();
     });
   }
 

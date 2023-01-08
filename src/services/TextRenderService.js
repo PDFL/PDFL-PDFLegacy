@@ -187,29 +187,28 @@ export function getViewport(page, canvas, zoomScale) {
 
   /**
  * Function to render the page inside the reference side view
- * @param {pdfDoc} pdfDoc PDF document
- * @param {Object} component object that holds DOM elements that are within component
- * @param {HTMLElement} pageNumber number of the page of the reference selected
+ * @param {PDFPageProxy} page where reference is
+ * @param {int} pageNumber number of the page where reference is
+ * @param {HTMLElement} canvas canvas element of reference window
+ * @param {HTMLElement} container reference window container
+ * @param {PageViewport} viewport viewport of page in reference window
  */
-export async function renderPageReference(pdfDoc, component, pageNumber) {
-  
-    let page = await pdfDoc.getPage(pageNumber);
-
-    component.viewport = getViewport(page, component.canvas, 1);
-    const renderCtx = getContext(component.canvas, component.viewport);
+export async function renderPageReference(page, pageNumber, canvas, container, viewport) {
+    const renderCtx = getContext(canvas, viewport);
 
     page.render(renderCtx);
 
-    component.sidePageReferenceContainer.innerHTML = "";
-    component.sidePageReferenceContainer.appendChild(component.canvas);
+    let existingTextLayer = container.querySelector(".reference-text-layer");
+    if(existingTextLayer)
+      container.removeChild(existingTextLayer);
 
-    /* Text Layer Implementation */
     const textLayer = createTextLayerDOMIfNotExistReference(pageNumber);
 
     let textContent = await page.getTextContent();
-    positionTextLayer(textLayer, component.canvas);
-    renderTextLayer(textContent, textLayer, component.viewport);
+    positionTextLayer(textLayer, canvas);
+    renderTextLayer(textContent, textLayer, viewport);
 
-    component.sidePageReferenceContainer.appendChild(textLayer);
-  
+    textLayer.classList.add("reference-text-layer")
+    
+    container.appendChild(textLayer);
 }
