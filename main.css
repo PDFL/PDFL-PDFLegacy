@@ -685,7 +685,7 @@ body{
     box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 2rem;
+    margin-top: 50px;
 }
 
 .canvas__container{
@@ -1668,7 +1668,7 @@ input[type="number"]::-webkit-outer-spin-button {
   }
 
   #reference-canvas.moveIn{
-    animation: fadeIn 20s;
+    animation: fadeIn 7s;
     animation-fill-mode: forwards;
   }
 
@@ -1699,7 +1699,7 @@ input[type="number"]::-webkit-outer-spin-button {
   }
 
   #reference-close-btn.moveIn{
-    animation: fadeIn 60s;
+    animation: fadeIn 15s;
     animation-fill-mode: forwards;
   }
 
