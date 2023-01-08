@@ -57,6 +57,8 @@
   font-weight: 600;
   font-family: Montserrat, 'Times New Roman', serif;
   background-color: var(--iconColor);
+  color: white;
+  border: none;
 }
 
 li{

@@ -158,9 +158,10 @@ class WelcomeView extends AppView {
   #closeAbout = () => {
     this.components.panelTutorial.style = "display:none";
     this.components.aboutPopupView.classList.add("hidden");
+  }
 
-   * Triggers the onShowTutorialView event
-   */
+  /* Triggers the onShowTutorialView event
+  */
   #showTutorialPage = () => {
     EventHandlerService.publish(PDFLEvents.onShowTutorialView);
   };

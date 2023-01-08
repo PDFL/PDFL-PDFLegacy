@@ -50,7 +50,7 @@
   font-size: 60px;
 }
 
-#btn-about{
+.btn-welcome{
   background: var(--color);
   color: white;
   border-radius: 25px;
@@ -63,7 +63,7 @@
   text-align: left;
 }
 
-#btn-about:before {
+.btn-welcome:before {
     float: right;
     font-size: 14px;
     margin: 0 -4.1em 0 0;
@@ -72,6 +72,7 @@
     width: 1em;
     content: "→";
 }
+
 
 .inline{
   display: inline-grid;
