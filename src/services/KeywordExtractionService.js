@@ -2,8 +2,8 @@
  * Extracts keywords of given PDF document. Keywords are
  * extracted from metadata of the PDF or, if they are not
  * found there, they are extracted from 'Keywords' section
- * in text of PDF document. If no keywords are found, empty
- * array is returned.
+ * in the text of PDF document. If no keywords are found,
+ * an empty array is returned.
  * @async
  * @param {PDFDocumentProxy} pdfDoc PDF document
  * @returns {String[]} keywords array
@@ -11,7 +11,8 @@
 async function extractKeywords(pdfDoc) {
   let keywords = await getKeywordsFromMetadata(pdfDoc);
 
-  if (!keywords) keywords = await getKeywordsFromText(pdfDoc);
+  if (keywords.length == 0)
+    keywords = await getKeywordsFromText(pdfDoc);
 
   console.log(keywords); //TODO: remove
 
@@ -19,8 +20,10 @@ async function extractKeywords(pdfDoc) {
 }
 
 /**
- * Extracts keywords from metadata of given PDF document.
- * If keywords are not in the PDF document undefined returned.
+ * Extracts keywords from metadata of given PDF document
+ * and returns them in array of strings. If keywords are
+ * not in the PDF document metadata an empty array is
+ * returned.
  * @async
  * @param {PDFDocumentProxy} pdfDoc PDF document
  * @returns {String[]} keywords array
@@ -28,23 +31,28 @@ async function extractKeywords(pdfDoc) {
 async function getKeywordsFromMetadata(pdfDoc) {
   const metadata = await pdfDoc.getMetadata();
   
-  if (metadata.info.Keywords) return metadata.info.Keywords.split(", ");
-
-  console.warn("Keywords not in metdata!");
+  let keywords = [];
+  if (metadata.info.Keywords) 
+    keywords = metadata.info.Keywords.split(", ");
+  else
+    console.warn("Keywords not in metdata!");
+  
+  return keywords;
 }
 
 /**
- * Extracts keywords from 'Keywords' section in text of PDF document.
- * If no keywords are found, empty array is returned.
+ * Extracts keywords from 'Keywords' section in the text 
+ * of the PDF document. If no keywords are found, empty
+ * array is returned.
  * @async
  * @param {PDFDocumentProxy} pdfDoc PDF document
  * @returns {String[]} keywords array
  */
 async function getKeywordsFromText(pdfDoc) {
   const parsedKeywords = await parseKeywordsFromText(pdfDoc);
-  let keywords = new Array();
+  let keywords = [];
 
-  if (parsedKeywords) {
+  if (parsedKeywords.length != 0) {
     parsedKeywords.filter((parsed) => parsed.includes(","))
         .forEach((parsed) => {
             parsed.split(",")
@@ -59,10 +67,10 @@ async function getKeywordsFromText(pdfDoc) {
 }
 
 /**
- * Searches for text containing keywords in the text of PDF
+ * Searches for text containing keywords in the text of the PDF
  * document. If there is no 'Keywords' section in text, 
- * undefined returned, otherwise returns array of strings
- * where each string can contain more than one keyword.
+ * an empty array is returned, otherwise returns an array
+ * of strings where each string can contain more than one keyword.
  * @async
  * @param {PDFDocumentProxy} pdfDoc PDF document
  * @returns {String[]} array of strings containing keywords
@@ -74,22 +82,25 @@ async function parseKeywordsFromText(pdfDoc) {
   const keywordsIndex = items.findIndex(
     (item) => item.str.trim().toUpperCase() == "KEYWORDS"
   );
-
-  if (items[keywordsIndex + 1].str.trim() == ":")
-    return extractWordItems(items.slice(keywordsIndex + 2));
+  
+  let keywords = [];
+  if (items.length != 0 && items[keywordsIndex + 1].str.trim() == ":")
+    keywords = extractWordItems(items.slice(keywordsIndex + 2));
+  
+  return keywords;
 }
 
 /**
  * Filters out all text items that are not empty strings in
- * given items array untill it encounters a period character 
- * in items array. Filtered items are returned as a array of
- * strings.
- * @param {Array.<Object>} items text items containing text as
+ * given items array until it encounters a period character 
+ * in that array. Filtered items are returned as an array
+ * of strings.
+ * @param {Object[]} items text items containing text as
  * a string in 'str' field of item
  * @returns {String[]} array of filtered strings
  */
 function extractWordItems(items) {
-  const words = new Array();
+  const words = [];
   for (let item of items) {
     item = item.str.trim();
     if (item == ".") break;
