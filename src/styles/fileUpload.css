@@ -50,7 +50,7 @@
   font-size: 60px;
 }
 
-.btn-welcome{
+#btn-about{
   background: var(--color);
   color: white;
   border-radius: 25px;
@@ -63,17 +63,14 @@
   text-align: left;
 }
 
-.pointer:before {
-   content: "→";
-}
-
-.btn-welcome:before {
+#btn-about:before {
     float: right;
     font-size: 14px;
     margin: 0 -4.1em 0 0;
     pointer-events: none;
     text-align: center;
     width: 1em;
+    content: "→";
 }
 
 .inline{
@@ -147,6 +144,23 @@ width: 100%; /* needs to be defined to keep the default block behavior */
 text-align: center;
 margin: 0; /* again, for perfect center */
 font-family: var(--font);
+}
+
+/*ABOUT US PAGE */
+
+.about-title {
+  color: var(--color);
+  font-size: 26px;
+  font-weight: 900;
+  line-height: 30px;
+}
+
+#close-about:hover{
+    color: red;
+}
+
+#about-tutorial-window{
+  width: 600px;
 }
 
 
