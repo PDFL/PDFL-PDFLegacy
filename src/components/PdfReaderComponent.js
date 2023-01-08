@@ -10,6 +10,7 @@ import { extractKeywords } from "../services/KeywordExtractionService";
 import { PdfPageComponent } from "./PdfPageComponent";
 import { respondToVisibility } from "../services/Utils";
 import { EXTRA_PAGES_TO_RENDER } from "../Constants";
+import { KeywordHighlighterComponent } from "./KeywordHighlighterComponent";
 import { SelectionPopUpComponent } from "./SelectionPopUpComponent";
 
 import * as pdfjsLib from "pdfjs-dist/webpack";
@@ -28,6 +29,8 @@ import * as pdfjsLib from "pdfjs-dist/webpack";
  * @property {PdfPageComponent[]} pages array of the pages objects
  * @property {int[]} visiblePages array of the visible pages by page number
  * @property {int} visiblePage currently visible page
+ * @property {SelectionPopUpComponent} selectionPopUp popup related to selection functionality
+ * @property {KeywordHighlighterComponent} keywordHightlighterComponent component for highlighting sentences
  */
 class PdfReaderComponent {
   components = {
@@ -45,6 +48,7 @@ class PdfReaderComponent {
     this.toolbarComponent = new ToolbarComponent();
     this.referenceComponent = new ReferenceComponent();
     this.popupComponent = new PopupComponent();
+    this.keywordHightlighterComponent = new KeywordHighlighterComponent();
     this.selectionPopUp = new SelectionPopUpComponent();
 
     this.pages = [];
@@ -94,22 +98,23 @@ class PdfReaderComponent {
 
   /**
    * Loads the pdf document, configures 'child' components, delegates
-   * page setup and rendering of the first page.
+   * page setup and rendering of the first page, also initializes the
+   * highlighter component with paper's keywords.
    * @param {Uint8Array} pdf data, filename or url of a PDF document
    */
   loadPdf = async (pdf) => {
     this.components.loader.classList.add("hidden");
 
-    let data = await pdfjsLib.getDocument(pdf).promise;
+    this.pdfDoc = await pdfjsLib.getDocument(pdf).promise;
 
-    this.pdfDoc = data;
-    this.toolbarComponent.setPageCount(data.numPages);
-    EventHandlerService.publish(PDFLEvents.onReadNewPdf, data);
+    this.toolbarComponent.setPageCount(this.pdfDoc.numPages);
+    EventHandlerService.publish(PDFLEvents.onReadNewPdf, this.pdfDoc);
 
     await this.#setupPages();
     this.#renderPages(1);
 
-    extractKeywords(data); //TODO: remove
+    let keywords = await extractKeywords(this.pdfDoc);
+    this.keywordHightlighterComponent.setKeywords(keywords);
   };
 
   /**
@@ -122,6 +127,7 @@ class PdfReaderComponent {
     this.pages = [];
     this.visiblePages = [];
     this.visiblePage = null;
+
     window.scrollTo(0, 0);
   };
 

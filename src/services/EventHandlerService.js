@@ -36,10 +36,10 @@ class EventHandlerService {
  * Enum of possible event type (to avoid typos)
  * @type {{onShowInputView: string, onShowReaderView: string, onRenderPage: string, onShowKnowledgeGraph: string,
  * onResetReader: string, onReadNewFile: string, onShowTransparentSidePageLoader: string, onShowOpaqueSidePageLoader: string,
- * onHideSidePageLoader: string, onShowSidePageError: string, onShowHighlightTutorialWindow: string, onShowGraphTutorialWindow: string, onShowSummaryTutorialWindow: string
- * onHideTutorialWindow: string,
- * onHideSidePageLoader: string, onShowSidePageError: string, onCreateThumbnail: string, onToggleThumbnail:string,
- * onPageChanged: string, onReadNewPdf: string, onSidePageDisplayed: string, onShowTutorialView: string, onShowWelcomeView: string}}
+ * onHideSidePageLoader: string, onShowSidePageError: string, onCreateThumbnail: string, onToggleThumbnail: string,
+ * onPageChanged: string, onHighlightToggle: string, onReadNewPdf: string, onSidePageDisplayed: string
+ * onShowHighlightTutorialWindow: string, onShowGraphTutorialWindow: string, onShowSummaryTutorialWindow: string
+ * onHideTutorialWindow: string, onShowTutorialView: string, onShowWelcomeView: string}}
  */
 const PDFLEvents = {
   onShowWelcomeView: "onShowWelcomeView",
@@ -49,6 +49,7 @@ const PDFLEvents = {
   onShowKnowledgeGraph: "onShowKnowledgeGraph",
   onResetReader: "onResetReader",
   onReadNewFile: "onReadNewFile",
+  onTextLayerRendered: "onTextLayerRendered",
   onLinkLayerRendered: "onLinkLayerRendered",
   onNewPageRequest: "onNewPageRequest",
   onPopupContentReady: "onPopupContentReady",
@@ -71,6 +72,7 @@ const PDFLEvents = {
   onCreateThumbnail: "onCreateThumbnail",
   onToggleThumbnail: "onToggleThumbnail",
   onPageChanged: "onPageChanged",
+  onHighlightToggle: "onHighlightToggle",
   onShowTutorialView: "onShowTutorialView",
   onShowWelcomeView: "onShowWelcomeView",
   onReadNewPdf: "onReadNewPdf",

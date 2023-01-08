@@ -1,4 +1,9 @@
-import { renderText, positionTextLayer, getContext, getViewport } from "../services/TextRenderService";
+import {
+  renderText,
+  positionTextLayer,
+  getContext,
+  getViewport,
+} from "../services/TextRenderService";
 
 /**
  * Represents a pdf page, holds the canvas where the page will be rendered.
@@ -64,7 +69,7 @@ class PdfPageComponent {
 
     this.#startPageRender(page, this.components.canvas, viewport);
 
-    this.#onRenderFinish(page, viewport);
+    await this.#onRenderFinish(page, viewport);
   };
 
   /**
@@ -134,16 +139,16 @@ class PdfPageComponent {
    * @async
    * @param {Page} page pdf.js library page
    * @param {import("pdfjs-dist").PageViewport} viewport of the page
+   * @async
    */
   async #onRenderFinish(page, viewport) {
-    try{
+    try {
       await this.renderTask.promise;
       this.isRendering = false;
       this.isRendered = true;
-
-      renderText(page, this.pageNum, this.components.canvas, viewport);
-    } catch (err){
-      // do nothing, the rendering task was canceled
+      await renderText(page, this.pageNum, this.components.canvas, viewport);
+    } catch {
+      // do nothing, render task cancelled
     }
   }
 }

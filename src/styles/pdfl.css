@@ -1438,6 +1438,9 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 
+.topic-highlighted {
+  background-color: yellow;
+}
   #thumbnail{
     position: fixed;
     overflow-y: scroll;

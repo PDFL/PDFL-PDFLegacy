@@ -11,8 +11,7 @@
 async function extractKeywords(pdfDoc) {
   let keywords = await getKeywordsFromMetadata(pdfDoc);
 
-  if (keywords.length == 0)
-    keywords = await getKeywordsFromText(pdfDoc);
+  if (keywords.length == 0) keywords = await getKeywordsFromText(pdfDoc);
 
   return keywords;
 }
@@ -28,16 +27,18 @@ async function extractKeywords(pdfDoc) {
  */
 async function getKeywordsFromMetadata(pdfDoc) {
   const metadata = await pdfDoc.getMetadata();
-  
+
   let keywords = [];
-  if (metadata.info.Keywords) 
-    keywords = metadata.info.Keywords.split(", ");
-  
+  if (metadata.info.Keywords)
+    keywords = metadata.info.Keywords.split(/[,;]+/).map((keyword) =>
+      keyword.trim()
+    );
+
   return keywords;
 }
 
 /**
- * Extracts keywords from 'Keywords' section in the text 
+ * Extracts keywords from 'Keywords' section in the text
  * of the PDF document. If no keywords are found, empty
  * array is returned.
  * @async
@@ -49,14 +50,18 @@ async function getKeywordsFromText(pdfDoc) {
   let keywords = [];
 
   if (parsedKeywords.length != 0) {
-    parsedKeywords.filter((parsed) => parsed.includes(","))
-        .forEach((parsed) => {
-            parsed.split(",")
-                .filter((keyword) => keyword.trim() != "")
-                .forEach((keyword) => keywords.push(keyword.trim()));
-        });
+    parsedKeywords
+      .filter((parsed) => parsed.includes(","))
+      .forEach((parsed) => {
+        parsed
+          .split(",")
+          .filter((keyword) => keyword.trim() != "")
+          .forEach((keyword) => keywords.push(keyword.trim()));
+      });
 
-    keywords = keywords.concat(parsedKeywords.filter((parsed) => !parsed.includes(",")));
+    keywords = keywords.concat(
+      parsedKeywords.filter((parsed) => !parsed.includes(","))
+    );
   }
 
   return keywords;
@@ -64,7 +69,7 @@ async function getKeywordsFromText(pdfDoc) {
 
 /**
  * Searches for text containing keywords in the text of the PDF
- * document. If there is no 'Keywords' section in text, 
+ * document. If there is no 'Keywords' section in text,
  * an empty array is returned, otherwise returns an array
  * of strings where each string can contain more than one keyword.
  * @async
@@ -78,17 +83,17 @@ async function parseKeywordsFromText(pdfDoc) {
   const keywordsIndex = items.findIndex(
     (item) => item.str.trim().toUpperCase() == "KEYWORDS"
   );
-  
+
   let keywords = [];
   if (items.length != 0 && items[keywordsIndex + 1].str.trim() == ":")
     keywords = extractWordItems(items.slice(keywordsIndex + 2));
-  
+
   return keywords;
 }
 
 /**
  * Filters out all text items that are not empty strings in
- * given items array until it encounters a period character 
+ * given items array until it encounters a period character
  * in that array. Filtered items are returned as an array
  * of strings.
  * @param {Object[]} items text items containing text as

@@ -30,6 +30,7 @@ import { readFile } from "../../services/FileUploadService";
 class ToolbarComponent {
   components = {
     fullScreen: document.querySelector("#full-screen"),
+    highlightToggle: document.querySelector("#highlight-toggle"),
     graphMakerBtn: document.querySelector("#graph-maker"),
     summaryKeyBtn: document.querySelector("#summary-maker"),
     questionMarkHighlight: document.querySelector("#tutorial-highlight"),
@@ -62,6 +63,10 @@ class ToolbarComponent {
    * @private
    */
   #registerEvents = () => {
+    this.components.highlightToggle.addEventListener(
+      "click",
+      this.#onHightlightToggleChange.bind(this)
+    );
     this.components.graphMakerBtn.addEventListener(
       "click",
       this.#showKnowledgeGraph
@@ -235,6 +240,9 @@ class ToolbarComponent {
    */
   reset = () => {
     this.paginationComponent.setCurrentPage(1);
+    if (this.components.highlightToggle.checked == true) {
+      this.components.highlightToggle.click();
+    }
   };
 
   /**
@@ -250,6 +258,18 @@ class ToolbarComponent {
     } else {
       this.#showErrorMessage();
     }
+  };
+
+  /**
+   * Handler for highlight toggle value changes, publishes and event when the
+   * button is toggled.
+   * @private
+   */
+  #onHightlightToggleChange = () => {
+    EventHandlerService.publish(
+      PDFLEvents.onHighlightToggle,
+      this.components.highlightToggle.checked
+    );
   };
 
   /**

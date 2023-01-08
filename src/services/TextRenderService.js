@@ -55,7 +55,7 @@ function createTextLayerDOMIfNotExistReference(pageNum) {
   } else {
     textLayer = document.createElement("div");
     textLayer.setAttribute("class", "textLayer");
-    textLayer.setAttribute("id", "text-layer-reference");      
+    textLayer.setAttribute("id", "text-layer-reference");
   }
   return textLayer;
 }
@@ -67,15 +67,15 @@ function createTextLayerDOMIfNotExistReference(pageNum) {
  * @param {int} pageNum
  * @param {HTMLElement} canvas
  * @param {import("pdfjs-dist").PageViewport} viewport
+ * @async
  */
-export function renderText(page, pageNum, canvas, viewport) {
+export async function renderText(page, pageNum, canvas, viewport) {
   const textLayer = createTextLayerDOMIfNotExist(pageNum);
 
-  page.getTextContent().then(function (textContent) {
-    renderTextLayer(textContent, textLayer, viewport);
-    positionTextLayer(textLayer, canvas);
-    renderLinkLayer(page, textLayer, viewport);
-  });
+  let textContent = await page.getTextContent();
+  await renderTextLayer(textContent, textLayer, viewport);
+  positionTextLayer(textLayer, canvas);
+  renderLinkLayer(page, textLayer, viewport);
 
   //Display the container
   document.querySelector("#pdf-container").appendChild(textLayer);
@@ -89,6 +89,7 @@ export function renderText(page, pageNum, canvas, viewport) {
  * @param {HTMLElement} canvas canvas of the pdf.js page
  */
 export function positionTextLayer(textLayer, canvas) {
+  if (!textLayer) return;
   textLayer.style.left = canvas.offsetLeft + "px";
   textLayer.style.top = canvas.offsetTop + "px";
   textLayer.style.height = canvas.offsetHeight + "px";
@@ -116,14 +117,17 @@ export async function getPageSize(pdfDoc, zoomScale) {
  * @param {import("pdfjs-dist/types/src/display/api").TextContent} textContent
  * @param {HTMLElement} textLayer
  * @param {import("pdfjs-dist").PageViewport} viewport
+ * @async
  */
-function renderTextLayer(textContent, textLayer, viewport) {
-  pdfjsLib.renderTextLayer({
+async function renderTextLayer(textContent, textLayer, viewport) {
+  await pdfjsLib.renderTextLayer({
     textContent: textContent,
     container: textLayer,
     viewport: viewport,
     textDivs: [],
-  });
+  }).promise;
+
+  EventHandlerService.publish(PDFLEvents.onTextLayerRendered, textLayer);
 }
 
 /**
@@ -185,7 +189,7 @@ export function getViewport(page, canvas, zoomScale) {
   return viewport;
 }
 
-  /**
+/**
  * Function to render the page inside the reference side view
  * @param {PDFPageProxy} page where reference is
  * @param {int} pageNumber number of the page where reference is
@@ -193,22 +197,27 @@ export function getViewport(page, canvas, zoomScale) {
  * @param {HTMLElement} container reference window container
  * @param {PageViewport} viewport viewport of page in reference window
  */
-export async function renderPageReference(page, pageNumber, canvas, container, viewport) {
-    const renderCtx = getContext(canvas, viewport);
+export async function renderPageReference(
+  page,
+  pageNumber,
+  canvas,
+  container,
+  viewport
+) {
+  const renderCtx = getContext(canvas, viewport);
 
-    page.render(renderCtx);
+  page.render(renderCtx);
 
-    let existingTextLayer = container.querySelector(".reference-text-layer");
-    if(existingTextLayer)
-      container.removeChild(existingTextLayer);
+  let existingTextLayer = container.querySelector(".reference-text-layer");
+  if (existingTextLayer) container.removeChild(existingTextLayer);
 
-    const textLayer = createTextLayerDOMIfNotExistReference(pageNumber);
+  const textLayer = createTextLayerDOMIfNotExistReference(pageNumber);
 
-    let textContent = await page.getTextContent();
-    positionTextLayer(textLayer, canvas);
-    renderTextLayer(textContent, textLayer, viewport);
+  let textContent = await page.getTextContent();
+  positionTextLayer(textLayer, canvas);
+  renderTextLayer(textContent, textLayer, viewport);
 
-    textLayer.classList.add("reference-text-layer")
-    
-    container.appendChild(textLayer);
+  textLayer.classList.add("reference-text-layer");
+
+  container.appendChild(textLayer);
 }
