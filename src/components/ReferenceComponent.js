@@ -32,13 +32,16 @@ class ReferenceComponent {
       PDFLEvents.onLinkLayerRendered,
       this.#onLinkLayerRendered.bind(this)
     );
+    EventHandlerService.subscribe(PDFLEvents.onReadNewPdf, (pdf) => {
+      this.#setPDF(pdf);
+    });
   };
 
   /**
    * Set the pdf document
    * @param pdfDoc
    */
-  setPdfDoc = (pdfDoc) => {
+  #setPDF = (pdfDoc) => {
     this.pdfDoc = pdfDoc;
   };
 
