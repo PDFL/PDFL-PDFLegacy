@@ -5,7 +5,8 @@
     margin: 0;
     font-family: Montserrat, 'Times New Roman', serif;
     z-index: 999;
-    position: absolute;
+    position: inherit;
+    overflow: hidden;
     top: 0;
     width: 100%;
 }

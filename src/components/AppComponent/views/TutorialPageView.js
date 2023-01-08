@@ -1,13 +1,9 @@
-import {
-  EventHandlerService,
-  PDFLEvents,
-} from "../../../services/EventHandlerService.js";
 import { AppView } from "./AppView.js";
 /**
  * Tutorial Page View
  *
  * @extends AppView
- * @property {HTMLElement} component DOM element representing the file upload view
+ * @property {HTMLElement} component DOM element representing the tutorial page view
  * @property {HTMLElement} components.tutorialPage div that contains the tutorial page
  * @property {HTMLElement} components.backBtn button that let the user come back to last opened view
  */
@@ -18,11 +14,12 @@ class TutorialPageView extends AppView {
   };
 
   /**
-   * Initializes welcome page view - shows current view and hides others.
+   * Initializes tutorial page view
    */
   init() {
     this.#registerEvents();
     this.components.view.hidden = false;
+    document.querySelector("#pdf-viewer").classList.add("hidden");
   }
 
   /**
@@ -31,9 +28,6 @@ class TutorialPageView extends AppView {
    */
   #registerEvents = () => {
     this.components.backBtn.addEventListener("click", this.#showLastView);
-    EventHandlerService.subscribe(PDFLEvents.onShowTutorialView, () => {
-      this.#showTutorialView();
-    });
   };
 
   /**
@@ -42,17 +36,13 @@ class TutorialPageView extends AppView {
    * @private
    */
   #showLastView = () => {
-    document.querySelector("#pdf-viewer").classList.remove("hidden");
+    window.scroll({
+      top: 0,
+      left: 0,
+      behavior: "smooth",
+    });
     this.components.view.hidden = true;
-  };
-
-  /**
-   * Shows tutorial page
-   *
-   * @private
-   */
-  #showTutorialView = () => {
-    document.querySelector("#pdf-viewer").classList.add("hidden");
+    document.querySelector("#pdf-viewer").classList.remove("hidden");
   };
 }
 

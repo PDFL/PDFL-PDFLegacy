@@ -66,7 +66,7 @@ class App {
   };
 
   /**
-   * Switch from the uploader view to the reader one
+   * Switch to Tutorial Page View
    */
   #showTutorialView = () => {
     this.view = new TutorialPageView();
