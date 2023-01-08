@@ -59,6 +59,8 @@ class ReferenceViewComponent {
     EventHandlerService.subscribe(PDFLEvents.onResetReader, () => {
       this.#hidePdfReference();
     });
+
+    this.#positionTextLayerOnWindowResize();
   };
 
   /**
@@ -82,7 +84,7 @@ class ReferenceViewComponent {
     const viewport = page.getViewport({
       scale: 1,
     });
-    
+
     textRenderService.renderPageReference(
       page,
       pageNumber,
@@ -90,7 +92,7 @@ class ReferenceViewComponent {
       this.components.container,
       viewport
     );
-    
+
     this.#setCanvasDimensions(viewport.height, viewport.width);
     this.#positionCloseButton(viewport.width);
   };
@@ -126,7 +128,7 @@ class ReferenceViewComponent {
   };
 
   /**
-   * Hides this component and displays reader in full width (default reader view) 
+   * Hides this component and displays reader in full width (default reader view)
    * or half width which depends isDefaultReaderDisplay parameter.
    * @private
    * @param {boolean} isDefaultReaderDisplay if true (default) reader will be displayed
@@ -147,6 +149,19 @@ class ReferenceViewComponent {
   #setPDF = (pdfDoc) => {
     this.pdfDoc = pdfDoc;
   };
+
+  /**
+   * Positions a text layer when window is being resized.
+   * @private
+   */
+  #positionTextLayerOnWindowResize() {
+    const self = this;
+    window.onresize = function () {
+      const textLayer = self.components.container.querySelector("#text-layer-reference");
+      if (textLayer)
+        textRenderService.positionTextLayer(textLayer, self.components.canvas);
+    };
+  }
 }
 
 export { ReferenceViewComponent };
