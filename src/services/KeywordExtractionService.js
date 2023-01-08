@@ -14,8 +14,6 @@ async function extractKeywords(pdfDoc) {
   if (keywords.length == 0)
     keywords = await getKeywordsFromText(pdfDoc);
 
-  console.log(keywords); //TODO: remove
-
   return keywords;
 }
 
@@ -34,8 +32,6 @@ async function getKeywordsFromMetadata(pdfDoc) {
   let keywords = [];
   if (metadata.info.Keywords) 
     keywords = metadata.info.Keywords.split(", ");
-  else
-    console.warn("Keywords not in metdata!");
   
   return keywords;
 }
