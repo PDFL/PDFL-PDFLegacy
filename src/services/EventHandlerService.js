@@ -39,7 +39,7 @@ class EventHandlerService {
  * onHideSidePageLoader: string, onShowSidePageError: string, onShowHighlightTutorialWindow: string, onShowGraphTutorialWindow: string, onShowSummaryTutorialWindow: string
  * onHideTutorialWindow: string,
  * onHideSidePageLoader: string, onShowSidePageError: string, onCreateThumbnail: string, onToggleThumbnail:string,
- * onPageChanged: string, onReadNewPdf: string, onSidePageDisplayed: string}}
+ * onPageChanged: string, onReadNewPdf: string, onSidePageDisplayed: string, onShowTutorialView: string, onShowWelcomeView: string}}
  */
 const PDFLEvents = {
   onShowWelcomeView: "onShowWelcomeView",
@@ -71,6 +71,8 @@ const PDFLEvents = {
   onCreateThumbnail: "onCreateThumbnail",
   onToggleThumbnail: "onToggleThumbnail",
   onPageChanged: "onPageChanged",
+  onShowTutorialView: "onShowTutorialView",
+  onShowWelcomeView: "onShowWelcomeView",
   onReadNewPdf: "onReadNewPdf",
   onSidePageDisplayed: "onSidePageDisplayed",
 };

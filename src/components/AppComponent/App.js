@@ -1,5 +1,6 @@
 import { ReaderView } from "./views/ReaderView.js";
 import { WelcomeView } from "./views/WelcomeView.js";
+import { TutorialPageView } from "./views/TutorialPageView.js";
 import {
   EventHandlerService,
   PDFLEvents,
@@ -39,6 +40,12 @@ class App {
     EventHandlerService.subscribe(PDFLEvents.onShowReaderView, () => {
       this.#showReaderView();
     });
+    EventHandlerService.subscribe(PDFLEvents.onShowWelcomeView, () => {
+      this.#showWelcomeView();
+    });
+    EventHandlerService.subscribe(PDFLEvents.onShowTutorialView, () => {
+      this.#showTutorialView();
+    });
   };
 
   /**
@@ -55,6 +62,14 @@ class App {
    */
   #showReaderView = () => {
     this.view = new ReaderView();
+    this.view.init();
+  };
+
+  /**
+   * Switch to Tutorial Page View
+   */
+  #showTutorialView = () => {
+    this.view = new TutorialPageView();
     this.view.init();
   };
 }
