@@ -78,7 +78,6 @@ class PdfReaderComponent {
     EventHandlerService.subscribe(PDFLEvents.onRenderPage, (page) => {
       if (this.pages[page - 1])
         this.pages[page - 1].getCanvas().scrollIntoView();
-      this.visiblePages = [page];
       this.#setVisiblePage(page);
     });
 
@@ -114,10 +113,11 @@ class PdfReaderComponent {
   };
 
   /**
-   * Sets current page of pagination component to 1 and current zoom level
-   * of zoom component to 1. Clears pages array.
+   * Resets the pdf reader, destroys the old pdf document, clears its properties,
+   * resets the toolbar and scrolls to the beginning.
    */
   reset = () => {
+    if (this.pdfDoc) this.pdfDoc.destroy();
     this.toolbarComponent.reset();
     this.pages = [];
     this.visiblePages = [];
@@ -157,7 +157,6 @@ class PdfReaderComponent {
     await this.#setCanvasSize();
 
     this.#addVisibilityListenersToPages();
-    this.components.loader.classList.add("hidden");
   }
 
   /**

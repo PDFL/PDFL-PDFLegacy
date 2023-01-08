@@ -51,8 +51,8 @@ class SidePageComponent {
       this.#toggleKnowledgeGraph();
     });
 
-    EventHandlerService.subscribe(PDFLEvents.onShowSummaryKey, () => {
-      this.#toggleSummary();
+    EventHandlerService.subscribe(PDFLEvents.onShowSummaryKey, (openSelectedSummary) => {
+      this.#toggleSummary(openSelectedSummary);
     });
 
     this.components.closeBtn.addEventListener("click", () => {
@@ -98,15 +98,16 @@ class SidePageComponent {
   /**
    * Displays summary in side page if it is not displayed and hides it if displayed.
    * @private
+   * @param {boolean} openSelectedSummary if true selected text summary accordion item will be displayed
    */
-  #toggleSummary = () => {
-    if (this.summaryKeyComponent.isOpened()) return this.#hideSidePage();
+  #toggleSummary = (openSelectedSummary) => {
+    if (!openSelectedSummary && this.summaryKeyComponent.isOpened()) return this.#hideSidePage();
 
     this.loader.hideLoader();
     this.knowledgeGraphComponent.hide();
     this.#showSidePage();
     this.components.closeBtn.className = "close-btn-summary";
-    this.summaryKeyComponent.show();
+    this.summaryKeyComponent.show(openSelectedSummary);
   };
 
   /**

@@ -140,13 +140,25 @@ class SummaryKeyComponent {
    */
   hide = () => {
     this.components.sidePageSummary.classList.add("hidden");
+    this.#hideSelectedText();
+  }
+
+  /**
+   * Closes accordion item of the selected text summary.
+   */
+  #hideSelectedText = () => {
+    document.querySelector("#selected-text-summary").classList.remove("active");
+    document.querySelector("#selected-summary-text-panel").style.maxHeight = null;
   }
 
   /**
    * Displays this whole component.
+   * @param {boolean} openSelectedSummary if true selected text summary accordion item will be displayed
    */
-  show = () => {
+  show = (openSelectedSummary) => {
     this.components.sidePageSummary.classList.remove("hidden");
+    if(openSelectedSummary)
+      this.#showSelectedText();
   }
 }
 

@@ -17,8 +17,10 @@ import { readFile } from "../../services/FileUploadService";
  * @property {HTMLElement} components.thumbnailBtn button that opens the thumbnail
  * @property {PaginationComponent} paginationComponent pagination component
  * @property {ZoomComponent} zoomComponent zoom component
- *
  * @property {HTMLElement} components.summaryKeyBtn button that open and close the sidepage
+ * @property {HTMLElement} components.questionMarkHighlight question mark for highlight tutorial window
+ * @property {HTMLElement} components.questionMarkGraph question mark for graph tutorial window
+ * @property {HTMLElement} components.questionMarkSummary question mark for summary tutorial window
  * @property {HTMLElement} components.openNew button to click for upload a new pdf from the reader component
  * @property {HTMLElement} components.loader loader for showing the pdf uploaded
  * @property {HTMLElement} components.errorMessage error message for a wrong pdf uploaded from the pdf reader component
@@ -29,6 +31,9 @@ class ToolbarComponent {
     highlightToggle: document.querySelector("#highlight-toggle"),
     graphMakerBtn: document.querySelector("#graph-maker"),
     summaryKeyBtn: document.querySelector("#summary-maker"),
+    questionMarkHighlight: document.querySelector("#tutorial-highlight"),
+    questionMarkGraph: document.querySelector("#tutorial-graph"),
+    questionMarkSummary: document.querySelector("#tutorial-summary"),
     thumbnailBtn: document.querySelector("#pages-sidebar"),
     openNew: document.querySelector("#open-new-pdf"),
     loader: document.querySelector("#loader"),
@@ -68,6 +73,48 @@ class ToolbarComponent {
     );
     this.components.fullScreen.addEventListener("click", this.#showFullScreen);
 
+    this.components.questionMarkHighlight.addEventListener(
+      "mouseenter",
+      (event) => {
+        event.preventDefault();
+        EventHandlerService.publish(PDFLEvents.onShowHighlightTutorialWindow);
+      }
+    );
+    this.components.questionMarkHighlight.addEventListener(
+      "mouseleave",
+      (event) => {
+        event.preventDefault();
+        EventHandlerService.publish(PDFLEvents.onHideTutorialWindow);
+      }
+    );
+    this.components.questionMarkGraph.addEventListener(
+      "mouseenter",
+      (event) => {
+        event.preventDefault();
+        EventHandlerService.publish(PDFLEvents.onShowGraphTutorialWindow);
+      }
+    );
+    this.components.questionMarkGraph.addEventListener(
+      "mouseleave",
+      (event) => {
+        event.preventDefault();
+        EventHandlerService.publish(PDFLEvents.onHideTutorialWindow);
+      }
+    );
+    this.components.questionMarkSummary.addEventListener(
+      "mouseenter",
+      (event) => {
+        event.preventDefault();
+        EventHandlerService.publish(PDFLEvents.onShowSummaryTutorialWindow);
+      }
+    );
+    this.components.questionMarkSummary.addEventListener(
+      "mouseleave",
+      (event) => {
+        event.preventDefault();
+        EventHandlerService.publish(PDFLEvents.onHideTutorialWindow);
+      }
+    );
     this.components.thumbnailBtn.addEventListener(
       "click",
       this.#toggleThumbnail
