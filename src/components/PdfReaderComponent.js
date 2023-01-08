@@ -101,7 +101,7 @@ class PdfReaderComponent {
     this.components.loader.classList.add("hidden");
 
     let data = await pdfjsLib.getDocument(pdf).promise;
-
+    
     this.pdfDoc = data;
     this.toolbarComponent.setPageCount(data.numPages);
     EventHandlerService.publish(PDFLEvents.onReadNewPdf, data);
@@ -150,7 +150,6 @@ class PdfReaderComponent {
     await this.#setCanvasSize();
 
     this.#addVisibilityListenersToPages();
-    this.components.loader.classList.add("hidden");
   }
 
   /**

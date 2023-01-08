@@ -17,8 +17,10 @@ import { readFile } from "../../services/FileUploadService";
  * @property {HTMLElement} components.thumbnailBtn button that opens the thumbnail
  * @property {PaginationComponent} paginationComponent pagination component
  * @property {ZoomComponent} zoomComponent zoom component
- * 
  * @property {HTMLElement} components.summaryKeyBtn button that open and close the sidepage
+ * @property {HTMLElement} components.questionMarkHighlight question mark for highlight tutorial window
+ * @property {HTMLElement} components.questionMarkGraph question mark for graph tutorial window
+ * @property {HTMLElement} components.questionMarkSummary question mark for summary tutorial window
  * @property {HTMLElement} components.openNew button to click for upload a new pdf from the reader component
  * @property {HTMLElement} components.loader loader for showing the pdf uploaded
  * @property {HTMLElement} components.errorMessage error message for a wrong pdf uploaded from the pdf reader component
@@ -28,6 +30,9 @@ class ToolbarComponent {
     fullScreen: document.querySelector("#full-screen"),
     graphMakerBtn: document.querySelector("#graph-maker"),
     summaryKeyBtn: document.querySelector("#summary-maker"),
+    questionMarkHighlight: document.querySelector("#tutorial-highlight"),
+    questionMarkGraph: document.querySelector("#tutorial-graph"),
+    questionMarkSummary: document.querySelector("#tutorial-summary"),
     thumbnailBtn: document.querySelector("#pages-sidebar"),
     openNew: document.querySelector("#open-new-pdf"),
     loader: document.querySelector("#loader"),
@@ -63,6 +68,48 @@ class ToolbarComponent {
     );
     this.components.fullScreen.addEventListener("click", this.#showFullScreen);
 
+    this.components.questionMarkHighlight.addEventListener(
+      "mouseenter",
+      (event) => {
+        event.preventDefault();
+        EventHandlerService.publish(PDFLEvents.onShowHighlightTutorialWindow);
+      }
+    );
+    this.components.questionMarkHighlight.addEventListener(
+      "mouseleave",
+      (event) => {
+        event.preventDefault();
+        EventHandlerService.publish(PDFLEvents.onHideTutorialWindow);
+      }
+    );
+    this.components.questionMarkGraph.addEventListener(
+      "mouseenter",
+      (event) => {
+        event.preventDefault();
+        EventHandlerService.publish(PDFLEvents.onShowGraphTutorialWindow);
+      }
+    );
+    this.components.questionMarkGraph.addEventListener(
+      "mouseleave",
+      (event) => {
+        event.preventDefault();
+        EventHandlerService.publish(PDFLEvents.onHideTutorialWindow);
+      }
+    );
+    this.components.questionMarkSummary.addEventListener(
+      "mouseenter",
+      (event) => {
+        event.preventDefault();
+        EventHandlerService.publish(PDFLEvents.onShowSummaryTutorialWindow);
+      }
+    );
+    this.components.questionMarkSummary.addEventListener(
+      "mouseleave",
+      (event) => {
+        event.preventDefault();
+        EventHandlerService.publish(PDFLEvents.onHideTutorialWindow);
+      }
+    );
     this.components.thumbnailBtn.addEventListener(
       "click",
       this.#toggleThumbnail
@@ -125,7 +172,10 @@ class ToolbarComponent {
    * @private
    */
   #toggleThumbnail = () => {
-    EventHandlerService.publish(PDFLEvents.onToggleThumbnail, this.paginationComponent.getCurrentPage());
+    EventHandlerService.publish(
+      PDFLEvents.onToggleThumbnail,
+      this.paginationComponent.getCurrentPage()
+    );
   };
 
   /**
@@ -167,48 +217,47 @@ class ToolbarComponent {
     this.paginationComponent.setCurrentPage(1);
   };
 
-
-    /**
+  /**
    * Call back for checking file format and read it. If the file is not a pdf an error message is displayed
    * @private
    */
-    #onNewFile = (event) => {
-      if(!event.target.files[0]) return;
-      if (event.target.files[0].type === "application/pdf") {
-        this.#showLoader();
-        this.#hideErrorMessage();
-        readFile(event.target.files[0]);
-      } else {
-        this.#showErrorMessage();
-      }
-    };
-  
-    /**
-     * Hide error message
-     * @private
-     */
-    #hideErrorMessage = () => {
-      this.components.errorMessage.classList.add("hidden");
-    };
-  
-    /**
-     * Show error message
-     * @private
-     */
-    #showErrorMessage = () => {
-      clearTimeout(messageErrorTimeOut);
-      this.components.errorMessage.classList.remove("hidden");
-      var messageErrorTimeOut = setTimeout(() => {
-        this.hideErrorMessage();
-      }, POPUP_DISAPPEAR_TIMEOUT);
-    };
-  
-    /**
-     * Show loader
-     * @private
-     */
-    #showLoader = () => {
-      this.components.loader.classList.remove("hidden");
-    };
+  #onNewFile = (event) => {
+    if (!event.target.files[0]) return;
+    if (event.target.files[0].type === "application/pdf") {
+      this.#showLoader();
+      this.#hideErrorMessage();
+      readFile(event.target.files[0]);
+    } else {
+      this.#showErrorMessage();
+    }
+  };
+
+  /**
+   * Hide error message
+   * @private
+   */
+  #hideErrorMessage = () => {
+    this.components.errorMessage.classList.add("hidden");
+  };
+
+  /**
+   * Show error message
+   * @private
+   */
+  #showErrorMessage = () => {
+    clearTimeout(messageErrorTimeOut);
+    this.components.errorMessage.classList.remove("hidden");
+    var messageErrorTimeOut = setTimeout(() => {
+      this.hideErrorMessage();
+    }, POPUP_DISAPPEAR_TIMEOUT);
+  };
+
+  /**
+   * Show loader
+   * @private
+   */
+  #showLoader = () => {
+    this.components.loader.classList.remove("hidden");
+  };
 }
 export { ToolbarComponent };
