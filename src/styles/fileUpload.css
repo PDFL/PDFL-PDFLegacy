@@ -160,7 +160,14 @@ font-family: var(--font);
 }
 
 #about-tutorial-window{
-  width: 600px;
+  width: 700px;
+  overflow-y: auto;
+  max-height: 80vh;
+}
+
+.about-description{
+  font-family: var(--font);
+  font-size: 15px;
 }
 
 
@@ -180,30 +187,29 @@ font-family: var(--font);
   transform: none;
   top: unset; 
 }
-
 }
 
 
 @media (min-width: 1200px){
-#layout {
-  display: inline-flex;
-  flex-wrap: wrap;
-  gap: 8em;
-  justify-content: center;
-  align-items: center;
-}
-#text{
-  text-align: left;
-  width: 20%;
-}
-#media-text{
-  display: flex;
-  margin-top: -20px;
-  justify-content: left;
-  align-items: left;
-}
-#uploader-container{
-  top: 50%; /* moved down by 50% of the screen height */
-  transform: translateY(-50%); /* moved back up (Y axis) by half of its height to achieve the perfect center */
-}
+  #layout {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 8em;
+    justify-content: center;
+    align-items: center;
+  }
+  #text{
+    text-align: left;
+    width: 20%;
+  }
+  #media-text{
+    display: flex;
+    margin-top: -20px;
+    justify-content: left;
+    align-items: left;
+  }
+  #uploader-container{
+    top: 50%; /* moved down by 50% of the screen height */
+    transform: translateY(-50%); /* moved back up (Y axis) by half of its height to achieve the perfect center */
+  }
 }
