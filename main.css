@@ -1905,6 +1905,9 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 
+.topic-highlighted {
+  background-color: yellow;
+}
   #thumbnail{
     position: fixed;
     overflow-y: scroll;
@@ -1946,6 +1949,7 @@ input[type="number"]::-webkit-outer-spin-button {
     position: fixed;
     z-index: 3;
   }
+
 #tutorial-page{
     background: rgb(255, 255, 255);
     margin: 0;
