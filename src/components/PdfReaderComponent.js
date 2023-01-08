@@ -110,8 +110,8 @@ class PdfReaderComponent {
   };
 
   /**
-   * Sets current page of pagination component to 1 and current zoom level
-   * of zoom component to 1. Clears pages array.
+   * Resets the pdf reader, destroys the old pdf document, clears its properties,
+   * resets the toolbar and scrolls to the beginning.
    */
   reset = () => {
     if (this.pdfDoc) this.pdfDoc.destroy();
