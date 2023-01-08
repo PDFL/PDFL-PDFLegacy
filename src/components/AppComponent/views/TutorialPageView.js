@@ -37,7 +37,7 @@ class TutorialPageView extends AppView {
    */
   #showLastView = () => {
     window.scroll({
-      top: 0,
+      top: 80,
       left: 0,
       behavior: "smooth",
     });
