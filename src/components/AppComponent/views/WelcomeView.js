@@ -131,7 +131,7 @@ class WelcomeView extends AppView {
   };
 
   /**
-   * Triggers the onShowTutorialView
+   * Triggers the onShowTutorialView event
    */
   #showTutorialPage = () => {
     EventHandlerService.publish(PDFLEvents.onShowTutorialView);
