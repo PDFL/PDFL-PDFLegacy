@@ -1,4 +1,5 @@
 @import url(https://fonts.googleapis.com/css2?family=Roboto&display=swap);
+@import url(https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap);
 *{
   box-sizing: border-box;
 }
@@ -83,6 +84,7 @@
 
 .footer-text{
   font-size: 10px;
+  margin-top: 50px;
 }
 
 #file-upload-form {
@@ -434,7 +436,7 @@ input[type=checkbox]{
 }
 
 input:checked + .slider {
-  background-color: var(--color);
+  background-color: var(--iconColor);
 }
 
 input:focus + .slider {
@@ -1944,3 +1946,66 @@ input[type="number"]::-webkit-outer-spin-button {
     position: fixed;
     z-index: 3;
   }
+#tutorial-page{
+    background: rgb(255, 255, 255);
+    margin: 0;
+    font-family: Montserrat, 'Times New Roman', serif;
+    z-index: 999;
+    position: inherit;
+    overflow: hidden;
+    top: 0;
+    width: 100%;
+}
+
+.sidenav {
+    height: 100vh;
+    width: 180px;
+    position: fixed;
+    z-index: 1;
+    top: 10%;
+    left: 5%;
+    overflow-x: hidden;
+    padding-top: 20px;
+    padding-left: 10px;
+  }
+.sidenav > a {
+    padding: 6px 8px 15px 16px;
+    text-decoration: none;
+    color: #818181;
+    display: block;
+    font-weight: 600;
+    font-size: 13px;
+    text-align: left;
+    border-left: 1px solid;
+  }
+.sidenav > a:hover {
+    color: var(--iconColor);
+  }
+
+#tutorial-text{
+    position: relative;
+    width: 60vw;
+    left: 20%;
+    text-align: justify;
+    color: rgb(0, 0, 0);
+    padding-top: 40px;
+    padding-bottom: 200px;
+}
+
+#back-btn{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  width: 150px;
+  padding: 10px;
+  border-radius: 5px;
+  font-weight: 600;
+  font-family: Montserrat, 'Times New Roman', serif;
+  background-color: var(--iconColor);
+}
+
+li{
+  margin-bottom: 10px;
+}
+
