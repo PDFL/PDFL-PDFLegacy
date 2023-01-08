@@ -30,6 +30,7 @@
     font-weight: 600;
     font-size: 13px;
     text-align: left;
+    border-left: 1px solid;
   }
 .sidenav > a:hover {
     color: var(--iconColor);
