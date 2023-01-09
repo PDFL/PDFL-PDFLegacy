@@ -145,58 +145,61 @@
     font-size: 26px;
   }
 
-
-
-/*RESPONSIVE NAVBAR MENU STARTS*/
-/* CHECKBOX HACK */
-input[type=checkbox]{
-    display: none;
-} 
-/*HAMBURGER MENU*/
-.hamburger {
-    font-size: 20px;
+  .no-width{
+    width: 0;
+  }
+  
+  .half-width{
+    width: 50%;
+  }
+  
+  .full-width{
+    width: 100%;
+  }
+  
+  #num-pages {
+    position: relative;
+  }
+  
+  #num-pages .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 10px 0;
+    position: absolute;
+    top: -10px;
+    left: 200%;
+    margin-left: -60px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    background-color: #045;
+    cursor: auto;
+  }
+  
+  #num-pages .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 100%;
+    margin-top: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent #045 transparent transparent;
+  }
+  
+  #num-pages:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+  }
+  
+  .material-icons{
     user-select: none;
-    padding-left: 20px;
-    padding-right: 20px;
-}
+  }
 
 
-/* APPLYING MEDIA QUERIES */
-@media (max-width: 768px) {
-    #menu { 
-        display:none;
-        position: absolute;
-        background-color: white;
-        right: 0;
-        left: 0;
-        text-align: center;
-        padding: 16px 0;
-
-    }
-    #menu li:hover {
-        display: inline-block;
-        background-color:white;
-        transition: 0.3s ease;
-    }
-    #menu li + li {
-        margin-top: 12px;
-    }
-    input[type=checkbox]:checked ~ #menu{
-        display: block;
-    }
-    .hamburger {
-        display: block;
-        margin-right: 10px;
-    }
-    .dropdown {
-        left: 50%;
-        top: 30px;
-        transform: translateX(35%);
-    }
-    .dropdown li:hover {
-        background-color: white;
-    }
-}
 
 /* CSS toggl button highlight */
 /* CSS toggl button highlight */
@@ -268,3 +271,139 @@ input:checked + .slider:before {
   align-items: center;
   font-size: 12px;
 }
+
+input[type="checkbox"] {
+  display: none;
+}
+
+.hamburger {
+  font-size: 20px;
+  user-select: none;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+
+/* CSS for tooltip */
+
+.tooltip-text {
+  visibility: hidden;
+  position: absolute;
+  top: 30px;
+  left: -140%;
+  z-index: 999;
+  width: 240px;
+  color: white;
+  font-size: 12px;
+  background-color: rgba(85, 85, 85, 0.5);
+  text-align: center;
+  border-radius: 6px;
+  padding: 10px 0 10px 0;
+  cursor: default;
+}
+
+.sidetoolbar:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+
+
+.padding:hover .tooltip-text{
+  visibility: visible;
+}
+
+.w-90{
+  width: 90px;
+}
+
+.w-120{
+  width: 120px;
+}
+.w-140{
+  width: 140px;
+}
+.w-180{
+  width: 180px;
+}
+
+.question-mark-tutorial{
+  transform: scale(0.7);
+  cursor: pointer;
+  background-color: var(--color);
+  padding: 3px;
+  border-radius: 5px;
+  position: absolute;
+  bottom: -20px;
+  right: -10px;
+  z-index: 999;
+}
+
+
+/* Css for Reference */
+#pop-up{
+  position: absolute;
+  width: auto;
+  height: auto;
+  background-color: white;
+  box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  border-radius: 10px;
+}
+
+#content-reference-div{
+  width: 250px;
+  background-color: white;
+  border-radius: 10px;
+  z-index: 999;
+}
+
+#pop-up-title{
+  color: black;
+  margin-left: 20px;
+  font-size: 13px;
+  font-weight: 900;
+  align-items: left;
+}
+
+#hr-pop-up{
+  color: black;
+  width: 90%;
+  margin-top: -5px;
+}
+
+#pop-up-text{
+  color: black;
+  text-align: justify;
+  font-weight: 200;
+  margin-left: 15px;
+  margin-right: 15px;
+  font-size: 9px;
+  z-index: 999;
+}
+
+#image-pop-up{
+  width: 250px;
+  height: auto;
+}
+
+#side-page-reference-btn{
+  position: relative;
+  float: right;
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+  border-color: var(--iconColor);
+  background-color: var(--iconColor);
+  margin-bottom: -20px;
+  margin-left: -20px;
+}
+
+#open-in-the-side-icon{
+  color: white;
+  cursor: pointer;
+  transform: scale(0.8);
+}
+
+

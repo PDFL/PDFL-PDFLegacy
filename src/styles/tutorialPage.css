@@ -64,3 +64,65 @@
 li{
   margin-bottom: 10px;
 }
+
+/*ABOUT US PAGE */
+
+.about-title {
+  color: var(--color);
+  font-size: 26px;
+  font-weight: 900;
+  line-height: 30px;
+}
+
+#close-about:hover{
+    color: red;
+}
+
+#about-tutorial-window{
+  width: 700px;
+  overflow-y: auto;
+  max-height: 80vh;
+}
+
+.about-description{
+  font-family: var(--font);
+  font-size: 15px;
+}
+
+
+
+
+/* CSS for tutorial window */
+#tutorial{
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 997;
+  top: 2%;
+  position: fixed;
+  justify-content: center;
+  align-items: center;
+  
+}
+
+.tutorial-window{
+  z-index: 998;
+  background-color: white;
+  border-radius: 10px;
+  width: 600px;
+  text-align:justify;
+  padding: 20px;
+  transform: scale(0.9);
+}
+
+.gif-tutorial{width: 100%;}
+
+#abt-tutorial{
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 997;
+  position: fixed;
+  justify-content: center;
+  align-items: center;
+}
