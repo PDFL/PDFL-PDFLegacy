@@ -550,12 +550,18 @@ body{
   margin-top: 40px;
   width: 50px;
   height: auto;
+  cursor: default;
 }
 
 .text-card-welcome-page{
   text-align: center;
   color: rgb(0, 0, 0);
 }
+
+.text-card-container{
+  cursor: default;
+}
+
 /*CSS Carousel*/
 .card {
   width: 100%;
