@@ -180,17 +180,17 @@ describe("Basic reader functionallity (TA-1 to TA-13)", () => {
     cy.wait(300);
 
     cy.get("body")
-      .type("{ctrl} +")
+      .type("{ctrl}{cmd} +")
       .get('input[id="zoom-level"]')
       .should("have.value", "133%");
 
     cy.get("body")
-      .type("{ctrl} -")
+      .type("{ctrl}{cmd} -")
       .get('input[id="zoom-level"]')
       .should("have.value", "100%");
 
     cy.get("body")
-      .type("{ctrl} -")
+      .type("{ctrl}{cmd} -")
       .get('input[id="zoom-level"]')
       .should("have.value", "75%");
   });
