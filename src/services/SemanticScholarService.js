@@ -26,7 +26,7 @@ async function getPaperInfo(pdfDoc) {
 
 /**
  * @async
- * Fetch TLDR and abstract from semantic scholar
+ * Get paper ID from paper info and call Abstract and TLDR fetch
  * @param pdfDoc PDF Document to search for
  * @returns {Promise<{tldr: null, abstract: null}|null>}
  */
@@ -35,12 +35,21 @@ async function getPaperTldrAndAbstract(pdfDoc) {
   if (!currentPaperInfo) {
     return null;
   }
-  let abstracts = await fetchPaperTldrAndAbstract(currentPaperInfo.paperId);
+  return fetchAndComputeTldrAndAbstract(currentPaperInfo.paperId);
+}
+
+/**
+ * Fetch and prepare TLDR and abstract object to be returned
+ * @param {string} paperId the ID of the paper
+ * @return {Promise<{tldr: string, abstract: string}>}
+ */
+async function fetchAndComputeTldrAndAbstract(paperId) {
+  let abstracts = await fetchPaperTldrAndAbstract(paperId);
   var texts = {
     tldr: null,
     abstract: null,
   };
-  if (abstracts.tldr.text) {
+  if (abstracts.tldr && abstracts.tldr.text) {
     texts.tldr = abstracts.tldr.text;
   }
   if (abstracts.abstract) {
@@ -49,4 +58,8 @@ async function getPaperTldrAndAbstract(pdfDoc) {
   return texts;
 }
 
-export { getPaperInfo, getPaperTldrAndAbstract };
+export {
+  getPaperInfo,
+  getPaperTldrAndAbstract,
+  fetchAndComputeTldrAndAbstract,
+};
