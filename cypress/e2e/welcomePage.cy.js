@@ -1,4 +1,4 @@
-describe("PDF Legacy welcom2 page tests", () => {
+describe("PDF Legacy welcome page tests", () => {
   beforeEach(() => {
     cy.visit("https://pdfl-pdf-legacy.onrender.com/#");
   });

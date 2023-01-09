@@ -12,7 +12,7 @@ describe("Summary functionalities (TA-20 to TA-22)", () => {
 
   it("TA-20: Open summary section", () => {
 
-    cy.get("#end > :nth-child(5)")
+    cy.get("#end > :nth-child(6)")
       .click();
 
     cy.get("#side-page-summary")
@@ -22,7 +22,7 @@ describe("Summary functionalities (TA-20 to TA-22)", () => {
 
   it("TA-21: Open TLDR, Abstract, Abstract summary, Selected text section in the summary layout", () => {
 
-    cy.get("#end > :nth-child(5)")
+    cy.get("#end > :nth-child(6)")
       .click();
 
     cy.get("#tldr")
