@@ -28,33 +28,25 @@ describe("PDF Legacy welcome page tests", () => {
       .get(".card").should("exist")
       .get('.icon-welcome-page').should("exist")
       .get(".text-card-welcome-page")
-      .contains("Read the paper with an extra gear. " +
-      "Hover the references and extract data from them. " +
-      "You can also have two pages open, " +
-      "so you can view the contents of the reference at the same time");
+      .contains("Read the paper with extra gear! Hover over the reference and display the corresponding subject in a popup or a side page.");
 
     cy.get("#carousel").get("#slider").should("exist")
       .get(".card").should("exist")
       .get('.icon-welcome-page').should("exist")
       .get(".text-card-welcome-page")
-      .contains("A text wall? Summarize your paper for each key component in a few lines! " +
-        "You can also select just a piece of text with the mouse");
+      .contains("Improve your reading efficiency with summarization tool! You can summarize the whole paper or select the text you want to summarize.");
 
     cy.get("#carousel").get("#slider").should("exist").get("div")
       .get(".card").should("exist")
       .get('.icon-welcome-page').should("exist")
       .get(".text-card-welcome-page")
-      .contains("Discover the knowledge graph that showing the citation " +
-        "relations of all the papers in the references section of your current paper." +
-        " This can help to understand the relations between each work better.");
+      .contains("Create the knowledge graph that shows the citation relations of all the papers in the references section of the paper you are reading.");
 
     cy.get("#carousel").get("#slider").should("exist")
       .get(".card").should("exist")
       .get('.icon-welcome-page').should("exist")
       .get(".text-card-welcome-page")
-      .contains("A paper can involve using many typical phrases/sentences for introduction, " +
-        "background description and experiment result analyses. " +
-        "We identifying and highlighting these sentences");
+      .contains("Keywords in research papers are phrases that define the research topic. With this tool you can highlight sentences containing paper keywords.");
 
     cy.get(".black-logo").should("exist");
 
