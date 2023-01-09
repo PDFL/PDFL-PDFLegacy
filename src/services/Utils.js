@@ -34,16 +34,6 @@ function mouseOverDelayEvent(element, delay = 2000, callback) {
 }
 
 /**
- * Sets timeout of given milliseconds.
- *
- * @param {int} ms milliseconds
- * @returns {Promise} empty promise
- */
-function timeout(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
-/**
  * Takes an array of colors by string and merges them into
  * one color. Averages out the r,g and b components.
  *
@@ -122,7 +112,6 @@ function isChildOf(target, element) {
 
 export {
   compareSimilarity,
-  timeout,
   mouseOverDelayEvent,
   mergeColors,
   respondToVisibility,
