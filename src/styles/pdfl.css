@@ -443,8 +443,3 @@ input[type="number"]::-webkit-outer-spin-button {
 .full-opacity{
   opacity: 1;
 }
-
-.reference-text-layer{
-  position: fixed;
-  z-index: 3;
-}
