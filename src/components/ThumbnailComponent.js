@@ -8,7 +8,7 @@ import { THUMBNAIL_PAGE_VIEWPORT_SCALE } from "../Constants";
  * Component responsible for creating and displaying PDF thumbnail.
  * The thumbnail contains all PDF pages which can be scrolled through and
  * clicked.
- * 
+ *
  * @property {Object} components object that holds all DOM elements within this component
  * @property {HTMLElement} components.toolbar element that represents this component
  * @property {boolean} isOpened state of component which can be either closed or opened
@@ -35,9 +35,9 @@ class ThumbnailComponent {
    * @private
    */
   #registerEvents = () => {
-    EventHandlerService.subscribe(PDFLEvents.onReadNewPdf, (pdfDoc) =>{
-      this.#createNewThumbnail(pdfDoc, this.abortController.signal)
-  });
+    EventHandlerService.subscribe(PDFLEvents.onReadNewPdf, (pdfDoc) => {
+      this.#createNewThumbnail(pdfDoc, this.abortController.signal);
+    });
 
     EventHandlerService.subscribe(PDFLEvents.onToggleThumbnail, (pageNumber) =>
       this.#toggle(pageNumber)
@@ -101,7 +101,7 @@ class ThumbnailComponent {
       }
       await this.#createPage(await this.pdfDoc.getPage(pageNumber), pageNumber);
     }
-    
+
     this.isRendering = false;
   };
 
@@ -120,12 +120,15 @@ class ThumbnailComponent {
   #createPage = async (page, num) => {
     let viewport = this.#createPageViewport(page);
     let canvas = this.#createPageCanvas(viewport, num);
-
-    await page.render({
-      canvasContext: canvas.getContext("2d"),
-      viewport: viewport,
-    }).promise;
-    this.#createPageContainer(canvas, num);
+    try {
+      await page.render({
+        canvasContext: canvas.getContext("2d"),
+        viewport: viewport,
+      }).promise;
+      this.#createPageContainer(canvas, num);
+    } catch {
+      console.warn("Render process error");
+    }
   };
 
   /**
