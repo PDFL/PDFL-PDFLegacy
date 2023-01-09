@@ -143,6 +143,9 @@ describe("Basic reader functionallity (TA-1 to TA-13)", () => {
   });
 
   it("TA-06: Scrolling", () => {
+
+    cy.scrollTo(0, 3000);
+
     cy.scrollTo("bottom");
 
     cy.get("#text-layer-14").should("be.visible");
@@ -167,6 +170,9 @@ describe("Basic reader functionallity (TA-1 to TA-13)", () => {
   });
 
   it("TA-08: Zoom in (out) (with keyboard shortcuts)", () => {
+
+    cy.wait(300);
+
     cy.get("body")
       .type("{ctrl} +")
       .get('input[id="zoom-level"]')
