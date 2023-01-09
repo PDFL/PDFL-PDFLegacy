@@ -35,12 +35,21 @@ async function getPaperTldrAndAbstract(pdfDoc) {
   if (!currentPaperInfo) {
     return null;
   }
-  let abstracts = await fetchPaperTldrAndAbstract(currentPaperInfo.paperId);
+  return fetchAndComputeTldrAndAbstract(currentPaperInfo.paperId);
+}
+
+/**
+ *
+ * @param {string} paperId the ID of the paper
+ * @return {Promise<{tldr: string, abstract: string}>}
+ */
+async function fetchAndComputeTldrAndAbstract(paperId) {
+  let abstracts = await fetchPaperTldrAndAbstract(paperId);
   var texts = {
     tldr: null,
     abstract: null,
   };
-  if (abstracts.tldr.text) {
+  if (abstracts.tldr && abstracts.tldr.text) {
     texts.tldr = abstracts.tldr.text;
   }
   if (abstracts.abstract) {
@@ -49,4 +58,8 @@ async function getPaperTldrAndAbstract(pdfDoc) {
   return texts;
 }
 
-export { getPaperInfo, getPaperTldrAndAbstract };
+export {
+  getPaperInfo,
+  getPaperTldrAndAbstract,
+  fetchAndComputeTldrAndAbstract,
+};
