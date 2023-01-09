@@ -17,8 +17,14 @@ import {
  * @property {HTMLElement} components.buttonFile button that takes user to file input page
  * @property {HTMLElement} components.dropArea rectangle in which PDF file can be dropped to and uploaded
  * @property {HTMLElement} components.fileOpen input element used for PDF file upload
+ * @property {HTMLElement} components.buttonAbout button that opens about popup
+ * @property {HTMLElement} components.panelTutorial element that represents the tutorial window for about view
+ * @property {HTMLElement} components.aboutPopupView element which is a popup with text that represents about page view
+ * @property {HTMLElement} components.buttonCloseAbout button that closes about popup
+=======
  * @property {HTMLElement} components.errorMessage error message showed when the user try to upload a file that is not a pdf
  * @property {HTMLElement} components.tutorialPageBtn button that takes user to tutorial page
+
  */
 class WelcomeView extends AppView {
   components = {
@@ -27,6 +33,10 @@ class WelcomeView extends AppView {
     dropArea: document.getElementById("file-drag"),
     fileOpen: document.getElementById("file-open"),
     errorMessage: document.getElementById("message-wrong-type-fileupload"),
+    buttonAbout: document.getElementById("btn-about"),
+    panelTutorial: document.getElementById("abt-tutorial"),
+    aboutPopupView: document.getElementById("about-tutorial-window"),
+    buttonCloseAbout: document.getElementById("close-about"),
     tutorialPageBtn: document.getElementById("tutorial-welcome-page"),
   };
 
@@ -49,6 +59,8 @@ class WelcomeView extends AppView {
     this.components.dropArea.addEventListener("dragover", this.#onDragOver);
     this.components.dropArea.addEventListener("dragleave", this.#onDragLeave);
     this.components.dropArea.addEventListener("drop", this.#onDrop);
+    this.components.buttonAbout.addEventListener("click", this.#openAbout);
+    this.components.buttonCloseAbout.addEventListener("click", this.#closeAbout);
     this.components.tutorialPageBtn.addEventListener(
       "click",
       this.#showTutorialPage
@@ -131,8 +143,25 @@ class WelcomeView extends AppView {
   };
 
   /**
-   * Triggers the onShowTutorialView event
+   * Display about tutorial window
+   * @private
    */
+  #openAbout = () => {
+    this.components.panelTutorial.style = "display:flex";
+    this.components.aboutPopupView.classList.remove("hidden");
+  };
+
+  /**
+   * Hides the background panel of the tutorial window and about popup window
+   * @private
+   */
+  #closeAbout = () => {
+    this.components.panelTutorial.style = "display:none";
+    this.components.aboutPopupView.classList.add("hidden");
+  }
+
+  /* Triggers the onShowTutorialView event
+  */
   #showTutorialPage = () => {
     EventHandlerService.publish(PDFLEvents.onShowTutorialView);
   };

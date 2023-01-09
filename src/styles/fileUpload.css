@@ -63,10 +63,6 @@
   text-align: left;
 }
 
-.pointer:before {
-   content: "→";
-}
-
 .btn-welcome:before {
     float: right;
     font-size: 14px;
@@ -74,7 +70,9 @@
     pointer-events: none;
     text-align: center;
     width: 1em;
+    content: "→";
 }
+
 
 .inline{
   display: inline-grid;
@@ -150,6 +148,30 @@ margin: 0; /* again, for perfect center */
 font-family: var(--font);
 }
 
+/*ABOUT US PAGE */
+
+.about-title {
+  color: var(--color);
+  font-size: 26px;
+  font-weight: 900;
+  line-height: 30px;
+}
+
+#close-about:hover{
+    color: red;
+}
+
+#about-tutorial-window{
+  width: 700px;
+  overflow-y: auto;
+  max-height: 80vh;
+}
+
+.about-description{
+  font-family: var(--font);
+  font-size: 15px;
+}
+
 
 
 @media (min-width: 568px){
@@ -167,30 +189,29 @@ font-family: var(--font);
   transform: none;
   top: unset; 
 }
-
 }
 
 
 @media (min-width: 1200px){
-#layout {
-  display: inline-flex;
-  flex-wrap: wrap;
-  gap: 8em;
-  justify-content: center;
-  align-items: center;
-}
-#text{
-  text-align: left;
-  width: 20%;
-}
-#media-text{
-  display: flex;
-  margin-top: -20px;
-  justify-content: left;
-  align-items: left;
-}
-#uploader-container{
-  top: 50%; /* moved down by 50% of the screen height */
-  transform: translateY(-50%); /* moved back up (Y axis) by half of its height to achieve the perfect center */
-}
+  #layout {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 8em;
+    justify-content: center;
+    align-items: center;
+  }
+  #text{
+    text-align: left;
+    width: 20%;
+  }
+  #media-text{
+    display: flex;
+    margin-top: -20px;
+    justify-content: left;
+    align-items: left;
+  }
+  #uploader-container{
+    top: 50%; /* moved down by 50% of the screen height */
+    transform: translateY(-50%); /* moved back up (Y axis) by half of its height to achieve the perfect center */
+  }
 }

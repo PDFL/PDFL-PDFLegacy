@@ -42,12 +42,12 @@
                                 </label>
                             </form>
                         </div>
-                        <button class="btn-welcome pointer">
+                        <button id="btn-about" class="btn-welcome">
                             <div>About Us
                                 <span aria-hidden="true" data-icon="+">
                             </div>
                         </button>
-                        <button class="btn-welcome pointer" id="tutorial-welcome-page">
+                        <button class="btn-welcome" id="tutorial-welcome-page">
                             <div>Tutorial Page
                                 <span aria-hidden="true" data-icon="+">
                             </div>
@@ -145,6 +145,52 @@
         </div>
         <div id="logo">
             <img src="assets/logo.png" class="black-logo" />
+        </div>
+        <div id="abt-tutorial" class="hidden">
+            <div class="tutorial-window hidden" id="about-tutorial-window">
+                <div style="text-align: end">
+                    <a id="close-about" style="font-size: 50px;cursor:pointer">&times;</a>
+                </div>
+                <div class="container" style="margin-top:-15px">
+                    <div class="about-title">Background</div>
+                    &nbsp;
+                    <div class="about-description">
+                        Couple of young and diligent students decided to enroll a hard and time consuming product in which they choose to do something valueable for society and develop a pdf reader as a part of college course.
+                        <br>It consists of 7 students that were split from two countries, 4 of them are placed in  <b>Politecnico di Milano</b> in <b>Italy</b> and 3 are from <b>University of Zagreb</b> in <b>Croatia</b>. <br>
+                        With almost no knowing of each other, they decided to enroll in this project completely in a course of 3 months.
+                        <br>With the help of their supervisors and sponsors, they menaged to finish this project almost completely and make this product viable for everyone to use it.
+                        
+                    </div>
+                    &nbsp;
+                    <div class="about-title">The product</div>
+                    &nbsp;
+                    <div class="about-description">Reading <b>PDFs</b> is now an everyday action for all researchers, but manually searching for references, citations, figures, etc. contained in them can lead to wasted time. 
+                        <br/> The product has the target of creating a new reading experiences with more functionalities that helps readers to organize the most important information of the documents.
+                        The main keys are the generation of a knowledge graph and a smart cross-reference visualization.
+                        <br><b>PDF Legacy</b> offers everyone a solution to these problems and much more. Some of them are:
+                        <ol>
+                            <li><em>Resolving and presenting cross-reference items in pop-up window</em></li>
+                            <li><em>Building a knowledge graph showing citation relations of referenced papers</em></li>
+                            <li><em>Generating summarizations of key paper components</em></li>
+                            <li><em>Highlight topic-specific phrases</em></li>
+                        </ol>
+                    </div>
+                    &nbsp;
+                    <div class="about-title">ICSE SCORE 2023</div>
+                    &nbsp;
+                    <div class="about-description">
+                        <b>The SCORE Contest</b> is aimed at promoting and fostering software engineering in universities worldwide. 
+                        Teams from all over the world participate in a competition for students from undergraduate to master's level. <br>
+                        Each team is developing a software project chosen from a list of projects proposed and sponsored by program committee members. 
+                        The final deliverable is a report and an accompanying executable system. 
+                        <br>The evaluation is based on the quality of all aspects of the software engineering process followed, as well as the resulting system.
+                        <br><b>SCORE 2023 Contest</b> will run from <b>April 2022 to March 2023</b>. Finalist teams will be invited to <b>ICSE 2023</b> in <b>Melbourne, Australia</b>.
+                    </div>
+                </div>
+                <div  style="text-align: end;padding-top: 35px;">
+                    <img src="assets/logo.png" class="black-logo" />
+                </div>
+            </div>
         </div>
     </div>
     <!--INPUT PAGE-->
@@ -663,7 +709,7 @@
             </p>
         </div>
         <div class="sidenav">
-            <button id="back-btn" class="scale-on-hover btn-welcome"><img src="assets/logo_white.png"
+            <button id="back-btn" class="scale-on-hover"><img src="assets/logo_white.png"
                     class="black-logo" />&nbsp;&nbsp;GO BACK</button>
             <br><br><br>
             <a href="#overview">Overview</a>
