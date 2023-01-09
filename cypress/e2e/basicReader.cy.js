@@ -144,11 +144,17 @@ describe("Basic reader functionallity (TA-1 to TA-13)", () => {
 
   it("TA-06: Scrolling", () => {
 
-    cy.scrollTo(0, 3000);
-
-    cy.scrollTo("bottom");
-
+    cy.scrollTo(0, 1000);
+    cy.wait(2000)
+    cy.scrollTo(0, 2000);
+    cy.wait(2000)
+    cy.scrollTo(0, 4000);
+    cy.wait(2000)
+    cy.scrollTo(0, 10000);
+    cy.wait(2000);
+    cy.scrollTo('bottom');
     cy.get("#text-layer-14").should("be.visible");
+
   });
 
   it("TA-07: Zoom in (out) (with PDFL tools)", () => {
