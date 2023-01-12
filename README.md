@@ -76,7 +76,7 @@ Our team is supervised by:
 
 ## Architecture overview
 
-![Logo](https://it.overleaf.com/project/6363a724fe71a9e75048b0fd/file/63b42fe562ed563c8c2d9edf)
+![Logo](https://github.com/matteovisotto/PDFL-PDFLegacy/blob/main/dist/assets/ComponentArchitecture.png)
 
 
 ## Demo
