@@ -1,6 +1,6 @@
 describe("Cross-references (TA-17 to TA-19)", () => {
   beforeEach(() => {
-    cy.visit("http://localhost:8000");
+    cy.visit("http://localhost:8080");
 
     cy.get("input[type=file]")
       .first()
