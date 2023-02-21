@@ -1719,10 +1719,11 @@ input#slide-1:checked ~ header label#slide-1, input#slide-2:checked ~ header lab
   padding: 0 18px;
   background-color: white;
   max-height: 0;
-  overflow: hidden;
   transition: max-height 0.2s ease-out;
   color: black;
   margin-bottom: 1px;
+  overflow-y: auto;
+  height: 350px;
 }
 
 
