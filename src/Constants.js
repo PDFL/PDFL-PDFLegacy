@@ -24,7 +24,7 @@ const MIN_ZOOM_FACTOR = 0.25;
 
 const LOADING_TEXT = "Loading...";
 
-const CORS_PROXY = "https://api.codetabs.com/v1/proxy/?quest=";
+const CORS_PROXY = "https://corsproxy.io/?";
 
 const SELECTION_INSTRUCTION_TEXT =
   "Select a text in the PDF and click the button to generate the summary";

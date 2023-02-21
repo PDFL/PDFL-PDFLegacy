@@ -103,8 +103,6 @@ class PdfReaderComponent {
    * @param {Uint8Array} pdf data, filename or url of a PDF document
    */
   loadPdf = async (pdf) => {
-    this.components.loader.classList.add("hidden");
-
     this.pdfDoc = await pdfjsLib.getDocument(pdf).promise;
 
     this.toolbarComponent.setPageCount(this.pdfDoc.numPages);
@@ -112,6 +110,8 @@ class PdfReaderComponent {
 
     await this.#setupPages();
     this.#renderPages(1);
+
+    this.components.loader.classList.add("hidden");
 
     let keywords = await extractKeywords(this.pdfDoc);
     this.keywordHightlighterComponent.setKeywords(keywords);
