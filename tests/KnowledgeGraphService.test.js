@@ -33,7 +33,7 @@ test("Tests KnowledgeGraphService.getPaperID, title does not exist", async () =>
 test("Tests KnowledgeGraphService.getCitations", async () => {
   let citations = await getCitations(PAPER_ID);
 
-  expect(citations.length).toBe(1);
+  expect(citations.length).toBe(2);
   expect(citations[0].fieldsOfStudy.sort()).toEqual(
     EXPECTED_FIELDS_OF_STUDY.sort()
   );
