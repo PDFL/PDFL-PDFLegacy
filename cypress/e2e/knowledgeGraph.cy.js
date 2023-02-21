@@ -1,6 +1,6 @@
 describe("Knowledge Graph functionallity (TA-14 to TA-16)", () => {
   beforeEach(() => {
-    cy.visit("https://pdfl-pdf-legacy.onrender.com/#");
+    cy.visit("http://localhost:8080");
 
     cy.get("input[type=file]")
       .first()
