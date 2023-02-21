@@ -3,7 +3,7 @@ import {
   EventHandlerService,
   PDFLEvents,
 } from "../services/EventHandlerService";
-import { POPUP_DISAPPEAR_TIMEOUT } from "../Constants";
+import { POPUP_DISAPPEAR_TIMEOUT, POPUP_APPEAR_TIMEOUT } from "../Constants";
 
 /**
  * Class to display a popup when a text is selected
@@ -59,6 +59,7 @@ class SelectionPopUpComponent {
    * @param {HTMLElement} eventTarget the target of the action
    */
   #handleSelection = (position, eventTarget) => {
+    this.#hidePopup();
     let component = this.components;
     const selectedText = getCurrentDOMSelection().trim();
     if (
@@ -75,24 +76,41 @@ class SelectionPopUpComponent {
       );
     }
 
-    /* Hide the popup events */
-    const hidePopupTimeout = setTimeout(() => {
-      this.#hidePopup();
-    }, POPUP_DISAPPEAR_TIMEOUT);
+    let hidePopupTimeout;
+
+    const setHidePopupTimeout = (delay) => {
+      clearTimeout(hidePopupTimeout);
+      hidePopupTimeout = setTimeout(() => {
+        this.#hidePopup();
+      }, delay);
+    };
+
     component.popupSelectedText.addEventListener("mouseenter", (event) => {
       event.preventDefault();
-      component.popupSelectedText.classList.remove("hidden");
       clearTimeout(hidePopupTimeout);
+      hidePopupTimeout = null;
+      setTimeout(() => {
+        component.popupSelectedText.classList.remove("hidden");
+      }, POPUP_APPEAR_TIMEOUT);
     });
+
     component.summarySelectedTextBtn.addEventListener("mouseleave", (event) => {
       event.preventDefault();
-      this.#hidePopup();
+      setHidePopupTimeout(POPUP_DISAPPEAR_TIMEOUT);
     });
+
+    document
+      .querySelector("#pdf-container")
+      .addEventListener("mouseup", (event) => {
+        event.preventDefault();
+        this.#hidePopup();
+      });
+
     document
       .querySelector("#pdf-container")
       .addEventListener("mouseleave", (event) => {
         event.preventDefault();
-        this.#hidePopup();
+        setHidePopupTimeout(POPUP_DISAPPEAR_TIMEOUT);
       });
   };
 
