@@ -50,7 +50,7 @@ PDF Legacy is team for Distributed Software Development (DSD) course. DSD is a j
 
     Mälardalen University (MdU), IDT Embedded Systems, Sweden
     University of Zagreb, Faculty of Electrical Engineering and Computing (FER), Croatia
-    Politecnico di Milano, (POLIMI), Information Engineering School , Italiy
+    Politecnico di Milano, (POLIMI), Information Engineering School , Italy
 
 Our team consists of following members:
 
